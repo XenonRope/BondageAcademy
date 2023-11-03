@@ -1,35 +1,52 @@
+import { useKeyDownList } from "@solid-primitives/keyboard";
 import { createSignal } from "solid-js";
-import solidLogo from "./assets/solid.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
-function App() {
+export default function App() {
   const [count, setCount] = createSignal(0);
+  const [position, setPosition] = createSignal([0, 0]);
+  const keyDownList = useKeyDownList();
+
+  setInterval(() => {
+    const keys = keyDownList();
+    const pos = [...position()];
+    if (keys)
+      if (keys.includes("W") && !keys.includes("S")) {
+        pos[1]--;
+      }
+    if (!keys.includes("W") && keys.includes("S")) {
+      pos[1]++;
+    }
+    if (keys.includes("A") && !keys.includes("D")) {
+      pos[0]--;
+    }
+    if (!keys.includes("A") && keys.includes("D")) {
+      pos[0]++;
+    }
+    if (pos[0] < 0) {
+      pos[0] = 0;
+    }
+    if (pos[0] > 200) {
+      pos[0] = 200;
+    }
+    if (pos[1] < 0) {
+      pos[1] = 0;
+    }
+    if (pos[1] > 200) {
+      pos[1] = 200;
+    }
+    setPosition(pos);
+  }, 10);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://solidjs.com" target="_blank">
-          <img src={solidLogo} class="logo solid" alt="Solid logo" />
-        </a>
+      <button onClick={() => setPosition([20, 20])}>count is {count()}</button>
+      <div class="w-[300px] h-[300px] relative">
+        <div
+          class="w-[20px] h-[20px] bg-red-300 absolute"
+          style={{ left: `${position()[0]}px`, top: `${position()[1]}px` }}
+        ></div>
       </div>
-      <h1>Vite + Solid</h1>
-      <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count()}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p class="read-the-docs">
-        Click on the Vite and Solid logos to learn more
-      </p>
     </>
   );
 }
-
-export default App;
