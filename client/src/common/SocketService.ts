@@ -13,7 +13,7 @@ export class SocketService {
       event,
       data,
     );
-    if (response.error) {
+    if (response.error != null) {
       throw new Error(response.error);
     }
 

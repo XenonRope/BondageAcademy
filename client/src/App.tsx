@@ -15,7 +15,7 @@ export default function App() {
       socket.on(
         "synchronize_world_objects",
         (response: { objects?: WorldObject[]; toRemove?: number[] }) => {
-          if (store.world) {
+          if (store.world != null) {
             const objects: Record<number, WorldObject | undefined> = {};
             response.objects?.forEach(
               (object) => (objects[object.id] = object),

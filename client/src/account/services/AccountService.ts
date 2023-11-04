@@ -25,7 +25,7 @@ export class AccountService {
   constructor(private socketService: SocketService) {}
 
   async registerAccount(request: AccountRegisterRequest): Promise<void> {
-    return await this.socketService.emit("register_account", request);
+    await this.socketService.emit("register_account", request);
   }
 
   async login(request: LoginRequest): Promise<void> {

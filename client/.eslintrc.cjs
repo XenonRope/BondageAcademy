@@ -5,7 +5,7 @@ module.exports = {
   },
   parser: "@typescript-eslint/parser",
   plugins: ["solid"],
-  extends: ["eslint:recommended", "plugin:solid/typescript", "prettier"],
+  extends: ["standard-with-typescript", "plugin:solid/typescript", "prettier"],
   overrides: [
     {
       env: {
@@ -21,9 +21,11 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  ignorePatterns: ["*.css"],
+  ignorePatterns: ["*.css", ".eslintrc.cjs", "dist/**", "vite-env.d.ts"],
   rules: {
     "@typescript-eslint/prefer-readonly": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-misused-promises": "off",
   },
 };
