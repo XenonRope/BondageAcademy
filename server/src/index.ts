@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { accountApi } from "./account/AccountApi";
+import { logoutService } from "./account/LogoutService";
 import { type ServerResponse } from "./common/model/ServerResponse";
 import { roomInitializationService } from "./room/RoomInitializationService";
 import { sessionService } from "./session/SessionService";
@@ -34,6 +35,7 @@ io.on("connection", (socket) => {
   const session = sessionService.getSessionBySocket(socket);
   socket.on("disconnect", () => {
     console.log("User disconnected");
+    logoutService.logout(session);
   });
   socket.on("register_account", (msg, callback) => {
     handleRequest(() => accountApi.registerAccount(msg), callback);

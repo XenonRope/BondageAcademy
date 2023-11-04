@@ -1,5 +1,5 @@
 import type { WorldObject } from "./WorldObject";
 
 export interface World {
-  objects: WorldObject[];
+  objects: Record<number, WorldObject>;
 }

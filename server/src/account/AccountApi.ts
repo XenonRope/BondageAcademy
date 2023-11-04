@@ -5,6 +5,11 @@ import {
 } from "../player/model/Player";
 import type { Session } from "../session/model/Session";
 import {
+  worldObjectSynchronizationService,
+  type WorldObjectSynchronizationService,
+} from "../world/WorldObjectSynchronizationService";
+import { type WorldObjectForClient } from "../world/model/WorldObject";
+import {
   accountRegistrationService,
   type AccountRegistrationService,
 } from "./AccountRegistrationService";
@@ -21,10 +26,18 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface LoginResponse {
+  player: PlayerForClient;
+  world: {
+    objects: WorldObjectForClient[];
+  };
+}
+
 export class AccountApi {
   constructor(
     private accountRegistrationService: AccountRegistrationService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private worldObjectSynchronizationService: WorldObjectSynchronizationService
   ) {}
 
   async registerAccount({
@@ -46,17 +59,25 @@ export class AccountApi {
   async login(
     { username, password }: LoginRequest,
     session: Session
-  ): Promise<PlayerForClient> {
+  ): Promise<LoginResponse> {
     requiredString(username, 3, 30, "invalidUsername");
     requiredString(password, 12, 100, "invalidPassword");
 
     await this.loginService.login(session, username, password);
 
-    return mapToPlayerForClient(session.player!);
+    return {
+      player: mapToPlayerForClient(session.player!),
+      world: {
+        objects: this.worldObjectSynchronizationService.mapToObjectsForClient(
+          session.world!.objects
+        ),
+      },
+    };
   }
 }
 
 export const accountApi = new AccountApi(
   accountRegistrationService,
-  loginService
+  loginService,
+  worldObjectSynchronizationService
 );

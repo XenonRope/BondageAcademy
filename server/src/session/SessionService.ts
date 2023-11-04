@@ -15,6 +15,10 @@ export class SessionService {
 
     return newConnection;
   }
+
+  removeSessionWithSocket(socket: Socket): void {
+    this.sessionsBySocketsIds.delete(socket.id);
+  }
 }
 
 export const sessionService = new SessionService();

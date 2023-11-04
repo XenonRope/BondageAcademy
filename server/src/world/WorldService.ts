@@ -3,11 +3,18 @@ import { type Session } from "../session/model/Session";
 import { isPlayerObject, type PlayerObject } from "./model/PlayerObject";
 import { type World } from "./model/World";
 import { WorldObjectType } from "./model/WorldObject";
-import { worldObjectSynchronizationService } from "./WorldObjectSynchronizationService";
+import {
+  worldObjectSynchronizationService,
+  type WorldObjectSynchronizationService,
+} from "./WorldObjectSynchronizationService";
 
 export class WorldService {
   private worldsByRoomsIds = new Map<number, World>();
   private nextObjectId = 1;
+
+  constructor(
+    private worldObjectSynchronizationService: WorldObjectSynchronizationService
+  ) {}
 
   async getWorldByRoomId(roomId: number): Promise<World> {
     const existingWorld = this.worldsByRoomsIds.get(roomId);
@@ -39,13 +46,24 @@ export class WorldService {
       .filter((playerObject) => playerObject.id !== newPlayerObject.id)
       .map((playerObject) => playerObject.session);
 
-    worldObjectSynchronizationService.synchronizeObjects(
-      [newPlayerObject],
+    this.worldObjectSynchronizationService.synchronizeObjects(
+      { objects: [newPlayerObject] },
       sessions
     );
 
     return newPlayerObject;
   }
+
+  removeObject(world: World, objectId: number): void {
+    world.objects = world.objects.filter((object) => object.id !== objectId);
+    const sessions = world.objects
+      .filter(isPlayerObject)
+      .map((playerObject) => playerObject.session);
+    this.worldObjectSynchronizationService.synchronizeObjects(
+      { toRemove: [objectId] },
+      sessions
+    );
+  }
 }
 
-export const worldService = new WorldService();
+export const worldService = new WorldService(worldObjectSynchronizationService);

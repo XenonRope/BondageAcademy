@@ -11,15 +11,23 @@ import {
 } from "./model/WorldObject";
 
 export class WorldObjectSynchronizationService {
-  synchronizeObjects(objects: WorldObject[], sessions: Session[]): void {
-    const objectsForClient = objects
-      .map((object) => this.mapToObjectForClient(object))
-      .filter((object) => object != null);
+  synchronizeObjects(
+    params: { objects?: WorldObject[]; toRemove?: number[] },
+    sessions: Session[]
+  ): void {
+    const objectsForClient = this.mapToObjectsForClient(params.objects ?? []);
     for (const session of sessions) {
       session.socket.emit("synchronize_world_objects", {
         objects: objectsForClient,
+        toRemove: params.toRemove,
       });
     }
+  }
+
+  mapToObjectsForClient(objects: WorldObject[]): WorldObjectForClient[] {
+    return objects
+      .map((object) => this.mapToObjectForClient(object))
+      .filter((object): object is WorldObject => object != null);
   }
 
   private mapToObjectForClient(

@@ -1,12 +1,10 @@
-import { For, createEffect, type JSX } from "solid-js";
+import { For, type JSX } from "solid-js";
 import Character from "../character/Character";
 import { isPlayerObject } from "./model/PlayerObject";
 import type { World } from "./model/World";
 import type { WorldObject } from "./model/WorldObject";
 
 export default function WorldView(props: { world: World }) {
-  createEffect(() => console.log(props.world.objects));
-
   function renderObject(object: WorldObject): JSX.Element {
     if (isPlayerObject(object)) {
       return (
@@ -18,7 +16,7 @@ export default function WorldView(props: { world: World }) {
 
   return (
     <div class="relative w-full h-full overflow-hidden">
-      <For each={[...props.world.objects]}>{renderObject}</For>
+      <For each={Object.values(props.world.objects)}>{renderObject}</For>
     </div>
   );
 }

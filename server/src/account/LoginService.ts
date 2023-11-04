@@ -1,9 +1,5 @@
 import { playerService, type PlayerService } from "../player/PlayerService";
 import type { Session } from "../session/model/Session";
-import {
-  worldObjectSynchronizationService,
-  type WorldObjectSynchronizationService,
-} from "../world/WorldObjectSynchronizationService";
 import { worldService, type WorldService } from "../world/WorldService";
 import { accountService, type AccountService } from "./AccountService";
 
@@ -11,8 +7,7 @@ export class LoginService {
   constructor(
     private accountService: AccountService,
     private playerService: PlayerService,
-    private worldService: WorldService,
-    private worldObjectSynchronizationService: WorldObjectSynchronizationService
+    private worldService: WorldService
   ) {}
 
   async login(
@@ -35,10 +30,6 @@ export class LoginService {
     const world = await this.worldService.getWorldByRoomId(player.roomId);
     const playerObject = this.worldService.addPlayer(world, player, session);
 
-    this.worldObjectSynchronizationService.synchronizeObjects(world.objects, [
-      session,
-    ]);
-
     session.account = account;
     session.world = world;
     session.player = player;
@@ -49,6 +40,5 @@ export class LoginService {
 export const loginService = new LoginService(
   accountService,
   playerService,
-  worldService,
-  worldObjectSynchronizationService
+  worldService
 );

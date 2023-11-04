@@ -8,11 +8,11 @@ export default function LoginForm() {
   const [password, setPassword] = createSignal("");
 
   async function login() {
-    const player = await accountService.login({
+    await accountService.login({
       username: username(),
       password: password(),
     });
-    setStore({ view: View.Game, player });
+    setStore({ view: View.Game });
   }
 
   return (
