@@ -13,6 +13,8 @@ export class LogoutService {
     session.world = undefined;
     session.player = undefined;
     session.playerObject = undefined;
+
+    session.socket.emit("logout");
   }
 }
 

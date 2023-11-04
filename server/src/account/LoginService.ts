@@ -1,13 +1,17 @@
 import { playerService, type PlayerService } from "../player/PlayerService";
+import { sessionService, type SessionService } from "../session/SessionService";
 import type { Session } from "../session/model/Session";
 import { worldService, type WorldService } from "../world/WorldService";
 import { accountService, type AccountService } from "./AccountService";
+import { logoutService, type LogoutService } from "./LogoutService";
 
 export class LoginService {
   constructor(
     private accountService: AccountService,
     private playerService: PlayerService,
-    private worldService: WorldService
+    private worldService: WorldService,
+    private sessionService: SessionService,
+    private logoutService: LogoutService
   ) {}
 
   async login(
@@ -27,6 +31,14 @@ export class LoginService {
     if (player == null) {
       throw new Error("accountDoesNotHavePlayer");
     }
+
+    const otherSessionForSamePlayer = this.sessionService.getSessionByPlayerId(
+      player.id
+    );
+    if (otherSessionForSamePlayer != null) {
+      this.logoutService.logout(otherSessionForSamePlayer);
+    }
+
     const world = await this.worldService.getWorldByRoomId(player.roomId);
     const playerObject = this.worldService.addPlayer(world, player, session);
 
@@ -40,5 +52,7 @@ export class LoginService {
 export const loginService = new LoginService(
   accountService,
   playerService,
-  worldService
+  worldService,
+  sessionService,
+  logoutService
 );

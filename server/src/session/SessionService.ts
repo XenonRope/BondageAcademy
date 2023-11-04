@@ -16,6 +16,15 @@ export class SessionService {
     return newConnection;
   }
 
+  getSessionByPlayerId(playerId: number): Session | undefined {
+    for (const session of this.sessionsBySocketsIds.values()) {
+      if (session.player?.id === playerId) {
+        return session;
+      }
+    }
+    return undefined;
+  }
+
   removeSessionWithSocket(socket: Socket): void {
     this.sessionsBySocketsIds.delete(socket.id);
   }

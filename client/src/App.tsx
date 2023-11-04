@@ -1,6 +1,7 @@
 import { createEffect, type JSX } from "solid-js";
 import AccountRegistrationPage from "./account/AccountRegistrationPage";
 import { View } from "./common/model/View";
+import { navigationService } from "./common/NavigationService";
 import { socketService } from "./common/SocketService";
 import { setStore, store } from "./common/Store";
 import GamePage from "./game/GamePage";
@@ -27,6 +28,13 @@ export default function App() {
           }
         },
       );
+      socket.on("logout", () => {
+        setStore({
+          player: undefined,
+          world: undefined,
+        });
+        navigationService.navigate(View.Home);
+      });
     }
   });
 
