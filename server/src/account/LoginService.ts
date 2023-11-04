@@ -1,11 +1,18 @@
 import { playerService, type PlayerService } from "../player/PlayerService";
 import type { Session } from "../session/model/Session";
+import {
+  worldObjectSynchronizationService,
+  type WorldObjectSynchronizationService,
+} from "../world/WorldObjectSynchronizationService";
+import { worldService, type WorldService } from "../world/WorldService";
 import { accountService, type AccountService } from "./AccountService";
 
 export class LoginService {
   constructor(
     private accountService: AccountService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private worldService: WorldService,
+    private worldObjectSynchronizationService: WorldObjectSynchronizationService
   ) {}
 
   async login(
@@ -22,10 +29,26 @@ export class LoginService {
     }
 
     const player = await this.playerService.getPlayer(account.playerId);
+    if (player == null) {
+      throw new Error("accountDoesNotHavePlayer");
+    }
+    const world = await this.worldService.getWorldByRoomId(player.roomId);
+    const playerObject = this.worldService.addPlayer(world, player, session);
+
+    this.worldObjectSynchronizationService.synchronizeObjects(world.objects, [
+      session,
+    ]);
 
     session.account = account;
-    session.player = player!;
+    session.world = world;
+    session.player = player;
+    session.playerObject = playerObject;
   }
 }
 
-export const loginService = new LoginService(accountService, playerService);
+export const loginService = new LoginService(
+  accountService,
+  playerService,
+  worldService,
+  worldObjectSynchronizationService
+);

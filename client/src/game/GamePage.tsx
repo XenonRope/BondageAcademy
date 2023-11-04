@@ -1,11 +1,6 @@
-import Character from "../character/Character";
-import World from "../world/World";
+import { store } from "../common/Store";
+import WorldView from "../world/WorldView";
 
 export default function GamePage() {
-  return (
-    <World>
-      <Character x={10} y={30} />
-      <Character x={20} y={80} />
-    </World>
-  );
+  return <>{store.world && <WorldView world={store.world} />}</>;
 }

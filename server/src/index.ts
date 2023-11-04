@@ -3,6 +3,7 @@ import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { accountApi } from "./account/AccountApi";
 import { type ServerResponse } from "./common/model/ServerResponse";
+import { roomInitializationService } from "./room/RoomInitializationService";
 import { sessionService } from "./session/SessionService";
 
 const app = express();
@@ -23,6 +24,10 @@ const handleRequest = (
       });
     });
 };
+
+roomInitializationService.initializeRooms().catch((error) => {
+  console.log("Error while initializing rooms: " + error);
+});
 
 io.on("connection", (socket) => {
   console.log("User connected");

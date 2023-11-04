@@ -9,7 +9,11 @@ import HomePage from "./home/HomePage";
 export default function App() {
   createEffect(() => {
     if (store.socket == null) {
-      setStore({ socket: socketService.connect() });
+      const socket = socketService.connect();
+      setStore({ socket });
+      socket.on("synchronize_world_objects", (response) => {
+        setStore("world", { objects: response.objects });
+      });
     }
   });
 

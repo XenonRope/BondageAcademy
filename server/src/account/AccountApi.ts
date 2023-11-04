@@ -1,5 +1,8 @@
 import { requiredString } from "../common/Validators";
-import type { Player } from "../player/model/Player";
+import {
+  mapToPlayerForClient,
+  type PlayerForClient,
+} from "../player/model/Player";
 import type { Session } from "../session/model/Session";
 import {
   accountRegistrationService,
@@ -43,13 +46,13 @@ export class AccountApi {
   async login(
     { username, password }: LoginRequest,
     session: Session
-  ): Promise<Player> {
+  ): Promise<PlayerForClient> {
     requiredString(username, 3, 30, "invalidUsername");
     requiredString(password, 12, 100, "invalidPassword");
 
     await this.loginService.login(session, username, password);
 
-    return session.player!;
+    return mapToPlayerForClient(session.player!);
   }
 }
 
