@@ -1,5 +1,6 @@
 import { createEffect, type JSX } from "solid-js";
 import AccountRegistrationPage from "./account/AccountRegistrationPage";
+import type { Position } from "./common/model/Position";
 import { View } from "./common/model/View";
 import { navigationService } from "./common/NavigationService";
 import { socketService } from "./common/SocketService";
@@ -15,13 +16,11 @@ export default function App() {
       setStore({ socket });
       socket.on(
         "synchronize_world_objects",
-        (response: { objects?: WorldObject[]; toRemove?: number[] }) => {
+        (msg: { objects?: WorldObject[]; toRemove?: number[] }) => {
           if (store.world != null) {
             const objects: Record<number, WorldObject | undefined> = {};
-            response.objects?.forEach(
-              (object) => (objects[object.id] = object),
-            );
-            response.toRemove?.forEach(
+            msg.objects?.forEach((object) => (objects[object.id] = object));
+            msg.toRemove?.forEach(
               (objectId) => (objects[objectId] = undefined),
             );
             setStore("world", "objects", objects);
@@ -35,6 +34,20 @@ export default function App() {
         });
         navigationService.navigate(View.Home);
       });
+      socket.on(
+        "move_player",
+        (msg: { objectId: number; position: Position; duration: number }) => {
+          if (store.world?.objects?.[msg.objectId] != null) {
+            setStore(
+              "world",
+              "objects",
+              msg.objectId,
+              "position",
+              msg.position,
+            );
+          }
+        },
+      );
     }
   });
 

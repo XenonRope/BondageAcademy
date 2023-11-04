@@ -55,14 +55,29 @@ export class WorldService {
   }
 
   removeObject(world: World, objectId: number): void {
+    const objectToRemove = world.objects.find(
+      (object) => object.id === objectId
+    );
+    if (objectToRemove == null) {
+      return;
+    }
+
+    if (isPlayerObject(objectToRemove)) {
+      clearTimeout(objectToRemove.motionEndEvent);
+      objectToRemove.motionEndEvent = undefined;
+    }
     world.objects = world.objects.filter((object) => object.id !== objectId);
-    const sessions = world.objects
-      .filter(isPlayerObject)
-      .map((playerObject) => playerObject.session);
+    const sessions = this.getSessionsFromWorld(world);
     this.worldObjectSynchronizationService.synchronizeObjects(
       { toRemove: [objectId] },
       sessions
     );
+  }
+
+  getSessionsFromWorld(world: World): Session[] {
+    return world.objects
+      .filter(isPlayerObject)
+      .map((playerObject) => playerObject.session);
   }
 }
 

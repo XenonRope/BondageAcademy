@@ -12,6 +12,7 @@ export interface PlayerObject extends WorldObject {
   player: Player;
   session: Session;
   targetPosition?: Position;
+  motionEndEvent?: NodeJS.Timeout;
 }
 
 export interface PlayerObjectForClient extends WorldObjectForClient {

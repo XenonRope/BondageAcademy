@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import { accountApi } from "./account/AccountApi";
 import { logoutService } from "./account/LogoutService";
 import { type ServerResponse } from "./common/model/ServerResponse";
+import { movementApi } from "./movement/MovementApi";
 import { roomInitializationService } from "./room/RoomInitializationService";
 import { sessionService } from "./session/SessionService";
 
@@ -42,6 +43,12 @@ io.on("connection", (socket) => {
   });
   socket.on("login", async (msg, callback) => {
     handleRequest(() => accountApi.login(msg, session), callback);
+  });
+  socket.on("set_player_target_position", async (msg, callback) => {
+    handleRequest(
+      () => movementApi.setPlayerTargetPosition(msg, session),
+      callback
+    );
   });
 });
 

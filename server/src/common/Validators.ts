@@ -12,3 +12,16 @@ export const requiredString = (
     throw new Error(errorMessage);
   }
 };
+
+export const requiredPosition = (value: unknown): void => {
+  if (
+    typeof value !== "object" ||
+    value == null ||
+    !("x" in value) ||
+    !("y" in value) ||
+    typeof value.x !== "number" ||
+    typeof value.y !== "number"
+  ) {
+    throw new Error("requiredPosition");
+  }
+};
