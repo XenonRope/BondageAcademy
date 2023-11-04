@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint src/**"
   },
   "dependencies": {
     "@solid-primitives/keyboard": "^1.2.5",

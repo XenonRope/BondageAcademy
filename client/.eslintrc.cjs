@@ -21,5 +21,9 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  rules: {},
+  ignorePatterns: ["*.css"],
+  rules: {
+    "@typescript-eslint/prefer-readonly": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+  },
 };

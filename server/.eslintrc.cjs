@@ -19,5 +19,11 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  rules: {},
+  ignorePatterns: [".eslintrc.cjs", "dist/**"],
+  rules: {
+    "@typescript-eslint/prefer-readonly": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "n/no-callback-literal": "off",
+    "@typescript-eslint/promise-function-async": "off",
+  },
 };
