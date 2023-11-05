@@ -1,8 +1,17 @@
 import { type Player } from "../player/model/Player";
+import { roomService, type RoomService } from "../room/RoomService";
 import { type Session } from "../session/model/Session";
 import { isPlayerObject, type PlayerObject } from "./model/PlayerObject";
 import { type World } from "./model/World";
 import { WorldObjectType } from "./model/WorldObject";
+import {
+  worldObjectCreator,
+  type WorldObjectCreator,
+} from "./WorldObjectCreator";
+import {
+  worldObjectIdProvider,
+  type WorldObjectIdProvider,
+} from "./WorldObjectIdProvider";
 import {
   worldObjectSynchronizationService,
   type WorldObjectSynchronizationService,
@@ -10,10 +19,12 @@ import {
 
 export class WorldService {
   private worldsByRoomsIds = new Map<number, World>();
-  private nextObjectId = 1;
 
   constructor(
-    private worldObjectSynchronizationService: WorldObjectSynchronizationService
+    private worldObjectSynchronizationService: WorldObjectSynchronizationService,
+    private roomService: RoomService,
+    private worldObjectIdProvider: WorldObjectIdProvider,
+    private worldObjectCreator: WorldObjectCreator
   ) {}
 
   async getWorldByRoomId(roomId: number): Promise<World> {
@@ -22,9 +33,13 @@ export class WorldService {
       return existingWorld;
     }
 
+    const room = await this.roomService.getRoomById(roomId);
+    if (room == null) {
+      throw new Error("roomDoesNotExists");
+    }
     const newWorld: World = {
       roomId,
-      objects: [],
+      objects: this.worldObjectCreator.createObjectsInRoom(room),
     };
     this.worldsByRoomsIds.set(roomId, newWorld);
 
@@ -34,7 +49,7 @@ export class WorldService {
   addPlayer(world: World, player: Player, session: Session): PlayerObject {
     const newPlayerObject: PlayerObject = {
       type: WorldObjectType.Player,
-      id: this.nextObjectId++,
+      id: this.worldObjectIdProvider.getNextId(),
       player,
       session,
       position: player.position,
@@ -81,4 +96,9 @@ export class WorldService {
   }
 }
 
-export const worldService = new WorldService(worldObjectSynchronizationService);
+export const worldService = new WorldService(
+  worldObjectSynchronizationService,
+  roomService,
+  worldObjectIdProvider,
+  worldObjectCreator
+);

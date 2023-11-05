@@ -1,5 +1,10 @@
 import { type Session } from "../session/model/Session";
 import {
+  BlockObject,
+  BlockObjectForClient,
+  isBlockObject,
+} from "./model/BlockObject";
+import {
   isPlayerObject,
   type PlayerObject,
   type PlayerObjectForClient,
@@ -36,6 +41,9 @@ export class WorldObjectSynchronizationService {
     if (isPlayerObject(object)) {
       return this.mapToPlayerForClient(object);
     }
+    if (isBlockObject(object)) {
+      return this.mapToBlockForClient(object);
+    }
     return undefined;
   }
 
@@ -46,6 +54,15 @@ export class WorldObjectSynchronizationService {
       playerId: object.player.id,
       name: object.player.name,
       position: object.position,
+    };
+  }
+
+  private mapToBlockForClient(object: BlockObject): BlockObjectForClient {
+    return {
+      type: WorldObjectType.Block,
+      id: object.id,
+      position: object.position,
+      color: object.color,
     };
   }
 }

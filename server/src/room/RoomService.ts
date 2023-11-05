@@ -14,6 +14,10 @@ export class RoomService {
     await this.collection.insertOne(room);
   }
 
+  async getRoomById(id: number): Promise<Room | null> {
+    return await this.collection.findOne({ id });
+  }
+
   async getRoomByCode(code: string): Promise<Room | null> {
     return await this.collection.findOne({ code });
   }

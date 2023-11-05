@@ -1,7 +1,7 @@
 import { createMemo } from "solid-js";
 import type { PlayerObject } from "../model/PlayerObject";
 
-export function PlayerView(props: { object: PlayerObject }) {
+export default function PlayerView(props: { object: PlayerObject }) {
   const position = createMemo(
     () => props.object.motion?.currentPosition ?? props.object.position,
   );

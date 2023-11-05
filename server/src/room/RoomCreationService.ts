@@ -2,10 +2,12 @@ import { sequences, type Sequences } from "../common/Sequences";
 import { SequenceName } from "../common/model/SequenceName";
 import { roomService, type RoomService } from "./RoomService";
 import { type Room } from "./model/Room";
+import { type RoomObject } from "./model/objects/RoomObject";
 
 export interface RoomCreateParams {
   code: string;
   name: string;
+  objects: RoomObject[];
 }
 
 export class RoomCreationService {
@@ -20,6 +22,7 @@ export class RoomCreationService {
       id,
       code: params.code,
       name: params.name,
+      objects: params.objects,
     };
     await this.roomService.insertRoom(room);
 
