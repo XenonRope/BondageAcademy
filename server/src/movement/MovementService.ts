@@ -27,15 +27,16 @@ export class MovementService {
       playerObject.motionEndEvent = undefined;
       return;
     }
-    if (arePositionsEqual(playerObject.position, playerObject.targetPosition)) {
+    const newPosition = this.moveTowards(
+      world,
+      playerObject.position,
+      playerObject.targetPosition
+    );
+    if (arePositionsEqual(playerObject.position, newPosition)) {
       playerObject.motionEndEvent = undefined;
       playerObject.targetPosition = undefined;
       return;
     }
-    const newPosition = this.moveTowards(
-      playerObject.position,
-      playerObject.targetPosition
-    );
     playerObject.position = newPosition;
     playerObject.motionEndEvent = setTimeout(() => {
       this.movePlayerTowardsTargetPosition(world, playerObject);
@@ -50,19 +51,34 @@ export class MovementService {
     }
   }
 
-  private moveTowards(start: Position, end: Position): Position {
-    const position = { ...start };
-    if (end.x > start.x) {
-      position.x++;
-    } else if (end.x < start.x) {
-      position.x--;
+  private moveTowards(world: World, start: Position, end: Position): Position {
+    let deltaX = Math.min(1, Math.max(-1, end.x - start.x));
+    if (
+      !this.worldService.isFieldFree(world, { x: start.x + deltaX, y: start.y })
+    ) {
+      deltaX = 0;
     }
-    if (end.y > start.y) {
-      position.y++;
-    } else if (end.y < start.y) {
-      position.y--;
+    let deltaY = Math.min(1, Math.max(-1, end.y - start.y));
+    if (
+      !this.worldService.isFieldFree(world, { x: start.x, y: start.y + deltaY })
+    ) {
+      deltaY = 0;
     }
-    return position;
+
+    const newPosition = { x: start.x + deltaX, y: start.y + deltaY };
+    if (
+      deltaX !== 0 &&
+      deltaY !== 0 &&
+      !this.worldService.isFieldFree(world, newPosition)
+    ) {
+      if (Math.abs(end.x - start.x) > Math.abs(end.y - start.y)) {
+        return { x: start.x + deltaX, y: start.y };
+      } else {
+        return { x: start.x, y: start.y + deltaY };
+      }
+    } else {
+      return newPosition;
+    }
   }
 }
 

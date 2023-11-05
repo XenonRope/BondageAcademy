@@ -1,3 +1,4 @@
+import { arePositionsEqual, type Position } from "../common/model/Position";
 import { type Player } from "../player/model/Player";
 import { roomService, type RoomService } from "../room/RoomService";
 import { type Session } from "../session/model/Session";
@@ -93,6 +94,15 @@ export class WorldService {
     return world.objects
       .filter(isPlayerObject)
       .map((playerObject) => playerObject.session);
+  }
+
+  isFieldFree(world: World, position: Position): boolean {
+    for (const object of world.objects) {
+      if (arePositionsEqual(object.position, position)) {
+        return false;
+      }
+    }
+    return true;
   }
 }
 
