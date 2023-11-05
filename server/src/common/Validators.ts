@@ -1,3 +1,5 @@
+import { BusinessError } from "./model/BusinessError";
+
 export const requiredString = (
   value: unknown,
   minLength: number,
@@ -9,7 +11,7 @@ export const requiredString = (
     value.length < minLength ||
     value.length > maxLenght
   ) {
-    throw new Error(errorMessage);
+    throw new BusinessError(errorMessage);
   }
 };
 
@@ -22,6 +24,6 @@ export const requiredPosition = (value: unknown): void => {
     typeof value.x !== "number" ||
     typeof value.y !== "number"
   ) {
-    throw new Error("requiredPosition");
+    throw new BusinessError("requiredPosition");
   }
 };

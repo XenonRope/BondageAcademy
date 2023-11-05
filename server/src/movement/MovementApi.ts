@@ -12,7 +12,7 @@ export class MovementApi {
   ): Promise<void> {
     requiredPosition(targetPosition);
     if (session.playerObject == null || session.world == null) {
-      throw new Error("playerIsNotInWorld");
+      throw new Error("Player is not in the world");
     }
 
     this.movementService.setPlayerTargetPosition(

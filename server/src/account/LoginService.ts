@@ -1,3 +1,4 @@
+import { BusinessError } from "../common/model/BusinessError";
 import { playerService, type PlayerService } from "../player/PlayerService";
 import { sessionService, type SessionService } from "../session/SessionService";
 import type { Session } from "../session/model/Session";
@@ -24,12 +25,12 @@ export class LoginService {
       password
     );
     if (account == null) {
-      throw new Error("incorrectUsernameOrPassword");
+      throw new BusinessError("incorrectUsernameOrPassword");
     }
 
     const player = await this.playerService.getPlayer(account.playerId);
     if (player == null) {
-      throw new Error("accountDoesNotHavePlayer");
+      throw new BusinessError("accountDoesNotHavePlayer");
     }
 
     const otherSessionForSamePlayer = this.sessionService.getSessionByPlayerId(

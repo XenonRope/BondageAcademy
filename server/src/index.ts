@@ -3,6 +3,7 @@ import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { accountApi } from "./account/AccountApi";
 import { logoutService } from "./account/LogoutService";
+import { BusinessError } from "./common/model/BusinessError";
 import { type ServerResponse } from "./common/model/ServerResponse";
 import { movementApi } from "./movement/MovementApi";
 import { roomInitializationService } from "./room/RoomInitializationService";
@@ -21,9 +22,15 @@ const handleRequest = (
       callback({ data });
     })
     .catch((error) => {
-      callback({
-        error: error instanceof Error ? error.message : error.toString(),
-      });
+      if (error instanceof BusinessError) {
+        console.log("BusinessError: " + error.message);
+        callback({ error: error.message });
+      } else {
+        console.log(
+          "Unexpected error: " + (error instanceof Error ? error.stack : error)
+        );
+        callback({ error: "unexpectedError" });
+      }
     });
 };
 

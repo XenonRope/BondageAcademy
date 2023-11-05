@@ -36,7 +36,7 @@ export class WorldService {
 
     const room = await this.roomService.getRoomById(roomId);
     if (room == null) {
-      throw new Error("roomDoesNotExists");
+      throw new Error("Room does not exist");
     }
     const newWorld: World = {
       roomId,
