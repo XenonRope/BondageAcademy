@@ -1,4 +1,5 @@
 import { createEffect, type JSX } from "solid-js";
+import { produce } from "solid-js/store";
 import AccountRegistrationPage from "./account/AccountRegistrationPage";
 import type { Position } from "./common/model/Position";
 import { View } from "./common/model/View";
@@ -7,6 +8,7 @@ import { socketService } from "./common/SocketService";
 import { setStore, store } from "./common/Store";
 import GamePage from "./game/GamePage";
 import HomePage from "./home/HomePage";
+import { isPlayerObject } from "./world/model/PlayerObject";
 import type { WorldObject } from "./world/model/WorldObject";
 
 export default function App() {
@@ -42,14 +44,62 @@ export default function App() {
               "world",
               "objects",
               msg.objectId,
-              "position",
-              msg.position,
+              produce((object) => {
+                if (isPlayerObject(object)) {
+                  const startPosition = object.position;
+                  const now = new Date();
+                  object.position = msg.position;
+                  object.motion = {
+                    startPosition,
+                    currentPosition: startPosition,
+                    endPosition: msg.position,
+                    startTime: now,
+                    endTime: new Date(now.getTime() + msg.duration),
+                  };
+                }
+              }),
             );
+            requestAnimationFrame(() => {
+              movePlayer(msg.objectId);
+            });
           }
         },
       );
     }
   });
+
+  function movePlayer(objectId: number): void {
+    setStore(
+      "world",
+      "objects",
+      objectId,
+      produce((object) => {
+        if (!isPlayerObject(object) || object.motion == null) {
+          return;
+        }
+        const motion = object.motion;
+        const now = new Date();
+        if (now >= motion.endTime) {
+          object.motion = undefined;
+          return;
+        }
+        const timeFraction =
+          (now.getTime() - motion.startTime.getTime()) /
+          (motion.endTime.getTime() - motion.startTime.getTime());
+        object.motion.currentPosition = {
+          x:
+            motion.startPosition.x +
+            (motion.endPosition.x - motion.startPosition.x) * timeFraction,
+          y:
+            motion.startPosition.y +
+            (motion.endPosition.y - motion.startPosition.y) * timeFraction,
+        };
+        requestAnimationFrame(() => {
+          movePlayer(objectId);
+        });
+      }),
+    );
+  }
 
   function renderView(): JSX.Element {
     switch (store.view) {
