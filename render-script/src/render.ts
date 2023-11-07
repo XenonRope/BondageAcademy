@@ -136,11 +136,11 @@ function renderFullBodyPoses(character: Character, pose: FullBodyPose) {
   hideChild(body, "Mouth");
   hideChild(body, "Eyebrows");
 
-  // render(
-  //   "output\\" + character + " - Full body pose - " + pose + " - Body.png",
-  //   WIDTH,
-  //   HEIGHT
-  // );
+  render(
+    "output\\" + character + " - Full body pose - " + pose + " - Body.png",
+    WIDTH,
+    HEIGHT
+  );
 
   enableRenderingToCanvases();
 
@@ -152,8 +152,7 @@ function renderFullBodyPoses(character: Character, pose: FullBodyPose) {
     var wearable = wearablesWithConditions[i].wearable;
     var condition = wearablesWithConditions[i].condition;
     selectSingleNode(body);
-    for (var j = 0; j < wearable.fragments.length; j++) {
-      var fragment = wearable.fragments[j];
+    for (var fragment of wearable.fragments) {
       openFile(fragment.path);
     }
     for (var hideBodyPart of condition?.hideBodyParts ?? []) {
@@ -165,51 +164,50 @@ function renderFullBodyPoses(character: Character, pose: FullBodyPose) {
       for (var k = 0; k < fragment.nodes.length; k++) {
         addNodeToRender(findChild(body, fragment.nodes[k]));
       }
-      // render(
-      //   "output\\" +
-      //     character +
-      //     " - Full body pose - " +
-      //     pose +
-      //     " - Body - " +
-      //     fragment.name +
-      //     ".png",
-      //   WIDTH,
-      //   HEIGHT
-      // );
+      render(
+        "output\\" +
+          character +
+          " - Full body pose - " +
+          pose +
+          " - Body - " +
+          fragment.name +
+          ".png",
+        WIDTH,
+        HEIGHT
+      );
     }
-    // for (var j = 0; j < (wearable.hideBodyParts || []).length; j++) {
-    //   showChild(body, wearable.hideBodyParts[j]);
-    // }
-    // for (var j = 0; j < wearable.fragments.length; j++) {
-    //   var fragment = wearable.fragments[j];
-    //   for (var k = 0; k < fragment.nodes.length; k++) {
-    //     removeNode(findChild(body, fragment.nodes[k]));
-    //   }
-    // }
+    for (var hideBodyPart of condition?.hideBodyParts ?? []) {
+      showChild(body, hideBodyPart);
+    }
+    for (var fragment of wearable.fragments) {
+      for (var node of fragment.nodes) {
+        removeNode(findChild(body, node));
+      }
+    }
   }
 
   // Create head
-  // openFile("characters\\" + character + ".duf");
-  // var head = findNodeByLabel(character + " (2)");
-  // selectSingleNodeByLabel(character + " (2)");
-  // openFile("poses\\full body\\" + pose + ".duf");
-  // openFile("poses\\head\\Normal.duf");
-  // hideChild(head, "Hip");
-  // showChild(head, "Head");
-  // hideChild(head, "Vagina");
+  openFile("characters\\" + character + ".duf");
+  var head = findNodeByLabel(character + " (2)");
+  selectSingleNodeByLabel(character + " (2)");
+  openFile("poses\\full body\\" + pose + ".duf");
+  openFile("poses\\head\\Normal.duf");
+  hideChild(head, "Hip");
+  showChild(head, "Head");
+  hideChild(head, "Vagina");
 
-  // clearNodesToRender();
-  // addHeadToRender(head);
+  clearNodesToRender();
+  addHeadToRender(head);
 
-  // render(
-  //   "output\\" +
-  //     character +
-  //     " - Full body pose - " +
-  //     pose +
-  //     " - Head - Normal.png",
-  //   WIDTH,
-  //   HEIGHT
-  // );
+  render(
+    "output\\" +
+      character +
+      " - Full body pose - " +
+      pose +
+      " - Head - Normal.png",
+    WIDTH,
+    HEIGHT
+  );
 }
 
 function getWearablesWithConditionsToRender(
@@ -352,7 +350,7 @@ function deselectAllNodes() {
   Scene.selectAllNodes(false);
 }
 
-function removeNode(node: string) {
+function removeNode(node: DzNode) {
   // @ts-ignore
   Scene.removeNode(node);
 }
