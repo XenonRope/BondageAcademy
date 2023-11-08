@@ -28,10 +28,10 @@ interface Fragment {
 }
 
 type Condition = (
-  | { bodyPart: "Body"; poses: FullBodyPose[] }
-  | { bodyPart: "Head"; poses: HeadPose[] }
-  | { bodyPart: "Upper body"; poses: UpperBodyPose[] }
-  | { bodyPart: "Lower body"; poses: LowerBodyPose[] }
+  | { bodyPart: "Body"; poses: readonly FullBodyPose[] }
+  | { bodyPart: "Head"; poses: readonly HeadPose[] }
+  | { bodyPart: "Upper body"; poses: readonly UpperBodyPose[] }
+  | { bodyPart: "Lower body"; poses: readonly LowerBodyPose[] }
 ) & { hideBodyParts?: Bone[] };
 
 interface Wearable {
@@ -73,7 +73,7 @@ var WEARABLES: Wearable[] = [
     conditions: [
       {
         bodyPart: "Upper body",
-        poses: ["Attention", "Crossed"],
+        poses: upperBodyPoses,
       },
     ],
   },
@@ -89,7 +89,23 @@ var WEARABLES: Wearable[] = [
     conditions: [
       {
         bodyPart: "Upper body",
-        poses: ["Attention", "Crossed"],
+        poses: upperBodyPoses,
+      },
+    ],
+  },
+  {
+    name: "X Fashion Thong",
+    fragments: [
+      {
+        name: "X Fashion Thong",
+        path: "clothes\\panties\\X Fashion Thong\\X Fashion Thong.duf",
+        nodes: ["X Fashion Thong"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Lower body",
+        poses: lowerBodyPoses,
       },
     ],
   },
