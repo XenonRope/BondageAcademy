@@ -62,6 +62,38 @@ var HEIGHT = 800;
 
 var WEARABLES: Wearable[] = [
   {
+    name: "X Fashion Sleeve Left",
+    fragments: [
+      {
+        name: "X Fashion Sleeve Left",
+        path: "clothes\\gloves\\X Fashion Sleeve\\X Fashion Sleeve Left.duf",
+        nodes: ["X Fashion Sleeve Left"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: ["Attention", "Crossed"],
+      },
+    ],
+  },
+  {
+    name: "X Fashion Sleeve Right",
+    fragments: [
+      {
+        name: "X Fashion Sleeve Right",
+        path: "clothes\\gloves\\X Fashion Sleeve\\X Fashion Sleeve Right.duf",
+        nodes: ["X Fashion Sleeve Right"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: ["Attention", "Crossed"],
+      },
+    ],
+  },
+  {
     name: "Ball gag",
     fragments: [
       {
@@ -115,80 +147,36 @@ function renderAllCharacters() {
 }
 
 function renderCharacter(character: Character) {
+  renderFullBodyPoses(character);
+  renderUpperBodyPoses(character);
+}
+
+function renderFullBodyPoses(character: Character) {
   for (const fullBodyPose of fullBodyPoses) {
-    renderFullBodyPoses(character, fullBodyPose);
+    renderFullBodyPose(character, fullBodyPose);
   }
 }
 
-function renderFullBodyPoses(character: Character, pose: FullBodyPose) {
+function renderFullBodyPose(character: Character, pose: FullBodyPose) {
   loadScene("scenes/Character.duf");
   loadRenderSettings();
 
   // Create body
   openFile("characters\\" + character + ".duf");
-  var body = findNodeByLabel(character);
+  const body = findNodeByLabel(character);
+  hideHead(body);
   selectSingleNodeByLabel(character);
   openFile("poses\\full body\\" + pose + ".duf");
-  hideChild(body, "Head");
-  hideChild(body, "Eyelashes");
-  hideChild(body, "Tear");
-  hideChild(body, "Eyes");
-  hideChild(body, "Mouth");
-  hideChild(body, "Eyebrows");
 
-  render(
-    "output\\" + character + " - Full body pose - " + pose + " - Body.png",
-    WIDTH,
-    HEIGHT
-  );
+  render(`output\\${character} - ${pose} - Body.png`, WIDTH, HEIGHT);
 
   enableRenderingToCanvases();
 
-  var wearablesWithConditions = getWearablesWithConditionsToRender(
-    "Body",
-    pose
-  );
-  for (var i = 0; i < wearablesWithConditions.length; i++) {
-    var wearable = wearablesWithConditions[i].wearable;
-    var condition = wearablesWithConditions[i].condition;
-    selectSingleNode(body);
-    for (var fragment of wearable.fragments) {
-      openFile(fragment.path);
-    }
-    for (var hideBodyPart of condition?.hideBodyParts ?? []) {
-      hideChild(body, hideBodyPart);
-    }
-    for (var j = 0; j < wearable.fragments.length; j++) {
-      var fragment = wearable.fragments[j];
-      clearNodesToRender();
-      for (var k = 0; k < fragment.nodes.length; k++) {
-        addNodeToRender(findChild(body, fragment.nodes[k]));
-      }
-      render(
-        "output\\" +
-          character +
-          " - Full body pose - " +
-          pose +
-          " - Body - " +
-          fragment.name +
-          ".png",
-        WIDTH,
-        HEIGHT
-      );
-    }
-    for (var hideBodyPart of condition?.hideBodyParts ?? []) {
-      showChild(body, hideBodyPart);
-    }
-    for (var fragment of wearable.fragments) {
-      for (var node of fragment.nodes) {
-        removeNode(findChild(body, node));
-      }
-    }
-  }
+  renderBodyWearables(character, body, "Body", pose);
 
   // Create head
   openFile("characters\\" + character + ".duf");
-  var head = findNodeByLabel(character + " (2)");
+  const head = findNodeByLabel(character + " (2)");
   selectSingleNodeByLabel(character + " (2)");
   openFile("poses\\full body\\" + pose + ".duf");
   openFile("poses\\head\\Normal.duf");
@@ -199,18 +187,101 @@ function renderFullBodyPoses(character: Character, pose: FullBodyPose) {
   clearNodesToRender();
   addHeadToRender(head);
 
-  render(
-    "output\\" +
-      character +
-      " - Full body pose - " +
-      pose +
-      " - Head - Normal.png",
-    WIDTH,
-    HEIGHT
-  );
+  render(`output\\${character} - ${pose} - Head - Normal.png`, WIDTH, HEIGHT);
 }
 
-function getWearablesWithConditionsToRender(
+function renderUpperBodyPoses(character: Character) {
+  for (const upperBodyPose of upperBodyPoses) {
+    renderUpperBodyPose(character, upperBodyPose);
+  }
+}
+
+function renderUpperBodyPose(character: Character, pose: UpperBodyPose) {
+  loadScene("scenes/Character.duf");
+  loadRenderSettings();
+
+  // Create upper body
+  openFile("characters\\" + character + ".duf");
+  const upperBody = findNodeByLabel(character);
+  hideHead(upperBody);
+  hideLowerBody(upperBody);
+  selectSingleNodeByLabel(character);
+  openFile("poses\\upper body\\" + pose + ".duf");
+
+  // Create lower body
+  openFile("characters\\" + character + ".duf");
+  const lowerBody = findNodeByLabel(character + " (2)");
+  hideUpperBodyAndHead(lowerBody);
+
+  enableRenderingToCanvases();
+  addNodeToRender(upperBody);
+
+  render(`output\\${character} - ${pose} - Upper body.png`, WIDTH, HEIGHT);
+
+  renderBodyWearables(character, upperBody, "Upper body", pose);
+}
+
+function renderBodyWearables(
+  character: string,
+  body: DzNode,
+  bodyPart: BodyPart,
+  pose: Pose
+) {
+  const wearablesWithConditions = getWearablesWithConditions(bodyPart, pose);
+  for (const { wearable, condition } of wearablesWithConditions) {
+    selectSingleNode(body);
+    for (const fragment of wearable.fragments) {
+      openFile(fragment.path);
+    }
+    for (const hideBodyPart of condition?.hideBodyParts ?? []) {
+      hideChild(body, hideBodyPart);
+    }
+    for (const fragment of wearable.fragments) {
+      clearNodesToRender();
+      for (const node of fragment.nodes) {
+        addNodeToRender(findChild(body, node));
+      }
+      render(
+        `output\\${character} - ${pose} - ${fragment.name}.png`,
+        WIDTH,
+        HEIGHT
+      );
+    }
+    for (const hideBodyPart of condition?.hideBodyParts ?? []) {
+      showChild(body, hideBodyPart);
+    }
+    for (const fragment of wearable.fragments) {
+      for (const node of fragment.nodes) {
+        removeNode(findChild(body, node));
+      }
+    }
+  }
+}
+
+function hideHead(characterNode: DzNode) {
+  hideChild(characterNode, "Head");
+  hideChild(characterNode, "Eyelashes");
+  hideChild(characterNode, "Tear");
+  hideChild(characterNode, "Eyes");
+  hideChild(characterNode, "Mouth");
+  hideChild(characterNode, "Eyebrows");
+}
+
+function hideUpperBodyAndHead(characterNode: DzNode) {
+  hideChild(characterNode, "Spine 1");
+  hideChild(characterNode, "Eyelashes");
+  hideChild(characterNode, "Tear");
+  hideChild(characterNode, "Eyes");
+  hideChild(characterNode, "Mouth");
+  hideChild(characterNode, "Eyebrows");
+}
+
+function hideLowerBody(characterNode: DzNode) {
+  hideChild(characterNode, "Pelvis");
+  hideChild(characterNode, "Vagina");
+}
+
+function getWearablesWithConditions(
   bodyPart: BodyPart,
   pose: Pose
 ): WearableWithCondition[] {
