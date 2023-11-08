@@ -149,6 +149,7 @@ function renderAllCharacters() {
 function renderCharacter(character: Character) {
   renderFullBodyPoses(character);
   renderUpperBodyPoses(character);
+  renderLowerBodyPoses(character);
 }
 
 function renderFullBodyPoses(character: Character) {
@@ -219,6 +220,37 @@ function renderUpperBodyPose(character: Character, pose: UpperBodyPose) {
   render(`output\\${character} - ${pose} - Upper body.png`, WIDTH, HEIGHT);
 
   renderBodyWearables(character, upperBody, "Upper body", pose);
+}
+
+function renderLowerBodyPoses(character: Character) {
+  for (const lowerBodyPose of lowerBodyPoses) {
+    renderLowerBodyPose(character, lowerBodyPose);
+  }
+}
+
+function renderLowerBodyPose(character: Character, pose: LowerBodyPose) {
+  loadScene("scenes/Character.duf");
+  loadRenderSettings();
+
+  // Create lower body
+  openFile("characters\\" + character + ".duf");
+  const lowerBody = findNodeByLabel(character);
+  hideUpperBodyAndHead(lowerBody);
+  selectSingleNodeByLabel(character);
+  openFile("poses\\lower body\\" + pose + ".duf");
+
+  // Create upper body
+  openFile("characters\\" + character + ".duf");
+  const upperBody = findNodeByLabel(character + " (2)");
+  hideHead(upperBody);
+  hideLowerBody(upperBody);
+
+  enableRenderingToCanvases();
+  addNodeToRender(lowerBody);
+
+  render(`output\\${character} - ${pose} - Lower body.png`, WIDTH, HEIGHT);
+
+  renderBodyWearables(character, lowerBody, "Lower body", pose);
 }
 
 function renderBodyWearables(
