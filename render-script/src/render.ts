@@ -176,14 +176,21 @@ interface RenderSettings {
   wearables: readonly WearableName[];
 }
 
-renderAllCharacters({
+// renderCharacters({
+//   characters: CHARACTERS,
+//   bodyParts: BODY_PARTS,
+//   poses: POSES,
+//   wearables: WEARABLES_NAMES,
+// });
+
+renderCharacters({
   characters: CHARACTERS,
-  bodyParts: BODY_PARTS,
-  poses: POSES,
-  wearables: WEARABLES_NAMES,
+  bodyParts: ["Head"],
+  poses: ["Wide open"],
+  wearables: ["Ball gag"],
 });
 
-function renderAllCharacters(settings: RenderSettings) {
+function renderCharacters(settings: RenderSettings) {
   for (const character of CHARACTERS) {
     if (settings.characters.indexOf(character) > -1) {
       renderCharacter(character, settings);
@@ -354,6 +361,7 @@ function renderHeadPose(
     render(`output\\${character} - ${pose} - Head.png`, WIDTH, HEIGHT);
   }
 
+  enableRenderingToCanvases();
   renderWearables(head, "Head", pose, `${character} - ${pose}`, settings);
 }
 
