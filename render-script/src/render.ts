@@ -1,25 +1,31 @@
-const characters = ["Kiri"] as const;
-type Character = (typeof characters)[number];
+const CHARACTERS = ["Kiri"] as const;
+type Character = (typeof CHARACTERS)[number];
 
-const fullBodyPoses = ["Pet suit"] as const;
-type FullBodyPose = (typeof fullBodyPoses)[number];
+const FULL_BODY_POSES = ["Pet suit"] as const;
+type FullBodyPose = (typeof FULL_BODY_POSES)[number];
 
-const headPoses = ["Normal", "Wide open"] as const;
-type HeadPose = (typeof headPoses)[number];
+const HEAD_POSES = ["Normal", "Wide open"] as const;
+type HeadPose = (typeof HEAD_POSES)[number];
 
-const upperBodyPoses = ["Attention", "Crossed"] as const;
-type UpperBodyPose = (typeof upperBodyPoses)[number];
+const UPPER_BODY_POSES = ["Attention", "Crossed"] as const;
+type UpperBodyPose = (typeof UPPER_BODY_POSES)[number];
 
-const lowerBodyPoses = ["Stand", "Simple kneel", "Wide kneel"] as const;
-type LowerBodyPose = (typeof lowerBodyPoses)[number];
+const LOWER_BODY_POSES = ["Stand", "Simple kneel", "Wide kneel"] as const;
+type LowerBodyPose = (typeof LOWER_BODY_POSES)[number];
 
-type Pose = FullBodyPose | HeadPose | UpperBodyPose | LowerBodyPose;
+const POSES = [
+  ...FULL_BODY_POSES,
+  ...HEAD_POSES,
+  ...UPPER_BODY_POSES,
+  ...LOWER_BODY_POSES,
+];
+type Pose = (typeof POSES)[number];
 
-const bodyParts = ["Body", "Head", "Upper body", "Lower body"] as const;
-type BodyPart = (typeof bodyParts)[number];
+const BODY_PARTS = ["Body", "Head", "Upper body", "Lower body"] as const;
+type BodyPart = (typeof BODY_PARTS)[number];
 
-const bones = ["Left Foot", "Right Foot", "Left Hand", "Right Hand"] as const;
-type Bone = (typeof bones)[number];
+const BONES = ["Left Foot", "Right Foot", "Left Hand", "Right Hand"] as const;
+type Bone = (typeof BONES)[number];
 
 interface Fragment {
   name: string;
@@ -35,7 +41,7 @@ type Condition = (
 ) & { hideBodyParts?: Bone[] };
 
 interface Wearable {
-  name: string;
+  name: WearableName;
   fragments: Fragment[];
   conditions: Condition[];
 }
@@ -55,12 +61,21 @@ interface DzNode {
   select(): void;
 }
 
-var ROOT_PATH = "C:\\Users\\Xenon\\Projects\\BondageAcademy\\render\\";
-var NODE_LIST_NAME = "Default";
-var WIDTH = 600;
-var HEIGHT = 800;
+const ROOT_PATH = "C:\\Users\\Xenon\\Projects\\BondageAcademy\\render\\";
+const NODE_LIST_NAME = "Default";
+const WIDTH = 600;
+const HEIGHT = 800;
 
-var WEARABLES: Wearable[] = [
+const WEARABLES_NAMES = [
+  "X Fashion Sleeve Left",
+  "X Fashion Sleeve Right",
+  "X Fashion Thong",
+  "Ball gag",
+  "Pet suit",
+] as const;
+type WearableName = (typeof WEARABLES_NAMES)[number];
+
+const WEARABLES: Wearable[] = [
   {
     name: "X Fashion Sleeve Left",
     fragments: [
@@ -73,7 +88,7 @@ var WEARABLES: Wearable[] = [
     conditions: [
       {
         bodyPart: "Upper body",
-        poses: upperBodyPoses,
+        poses: UPPER_BODY_POSES,
       },
     ],
   },
@@ -89,7 +104,7 @@ var WEARABLES: Wearable[] = [
     conditions: [
       {
         bodyPart: "Upper body",
-        poses: upperBodyPoses,
+        poses: UPPER_BODY_POSES,
       },
     ],
   },
@@ -105,7 +120,7 @@ var WEARABLES: Wearable[] = [
     conditions: [
       {
         bodyPart: "Lower body",
-        poses: lowerBodyPoses,
+        poses: LOWER_BODY_POSES,
       },
     ],
   },
@@ -154,27 +169,55 @@ var WEARABLES: Wearable[] = [
   },
 ];
 
-renderAllCharacters();
+interface RenderSettings {
+  characters: readonly Character[];
+  bodyParts: readonly BodyPart[];
+  poses: readonly Pose[];
+  wearables: readonly WearableName[];
+}
 
-function renderAllCharacters() {
-  for (const character of characters) {
-    renderCharacter(character);
+renderAllCharacters({
+  characters: CHARACTERS,
+  bodyParts: BODY_PARTS,
+  poses: POSES,
+  wearables: WEARABLES_NAMES,
+});
+
+function renderAllCharacters(settings: RenderSettings) {
+  for (const character of CHARACTERS) {
+    if (settings.characters.indexOf(character) > -1) {
+      renderCharacter(character, settings);
+    }
   }
 }
 
-function renderCharacter(character: Character) {
-  renderFullBodyPoses(character);
-  renderUpperBodyPoses(character);
-  renderLowerBodyPoses(character);
-}
-
-function renderFullBodyPoses(character: Character) {
-  for (const fullBodyPose of fullBodyPoses) {
-    renderFullBodyPose(character, fullBodyPose);
+function renderCharacter(character: Character, settings: RenderSettings) {
+  if (
+    settings.bodyParts.indexOf("Body") > -1 ||
+    settings.bodyParts.indexOf("Head") > -1
+  ) {
+    renderFullBodyPoses(character, settings);
+  }
+  if (settings.bodyParts.indexOf("Upper body") > -1) {
+    renderUpperBodyPoses(character, settings);
+  }
+  if (settings.bodyParts.indexOf("Lower body") > -1) {
+    renderLowerBodyPoses(character, settings);
   }
 }
 
-function renderFullBodyPose(character: Character, pose: FullBodyPose) {
+function renderFullBodyPoses(character: Character, settings: RenderSettings) {
+  for (const fullBodyPose of FULL_BODY_POSES) {
+    if (settings.poses.indexOf(fullBodyPose) > -1)
+      renderFullBodyPose(character, fullBodyPose, settings);
+  }
+}
+
+function renderFullBodyPose(
+  character: Character,
+  pose: FullBodyPose,
+  settings: RenderSettings
+) {
   loadScene("scenes/Character.duf");
   loadRenderSettings();
 
@@ -185,35 +228,45 @@ function renderFullBodyPose(character: Character, pose: FullBodyPose) {
   selectSingleNodeByLabel(character);
   openFile("poses\\full body\\" + pose + ".duf");
 
-  render(`output\\${character} - ${pose} - Body.png`, WIDTH, HEIGHT);
+  if (settings.bodyParts.indexOf("Body") > -1) {
+    render(`output\\${character} - ${pose} - Body.png`, WIDTH, HEIGHT);
+  }
 
   enableRenderingToCanvases();
 
-  renderBodyWearables(character, body, "Body", pose);
+  renderBodyWearables(character, body, "Body", pose, settings);
 
-  // Create head
-  openFile("characters\\" + character + ".duf");
-  const head = findNodeByLabel(character + " (2)");
-  selectSingleNodeByLabel(character + " (2)");
-  openFile("poses\\full body\\" + pose + ".duf");
-  openFile("poses\\head\\Normal.duf");
-  hideChild(head, "Hip");
-  showChild(head, "Head");
-  hideChild(head, "Vagina");
+  if (settings.bodyParts.indexOf("Head") > -1) {
+    // Create head
+    openFile("characters\\" + character + ".duf");
+    const head = findNodeByLabel(character + " (2)");
+    selectSingleNodeByLabel(character + " (2)");
+    openFile("poses\\full body\\" + pose + ".duf");
+    openFile("poses\\head\\Normal.duf");
+    hideChild(head, "Hip");
+    showChild(head, "Head");
+    hideChild(head, "Vagina");
 
-  clearNodesToRender();
-  addHeadToRender(head);
+    clearNodesToRender();
+    addHeadToRender(head);
 
-  render(`output\\${character} - ${pose} - Head - Normal.png`, WIDTH, HEIGHT);
-}
-
-function renderUpperBodyPoses(character: Character) {
-  for (const upperBodyPose of upperBodyPoses) {
-    renderUpperBodyPose(character, upperBodyPose);
+    render(`output\\${character} - ${pose} - Head - Normal.png`, WIDTH, HEIGHT);
   }
 }
 
-function renderUpperBodyPose(character: Character, pose: UpperBodyPose) {
+function renderUpperBodyPoses(character: Character, settings: RenderSettings) {
+  for (const upperBodyPose of UPPER_BODY_POSES) {
+    if (settings.poses.indexOf(upperBodyPose) > -1) {
+      renderUpperBodyPose(character, upperBodyPose, settings);
+    }
+  }
+}
+
+function renderUpperBodyPose(
+  character: Character,
+  pose: UpperBodyPose,
+  settings: RenderSettings
+) {
   loadScene("scenes/Character.duf");
   loadRenderSettings();
 
@@ -233,18 +286,26 @@ function renderUpperBodyPose(character: Character, pose: UpperBodyPose) {
   enableRenderingToCanvases();
   addNodeToRender(upperBody);
 
-  render(`output\\${character} - ${pose} - Upper body.png`, WIDTH, HEIGHT);
+  if (settings.bodyParts.indexOf("Upper body") > 1) {
+    render(`output\\${character} - ${pose} - Upper body.png`, WIDTH, HEIGHT);
+  }
 
-  renderBodyWearables(character, upperBody, "Upper body", pose);
+  renderBodyWearables(character, upperBody, "Upper body", pose, settings);
 }
 
-function renderLowerBodyPoses(character: Character) {
-  for (const lowerBodyPose of lowerBodyPoses) {
-    renderLowerBodyPose(character, lowerBodyPose);
+function renderLowerBodyPoses(character: Character, settings: RenderSettings) {
+  for (const lowerBodyPose of LOWER_BODY_POSES) {
+    if (settings.poses.indexOf(lowerBodyPose) > -1) {
+      renderLowerBodyPose(character, lowerBodyPose, settings);
+    }
   }
 }
 
-function renderLowerBodyPose(character: Character, pose: LowerBodyPose) {
+function renderLowerBodyPose(
+  character: Character,
+  pose: LowerBodyPose,
+  settings: RenderSettings
+) {
   loadScene("scenes/Character.duf");
   loadRenderSettings();
 
@@ -264,19 +325,25 @@ function renderLowerBodyPose(character: Character, pose: LowerBodyPose) {
   enableRenderingToCanvases();
   addNodeToRender(lowerBody);
 
-  render(`output\\${character} - ${pose} - Lower body.png`, WIDTH, HEIGHT);
+  if (settings.bodyParts.indexOf("Lower body") > 1) {
+    render(`output\\${character} - ${pose} - Lower body.png`, WIDTH, HEIGHT);
+  }
 
-  renderBodyWearables(character, lowerBody, "Lower body", pose);
+  renderBodyWearables(character, lowerBody, "Lower body", pose, settings);
 }
 
 function renderBodyWearables(
   character: string,
   body: DzNode,
   bodyPart: BodyPart,
-  pose: Pose
+  pose: Pose,
+  settings: RenderSettings
 ) {
   const wearablesWithConditions = getWearablesWithConditions(bodyPart, pose);
   for (const { wearable, condition } of wearablesWithConditions) {
+    if (settings.wearables.indexOf(wearable.name) === -1) {
+      continue;
+    }
     selectSingleNode(body);
     for (const fragment of wearable.fragments) {
       openFile(fragment.path);
