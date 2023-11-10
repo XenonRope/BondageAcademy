@@ -176,18 +176,11 @@ interface RenderSettings {
   wearables: readonly WearableName[];
 }
 
-// renderCharacters({
-//   characters: CHARACTERS,
-//   bodyParts: BODY_PARTS,
-//   poses: POSES,
-//   wearables: WEARABLES_NAMES,
-// });
-
 renderCharacters({
   characters: CHARACTERS,
-  bodyParts: ["Head"],
-  poses: ["Wide open"],
-  wearables: ["Ball gag"],
+  bodyParts: BODY_PARTS,
+  poses: POSES,
+  wearables: WEARABLES_NAMES,
 });
 
 function renderCharacters(settings: RenderSettings) {
