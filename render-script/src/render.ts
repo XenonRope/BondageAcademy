@@ -192,10 +192,7 @@ function renderAllCharacters(settings: RenderSettings) {
 }
 
 function renderCharacter(character: Character, settings: RenderSettings) {
-  if (
-    settings.bodyParts.indexOf("Body") > -1 ||
-    settings.bodyParts.indexOf("Head") > -1
-  ) {
+  if (settings.bodyParts.indexOf("Body") > -1) {
     renderFullBodyPoses(character, settings);
   }
   if (settings.bodyParts.indexOf("Upper body") > -1) {
@@ -203,6 +200,9 @@ function renderCharacter(character: Character, settings: RenderSettings) {
   }
   if (settings.bodyParts.indexOf("Lower body") > -1) {
     renderLowerBodyPoses(character, settings);
+  }
+  if (settings.bodyParts.indexOf("Head") > -1) {
+    renderHeadPoses(character, settings);
   }
 }
 
@@ -234,24 +234,7 @@ function renderFullBodyPose(
 
   enableRenderingToCanvases();
 
-  renderBodyWearables(character, body, "Body", pose, settings);
-
-  if (settings.bodyParts.indexOf("Head") > -1) {
-    // Create head
-    openFile("characters\\" + character + ".duf");
-    const head = findNodeByLabel(character + " (2)");
-    selectSingleNodeByLabel(character + " (2)");
-    openFile("poses\\full body\\" + pose + ".duf");
-    openFile("poses\\head\\Normal.duf");
-    hideChild(head, "Hip");
-    showChild(head, "Head");
-    hideChild(head, "Vagina");
-
-    clearNodesToRender();
-    addHeadToRender(head);
-
-    render(`output\\${character} - ${pose} - Head - Normal.png`, WIDTH, HEIGHT);
-  }
+  renderWearables(body, "Body", pose, `${character} - ${pose}`, settings);
 }
 
 function renderUpperBodyPoses(character: Character, settings: RenderSettings) {
@@ -290,7 +273,13 @@ function renderUpperBodyPose(
     render(`output\\${character} - ${pose} - Upper body.png`, WIDTH, HEIGHT);
   }
 
-  renderBodyWearables(character, upperBody, "Upper body", pose, settings);
+  renderWearables(
+    upperBody,
+    "Upper body",
+    pose,
+    `${character} - ${pose}`,
+    settings
+  );
 }
 
 function renderLowerBodyPoses(character: Character, settings: RenderSettings) {
@@ -329,14 +318,50 @@ function renderLowerBodyPose(
     render(`output\\${character} - ${pose} - Lower body.png`, WIDTH, HEIGHT);
   }
 
-  renderBodyWearables(character, lowerBody, "Lower body", pose, settings);
+  renderWearables(
+    lowerBody,
+    "Lower body",
+    pose,
+    `${character} - ${pose}`,
+    settings
+  );
 }
 
-function renderBodyWearables(
-  character: string,
+function renderHeadPoses(character: Character, settings: RenderSettings) {
+  for (const headPose of HEAD_POSES) {
+    if (settings.poses.indexOf(headPose) > -1) {
+      renderHeadPose(character, headPose, settings);
+    }
+  }
+}
+
+function renderHeadPose(
+  character: Character,
+  pose: HeadPose,
+  settings: RenderSettings
+) {
+  loadScene("scenes/Character.duf");
+  loadRenderSettings();
+
+  // Create head
+  openFile("characters\\" + character + ".duf");
+  const head = findNodeByLabel(character);
+  showOnlyHead(head);
+  selectSingleNodeByLabel(character);
+  openFile("poses\\head\\" + pose + ".duf");
+
+  if (settings.bodyParts.indexOf("Head") > -1) {
+    render(`output\\${character} - ${pose} - Head.png`, WIDTH, HEIGHT);
+  }
+
+  renderWearables(head, "Head", pose, `${character} - ${pose}`, settings);
+}
+
+function renderWearables(
   body: DzNode,
   bodyPart: BodyPart,
   pose: Pose,
+  outputImagePrefix: string,
   settings: RenderSettings
 ) {
   const wearablesWithConditions = getWearablesWithConditions(bodyPart, pose);
@@ -357,7 +382,7 @@ function renderBodyWearables(
         addNodeToRender(findChild(body, node));
       }
       render(
-        `output\\${character} - ${pose} - ${fragment.name}.png`,
+        `output\\${outputImagePrefix} - ${fragment.name}.png`,
         WIDTH,
         HEIGHT
       );
@@ -371,6 +396,12 @@ function renderBodyWearables(
       }
     }
   }
+}
+
+function showOnlyHead(characterNode: DzNode) {
+  hideChild(characterNode, "Hip");
+  showChild(characterNode, "Head");
+  hideChild(characterNode, "Vagina");
 }
 
 function hideHead(characterNode: DzNode) {
