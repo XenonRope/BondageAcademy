@@ -3,6 +3,7 @@ import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { accountApi } from "./account/AccountApi";
 import { logoutService } from "./account/LogoutService";
+import { characterPoseApi } from "./character/CharacterPoseApi";
 import { BusinessError } from "./common/model/BusinessError";
 import { type ServerResponse } from "./common/model/ServerResponse";
 import { movementApi } from "./movement/MovementApi";
@@ -56,6 +57,9 @@ io.on("connection", (socket) => {
       () => movementApi.setPlayerTargetPosition(msg, session),
       callback
     );
+  });
+  socket.on("change_pose", async (msg, callback) => {
+    handleRequest(() => characterPoseApi.changePose(msg, session), callback);
   });
 });
 

@@ -2,7 +2,7 @@ import { For } from "solid-js";
 import { socketService } from "../common/SocketService";
 import type { Position } from "../common/model/Position";
 import type { World } from "./model/World";
-import ObjectView from "./objects/ObjectVIew";
+import ObjectView from "./object/ObjectVIew";
 
 export default function WorldView(props: { world: World }) {
   async function move(event: MouseEvent & { currentTarget: HTMLDivElement }) {

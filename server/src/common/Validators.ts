@@ -24,6 +24,6 @@ export const requiredPosition = (value: unknown): void => {
     typeof value.x !== "number" ||
     typeof value.y !== "number"
   ) {
-    throw new BusinessError("requiredPosition");
+    throw new Error("requiredPosition");
   }
 };

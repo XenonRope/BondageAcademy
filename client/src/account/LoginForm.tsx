@@ -1,7 +1,7 @@
 import { createSignal } from "solid-js";
 import { setStore } from "../common/Store";
 import { View } from "../common/model/View";
-import { accountService } from "./services/AccountService";
+import { accountService } from "./service/AccountService";
 
 export default function LoginForm() {
   const [username, setUsername] = createSignal("");

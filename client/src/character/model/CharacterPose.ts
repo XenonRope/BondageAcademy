@@ -18,6 +18,8 @@ export enum HeadPose {
   WideOpen = "WideOpen",
 }
 
+export type AnyPose = FullBodyPose | UpperBodyPose | LowerBodyPose | HeadPose;
+
 export type CharacterPose = (
   | { fullBody: FullBodyPose }
   | { upperBody: UpperBodyPose; lowerBody: LowerBodyPose }

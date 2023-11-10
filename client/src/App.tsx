@@ -1,6 +1,7 @@
 import { createEffect, type JSX } from "solid-js";
-import { produce } from "solid-js/store";
+import { produce, reconcile } from "solid-js/store";
 import AccountRegistrationPage from "./account/AccountRegistrationPage";
+import type { CharacterPose } from "./character/model/CharacterPose";
 import type { Position } from "./common/model/Position";
 import { View } from "./common/model/View";
 import { navigationService } from "./common/NavigationService";
@@ -62,6 +63,25 @@ export default function App() {
             requestAnimationFrame(() => {
               movePlayer(msg.objectId);
             });
+          }
+        },
+      );
+      socket.on(
+        "change_pose",
+        (msg: { playerId: number; pose: CharacterPose }) => {
+          setStore(
+            "world",
+            "objects",
+            produce((objects) => {
+              for (const object of Object.values(objects)) {
+                if (isPlayerObject(object) && object.id === msg.playerId) {
+                  object.character.pose = msg.pose;
+                }
+              }
+            }),
+          );
+          if (store?.player?.id === msg.playerId) {
+            setStore("player", "character", "pose", reconcile(msg.pose));
           }
         },
       );
