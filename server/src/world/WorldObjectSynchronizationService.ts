@@ -1,8 +1,8 @@
 import { type Session } from "../session/model/Session";
 import {
-  BlockObject,
-  BlockObjectForClient,
   isBlockObject,
+  type BlockObject,
+  type BlockObjectForClient,
 } from "./model/BlockObject";
 import {
   isPlayerObject,
@@ -54,6 +54,7 @@ export class WorldObjectSynchronizationService {
       playerId: object.player.id,
       name: object.player.name,
       position: object.position,
+      character: object.player.character,
     };
   }
 

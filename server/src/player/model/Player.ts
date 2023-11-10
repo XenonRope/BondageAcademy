@@ -1,3 +1,4 @@
+import { type Character } from "../../character/model/Character";
 import { type Position } from "../../common/model/Position";
 
 export interface Player {
@@ -5,20 +6,19 @@ export interface Player {
   name: string;
   roomId: number;
   position: Position;
+  character: Character;
 }
 
 export interface PlayerForClient {
   id: number;
   name: string;
-  roomId: number;
-  position: Position;
+  character: Character;
 }
 
 export const mapToPlayerForClient = (player: Player): PlayerForClient => {
   return {
     id: player.id,
     name: player.name,
-    roomId: player.roomId,
-    position: player.position,
+    character: player.character,
   };
 };

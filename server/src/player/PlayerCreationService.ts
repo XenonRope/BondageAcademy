@@ -1,3 +1,9 @@
+import { CharacterShape, CharacterSkin } from "../character/model/Character";
+import {
+  HeadPose,
+  LowerBodyPose,
+  UpperBodyPose,
+} from "../character/model/CharacterPose";
 import { sequences, type Sequences } from "../common/Sequences";
 import { SequenceName } from "../common/model/SequenceName";
 import { roomService, type RoomService } from "../room/RoomService";
@@ -24,6 +30,16 @@ export class PlayerCreationService {
       name: params.name,
       roomId: roomId!,
       position: { x: 0, y: 0 },
+      character: {
+        shape: CharacterShape.Shape1,
+        skin: CharacterSkin.Skin1,
+        wearables: new Map(),
+        pose: {
+          upperBody: UpperBodyPose.Crossed,
+          lowerBody: LowerBodyPose.Stand,
+          head: HeadPose.Normal,
+        },
+      },
     };
     await this.playerService.insertPlayer(player);
 
