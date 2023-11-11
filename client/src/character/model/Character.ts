@@ -2,6 +2,9 @@ import type { CharacterPose } from "./CharacterPose";
 import { type Slot } from "./Slot";
 import { type Wearable } from "./Wearable";
 
+export const CHARACTER_VIEW_WIDTH = 600;
+export const CHARACTER_VIEW_HEIGHT = 800;
+
 export enum CharacterShape {
   Shape1 = "Shape_1",
 }
