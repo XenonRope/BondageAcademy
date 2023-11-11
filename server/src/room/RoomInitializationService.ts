@@ -32,6 +32,8 @@ export class RoomInitializationService {
       await this.roomCreationService.createRoom({
         code: RoomCode.Main,
         name: "Main room",
+        width: 20,
+        height: 10,
         objects: [firstBlock, secondBlock],
       });
     }

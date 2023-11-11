@@ -14,6 +14,14 @@ export class MovementApi {
     if (session.playerObject == null || session.world == null) {
       throw new Error("Player is not in the world");
     }
+    if (
+      targetPosition.x < 0 ||
+      targetPosition.y < 0 ||
+      targetPosition.x >= session.world.width ||
+      targetPosition.y >= session.world.height
+    ) {
+      throw new Error("Target position is out of bounds");
+    }
 
     this.movementService.setPlayerTargetPosition(
       session.world,

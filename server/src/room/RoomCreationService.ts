@@ -7,6 +7,8 @@ import { type RoomObject } from "./model/objects/RoomObject";
 export interface RoomCreateParams {
   code: string;
   name: string;
+  width: number;
+  height: number;
   objects: RoomObject[];
 }
 
@@ -22,6 +24,8 @@ export class RoomCreationService {
       id,
       code: params.code,
       name: params.name,
+      width: params.width,
+      height: params.height,
       objects: params.objects,
     };
     await this.roomService.insertRoom(room);

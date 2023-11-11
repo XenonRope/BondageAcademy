@@ -3,6 +3,7 @@ import { playerService, type PlayerService } from "../player/PlayerService";
 import { sessionService, type SessionService } from "../session/SessionService";
 import type { Session } from "../session/model/Session";
 import { worldService, type WorldService } from "../world/WorldService";
+import { World } from "../world/model/World";
 import { accountService, type AccountService } from "./AccountService";
 import { logoutService, type LogoutService } from "./LogoutService";
 
@@ -19,7 +20,7 @@ export class LoginService {
     session: Session,
     username: string,
     password: string
-  ): Promise<void> {
+  ): Promise<World> {
     const account = await this.accountService.getAccountByUsernameAndPassword(
       username,
       password
@@ -47,6 +48,8 @@ export class LoginService {
     session.world = world;
     session.player = player;
     session.playerObject = playerObject;
+
+    return world;
   }
 }
 

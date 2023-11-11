@@ -40,6 +40,8 @@ export class WorldService {
     }
     const newWorld: World = {
       roomId,
+      width: room.width,
+      height: room.height,
       objects: this.worldObjectCreator.createObjectsInRoom(room),
     };
     this.worldsByRoomsIds.set(roomId, newWorld);

@@ -29,6 +29,8 @@ export interface LoginRequest {
 export interface LoginResponse {
   player: PlayerForClient;
   world: {
+    width: number;
+    height: number;
     objects: WorldObjectForClient[];
   };
 }
@@ -63,13 +65,15 @@ export class AccountApi {
     requiredString(username, 3, 30, "invalidUsername");
     requiredString(password, 12, 100, "invalidPassword");
 
-    await this.loginService.login(session, username, password);
+    const world = await this.loginService.login(session, username, password);
 
     return {
       player: mapToPlayerForClient(session.player!),
       world: {
+        width: world.width,
+        height: world.height,
         objects: this.worldObjectSynchronizationService.mapToObjectsForClient(
-          session.world!.objects
+          world.objects
         ),
       },
     };
