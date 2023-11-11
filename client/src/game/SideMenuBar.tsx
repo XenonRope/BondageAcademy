@@ -1,4 +1,5 @@
 import { store } from "../store/StoreService";
+import { characterPoseIcon, clothIcon } from "../ui/Icons";
 import { SideMenuView } from "./model/SideMenuView";
 import { sideMenuService } from "./services/SideMenuService";
 
@@ -17,37 +18,19 @@ export default function SideMenuBar() {
       style={{ "writing-mode": "vertical-lr" }}
     >
       <div
-        onClick={() => {
-          toggleSideMenu(SideMenuView.CharacterPoses);
-        }}
-        class="h-[48px] w-[48px] bg-red-500"
+        onClick={() => toggleSideMenu(SideMenuView.CharacterPoses)}
+        class="h-[52px] w-[52px] bg-yellow-100 border-2 border-black"
         style={{ "writing-mode": "horizontal-tb" }}
       >
-        1
+        <div class="relative h-full left-[5px] top-[1px] py-[2px]">
+          {characterPoseIcon}
+        </div>
       </div>
       <div
-        class="h-[48px] w-[48px] bg-green-500"
+        class="h-[52px] w-[52px] bg-yellow-100 border-2 border-black mt-[-2px]"
         style={{ "writing-mode": "horizontal-tb" }}
       >
-        2
-      </div>
-      <div
-        class="h-[48px] w-[48px] bg-red-500"
-        style={{ "writing-mode": "horizontal-tb" }}
-      >
-        3
-      </div>
-      <div
-        class="h-[48px] w-[48px] bg-green-500"
-        style={{ "writing-mode": "horizontal-tb" }}
-      >
-        4
-      </div>
-      <div
-        class="h-[48px] w-[48px] bg-red-500"
-        style={{ "writing-mode": "horizontal-tb" }}
-      >
-        5
+        <div class="relative top-[5px] left-[-1px] px-[2px]">{clothIcon}</div>
       </div>
     </div>
   );
