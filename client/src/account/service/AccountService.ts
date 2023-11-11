@@ -17,6 +17,8 @@ export interface LoginRequest {
 export interface LoginResponse {
   player: Player;
   world: {
+    width: number;
+    height: number;
     objects: WorldObject[];
   };
 }
@@ -35,7 +37,14 @@ export class AccountService {
     );
     const objects: Record<number, WorldObject> = {};
     response.world.objects.forEach((object) => (objects[object.id] = object));
-    setStore({ player: response.player, world: { objects } });
+    setStore({
+      player: response.player,
+      world: {
+        width: response.world.width,
+        height: response.world.height,
+        objects,
+      },
+    });
   }
 }
 

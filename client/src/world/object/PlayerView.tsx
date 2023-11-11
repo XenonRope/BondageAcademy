@@ -1,5 +1,6 @@
 import { createMemo } from "solid-js";
 import type { PlayerObject } from "../model/PlayerObject";
+import { WORLD_TILE_SIZE } from "../model/World";
 
 export default function PlayerView(props: { object: PlayerObject }) {
   const position = createMemo(
@@ -8,8 +9,13 @@ export default function PlayerView(props: { object: PlayerObject }) {
 
   return (
     <div
-      class="absolute w-[48px] h-[48px] rounded-[50%] bg-red-400"
-      style={{ left: `${position().x * 48}px`, top: `${position().y * 48}px` }}
+      class="absolute rounded-[50%] bg-red-400"
+      style={{
+        width: `${WORLD_TILE_SIZE}px`,
+        height: `${WORLD_TILE_SIZE}px`,
+        left: `${position().x * 48}px`,
+        top: `${position().y * 48}px`,
+      }}
     />
   );
 }

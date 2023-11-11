@@ -1,6 +1,7 @@
 import { createMemo } from "solid-js";
 import type { BlockObject } from "../model/BlockObject";
 import { BlockColor } from "../model/BlockObject";
+import { WORLD_TILE_SIZE } from "../model/World";
 
 export default function BlockView(props: { object: BlockObject }) {
   const color = createMemo(() => {
@@ -13,8 +14,10 @@ export default function BlockView(props: { object: BlockObject }) {
 
   return (
     <div
-      class={`absolute w-[48px] h-[48px] ${color()}`}
+      class={`absolute ${color()}`}
       style={{
+        width: `${WORLD_TILE_SIZE}px`,
+        height: `${WORLD_TILE_SIZE}px`,
         left: `${props.object.position.x * 48}px`,
         top: `${props.object.position.y * 48}px`,
       }}

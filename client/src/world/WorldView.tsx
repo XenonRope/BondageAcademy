@@ -1,7 +1,7 @@
 import { For } from "solid-js";
 import { socketService } from "../common/SocketService";
 import type { Position } from "../common/model/Position";
-import type { World } from "./model/World";
+import { WORLD_TILE_SIZE, type World } from "./model/World";
 import ObjectView from "./object/ObjectVIew";
 
 export default function WorldView(props: { world: World }) {
@@ -15,10 +15,18 @@ export default function WorldView(props: { world: World }) {
   }
 
   return (
-    <div onClick={move} class="relative w-full h-full overflow-hidden">
-      <For each={Object.values(props.world.objects)}>
-        {(object) => <ObjectView object={object} />}
-      </For>
+    <div onClick={move} class="w-full h-full overflow-hidden">
+      <div
+        class="relative"
+        style={{
+          width: `${props.world.width * WORLD_TILE_SIZE}px`,
+          height: `${props.world.height * WORLD_TILE_SIZE}px`,
+        }}
+      >
+        <For each={Object.values(props.world.objects)}>
+          {(object) => <ObjectView object={object} />}
+        </For>
+      </div>
     </div>
   );
 }
