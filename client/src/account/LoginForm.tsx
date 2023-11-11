@@ -1,6 +1,10 @@
 import { createSignal } from "solid-js";
+import { navigationService } from "../common/NavigationService";
 import { setStore } from "../common/Store";
 import { View } from "../common/model/View";
+import Button from "../ui/Button";
+import Label from "../ui/Label";
+import TextInput from "../ui/TextInput";
 import { accountService } from "./service/AccountService";
 
 export default function LoginForm() {
@@ -15,23 +19,26 @@ export default function LoginForm() {
     setStore({ view: View.Game });
   }
 
+  function registerAccount() {
+    navigationService.navigate(View.RegisterAccount);
+  }
+
   return (
-    <div>
-      <div>
-        <label>Username</label>
-        <input
-          value={username()}
-          onInput={(e) => setUsername(e.currentTarget.value)}
-        />
+    <div class="max-w-sm mx-auto">
+      <div class="mb-4">
+        <Label for="username">Username</Label>
+        <TextInput id="username" value={username()} onInput={setUsername} />
+      </div>
+      <div class="mb-4">
+        <Label for="password">Password</Label>
+        <TextInput id="password" value={password()} onInput={setPassword} />
+      </div>
+      <div class="mb-4">
+        <Button onClick={login}>Login</Button>
       </div>
       <div>
-        <label>Password</label>
-        <input
-          value={password()}
-          onInput={(e) => setPassword(e.currentTarget.value)}
-        />
+        <Button onClick={registerAccount}>Create account</Button>
       </div>
-      <button onClick={login}>Login</button>
     </div>
   );
 }
