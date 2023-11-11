@@ -22,8 +22,8 @@ export default function SideMenuPanel() {
 
   return (
     <Show when={store.sideMenuView != null}>
-      <div class="absolute h-full overflow-auto bg-yellow-100">
-        <div>
+      <div class="absolute h-full overflow-auto p-2 bg-yellow-100">
+        <div class="mb-2">
           <Button
             onClick={() => {
               sideMenuService.hideSideMenu();
