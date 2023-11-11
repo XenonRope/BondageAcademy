@@ -67,6 +67,16 @@ const WIDTH = 600;
 const HEIGHT = 800;
 
 const WEARABLES_NAMES = [
+  "Nipple Piercing Sphere",
+  "Nipple Piercing Spider",
+  "Nipple Piercing C Shape",
+  "Nipple Piercing Ornament",
+  "Nipple Piercing Moon",
+  "Becca Mesh Top",
+  "Becca Mesh Bra Black",
+  "Becca Mesh Bra Dots",
+  "Beyond Suit Bra",
+  "Beyond Suit Bones",
   "X Fashion Sleeve Left",
   "X Fashion Sleeve Right",
   "X Fashion Thong",
@@ -76,6 +86,206 @@ const WEARABLES_NAMES = [
 type WearableName = (typeof WEARABLES_NAMES)[number];
 
 const WEARABLES: Wearable[] = [
+  {
+    name: "Nipple Piercing Sphere",
+    fragments: [
+      {
+        name: "Nipple Piercing Sphere",
+        path: "clothes\\piercing\\Nipple Piercing Sphere\\Nipple Piercing Sphere.duf",
+        nodes: ["NPLJ 06"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: ["Attention"],
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Nipple Piercing Spider",
+    fragments: [
+      {
+        name: "Nipple Piercing Spider",
+        path: "clothes\\piercing\\Nipple Piercing Spider\\Nipple Piercing Spider.duf",
+        nodes: ["NPLJ 07"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: ["Attention"],
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Nipple Piercing C Shape",
+    fragments: [
+      {
+        name: "Nipple Piercing C Shape",
+        path: "clothes\\piercing\\Nipple Piercing C Shape\\Nipple Piercing C Shape.duf",
+        nodes: ["NPLJ 08"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: ["Attention"],
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Nipple Piercing Ornament",
+    fragments: [
+      {
+        name: "Nipple Piercing Ornament",
+        path: "clothes\\piercing\\Nipple Piercing Ornament\\Nipple Piercing Ornament.duf",
+        nodes: ["NPLJ 10"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: ["Attention"],
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Nipple Piercing Moon",
+    fragments: [
+      {
+        name: "Nipple Piercing Moon",
+        path: "clothes\\piercing\\Nipple Piercing Moon\\Nipple Piercing Moon.duf",
+        nodes: ["NPLJ 1"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: ["Attention"],
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Beyond Suit Bones",
+    fragments: [
+      {
+        name: "Becca Mesh Top",
+        path: "clothes\\special\\Beyond Suit Bones\\Beyond Suit Bones.duf",
+        nodes: ["Beyond_SuitG9"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: UPPER_BODY_POSES,
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Beyond Suit Bra",
+    fragments: [
+      {
+        name: "Becca Mesh Top",
+        path: "clothes\\bras\\Beyond Suit Bra\\Beyond Suit Bra.duf",
+        nodes: ["Beyond_SuitG9"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: ["Attention"],
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Becca Mesh Top",
+    fragments: [
+      {
+        name: "Becca Mesh Top",
+        path: "clothes\\tops\\Becca Mesh Top\\Becca Mesh Top.duf",
+        nodes: ["Becca Mesh Top G8"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: UPPER_BODY_POSES,
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Becca Mesh Bra Black",
+    fragments: [
+      {
+        name: "Becca Mesh Bra",
+        path: "clothes\\bras\\Becca Mesh Bra\\Becca Mesh Bra Black.duf",
+        nodes: ["Becca Mesh Bra Genesis 9"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: ["Attention"],
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Becca Mesh Bra Dots",
+    fragments: [
+      {
+        name: "Becca Mesh Bra",
+        path: "clothes\\bras\\Becca Mesh Bra\\Becca Mesh Bra Dots.duf",
+        nodes: ["Becca Mesh Bra Genesis 9"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: ["Attention"],
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
   {
     name: "X Fashion Sleeve Left",
     fragments: [
@@ -89,6 +299,10 @@ const WEARABLES: Wearable[] = [
       {
         bodyPart: "Upper body",
         poses: UPPER_BODY_POSES,
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
       },
     ],
   },
@@ -106,6 +320,10 @@ const WEARABLES: Wearable[] = [
         bodyPart: "Upper body",
         poses: UPPER_BODY_POSES,
       },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
     ],
   },
   {
@@ -121,6 +339,10 @@ const WEARABLES: Wearable[] = [
       {
         bodyPart: "Lower body",
         poses: LOWER_BODY_POSES,
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
       },
     ],
   },
@@ -176,11 +398,18 @@ interface RenderSettings {
   wearables: readonly WearableName[];
 }
 
+// renderCharacters({
+//   characters: CHARACTERS,
+//   bodyParts: BODY_PARTS,
+//   poses: POSES,
+//   wearables: WEARABLES_NAMES,
+// });
+
 renderCharacters({
   characters: CHARACTERS,
-  bodyParts: BODY_PARTS,
-  poses: POSES,
-  wearables: WEARABLES_NAMES,
+  bodyParts: ["Upper body"],
+  poses: ["Attention"],
+  wearables: ["Becca Mesh Bra Black"],
 });
 
 function renderCharacters(settings: RenderSettings) {

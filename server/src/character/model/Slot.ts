@@ -1,6 +1,6 @@
 export enum Slot {
-  LeftArm = "LeftArm",
-  RightArm = "RightArm",
+  LeftSleeve = "LeftSleeve",
+  RightSleeve = "RightSleeve",
   Mouth = "Mouth",
   Body = "Body",
 }
