@@ -1,6 +1,5 @@
 import { createSignal } from "solid-js";
 import { navigationService } from "../common/NavigationService";
-import { setStore } from "../common/Store";
 import { View } from "../common/model/View";
 import Button from "../ui/Button";
 import Label from "../ui/Label";
@@ -16,7 +15,7 @@ export default function LoginForm() {
       username: username(),
       password: password(),
     });
-    setStore({ view: View.Game });
+    navigationService.navigate(View.Game);
   }
 
   function registerAccount() {

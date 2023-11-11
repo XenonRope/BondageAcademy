@@ -1,9 +1,11 @@
 import CharacterView from "../character/CharacterView";
 import ChatView from "../chat/ChatView";
-import { store } from "../common/Store";
+import { storeService } from "../store/StoreService";
 import WorldView from "../world/WorldView";
 
 export default function GamePage() {
+  const store = storeService.getStore();
+
   return (
     <div class="h-full overflow-hidden">
       <div class="flex h-full">

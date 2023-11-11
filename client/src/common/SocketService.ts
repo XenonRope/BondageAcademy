@@ -1,18 +1,19 @@
 import type { Socket } from "socket.io-client";
 import io from "socket.io-client";
-import { store } from "./Store";
+import { storeService, type StoreService } from "../store/StoreService";
 import type { ServerResponse } from "./model/ServerResponse";
 
 export class SocketService {
+  constructor(private storeService: StoreService) {}
+
   connect(): Socket {
     return io("http://localhost:5173");
   }
 
   async emit<T>(event: string, data: unknown): Promise<T> {
-    const response: ServerResponse<T> = await store.socket!.emitWithAck(
-      event,
-      data,
-    );
+    const response: ServerResponse<T> = await this.storeService
+      .getStore()
+      .socket!.emitWithAck(event, data);
     if (response.error != null) {
       throw new Error(response.error);
     }
@@ -21,4 +22,4 @@ export class SocketService {
   }
 }
 
-export const socketService = new SocketService();
+export const socketService = new SocketService(storeService);

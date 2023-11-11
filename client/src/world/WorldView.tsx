@@ -24,7 +24,7 @@ export default function WorldView(props: { world: World }) {
         }}
       >
         <For each={Object.values(props.world.objects)}>
-          {(object) => <ObjectView object={object} />}
+          {(object) => object != null && <ObjectView object={object} />}
         </For>
       </div>
     </div>

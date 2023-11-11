@@ -1,6 +1,6 @@
 import { socketService, type SocketService } from "../../common/SocketService";
-import { setStore } from "../../common/Store";
 import type { Player } from "../../player/model/Player";
+import { storeService } from "../../store/StoreService";
 import type { WorldObject } from "../../world/model/WorldObject";
 
 export interface AccountRegisterRequest {
@@ -37,13 +37,11 @@ export class AccountService {
     );
     const objects: Record<number, WorldObject> = {};
     response.world.objects.forEach((object) => (objects[object.id] = object));
-    setStore({
-      player: response.player,
-      world: {
-        width: response.world.width,
-        height: response.world.height,
-        objects,
-      },
+    storeService.setPlayer(response.player);
+    storeService.setWorld({
+      width: response.world.width,
+      height: response.world.height,
+      objects,
     });
   }
 }
