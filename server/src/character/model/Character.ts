@@ -1,6 +1,6 @@
+import { type Item } from "../../item/model/Item";
 import { type CharacterPose } from "./CharacterPose";
 import { type Slot } from "./Slot";
-import { type Wearable } from "./Wearable";
 
 export enum CharacterShape {
   Shape1 = "Shape_1",
@@ -13,6 +13,6 @@ export enum CharacterSkin {
 export interface Character {
   shape: CharacterShape;
   skin: CharacterSkin;
-  wearables: Map<Slot, Wearable>;
+  wearables: Map<Slot, Item>;
   pose: CharacterPose;
 }

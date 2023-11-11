@@ -1,5 +1,6 @@
 import { type Character } from "../../character/model/Character";
 import { type Position } from "../../common/model/Position";
+import { type Item } from "../../item/model/Item";
 
 export interface Player {
   id: number;
@@ -7,6 +8,7 @@ export interface Player {
   roomId: number;
   position: Position;
   character: Character;
+  items: Item[];
 }
 
 export interface PlayerForClient {

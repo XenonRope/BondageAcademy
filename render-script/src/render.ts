@@ -405,12 +405,21 @@ interface RenderSettings {
 //   wearables: WEARABLES_NAMES,
 // });
 
-renderCharacters({
-  characters: CHARACTERS,
-  bodyParts: ["Upper body"],
-  poses: ["Attention"],
-  wearables: ["Becca Mesh Bra Black"],
-});
+renderItemsPreview();
+
+function renderItemsPreview() {
+  renderItemPreview("clothes\\panties\\X Fashion Thong", "X Fashion Thong");
+  renderItemPreview("clothes\\gloves\\X Fashion Sleeve", "X Fashion Sleeve");
+  renderItemPreview("clothes\\bras\\Becca Mesh Bra", "Becca Mesh Bra Black");
+  renderItemPreview("clothes\\bras\\Becca Mesh Bra", "Becca Mesh Bra Dots");
+}
+
+function renderItemPreview(basePath: string, itemName: string) {
+  loadScene(`${basePath}\\${itemName} - Item.duf`);
+  openFile("settings\\Render settings - Item.duf");
+
+  render(`output\\item\\${itemName}.png`, 192, 192);
+}
 
 function renderCharacters(settings: RenderSettings) {
   for (const character of CHARACTERS) {

@@ -40,6 +40,7 @@ export class PlayerCreationService {
           head: HeadPose.Normal,
         },
       },
+      items: [],
     };
     await this.playerService.insertPlayer(player);
 
