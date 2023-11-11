@@ -11,18 +11,20 @@ export default function CharacterView(props: { character: Character }) {
   }
 
   return (
-    <div class="relative h-[800px] w-[600px] overflow-hidden bg-gray-100">
-      <For each={getLayers()}>
-        {(layer) => (
-          <div
-            class="absolute h-full w-full"
-            style={{
-              top: `${layer.offsetY ?? 0}px`,
-              "background-image": `url("${layer.url}")`,
-            }}
-          />
-        )}
-      </For>
+    <div class="aspect-[3/4] overflow-hidden bg-gray-100">
+      <div class="relative h-[800px] w-[600px] origin-top-left scale-[0.166666]">
+        <For each={getLayers()}>
+          {(layer) => (
+            <div
+              class="absolute h-[800px] w-[600px]"
+              style={{
+                top: `${layer.offsetY ?? 0}px`,
+                "background-image": `url("${layer.url}")`,
+              }}
+            />
+          )}
+        </For>
+      </div>
     </div>
   );
 }
