@@ -18,7 +18,7 @@ export default function CharacterView(props: { character: Character }) {
   }
 
   return (
-    <div ref={ref} class="aspect-[3/4] overflow-hidden bg-gray-100">
+    <div ref={ref} class="aspect-[3/4] max-h-full overflow-hidden bg-gray-100">
       <div
         class="relative h-[800px] w-[600px] origin-top-left"
         style={{ transform: `scale(${getScale()})` }}
