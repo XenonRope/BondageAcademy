@@ -3,6 +3,7 @@ import { createStore, produce } from "solid-js/store";
 import type { CharacterPose } from "../character/model/CharacterPose";
 import type { Position } from "../common/model/Position";
 import { View } from "../common/model/View";
+import type { SideMenuView } from "../game/model/SideMenuView";
 import type { Player } from "../player/model/Player";
 import { isPlayerObject } from "../world/model/PlayerObject";
 import type { World } from "../world/model/World";
@@ -10,6 +11,7 @@ import type { WorldObject } from "../world/model/WorldObject";
 
 export interface Store {
   view: View;
+  sideMenuView?: SideMenuView;
   socket?: Socket;
   player?: Player;
   world?: World;
@@ -28,6 +30,10 @@ export class StoreService {
 
   setView(view: View) {
     setStore({ view });
+  }
+
+  setSideMenuView(sideMenuView?: SideMenuView) {
+    setStore({ sideMenuView });
   }
 
   setPlayer(player: Player) {
@@ -139,3 +145,4 @@ export class StoreService {
 }
 
 export const storeService = new StoreService();
+export { store };

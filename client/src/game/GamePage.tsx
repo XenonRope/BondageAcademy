@@ -2,6 +2,8 @@ import CharacterView from "../character/CharacterView";
 import ChatView from "../chat/ChatView";
 import { storeService } from "../store/StoreService";
 import WorldView from "../world/WorldView";
+import SideMenuBar from "./SideMenuBar";
+import SideMenuPanel from "./SideMenuPanel";
 
 export default function GamePage() {
   const store = storeService.getStore();
@@ -9,9 +11,11 @@ export default function GamePage() {
   return (
     <div class="h-full overflow-hidden">
       <div class="flex h-full">
-        <div class="flex-none w-[48px] bg-gray-100" />
+        <div class="flex-none">
+          <SideMenuBar />
+        </div>
         <div class="flex-grow min-w-0">
-          <div class="flex h-full">
+          <div class="relative flex h-full">
             <div class="w-[50%]">
               {store.world != null && <WorldView world={store.world} />}
             </div>
@@ -23,6 +27,7 @@ export default function GamePage() {
             <div class="w-[25%]">
               <ChatView />
             </div>
+            <SideMenuPanel />
           </div>
         </div>
       </div>
