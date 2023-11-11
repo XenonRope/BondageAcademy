@@ -55,13 +55,9 @@ export default function WorldView(props: { world: World }) {
   });
 
   return (
-    <div
-      ref={ref}
-      onClick={move}
-      class="w-full h-full overflow-hidden bg-green-100"
-    >
+    <div ref={ref} onClick={move} class="w-full h-full overflow-hidden">
       <div
-        class="relative"
+        class="relative bg-green-100"
         style={{
           width: `${props.world.width * WORLD_TILE_SIZE}px`,
           height: `${props.world.height * WORLD_TILE_SIZE}px`,
