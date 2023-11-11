@@ -13,6 +13,7 @@
     "@solid-primitives/keyboard": "^1.2.5",
     "flowbite": "^2.1.1",
     "socket.io-client": "^4.7.2",
+    "solid-boundaries": "^2.1.0",
     "solid-js": "^1.7.8"
   },
   "devDependencies": {
