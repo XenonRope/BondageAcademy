@@ -132,7 +132,7 @@ export class StoreService {
     setStore(
       produce(({ world, player }) => {
         for (const object of Object.values(world?.objects ?? {})) {
-          if (isPlayerObject(object) && object.id === playerId) {
+          if (isPlayerObject(object) && object.playerId === playerId) {
             object.character.pose = pose;
           }
         }

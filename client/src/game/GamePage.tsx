@@ -1,12 +1,18 @@
 import CharacterGridView from "../character/CharacterGridView";
+import type { Character } from "../character/model/Character";
 import ChatView from "../chat/ChatView";
-import { storeService } from "../store/StoreService";
+import { store } from "../store/StoreService";
 import WorldView from "../world/WorldView";
+import { isPlayerObject } from "../world/model/PlayerObject";
 import SideMenuBar from "./SideMenuBar";
 import SideMenuPanel from "./SideMenuPanel";
 
 export default function GamePage() {
-  const store = storeService.getStore();
+  function getCharacters(): Character[] {
+    return Object.values(store.world?.objects ?? {}).flatMap((object) =>
+      isPlayerObject(object) ? [object.character] : [],
+    );
+  }
 
   return (
     <div class="h-full overflow-hidden">
@@ -21,7 +27,7 @@ export default function GamePage() {
             </div>
             <div class="w-[25%]">
               {store.player?.character != null && (
-                <CharacterGridView characters={[store.player.character]} />
+                <CharacterGridView characters={getCharacters()} />
               )}
             </div>
             <div class="w-[25%]">
