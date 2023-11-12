@@ -15,6 +15,7 @@ export interface PlayerForClient {
   id: number;
   name: string;
   character: Character;
+  items: Item[];
 }
 
 export const mapToPlayerForClient = (player: Player): PlayerForClient => {
@@ -22,5 +23,6 @@ export const mapToPlayerForClient = (player: Player): PlayerForClient => {
     id: player.id,
     name: player.name,
     character: player.character,
+    items: player.items,
   };
 };

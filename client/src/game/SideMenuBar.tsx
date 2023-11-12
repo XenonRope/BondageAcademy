@@ -22,7 +22,7 @@ export default function SideMenuBar() {
         class="h-[52px] w-[52px] bg-yellow-100 border-2 border-black"
         style={{ "writing-mode": "horizontal-tb" }}
       >
-        <div class="relative h-full left-[5px] top-[1px] py-[2px]">
+        <div class="relative h-full left-[6px] top-[1px] py-[2px]">
           {characterPoseIcon}
         </div>
       </div>
@@ -30,7 +30,7 @@ export default function SideMenuBar() {
         class="h-[52px] w-[52px] bg-yellow-100 border-2 border-black mt-[-2px]"
         style={{ "writing-mode": "horizontal-tb" }}
       >
-        <div class="relative top-[5px] left-[-1px] px-[2px]">{clothIcon}</div>
+        <div class="relative top-[6px] left-[-1px] px-[2px]">{clothIcon}</div>
       </div>
     </div>
   );

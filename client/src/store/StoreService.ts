@@ -4,6 +4,7 @@ import type { CharacterPose } from "../character/model/CharacterPose";
 import type { Position } from "../common/model/Position";
 import { View } from "../common/model/View";
 import type { SideMenuView } from "../game/model/SideMenuView";
+import type { Item } from "../item/model/Item";
 import type { Player } from "../player/model/Player";
 import { isPlayerObject } from "../world/model/PlayerObject";
 import type { World } from "../world/model/World";
@@ -139,6 +140,14 @@ export class StoreService {
         if (player?.id === playerId) {
           player.character.pose = pose;
         }
+      }),
+    );
+  }
+
+  addItem(item: Item) {
+    setStore(
+      produce(({ player }) => {
+        player?.items.push(item);
       }),
     );
   }

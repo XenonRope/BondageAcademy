@@ -7,6 +7,7 @@ import { navigationService } from "./common/NavigationService";
 import { socketService } from "./common/SocketService";
 import GamePage from "./game/GamePage";
 import HomePage from "./home/HomePage";
+import type { Item } from "./item/model/Item";
 import { storeService } from "./store/StoreService";
 import { isPlayerObject } from "./world/model/PlayerObject";
 import type { WorldObject } from "./world/model/WorldObject";
@@ -41,6 +42,9 @@ export default function App() {
           storeService.changePose(msg);
         },
       );
+      socket.on("add_item", (msg: { item: Item }) => {
+        storeService.addItem(msg.item);
+      });
     }
   });
 
