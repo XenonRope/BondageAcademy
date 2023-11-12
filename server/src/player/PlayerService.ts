@@ -14,8 +14,13 @@ export class PlayerService {
     await this.collection.insertOne(player, { session });
   }
 
-  async getPlayer(id: number): Promise<Player | null> {
-    return await this.collection.findOne({ id });
+  async getPlayer(id: number): Promise<Player> {
+    const player = await this.collection.findOne({ id });
+    if (player == null) {
+      throw new Error(`Cannot find player with id ${id}`);
+    }
+
+    return player;
   }
 
   async existsPlayerWithName(name: string): Promise<boolean> {
