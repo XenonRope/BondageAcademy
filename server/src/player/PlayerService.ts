@@ -17,6 +17,10 @@ export class PlayerService {
   async getPlayer(id: number): Promise<Player | null> {
     return await this.collection.findOne({ id });
   }
+
+  async existsPlayerWithName(name: string): Promise<boolean> {
+    return (await this.collection.countDocuments({ name })) > 0;
+  }
 }
 
 export const playerService = new PlayerService(dao);

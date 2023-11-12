@@ -17,6 +17,10 @@ export class AccountService {
     await this.collection.insertOne(account, { session });
   }
 
+  async existsAccountWithUsername(username: string): Promise<boolean> {
+    return (await this.collection.countDocuments({ username })) > 0;
+  }
+
   async getAccountByUsernameAndPassword(
     username: string,
     password: string
