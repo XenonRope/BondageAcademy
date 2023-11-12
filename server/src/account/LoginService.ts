@@ -44,7 +44,7 @@ export class LoginService {
       this.logoutService.logout(otherSessionForSamePlayer);
     }
 
-    session.account = account;
+    session.accountId = account.id;
     session.playerId = account.playerId;
 
     const { world, playerObject } = await this.joinWorld(

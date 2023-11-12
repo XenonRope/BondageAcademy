@@ -9,7 +9,7 @@ export class LogoutService {
       this.worldService.removeObject(session.world, session.playerObject.id);
     }
 
-    session.account = undefined;
+    session.accountId = undefined;
     session.world = undefined;
     session.playerId = undefined;
     session.playerObject = undefined;
