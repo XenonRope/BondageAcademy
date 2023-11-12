@@ -9,4 +9,8 @@ export const dictionary: RawDictionary = {
     createAccount: "Utwórz konto",
     back: "Wstecz",
   },
+  rooms: {
+    introduction: "Wprowadzenie",
+    prisonCell: "Cela więzienna",
+  },
 };

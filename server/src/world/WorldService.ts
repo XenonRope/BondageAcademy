@@ -1,75 +1,38 @@
 import { arePositionsEqual, type Position } from "../common/model/Position";
-import { type Player } from "../player/model/Player";
-import { roomService, type RoomService } from "../room/RoomService";
+import { type Room } from "../room/model/Room";
 import { type Session } from "../session/model/Session";
-import { isPlayerObject, type PlayerObject } from "./model/PlayerObject";
+import { isPlayerObject } from "./model/PlayerObject";
 import { type World } from "./model/World";
-import { WorldObjectType } from "./model/WorldObject";
 import {
-  worldObjectCreator,
-  type WorldObjectCreator,
-} from "./WorldObjectCreator";
-import {
-  worldObjectIdProvider,
-  type WorldObjectIdProvider,
-} from "./WorldObjectIdProvider";
+  worldCreationService,
+  type WorldCreationService,
+} from "./WorldCreationService";
 import {
   worldObjectSynchronizationService,
   type WorldObjectSynchronizationService,
 } from "./WorldObjectSynchronizationService";
 
 export class WorldService {
-  private worldsByRoomsIds = new Map<number, World>();
+  private worlds: World[] = [];
 
   constructor(
     private worldObjectSynchronizationService: WorldObjectSynchronizationService,
-    private roomService: RoomService,
-    private worldObjectIdProvider: WorldObjectIdProvider,
-    private worldObjectCreator: WorldObjectCreator
+    private worldCreationService: WorldCreationService
   ) {}
 
-  async getWorldByRoomId(roomId: number): Promise<World> {
-    const existingWorld = this.worldsByRoomsIds.get(roomId);
-    if (existingWorld != null) {
-      return existingWorld;
-    }
-
-    const room = await this.roomService.getRoomById(roomId);
-    if (room == null) {
-      throw new Error("Room does not exist");
-    }
-    const newWorld: World = {
-      roomId,
-      width: room.width,
-      height: room.height,
-      objects: this.worldObjectCreator.createObjectsInRoom(room),
-    };
-    this.worldsByRoomsIds.set(roomId, newWorld);
-
-    return newWorld;
+  getWorldById(worldId: number): World | undefined {
+    return this.worlds.find((world) => world.id === worldId);
   }
 
-  addPlayer(world: World, player: Player, session: Session): PlayerObject {
-    const newPlayerObject: PlayerObject = {
-      type: WorldObjectType.Player,
-      id: this.worldObjectIdProvider.getNextId(),
-      player,
-      session,
-      position: player.position,
-    };
-    world.objects.push(newPlayerObject);
+  getWorldByRoomId(roomId: number): World | undefined {
+    return this.worlds.find((world) => world.roomId === roomId);
+  }
 
-    const sessions = world.objects
-      .filter(isPlayerObject)
-      .filter((playerObject) => playerObject.id !== newPlayerObject.id)
-      .map((playerObject) => playerObject.session);
+  async createWorld(room: Room): Promise<World> {
+    const wolrd = await this.worldCreationService.createWorld(room);
+    this.worlds.push(wolrd);
 
-    this.worldObjectSynchronizationService.synchronizeObjects(
-      { objects: [newPlayerObject] },
-      sessions
-    );
-
-    return newPlayerObject;
+    return wolrd;
   }
 
   removeObject(world: World, objectId: number): void {
@@ -110,7 +73,5 @@ export class WorldService {
 
 export const worldService = new WorldService(
   worldObjectSynchronizationService,
-  roomService,
-  worldObjectIdProvider,
-  worldObjectCreator
+  worldCreationService
 );

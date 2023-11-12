@@ -7,6 +7,10 @@ export const dictionary = {
     createAccount: "Create account",
     back: "Back",
   },
+  rooms: {
+    introduction: "Introduction",
+    prisonCell: "Prison cell",
+  },
 };
 
 export type RawDictionary = typeof dictionary;

@@ -25,5 +25,6 @@ module.exports = {
     "@typescript-eslint/no-non-null-assertion": "off",
     "n/no-callback-literal": "off",
     "@typescript-eslint/promise-function-async": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
   },
 };

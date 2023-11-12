@@ -43,7 +43,7 @@ export default function CharacterGridView(props: { characters: Character[] }) {
       height = (width * CHARACTER_VIEW_HEIGHT) / CHARACTER_VIEW_WIDTH;
     }
 
-    return width * height;
+    return width;
   }
 
   return (

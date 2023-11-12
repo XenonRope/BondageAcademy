@@ -51,6 +51,13 @@ export default function WorldView(props: { world: World }) {
       y = -worldHeight + (bounds()?.height ?? 0);
     }
 
+    if (worldWidth < (bounds()?.width ?? 0)) {
+      x = 0;
+    }
+    if (worldHeight < (bounds()?.height ?? 0)) {
+      y = 0;
+    }
+
     return { x, y };
   });
 

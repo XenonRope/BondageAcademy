@@ -24,12 +24,13 @@ export class PlayerCreationService {
 
   async createPlayer(params: PlayerCreateParams): Promise<Player> {
     const id = await this.sequences.getNext(SequenceName.PLAYER);
-    const roomId = await this.roomService.getRoomIdByCode(RoomCode.Main);
+    const roomId = await this.roomService.getRoomIdByCode(
+      RoomCode.Introduction
+    );
     const player: Player = {
       id,
       name: params.name,
       roomId: roomId!,
-      position: { x: 0, y: 0 },
       character: {
         shape: CharacterShape.Shape1,
         skin: CharacterSkin.Skin1,

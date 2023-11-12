@@ -1,14 +1,22 @@
 import { sequences, type Sequences } from "../common/Sequences";
 import { SequenceName } from "../common/model/SequenceName";
 import { roomService, type RoomService } from "./RoomService";
-import { type Room } from "./model/Room";
+import {
+  type Room,
+  type RoomRestrictions,
+  type RoomTransitArea,
+} from "./model/Room";
 import { type RoomObject } from "./model/objects/RoomObject";
 
 export interface RoomCreateParams {
-  code: string;
-  name: string;
+  code?: string;
+  name?: string;
+  customName?: string;
+  persistent: boolean;
   width: number;
   height: number;
+  transitAreas: RoomTransitArea[];
+  restrictions: RoomRestrictions;
   objects: RoomObject[];
 }
 
@@ -24,8 +32,12 @@ export class RoomCreationService {
       id,
       code: params.code,
       name: params.name,
+      customName: params.customName,
+      persistent: params.persistent,
       width: params.width,
       height: params.height,
+      transitAreas: params.transitAreas,
+      restrictions: params.restrictions,
       objects: params.objects,
     };
     await this.roomService.insertRoom(room);

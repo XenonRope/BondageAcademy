@@ -5,8 +5,9 @@ import { type Item } from "../../item/model/Item";
 export interface Player {
   id: number;
   name: string;
-  roomId: number;
-  position: Position;
+  roomId?: number;
+  worldId?: number;
+  position?: Position;
   character: Character;
   items: Item[];
 }

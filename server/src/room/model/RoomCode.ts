@@ -1,3 +1,4 @@
 export enum RoomCode {
-  Main = "Main",
+  Introduction = "Introduction",
+  PrisonCell = "PrisonCell",
 }
