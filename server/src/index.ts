@@ -6,6 +6,7 @@ import { logoutService } from "./account/LogoutService";
 import { characterPoseApi } from "./character/CharacterPoseApi";
 import { BusinessError } from "./common/model/BusinessError";
 import { type ServerResponse } from "./common/model/ServerResponse";
+import { migrationService } from "./migration/MigrationService";
 import { movementApi } from "./movement/MovementApi";
 import { roomInitializationService } from "./room/RoomInitializationService";
 import { sessionService } from "./session/SessionService";
@@ -35,34 +36,37 @@ const handleRequest = (
     });
 };
 
-roomInitializationService.initializeRooms().catch((error) => {
-  console.log("Error while initializing rooms: " + error);
-});
+async function start(): Promise<void> {
+  await migrationService.migrate();
+  await roomInitializationService.initializeRooms();
 
-io.on("connection", (socket) => {
-  console.log("User connected");
-  const session = sessionService.getSessionBySocket(socket);
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
-    logoutService.logout(session);
+  io.on("connection", (socket) => {
+    console.log("User connected");
+    const session = sessionService.getSessionBySocket(socket);
+    socket.on("disconnect", () => {
+      console.log("User disconnected");
+      logoutService.logout(session);
+    });
+    socket.on("register_account", (msg, callback) => {
+      handleRequest(() => accountApi.registerAccount(msg), callback);
+    });
+    socket.on("login", async (msg, callback) => {
+      handleRequest(() => accountApi.login(msg, session), callback);
+    });
+    socket.on("set_player_target_position", async (msg, callback) => {
+      handleRequest(
+        () => movementApi.setPlayerTargetPosition(msg, session),
+        callback
+      );
+    });
+    socket.on("change_pose", async (msg, callback) => {
+      handleRequest(() => characterPoseApi.changePose(msg, session), callback);
+    });
   });
-  socket.on("register_account", (msg, callback) => {
-    handleRequest(() => accountApi.registerAccount(msg), callback);
-  });
-  socket.on("login", async (msg, callback) => {
-    handleRequest(() => accountApi.login(msg, session), callback);
-  });
-  socket.on("set_player_target_position", async (msg, callback) => {
-    handleRequest(
-      () => movementApi.setPlayerTargetPosition(msg, session),
-      callback
-    );
-  });
-  socket.on("change_pose", async (msg, callback) => {
-    handleRequest(() => characterPoseApi.changePose(msg, session), callback);
-  });
-});
 
-server.listen(3000, () => {
-  console.log("server running at http://localhost:3000");
-});
+  server.listen(3000, () => {
+    console.log("server running at http://localhost:3000");
+  });
+}
+
+start().catch(console.log);

@@ -3,4 +3,5 @@ export enum CollectionName {
   PLAYERS = "players",
   ACCOUNTS = "accounts",
   ROOMS = "rooms",
+  MIGRATION_LOGS = "migration_logs",
 }
