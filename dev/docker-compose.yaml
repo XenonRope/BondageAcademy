@@ -1,9 +1,21 @@
 version: "3.1"
+
 services:
-  mongo:
-    image: mongo:7
+  mongodb:
+    image: bitnami/mongodb:latest
+    container_name: mongodb
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGODB_ROOT_USER: root
+      MONGODB_ROOT_PASSWORD: root
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_REPLICA_SET_NAME: rs0
+      MONGODB_REPLICA_SET_KEY: replicaSetKey
+      MONGODB_ADVERTISED_HOSTNAME: localhost
+    volumes:
+      - "mongodb_data:/bitnami/mongodb"
+
+volumes:
+  mongodb_data:
+    driver: local

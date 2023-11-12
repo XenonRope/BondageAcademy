@@ -1,4 +1,4 @@
-import { type Collection } from "mongodb";
+import { type ClientSession, type Collection } from "mongodb";
 import { dao, type Dao } from "../common/Dao";
 import { CollectionName } from "../common/model/CollectionName";
 import type { Player } from "./model/Player";
@@ -10,8 +10,8 @@ export class PlayerService {
     this.collection = dao.getCollection(CollectionName.PLAYERS);
   }
 
-  async insertPlayer(player: Player): Promise<void> {
-    await this.collection.insertOne(player);
+  async insertPlayer(player: Player, session?: ClientSession): Promise<void> {
+    await this.collection.insertOne(player, { session });
   }
 
   async getPlayer(id: number): Promise<Player | null> {

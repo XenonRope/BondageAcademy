@@ -1,4 +1,4 @@
-import type { Collection } from "mongodb";
+import type { ClientSession, Collection } from "mongodb";
 import { dao, type Dao } from "../common/Dao";
 import { CollectionName } from "../common/model/CollectionName";
 import type { Account } from "./model/Account";
@@ -10,8 +10,11 @@ export class AccountService {
     this.collection = dao.getCollection(CollectionName.ACCOUNTS);
   }
 
-  async insertAccount(account: Account): Promise<void> {
-    await this.collection.insertOne(account);
+  async insertAccount(
+    account: Account,
+    session?: ClientSession
+  ): Promise<void> {
+    await this.collection.insertOne(account, { session });
   }
 
   async getAccountByUsernameAndPassword(

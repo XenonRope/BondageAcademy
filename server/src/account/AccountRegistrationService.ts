@@ -1,3 +1,4 @@
+import { dao, type Dao } from "../common/Dao";
 import { sequences, type Sequences } from "../common/Sequences";
 import { SequenceName } from "../common/model/SequenceName";
 import {
@@ -17,28 +18,35 @@ export class AccountRegistrationService {
   constructor(
     private accountService: AccountService,
     private sequences: Sequences,
-    private playerCreationService: PlayerCreationService
+    private playerCreationService: PlayerCreationService,
+    private dao: Dao
   ) {}
 
   async registerAccount(params: AccountRegisterParams): Promise<Account> {
-    const player = await this.playerCreationService.createPlayer({
-      name: params.nick,
-    });
-    const id = await this.sequences.getNext(SequenceName.ACCOUNT);
-    const account: Account = {
-      id,
-      playerId: player.id,
-      username: params.username,
-      password: params.password,
-    };
-    await this.accountService.insertAccount(account);
+    return await this.dao.withTransaction(async (session) => {
+      const player = await this.playerCreationService.createPlayer(
+        {
+          name: params.nick,
+        },
+        session
+      );
+      const id = await this.sequences.getNext(SequenceName.ACCOUNT);
+      const account: Account = {
+        id,
+        playerId: player.id,
+        username: params.username,
+        password: params.password,
+      };
+      await this.accountService.insertAccount(account, session);
 
-    return account;
+      return account;
+    });
   }
 }
 
 export const accountRegistrationService = new AccountRegistrationService(
   accountService,
   sequences,
-  playerCreationService
+  playerCreationService,
+  dao
 );

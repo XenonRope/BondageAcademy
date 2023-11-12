@@ -1,3 +1,4 @@
+import { type ClientSession } from "mongodb";
 import { CharacterShape, CharacterSkin } from "../character/model/Character";
 import {
   HeadPose,
@@ -22,7 +23,10 @@ export class PlayerCreationService {
     private sequences: Sequences
   ) {}
 
-  async createPlayer(params: PlayerCreateParams): Promise<Player> {
+  async createPlayer(
+    params: PlayerCreateParams,
+    session?: ClientSession
+  ): Promise<Player> {
     const id = await this.sequences.getNext(SequenceName.PLAYER);
     const roomId = await this.roomService.getRoomIdByCode(
       RoomCode.Introduction
@@ -43,7 +47,7 @@ export class PlayerCreationService {
       },
       items: [],
     };
-    await this.playerService.insertPlayer(player);
+    await this.playerService.insertPlayer(player, session);
 
     return player;
   }
