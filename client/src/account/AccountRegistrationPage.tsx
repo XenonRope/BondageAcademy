@@ -34,7 +34,12 @@ export default function AccountRegistrationPage() {
         </div>
         <div class="mb-4">
           <Label for="password">{t("common.password")}</Label>
-          <TextInput id="password" value={password()} onInput={setPassword} />
+          <TextInput
+            id="password"
+            type="password"
+            value={password()}
+            onInput={setPassword}
+          />
         </div>
         <div class="mb-4">
           <Label for="character_name">{t("common.characterName")}</Label>

@@ -32,7 +32,12 @@ export default function LoginForm() {
       </div>
       <div class="mb-4">
         <Label for="password">{t("common.password")}</Label>
-        <TextInput id="password" value={password()} onInput={setPassword} />
+        <TextInput
+          id="password"
+          type="password"
+          value={password()}
+          onInput={setPassword}
+        />
       </div>
       <div class="mb-4">
         <Button onClick={login}>{t("common.login")}</Button>
