@@ -82,7 +82,7 @@ export class WorldJoinService {
     session: Session,
     world: World
   ): { world: World; playerObject: PlayerObject } | BusinessError {
-    if (session.player == null) {
+    if (session.playerId == null) {
       throw new Error("No player in session");
     }
     const position = this.findFreePositionInTransitArea(world);
@@ -92,7 +92,7 @@ export class WorldJoinService {
     const newPlayerObject: PlayerObject = {
       type: WorldObjectType.Player,
       id: this.worldObjectIdProvider.getNextId(),
-      player: session.player,
+      playerId: session.playerId,
       session,
       position,
     };

@@ -1,24 +1,37 @@
+import {
+  playerStoreService,
+  type PlayerStoreService,
+} from "../player/PlayerStoreService";
 import { worldService, type WorldService } from "../world/WorldService";
 import { type PlayerObject } from "../world/model/PlayerObject";
 import { type World } from "../world/model/World";
 import { type CharacterPose } from "./model/CharacterPose";
 
 export class CharacterPoseService {
-  constructor(private worldService: WorldService) {}
+  constructor(
+    private worldService: WorldService,
+    private playerStoreService: PlayerStoreService
+  ) {}
 
-  changePose(
+  async changePose(
     world: World,
     playerObject: PlayerObject,
     pose: CharacterPose
-  ): void {
-    playerObject.player.character.pose = pose;
+  ): Promise<void> {
+    const player = await this.playerStoreService.getPlayer(
+      playerObject.playerId
+    );
+    player.character.pose = pose;
     for (const session of this.worldService.getSessionsFromWorld(world)) {
       session.socket.emit("change_pose", {
-        playerId: playerObject.player.id,
+        playerId: playerObject.playerId,
         pose,
       });
     }
   }
 }
 
-export const characterPoseService = new CharacterPoseService(worldService);
+export const characterPoseService = new CharacterPoseService(
+  worldService,
+  playerStoreService
+);

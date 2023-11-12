@@ -1,3 +1,7 @@
+import {
+  playerStoreService,
+  type PlayerStoreService,
+} from "../player/PlayerStoreService";
 import { type Session } from "../session/model/Session";
 import {
   isBlockObject,
@@ -16,11 +20,15 @@ import {
 } from "./model/WorldObject";
 
 export class WorldObjectSynchronizationService {
-  synchronizeObjects(
+  constructor(private playerStoreService: PlayerStoreService) {}
+
+  async synchronizeObjects(
     params: { objects?: WorldObject[]; toRemove?: number[] },
     sessions: Session[]
-  ): void {
-    const objectsForClient = this.mapToObjectsForClient(params.objects ?? []);
+  ): Promise<void> {
+    const objectsForClient = await this.mapToObjectsForClient(
+      params.objects ?? []
+    );
     for (const session of sessions) {
       session.socket.emit("synchronize_world_objects", {
         objects: objectsForClient,
@@ -29,17 +37,24 @@ export class WorldObjectSynchronizationService {
     }
   }
 
-  mapToObjectsForClient(objects: WorldObject[]): WorldObjectForClient[] {
-    return objects
-      .map((object) => this.mapToObjectForClient(object))
-      .filter((object): object is WorldObject => object != null);
+  async mapToObjectsForClient(
+    objects: WorldObject[]
+  ): Promise<WorldObjectForClient[]> {
+    const result: WorldObjectForClient[] = [];
+    for (const object of objects) {
+      const mappedObject = await this.mapToObjectForClient(object);
+      if (mappedObject != null) {
+        result.push(mappedObject);
+      }
+    }
+    return result;
   }
 
-  private mapToObjectForClient(
+  private async mapToObjectForClient(
     object: WorldObject
-  ): WorldObjectForClient | undefined {
+  ): Promise<WorldObjectForClient | undefined> {
     if (isPlayerObject(object)) {
-      return this.mapToPlayerForClient(object);
+      return await this.mapToPlayerForClient(object);
     }
     if (isBlockObject(object)) {
       return this.mapToBlockForClient(object);
@@ -47,14 +62,17 @@ export class WorldObjectSynchronizationService {
     return undefined;
   }
 
-  private mapToPlayerForClient(object: PlayerObject): PlayerObjectForClient {
+  private async mapToPlayerForClient(
+    object: PlayerObject
+  ): Promise<PlayerObjectForClient> {
+    const player = await this.playerStoreService.getPlayer(object.playerId);
     return {
       type: WorldObjectType.Player,
       id: object.id,
-      playerId: object.player.id,
-      name: object.player.name,
+      playerId: object.playerId,
+      name: player.name,
       position: object.position,
-      character: object.player.character,
+      character: player.character,
     };
   }
 
@@ -69,4 +87,4 @@ export class WorldObjectSynchronizationService {
 }
 
 export const worldObjectSynchronizationService =
-  new WorldObjectSynchronizationService();
+  new WorldObjectSynchronizationService(playerStoreService);

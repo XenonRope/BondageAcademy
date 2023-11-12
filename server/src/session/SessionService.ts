@@ -18,7 +18,7 @@ export class SessionService {
 
   getSessionByPlayerId(playerId: number): Session | undefined {
     for (const session of this.sessionsBySocketsIds.values()) {
-      if (session.player?.id === playerId) {
+      if (session.playerId === playerId) {
         return session;
       }
     }

@@ -28,7 +28,7 @@ export class CharacterPoseApi {
       throw new Error("Player is not in the world");
     }
 
-    this.characterPoseService.changePose(
+    await this.characterPoseService.changePose(
       session.world,
       session.playerObject,
       pose

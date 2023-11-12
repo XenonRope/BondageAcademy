@@ -1,6 +1,5 @@
 import { type Character } from "../../character/model/Character";
 import { type Position } from "../../common/model/Position";
-import { type Player } from "../../player/model/Player";
 import { type Session } from "../../session/model/Session";
 import {
   WorldObjectType,
@@ -10,7 +9,7 @@ import {
 
 export interface PlayerObject extends WorldObject {
   type: WorldObjectType.Player;
-  player: Player;
+  playerId: number;
   session: Session;
   targetPosition?: Position;
   motionEndEvent?: NodeJS.Timeout;

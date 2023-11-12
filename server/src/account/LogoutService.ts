@@ -11,7 +11,7 @@ export class LogoutService {
 
     session.account = undefined;
     session.world = undefined;
-    session.player = undefined;
+    session.playerId = undefined;
     session.playerObject = undefined;
 
     session.socket.emit("logout");

@@ -1,6 +1,8 @@
 import { BusinessError } from "../common/model/BusinessError";
-import { type Player } from "../player/model/Player";
-import { playerService, type PlayerService } from "../player/PlayerService";
+import {
+  playerStoreService,
+  type PlayerStoreService,
+} from "../player/PlayerStoreService";
 import { RoomCode } from "../room/model/RoomCode";
 import type { Session } from "../session/model/Session";
 import { sessionService, type SessionService } from "../session/SessionService";
@@ -16,7 +18,7 @@ import { logoutService, type LogoutService } from "./LogoutService";
 export class LoginService {
   constructor(
     private accountService: AccountService,
-    private playerService: PlayerService,
+    private playerStoreService: PlayerStoreService,
     private sessionService: SessionService,
     private logoutService: LogoutService,
     private worldJoinService: WorldJoinService
@@ -26,7 +28,7 @@ export class LoginService {
     session: Session,
     username: string,
     password: string
-  ): Promise<World> {
+  ): Promise<{ world: World; playerId: number }> {
     const account = await this.accountService.getAccountByUsernameAndPassword(
       username,
       password
@@ -35,33 +37,32 @@ export class LoginService {
       throw new BusinessError("incorrectUsernameOrPassword");
     }
 
-    const player = await this.playerService.getPlayer(account.playerId);
-    if (player == null) {
-      throw new BusinessError("accountDoesNotHavePlayer");
-    }
-
     const otherSessionForSamePlayer = this.sessionService.getSessionByPlayerId(
-      player.id
+      account.playerId
     );
     if (otherSessionForSamePlayer != null) {
       this.logoutService.logout(otherSessionForSamePlayer);
     }
 
     session.account = account;
-    session.player = player;
+    session.playerId = account.playerId;
 
-    const { world, playerObject } = await this.joinWorld(session, player);
+    const { world, playerObject } = await this.joinWorld(
+      session,
+      account.playerId
+    );
 
     session.world = world;
     session.playerObject = playerObject;
 
-    return world;
+    return { world, playerId: account.playerId };
   }
 
   private async joinWorld(
     session: Session,
-    player: Player
+    playerId: number
   ): Promise<{ world: World; playerObject: PlayerObject }> {
+    const player = await this.playerStoreService.getPlayer(playerId);
     if (player.worldId) {
       const response = this.worldJoinService.joinWorldById(
         session,
@@ -96,7 +97,7 @@ export class LoginService {
 
 export const loginService = new LoginService(
   accountService,
-  playerService,
+  playerStoreService,
   sessionService,
   logoutService,
   worldJoinService

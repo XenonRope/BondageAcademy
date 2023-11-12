@@ -1,5 +1,9 @@
 import { requiredString } from "../common/Validators";
 import {
+  playerStoreService,
+  type PlayerStoreService,
+} from "../player/PlayerStoreService";
+import {
   mapToPlayerForClient,
   type PlayerForClient,
 } from "../player/model/Player";
@@ -39,7 +43,8 @@ export class AccountApi {
   constructor(
     private accountRegistrationService: AccountRegistrationService,
     private loginService: LoginService,
-    private worldObjectSynchronizationService: WorldObjectSynchronizationService
+    private worldObjectSynchronizationService: WorldObjectSynchronizationService,
+    private playerStoreService: PlayerStoreService
   ) {}
 
   async registerAccount({
@@ -65,16 +70,23 @@ export class AccountApi {
     requiredString(username, 3, 30, "invalidUsername");
     requiredString(password, 12, 100, "invalidPassword");
 
-    const world = await this.loginService.login(session, username, password);
+    const { world, playerId } = await this.loginService.login(
+      session,
+      username,
+      password
+    );
 
     return {
-      player: mapToPlayerForClient(session.player!),
+      player: mapToPlayerForClient(
+        await this.playerStoreService.getPlayer(playerId)
+      ),
       world: {
         width: world.width,
         height: world.height,
-        objects: this.worldObjectSynchronizationService.mapToObjectsForClient(
-          world.objects
-        ),
+        objects:
+          await this.worldObjectSynchronizationService.mapToObjectsForClient(
+            world.objects
+          ),
       },
     };
   }
@@ -83,5 +95,6 @@ export class AccountApi {
 export const accountApi = new AccountApi(
   accountRegistrationService,
   loginService,
-  worldObjectSynchronizationService
+  worldObjectSynchronizationService,
+  playerStoreService
 );
