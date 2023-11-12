@@ -1,6 +1,7 @@
 import { Show } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 import CharacterPoseController from "../character/CharacterPoseController";
+import EquipmentView from "../item/EquipmentView";
 import { storeService } from "../store/StoreService";
 import Button from "../ui/Button";
 import { SideMenuView } from "./model/SideMenuView";
@@ -14,9 +15,11 @@ export default function SideMenuPanel() {
       case SideMenuView.CharacterPoses:
         return (
           store.player?.character != null && (
-            <CharacterPoseController character={store.player?.character} />
+            <CharacterPoseController character={store.player.character} />
           )
         );
+      case SideMenuView.Equipment:
+        return <EquipmentView />;
     }
   }
 
