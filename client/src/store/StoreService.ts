@@ -4,13 +4,18 @@ import type { CharacterPose } from "../character/model/CharacterPose";
 import type { Position } from "../common/model/Position";
 import { View } from "../common/model/View";
 import type { SideMenuView } from "../game/model/SideMenuView";
+import type { RawDictionary } from "../i18n/en";
 import type { Item } from "../item/model/Item";
 import type { Player } from "../player/model/Player";
 import { isPlayerObject } from "../world/model/PlayerObject";
 import type { World } from "../world/model/World";
 import type { WorldObject } from "../world/model/WorldObject";
 
+export type Locale = "en" | "pl";
+
 export interface Store {
+  locale: Locale;
+  dictionary?: RawDictionary;
   view: View;
   sideMenuView?: SideMenuView;
   socket?: Socket;
@@ -18,11 +23,15 @@ export interface Store {
   world?: World;
 }
 
-const [store, setStore] = createStore<Store>({ view: View.Home });
+const [store, setStore] = createStore<Store>({ locale: "en", view: View.Home });
 
 export class StoreService {
   getStore() {
     return store;
+  }
+
+  setLocale(locale: Locale) {
+    setStore({ locale });
   }
 
   setSocket(socket: Socket) {

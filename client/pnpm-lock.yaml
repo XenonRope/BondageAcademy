@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@solid-primitives/i18n':
+    specifier: ^2.0.0
+    version: 2.0.0(solid-js@1.8.5)
   '@solid-primitives/keyboard':
     specifier: ^1.2.5
     version: 1.2.5(solid-js@1.8.5)
@@ -728,6 +731,14 @@ packages:
       solid-js: ^1.6.12
     dependencies:
       '@solid-primitives/utils': 6.2.1(solid-js@1.8.5)
+      solid-js: 1.8.5
+    dev: false
+
+  /@solid-primitives/i18n@2.0.0(solid-js@1.8.5):
+    resolution: {integrity: sha512-2sfhiUGl3eCPrDnPpQapbKnZ2iVo1IY6aI5vJTozc2fIf/yEM2+LlCY4PwQTf8vkM5B0Pf3jA+7vC70fR6xbmg==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
       solid-js: 1.8.5
     dev: false
 

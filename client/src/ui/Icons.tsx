@@ -15,3 +15,36 @@ export const equipmentIcon = (
     <path d="M176 88v40H336V88c0-4.4-3.6-8-8-8H184c-4.4 0-8 3.6-8 8zm-48 40V88c0-30.9 25.1-56 56-56H328c30.9 0 56 25.1 56 56v40h28.1c12.7 0 24.9 5.1 33.9 14.1l51.9 51.9c9 9 14.1 21.2 14.1 33.9V304H384V288c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H192V288c0-17.7-14.3-32-32-32s-32 14.3-32 32v16H0V227.9c0-12.7 5.1-24.9 14.1-33.9l51.9-51.9c9-9 21.2-14.1 33.9-14.1H128zM0 416V336H128v16c0 17.7 14.3 32 32 32s32-14.3 32-32V336H320v16c0 17.7 14.3 32 32 32s32-14.3 32-32V336H512v80c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64z" />
   </svg>
 );
+
+export const enIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    id="flag-icons-gb"
+    viewBox="0 0 640 480"
+  >
+    <path fill="#012169" d="M0 0h640v480H0z" />
+    <path
+      fill="#FFF"
+      d="m75 0 244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0h75z"
+    />
+    <path
+      fill="#C8102E"
+      d="m424 281 216 159v40L369 281h55zm-184 20 6 35L54 480H0l240-179zM640 0v3L391 191l2-44L590 0h50zM0 0l239 176h-60L0 42V0z"
+    />
+    <path fill="#FFF" d="M241 0v480h160V0H241zM0 160v160h640V160H0z" />
+    <path fill="#C8102E" d="M0 193v96h640v-96H0zM273 0v480h96V0h-96z" />
+  </svg>
+);
+
+export const plIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    id="flag-icons-pl"
+    viewBox="0 0 640 480"
+  >
+    <g fill-rule="evenodd">
+      <path fill="#fff" d="M640 480H0V0h640z" />
+      <path fill="#dc143c" d="M640 480H0V240h640z" />
+    </g>
+  </svg>
+);

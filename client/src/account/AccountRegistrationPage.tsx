@@ -1,6 +1,7 @@
 import { createSignal } from "solid-js";
 import { navigationService } from "../common/NavigationService";
 import { View } from "../common/model/View";
+import { t } from "../locale/services/LocaleService";
 import Button from "../ui/Button";
 import Label from "../ui/Label";
 import TextInput from "../ui/TextInput";
@@ -28,22 +29,24 @@ export default function AccountRegistrationPage() {
     <div class="container mx-auto p-4">
       <div class=" max-w-sm mx-auto">
         <div class="mb-4">
-          <Label for="username">Username</Label>
+          <Label for="username">{t("common.username")}</Label>
           <TextInput id="username" value={username()} onInput={setUsername} />
         </div>
         <div class="mb-4">
-          <Label for="password">Password</Label>
+          <Label for="password">{t("common.password")}</Label>
           <TextInput id="password" value={password()} onInput={setPassword} />
         </div>
         <div class="mb-4">
-          <Label for="character_name">Character name</Label>
+          <Label for="character_name">{t("common.characterName")}</Label>
           <TextInput id="character_name" value={nick()} onInput={setNick} />
         </div>
         <div>
           <span class="mr-4">
-            <Button onClick={registerAccount}>Create account</Button>
+            <Button onClick={registerAccount}>
+              {t("common.createAccount")}
+            </Button>
           </span>
-          <Button onClick={cancel}>Cancel</Button>
+          <Button onClick={cancel}>{t("common.back")}</Button>
         </div>
       </div>
     </div>

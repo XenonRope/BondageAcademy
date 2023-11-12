@@ -10,6 +10,7 @@
     "lint": "eslint src/**"
   },
   "dependencies": {
+    "@solid-primitives/i18n": "^2.0.0",
     "@solid-primitives/keyboard": "^1.2.5",
     "flowbite": "^2.1.1",
     "socket.io-client": "^4.7.2",
