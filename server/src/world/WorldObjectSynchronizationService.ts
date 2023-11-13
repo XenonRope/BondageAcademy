@@ -65,7 +65,7 @@ export class WorldObjectSynchronizationService {
   private async mapToPlayerForClient(
     object: PlayerObject
   ): Promise<PlayerObjectForClient> {
-    const player = await this.playerStoreService.getPlayer(object.playerId);
+    const player = await this.playerStoreService.get(object.playerId);
     return {
       type: WorldObjectType.Player,
       id: object.id,

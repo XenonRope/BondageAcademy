@@ -28,7 +28,12 @@ export default function LoginForm() {
     <div class="max-w-sm mx-auto">
       <div class="mb-4">
         <Label for="username">{t("common.username")}</Label>
-        <TextInput id="username" value={username()} onInput={setUsername} />
+        <TextInput
+          id="username"
+          autocomplete="username"
+          value={username()}
+          onInput={setUsername}
+        />
       </div>
       <div class="mb-4">
         <Label for="password">{t("common.password")}</Label>

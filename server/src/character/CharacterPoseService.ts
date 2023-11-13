@@ -18,10 +18,10 @@ export class CharacterPoseService {
     playerObject: PlayerObject,
     pose: CharacterPose
   ): Promise<void> {
-    const player = await this.playerStoreService.getPlayer(
-      playerObject.playerId
+    await this.playerStoreService.update(
+      playerObject.playerId,
+      (player) => (player.character.pose = pose)
     );
-    player.character.pose = pose;
     for (const session of this.worldService.getSessionsFromWorld(world)) {
       session.socket.emit("change_pose", {
         playerId: playerObject.playerId,

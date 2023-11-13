@@ -35,7 +35,7 @@ export class WorldService {
     return wolrd;
   }
 
-  removeObject(world: World, objectId: number): void {
+  async removeObject(world: World, objectId: number): Promise<void> {
     const objectToRemove = world.objects.find(
       (object) => object.id === objectId
     );
@@ -49,7 +49,7 @@ export class WorldService {
     }
     world.objects = world.objects.filter((object) => object.id !== objectId);
     const sessions = this.getSessionsFromWorld(world);
-    this.worldObjectSynchronizationService.synchronizeObjects(
+    await this.worldObjectSynchronizationService.synchronizeObjects(
       { toRemove: [objectId] },
       sessions
     );

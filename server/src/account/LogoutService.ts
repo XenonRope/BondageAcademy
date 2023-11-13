@@ -4,9 +4,12 @@ import { worldService, type WorldService } from "../world/WorldService";
 export class LogoutService {
   constructor(private worldService: WorldService) {}
 
-  logout(session: Session): void {
+  async logout(session: Session): Promise<void> {
     if (session.world != null && session.playerObject != null) {
-      this.worldService.removeObject(session.world, session.playerObject.id);
+      await this.worldService.removeObject(
+        session.world,
+        session.playerObject.id
+      );
     }
 
     session.accountId = undefined;

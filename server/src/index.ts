@@ -45,21 +45,21 @@ async function start(): Promise<void> {
     const session = sessionService.getSessionBySocket(socket);
     socket.on("disconnect", () => {
       console.log("User disconnected");
-      logoutService.logout(session);
+      logoutService.logout(session).catch(console.log);
     });
     socket.on("register_account", (msg, callback) => {
       handleRequest(() => accountApi.registerAccount(msg), callback);
     });
-    socket.on("login", async (msg, callback) => {
+    socket.on("login", (msg, callback) => {
       handleRequest(() => accountApi.login(msg, session), callback);
     });
-    socket.on("set_player_target_position", async (msg, callback) => {
+    socket.on("set_player_target_position", (msg, callback) => {
       handleRequest(
         () => movementApi.setPlayerTargetPosition(msg, session),
         callback
       );
     });
-    socket.on("change_pose", async (msg, callback) => {
+    socket.on("change_pose", (msg, callback) => {
       handleRequest(() => characterPoseApi.changePose(msg, session), callback);
     });
   });

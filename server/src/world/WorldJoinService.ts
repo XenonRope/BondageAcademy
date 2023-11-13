@@ -1,5 +1,9 @@
 import { BusinessError } from "../common/model/BusinessError";
 import { type Position } from "../common/model/Position";
+import {
+  playerStoreService,
+  type PlayerStoreService,
+} from "../player/PlayerStoreService";
 import { roomService, type RoomService } from "../room/RoomService";
 import { type Room } from "../room/model/Room";
 import { type Session } from "../session/model/Session";
@@ -21,13 +25,14 @@ export class WorldJoinService {
     private worldService: WorldService,
     private worldObjectIdProvider: WorldObjectIdProvider,
     private worldObjectSynchronizationService: WorldObjectSynchronizationService,
-    private roomService: RoomService
+    private roomService: RoomService,
+    private playerStoreService: PlayerStoreService
   ) {}
 
-  joinWorldById(
+  async joinWorldById(
     session: Session,
     worldId: number
-  ): { world: World; playerObject: PlayerObject } | BusinessError {
+  ): Promise<{ world: World; playerObject: PlayerObject } | BusinessError> {
     const world = this.worldService.getWorldById(worldId);
     if (world == null) {
       return new BusinessError("worldNotFound");
@@ -36,7 +41,7 @@ export class WorldJoinService {
       return new BusinessError("cannotJoinSinglePlayerWorld");
     }
 
-    return this.joinWorld(session, world);
+    return await this.joinWorld(session, world);
   }
 
   async joinWorldByRoomId(
@@ -70,18 +75,18 @@ export class WorldJoinService {
     if (room.persistent) {
       const world = this.worldService.getWorldByRoomId(room.id);
       if (world) {
-        return this.joinWorld(session, world);
+        return await this.joinWorld(session, world);
       }
     }
 
     const newWorld = await this.worldService.createWorld(room);
-    return this.joinWorld(session, newWorld);
+    return await this.joinWorld(session, newWorld);
   }
 
-  private joinWorld(
+  private async joinWorld(
     session: Session,
     world: World
-  ): { world: World; playerObject: PlayerObject } | BusinessError {
+  ): Promise<{ world: World; playerObject: PlayerObject } | BusinessError> {
     if (session.playerId == null) {
       throw new Error("No player in session");
     }
@@ -99,7 +104,10 @@ export class WorldJoinService {
     world.objects.push(newPlayerObject);
 
     if (session.world && session.playerObject) {
-      this.worldService.removeObject(session.world, session.playerObject.id);
+      await this.worldService.removeObject(
+        session.world,
+        session.playerObject.id
+      );
     }
 
     const sessions = world.objects
@@ -107,7 +115,11 @@ export class WorldJoinService {
       .filter((playerObject) => playerObject.id !== newPlayerObject.id)
       .map((playerObject) => playerObject.session);
 
-    this.worldObjectSynchronizationService.synchronizeObjects(
+    await this.playerStoreService.update(session.playerId, (player) => {
+      player.worldId = world.id;
+      player.roomId = world.roomId;
+    });
+    await this.worldObjectSynchronizationService.synchronizeObjects(
       { objects: [newPlayerObject] },
       sessions
     );
@@ -138,5 +150,6 @@ export const worldJoinService = new WorldJoinService(
   worldService,
   worldObjectIdProvider,
   worldObjectSynchronizationService,
-  roomService
+  roomService,
+  playerStoreService
 );

@@ -8,11 +8,14 @@ import { socketService } from "./common/SocketService";
 import GamePage from "./game/GamePage";
 import HomePage from "./home/HomePage";
 import type { Item } from "./item/model/Item";
+import { localeService } from "./locale/services/LocaleService";
 import { storeService } from "./store/StoreService";
 import { isPlayerObject } from "./world/model/PlayerObject";
 import type { WorldObject } from "./world/model/WorldObject";
 
 export default function App() {
+  localeService.initialize();
+
   createEffect(() => {
     if (storeService.getStore().socket == null) {
       const socket = socketService.connect();

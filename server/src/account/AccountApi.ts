@@ -78,7 +78,7 @@ export class AccountApi {
 
     return {
       player: mapToPlayerForClient(
-        await this.playerStoreService.getPlayer(playerId)
+        await this.playerStoreService.get(playerId)
       ),
       world: {
         width: world.width,

@@ -41,7 +41,7 @@ export class LoginService {
       account.playerId
     );
     if (otherSessionForSamePlayer != null) {
-      this.logoutService.logout(otherSessionForSamePlayer);
+      await this.logoutService.logout(otherSessionForSamePlayer);
     }
 
     session.accountId = account.id;
@@ -62,21 +62,21 @@ export class LoginService {
     session: Session,
     playerId: number
   ): Promise<{ world: World; playerObject: PlayerObject }> {
-    const player = await this.playerStoreService.getPlayer(playerId);
-    if (player.worldId) {
-      const response = this.worldJoinService.joinWorldById(
+    const { worldId, roomId } = await this.playerStoreService.get(playerId);
+    if (worldId) {
+      const response = await this.worldJoinService.joinWorldById(
         session,
-        player.worldId
+        worldId
       );
       if (!(response instanceof BusinessError)) {
         return response;
       }
     }
 
-    if (player.roomId) {
+    if (roomId) {
       const response = await this.worldJoinService.joinWorldByRoomId(
         session,
-        player.roomId
+        roomId
       );
       if (!(response instanceof BusinessError)) {
         return response;
