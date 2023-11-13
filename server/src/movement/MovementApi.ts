@@ -23,7 +23,7 @@ export class MovementApi {
       throw new Error("Target position is out of bounds");
     }
 
-    this.movementService.setPlayerTargetPosition(
+    await this.movementService.setPlayerTargetPosition(
       session.world,
       session.playerObject,
       { x: targetPosition.x, y: targetPosition.y }

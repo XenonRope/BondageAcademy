@@ -8,21 +8,21 @@ const PLAYER_MOVE_DURATION = 500;
 export class MovementService {
   constructor(private worldService: WorldService) {}
 
-  setPlayerTargetPosition(
+  async setPlayerTargetPosition(
     world: World,
     playerObject: PlayerObject,
     targetPosition: Position
-  ): void {
+  ): Promise<void> {
     playerObject.targetPosition = targetPosition;
     if (playerObject.motionEndEvent == null) {
-      this.movePlayerTowardsTargetPosition(world, playerObject);
+      await this.movePlayerTowardsTargetPosition(world, playerObject);
     }
   }
 
-  private movePlayerTowardsTargetPosition(
+  private async movePlayerTowardsTargetPosition(
     world: World,
     playerObject: PlayerObject
-  ): void {
+  ): Promise<void> {
     if (playerObject.targetPosition == null) {
       playerObject.motionEndEvent = undefined;
       return;
@@ -39,7 +39,9 @@ export class MovementService {
     }
     playerObject.position = newPosition;
     playerObject.motionEndEvent = setTimeout(() => {
-      this.movePlayerTowardsTargetPosition(world, playerObject);
+      this.movePlayerTowardsTargetPosition(world, playerObject).catch(
+        console.log
+      );
     }, PLAYER_MOVE_DURATION);
 
     for (const session of this.worldService.getSessionsFromWorld(world)) {

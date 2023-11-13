@@ -10,6 +10,7 @@ import { migrationService } from "./migration/MigrationService";
 import { movementApi } from "./movement/MovementApi";
 import { roomInitializationService } from "./room/RoomInitializationService";
 import { sessionService } from "./session/SessionService";
+import { synchronizationService } from "./synchronization/SynchronizationService";
 
 const app = express();
 const server = createServer(app);
@@ -39,6 +40,7 @@ const handleRequest = (
 async function start(): Promise<void> {
   await migrationService.migrate();
   await roomInitializationService.initializeRooms();
+  synchronizationService.startSynchronizationLoop();
 
   io.on("connection", (socket) => {
     console.log("User connected");

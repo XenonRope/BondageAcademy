@@ -14,6 +14,20 @@ export class PlayerService {
     await this.collection.insertOne(player, { session });
   }
 
+  async updatePlayersInBulk(players: Player[]): Promise<void> {
+    await this.collection.bulkWrite(
+      players.map(
+        (player) => ({
+          replaceOne: {
+            filter: { id: player.id },
+            replacement: player,
+          },
+        }),
+        { ordered: false }
+      )
+    );
+  }
+
   async getPlayer(id: number): Promise<Player> {
     const player = await this.collection.findOne({ id });
     if (player == null) {
