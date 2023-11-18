@@ -1,9 +1,7 @@
 import type { CharacterPose } from "./CharacterPose";
+import type { Item } from "./Item";
+import type { PartialRecord } from "./PartialRecord";
 import type { Slot } from "./Slot";
-import type { Wearable } from "./Wearable";
-
-export const CHARACTER_VIEW_WIDTH = 600;
-export const CHARACTER_VIEW_HEIGHT = 800;
 
 export enum CharacterShape {
   Shape1 = "Shape_1",
@@ -16,6 +14,6 @@ export enum CharacterSkin {
 export interface Character {
   shape: CharacterShape;
   skin: CharacterSkin;
-  wearables: Map<Slot, Wearable>;
+  wearables: PartialRecord<Slot, Item>;
   pose: CharacterPose;
 }

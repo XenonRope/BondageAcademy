@@ -1,23 +1,28 @@
+import {
+  ObjectType,
+  isPlayerObject,
+  type PlayerObject,
+  type Room,
+  type World,
+} from "shared";
 import { BusinessError } from "../common/model/BusinessError";
 import { type Position } from "../common/model/Position";
+import { type ObjectIdProvider } from "../object/ObjectIdProvider";
+import { type ObjectSynchronizationService } from "../object/ObjectSynchronizationService";
 import { type PlayerStoreService } from "../player/PlayerStoreService";
 import { type RoomService } from "../room/RoomService";
-import { type Room } from "../room/model/Room";
-import { type Session } from "../session/model/Session";
-import { type WorldObjectIdProvider } from "./WorldObjectIdProvider";
-import { type WorldObjectSynchronizationService } from "./WorldObjectSynchronizationService";
+import type { SessionService } from "../session/SessionService";
+import type { Session } from "../session/model/Session";
 import { type WorldService } from "./WorldService";
-import { isPlayerObject, type PlayerObject } from "./model/PlayerObject";
-import { type World } from "./model/World";
-import { WorldObjectType } from "./model/WorldObject";
 
 export class WorldJoinService {
   constructor(
     private worldService: WorldService,
-    private worldObjectIdProvider: WorldObjectIdProvider,
-    private worldObjectSynchronizationService: WorldObjectSynchronizationService,
+    private worldObjectIdProvider: ObjectIdProvider,
+    private worldObjectSynchronizationService: ObjectSynchronizationService,
     private roomService: RoomService,
-    private playerStoreService: PlayerStoreService
+    private playerStoreService: PlayerStoreService,
+    private sessionService: SessionService
   ) {}
 
   async joinWorldById(
@@ -86,11 +91,10 @@ export class WorldJoinService {
       return new BusinessError("noFreePositionInTransitArea");
     }
     const newPlayerObject: PlayerObject = {
-      type: WorldObjectType.Player,
+      type: ObjectType.Player,
       id: this.worldObjectIdProvider.getNextId(),
-      playerId: session.playerId,
-      session,
       position,
+      playerId: session.playerId,
     };
     world.objects.push(newPlayerObject);
 
@@ -104,7 +108,10 @@ export class WorldJoinService {
     const sessions = world.objects
       .filter(isPlayerObject)
       .filter((playerObject) => playerObject.id !== newPlayerObject.id)
-      .map((playerObject) => playerObject.session);
+      .map((playerObject) =>
+        this.sessionService.getSessionByPlayerId(playerObject.playerId)
+      )
+      .flatMap((session) => (session ? [session] : []));
 
     await this.playerStoreService.update(session.playerId, (player) => {
       player.worldId = world.id;

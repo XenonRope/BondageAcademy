@@ -1,16 +1,17 @@
-import { type ClientSession } from "mongodb";
-import { CharacterShape, CharacterSkin } from "../character/model/Character";
+import type { ClientSession } from "mongodb";
 import {
+  CharacterShape,
+  CharacterSkin,
   HeadPose,
   LowerBodyPose,
+  RoomCode,
   UpperBodyPose,
-} from "../character/model/CharacterPose";
+  type Player,
+} from "shared";
 import { type Sequences } from "../common/Sequences";
 import { SequenceName } from "../common/model/SequenceName";
 import { type RoomService } from "../room/RoomService";
-import { RoomCode } from "../room/model/RoomCode";
 import { type PlayerService } from "./PlayerService";
-import { type Player } from "./model/Player";
 
 export interface PlayerCreateParams {
   name: string;
@@ -38,7 +39,7 @@ export class PlayerCreationService {
       character: {
         shape: CharacterShape.Shape1,
         skin: CharacterSkin.Skin1,
-        wearables: new Map(),
+        wearables: {},
         pose: {
           upperBody: UpperBodyPose.Crossed,
           lowerBody: LowerBodyPose.Stand,

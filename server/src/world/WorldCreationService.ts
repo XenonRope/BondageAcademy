@@ -1,13 +1,12 @@
+import type { Room, World } from "shared";
 import { type Sequences } from "../common/Sequences";
 import { SequenceName } from "../common/model/SequenceName";
-import { type Room } from "../room/model/Room";
-import { type WorldObjectCreator } from "./WorldObjectCreator";
-import { type World } from "./model/World";
+import { type ObjectCreator } from "../object/ObjectCreator";
 
 export class WorldCreationService {
   constructor(
     private sequences: Sequences,
-    private worldObjectCreator: WorldObjectCreator
+    private worldObjectCreator: ObjectCreator
   ) {}
 
   async createWorld(room: Room): Promise<World> {
@@ -21,7 +20,7 @@ export class WorldCreationService {
       height: room.height,
       transitAreas: room.transitAreas,
       restrictions: room.restrictions,
-      objects: this.worldObjectCreator.createObjectsInRoom(room),
+      objects: this.worldObjectCreator.createObjectsFromRoom(room),
     };
   }
 }

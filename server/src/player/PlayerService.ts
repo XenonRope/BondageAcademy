@@ -1,7 +1,7 @@
 import { type ClientSession, type Collection } from "mongodb";
+import type { Player } from "shared";
 import { type Dao } from "../common/Dao";
 import { CollectionName } from "../common/model/CollectionName";
-import type { Player } from "./model/Player";
 
 export class PlayerService {
   private collection!: Collection<Player>;

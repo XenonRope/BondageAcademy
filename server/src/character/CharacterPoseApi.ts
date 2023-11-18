@@ -1,13 +1,13 @@
-import { parseEnum, parseOptionalEnum } from "../common/Parsers";
-import { type Session } from "../session/model/Session";
-import { type CharacterPoseService } from "./CharacterPoseService";
 import {
   FullBodyPose,
   HeadPose,
   LowerBodyPose,
   UpperBodyPose,
   type CharacterPose,
-} from "./model/CharacterPose";
+} from "shared";
+import { parseEnum, parseOptionalEnum } from "../common/Parsers";
+import { type Session } from "../session/model/Session";
+import { type CharacterPoseService } from "./CharacterPoseService";
 
 export interface ChangePoseRequest {
   pose: CharacterPose;

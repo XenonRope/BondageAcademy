@@ -1,8 +1,5 @@
-import {
-  type RoomRestrictions,
-  type RoomTransitArea,
-} from "../../room/model/Room";
-import { type WorldObject } from "./WorldObject";
+import type { GameObject } from "./GameObject";
+import type { RoomRestrictions, RoomTransitArea } from "./Room";
 
 export interface World {
   id: number;
@@ -14,5 +11,5 @@ export interface World {
   height: number;
   transitAreas: RoomTransitArea[];
   restrictions: RoomRestrictions;
-  objects: WorldObject[];
+  objects: GameObject[];
 }

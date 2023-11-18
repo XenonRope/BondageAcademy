@@ -1,4 +1,9 @@
-import { type RoomObject } from "./objects/RoomObject";
+import type { GameObject } from "./GameObject";
+
+export enum RoomCode {
+  Introduction = "Introduction",
+  PrisonCell = "PrisonCell",
+}
 
 export interface RoomTransitArea {
   x: number;
@@ -21,5 +26,5 @@ export interface Room {
   height: number;
   transitAreas: RoomTransitArea[];
   restrictions: RoomRestrictions;
-  objects?: RoomObject[];
+  objects?: GameObject[];
 }

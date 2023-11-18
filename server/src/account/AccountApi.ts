@@ -1,40 +1,20 @@
+import type {
+  AccountRegisterRequest,
+  LoginRequest,
+  LoginResponse,
+} from "shared";
 import { requiredString } from "../common/Validators";
-import { type PlayerStoreService } from "../player/PlayerStoreService";
-import {
-  mapToPlayerForClient,
-  type PlayerForClient,
-} from "../player/model/Player";
+import type { ObjectSynchronizationService } from "../object/ObjectSynchronizationService";
+import type { PlayerStoreService } from "../player/PlayerStoreService";
 import type { Session } from "../session/model/Session";
-import { type WorldObjectSynchronizationService } from "../world/WorldObjectSynchronizationService";
-import { type WorldObjectForClient } from "../world/model/WorldObject";
-import { type AccountRegistrationService } from "./AccountRegistrationService";
-import { type LoginService } from "./LoginService";
-
-export interface AccountRegisterRequest {
-  username: string;
-  password: string;
-  nick: string;
-}
-
-export interface LoginRequest {
-  username: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  player: PlayerForClient;
-  world: {
-    width: number;
-    height: number;
-    objects: WorldObjectForClient[];
-  };
-}
+import type { AccountRegistrationService } from "./AccountRegistrationService";
+import type { LoginService } from "./LoginService";
 
 export class AccountApi {
   constructor(
     private accountRegistrationService: AccountRegistrationService,
     private loginService: LoginService,
-    private worldObjectSynchronizationService: WorldObjectSynchronizationService,
+    private worldObjectSynchronizationService: ObjectSynchronizationService,
     private playerStoreService: PlayerStoreService
   ) {}
 
@@ -68,15 +48,8 @@ export class AccountApi {
     );
 
     return {
-      player: mapToPlayerForClient(await this.playerStoreService.get(playerId)),
-      world: {
-        width: world.width,
-        height: world.height,
-        objects:
-          await this.worldObjectSynchronizationService.mapToObjectsForClient(
-            world.objects
-          ),
-      },
+      player: await this.playerStoreService.get(playerId),
+      world,
     };
   }
 }

@@ -1,8 +1,6 @@
+import type { CharacterPose, PlayerObject, World } from "shared";
 import { type PlayerStoreService } from "../player/PlayerStoreService";
 import { type WorldService } from "../world/WorldService";
-import { type PlayerObject } from "../world/model/PlayerObject";
-import { type World } from "../world/model/World";
-import { type CharacterPose } from "./model/CharacterPose";
 
 export class CharacterPoseService {
   constructor(

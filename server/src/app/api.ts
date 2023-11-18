@@ -3,12 +3,12 @@ import { CharacterPoseApi } from "../character/CharacterPoseApi";
 import { MovementApi } from "../movement/MovementApi";
 import {
   accountRegistrationService,
-  characterPoseService,
   loginService,
-  movementService,
-  playerStoreService,
   worldObjectSynchronizationService,
-} from "./services";
+  playerStoreService,
+  characterPoseService,
+  movementService,
+} from "./Services";
 
 export const accountApi = new AccountApi(
   accountRegistrationService,

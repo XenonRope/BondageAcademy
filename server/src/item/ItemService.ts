@@ -1,6 +1,5 @@
-import { type Player } from "../player/model/Player";
-import { type SessionService } from "../session/SessionService";
-import { type Item } from "./model/Item";
+import type { Item, Player } from "shared";
+import type { SessionService } from "../session/SessionService";
 
 export class ItemService {
   constructor(private sessionService: SessionService) {}

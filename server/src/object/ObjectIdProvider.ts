@@ -1,4 +1,4 @@
-export class WorldObjectIdProvider {
+export class ObjectIdProvider {
   private nextObjectId = 1;
 
   getNextId(): number {

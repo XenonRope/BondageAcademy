@@ -1,7 +1,7 @@
 import { type Collection } from "mongodb";
+import type { Room } from "shared";
 import { type Dao } from "../common/Dao";
 import { CollectionName } from "../common/model/CollectionName";
-import { type Room } from "./model/Room";
 
 export class RoomService {
   private collection!: Collection<Room>;

@@ -6,7 +6,11 @@ import { CharacterPoseService } from "../character/CharacterPoseService";
 import { Dao } from "../common/Dao";
 import { Sequences } from "../common/Sequences";
 import { MigrationService } from "../migration/MigrationService";
+import { MotionStorage } from "../movement/MotionStorage";
 import { MovementService } from "../movement/MovementService";
+import { ObjectCreator } from "../object/ObjectCreator";
+import { ObjectIdProvider } from "../object/ObjectIdProvider";
+import { ObjectSynchronizationService } from "../object/ObjectSynchronizationService";
 import { PlayerCreationService } from "../player/PlayerCreationService";
 import { PlayerService } from "../player/PlayerService";
 import { PlayerStoreService } from "../player/PlayerStoreService";
@@ -18,22 +22,19 @@ import { PlayerSynchronizationService } from "../synchronization/PlayerSynchroni
 import { SynchronizationService } from "../synchronization/SynchronizationService";
 import { WorldCreationService } from "../world/WorldCreationService";
 import { WorldJoinService } from "../world/WorldJoinService";
-import { WorldObjectCreator } from "../world/WorldObjectCreator";
-import { WorldObjectIdProvider } from "../world/WorldObjectIdProvider";
-import { WorldObjectSynchronizationService } from "../world/WorldObjectSynchronizationService";
 import { WorldService } from "../world/WorldService";
 
 export const dao = new Dao();
 
 export const sequences = new Sequences(dao);
 
-export const worldObjectIdProvider = new WorldObjectIdProvider();
+export const objectIdProvider = new ObjectIdProvider();
 
-export const worldObjectCreator = new WorldObjectCreator(worldObjectIdProvider);
+export const objectCreator = new ObjectCreator();
 
 export const worldCreationService = new WorldCreationService(
   sequences,
-  worldObjectCreator
+  objectCreator
 );
 
 export const playerService = new PlayerService(dao);
@@ -41,28 +42,33 @@ export const playerService = new PlayerService(dao);
 export const playerStoreService = new PlayerStoreService(playerService);
 
 export const worldObjectSynchronizationService =
-  new WorldObjectSynchronizationService(playerStoreService);
+  new ObjectSynchronizationService();
+
+export const motionStorage = new MotionStorage();
+
+export const sessionService = new SessionService();
 
 export const worldService = new WorldService(
   worldObjectSynchronizationService,
-  worldCreationService
+  worldCreationService,
+  motionStorage,
+  sessionService
 );
 
 export const roomService = new RoomService(dao);
 
 export const worldJoinService = new WorldJoinService(
   worldService,
-  worldObjectIdProvider,
+  objectIdProvider,
   worldObjectSynchronizationService,
   roomService,
-  playerStoreService
+  playerStoreService,
+  sessionService
 );
 
 export const accountService = new AccountService(dao);
 
 export const logoutService = new LogoutService(worldService);
-
-export const sessionService = new SessionService();
 
 export const loginService = new LoginService(
   accountService,
@@ -93,7 +99,7 @@ export const characterPoseService = new CharacterPoseService(
 
 export const migrationService = new MigrationService(dao);
 
-export const movementService = new MovementService(worldService);
+export const movementService = new MovementService(worldService, motionStorage);
 
 export const roomCreationService = new RoomCreationService(
   roomService,
@@ -102,7 +108,8 @@ export const roomCreationService = new RoomCreationService(
 
 export const roomInitializationService = new RoomInitializationService(
   roomService,
-  roomCreationService
+  roomCreationService,
+  objectIdProvider
 );
 
 export const playerSynchronizationService = new PlayerSynchronizationService(

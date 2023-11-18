@@ -1,12 +1,12 @@
+import type {
+  GameObject,
+  Room,
+  RoomRestrictions,
+  RoomTransitArea,
+} from "shared";
 import { type Sequences } from "../common/Sequences";
 import { SequenceName } from "../common/model/SequenceName";
 import { type RoomService } from "./RoomService";
-import {
-  type Room,
-  type RoomRestrictions,
-  type RoomTransitArea,
-} from "./model/Room";
-import { type RoomObject } from "./model/objects/RoomObject";
 
 export interface RoomCreateParams {
   code?: string;
@@ -17,7 +17,7 @@ export interface RoomCreateParams {
   height: number;
   transitAreas: RoomTransitArea[];
   restrictions: RoomRestrictions;
-  objects: RoomObject[];
+  objects: GameObject[];
 }
 
 export class RoomCreationService {

@@ -1,14 +1,14 @@
 import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
-import { accountApi, characterPoseApi, movementApi } from "./app/api";
+import { accountApi, characterPoseApi, movementApi } from "./app/Api";
 import {
   logoutService,
   migrationService,
   roomInitializationService,
   sessionService,
   synchronizationService,
-} from "./app/services";
+} from "./app/Services";
 import { BusinessError } from "./common/model/BusinessError";
 import { type ServerResponse } from "./common/model/ServerResponse";
 const app = express();

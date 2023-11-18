@@ -1,45 +1,52 @@
+import type { PlayerObject, World } from "shared";
 import { arePositionsEqual, type Position } from "../common/model/Position";
-import { type PlayerObject } from "../world/model/PlayerObject";
-import { type World } from "../world/model/World";
 import { type WorldService } from "../world/WorldService";
+import type { MotionStorage } from "./MotionStorage";
+import type { Motion } from "./model/Motion";
 
 const PLAYER_MOVE_DURATION = 500;
 
 export class MovementService {
-  constructor(private worldService: WorldService) {}
+  constructor(
+    private worldService: WorldService,
+    private motionStorage: MotionStorage
+  ) {}
 
   async setPlayerTargetPosition(
     world: World,
     playerObject: PlayerObject,
     targetPosition: Position
   ): Promise<void> {
-    playerObject.targetPosition = targetPosition;
-    if (playerObject.motionEndEvent == null) {
-      await this.movePlayerTowardsTargetPosition(world, playerObject);
+    const motion = this.motionStorage.getOrCreateMotionByObjectId(
+      playerObject.id
+    );
+    motion.targetPosition = targetPosition;
+    if (motion.motionEndEvent == null) {
+      await this.movePlayerTowardsTargetPosition(world, playerObject, motion);
     }
   }
 
   private async movePlayerTowardsTargetPosition(
     world: World,
-    playerObject: PlayerObject
+    playerObject: PlayerObject,
+    motion: Motion
   ): Promise<void> {
-    if (playerObject.targetPosition == null) {
-      playerObject.motionEndEvent = undefined;
+    if (motion.targetPosition == null) {
+      this.motionStorage.stopMotion(playerObject.id);
       return;
     }
     const newPosition = this.moveTowards(
       world,
       playerObject.position,
-      playerObject.targetPosition
+      motion.targetPosition
     );
     if (arePositionsEqual(playerObject.position, newPosition)) {
-      playerObject.motionEndEvent = undefined;
-      playerObject.targetPosition = undefined;
+      this.motionStorage.stopMotion(playerObject.id);
       return;
     }
     playerObject.position = newPosition;
-    playerObject.motionEndEvent = setTimeout(() => {
-      this.movePlayerTowardsTargetPosition(world, playerObject).catch(
+    motion.motionEndEvent = setTimeout(() => {
+      this.movePlayerTowardsTargetPosition(world, playerObject, motion).catch(
         console.log
       );
     }, PLAYER_MOVE_DURATION);

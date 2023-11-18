@@ -1,16 +1,13 @@
+import { BlockColor, ObjectType, RoomCode, type BlockObject } from "shared";
+import type { ObjectIdProvider } from "../object/ObjectIdProvider";
 import { type RoomCreationService } from "./RoomCreationService";
 import { type RoomService } from "./RoomService";
-import { RoomCode } from "./model/RoomCode";
-import {
-  BlockColor,
-  type BlockRoomObject,
-} from "./model/objects/BlockRoomObject";
-import { RoomObjectType } from "./model/objects/RoomObject";
 
 export class RoomInitializationService {
   constructor(
     private roomService: RoomService,
-    private roomCreationService: RoomCreationService
+    private roomCreationService: RoomCreationService,
+    private objectIdProvider: ObjectIdProvider
   ) {}
 
   async initializeRooms(): Promise<void> {
@@ -115,17 +112,19 @@ export class RoomInitializationService {
     });
   }
 
-  private createBlock(x: number, y: number): BlockRoomObject {
+  private createBlock(x: number, y: number): BlockObject {
     return {
-      type: RoomObjectType.Block,
+      id: this.objectIdProvider.getNextId(),
+      type: ObjectType.Block,
       position: { x, y },
       color: BlockColor.Red,
     };
   }
 
-  private createDoor(x: number, y: number): BlockRoomObject {
+  private createDoor(x: number, y: number): BlockObject {
     return {
-      type: RoomObjectType.Block,
+      id: this.objectIdProvider.getNextId(),
+      type: ObjectType.Block,
       position: { x, y },
       color: BlockColor.Green,
     };

@@ -1,17 +1,19 @@
+import { isPlayerObject, type Room, type World } from "shared";
 import { arePositionsEqual, type Position } from "../common/model/Position";
-import { type Room } from "../room/model/Room";
+import type { MotionStorage } from "../movement/MotionStorage";
+import { type ObjectSynchronizationService } from "../object/ObjectSynchronizationService";
 import { type Session } from "../session/model/Session";
-import { isPlayerObject } from "./model/PlayerObject";
-import { type World } from "./model/World";
+import type { SessionService } from "../session/SessionService";
 import { type WorldCreationService } from "./WorldCreationService";
-import { type WorldObjectSynchronizationService } from "./WorldObjectSynchronizationService";
 
 export class WorldService {
   private worlds: World[] = [];
 
   constructor(
-    private worldObjectSynchronizationService: WorldObjectSynchronizationService,
-    private worldCreationService: WorldCreationService
+    private worldObjectSynchronizationService: ObjectSynchronizationService,
+    private worldCreationService: WorldCreationService,
+    private motionStorage: MotionStorage,
+    private sessionService: SessionService
   ) {}
 
   getWorldById(worldId: number): World | undefined {
@@ -37,10 +39,7 @@ export class WorldService {
       return;
     }
 
-    if (isPlayerObject(objectToRemove)) {
-      clearTimeout(objectToRemove.motionEndEvent);
-      objectToRemove.motionEndEvent = undefined;
-    }
+    this.motionStorage.stopMotion(objectToRemove.id);
     world.objects = world.objects.filter((object) => object.id !== objectId);
     const sessions = this.getSessionsFromWorld(world);
     await this.worldObjectSynchronizationService.synchronizeObjects(
@@ -52,7 +51,10 @@ export class WorldService {
   getSessionsFromWorld(world: World): Session[] {
     return world.objects
       .filter(isPlayerObject)
-      .map((playerObject) => playerObject.session);
+      .map((playerObject) =>
+        this.sessionService.getSessionByPlayerId(playerObject.playerId)
+      )
+      .flatMap((session) => (session ? [session] : []));
   }
 
   isFieldFree(world: World, position: Position): boolean {
