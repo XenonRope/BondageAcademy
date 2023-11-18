@@ -1,8 +1,5 @@
-import { playerService, type PlayerService } from "../player/PlayerService";
-import {
-  playerStoreService,
-  type PlayerStoreService,
-} from "../player/PlayerStoreService";
+import { type PlayerService } from "../player/PlayerService";
+import { type PlayerStoreService } from "../player/PlayerStoreService";
 
 export class PlayerSynchronizationService {
   constructor(
@@ -18,8 +15,3 @@ export class PlayerSynchronizationService {
     }
   }
 }
-
-export const playerSynchronizationService = new PlayerSynchronizationService(
-  playerStoreService,
-  playerService
-);

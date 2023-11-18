@@ -1,10 +1,7 @@
-import { sequences, type Sequences } from "../common/Sequences";
+import { type Sequences } from "../common/Sequences";
 import { SequenceName } from "../common/model/SequenceName";
 import { type Room } from "../room/model/Room";
-import {
-  worldObjectCreator,
-  type WorldObjectCreator,
-} from "./WorldObjectCreator";
+import { type WorldObjectCreator } from "./WorldObjectCreator";
 import { type World } from "./model/World";
 
 export class WorldCreationService {
@@ -28,8 +25,3 @@ export class WorldCreationService {
     };
   }
 }
-
-export const worldCreationService = new WorldCreationService(
-  sequences,
-  worldObjectCreator
-);

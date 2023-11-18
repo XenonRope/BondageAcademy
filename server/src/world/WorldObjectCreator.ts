@@ -4,10 +4,7 @@ import {
   type BlockRoomObject,
 } from "../room/model/objects/BlockRoomObject";
 import { type RoomObject } from "../room/model/objects/RoomObject";
-import {
-  worldObjectIdProvider,
-  type WorldObjectIdProvider,
-} from "./WorldObjectIdProvider";
+import { type WorldObjectIdProvider } from "./WorldObjectIdProvider";
 import { type BlockObject } from "./model/BlockObject";
 import { WorldObjectType, type WorldObject } from "./model/WorldObject";
 
@@ -36,5 +33,3 @@ export class WorldObjectCreator {
     };
   }
 }
-
-export const worldObjectCreator = new WorldObjectCreator(worldObjectIdProvider);

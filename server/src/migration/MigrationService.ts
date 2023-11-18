@@ -3,7 +3,7 @@ import {
   type CreateIndexesOptions,
   type IndexSpecification,
 } from "mongodb";
-import { dao, type Dao } from "../common/Dao";
+import { type Dao } from "../common/Dao";
 import { CollectionName } from "../common/model/CollectionName";
 import { type MigrationLog } from "./model/MigrationLog";
 
@@ -59,5 +59,3 @@ export class MigrationService {
     console.log(`Migration ${migrationId}: Finished`);
   }
 }
-
-export const migrationService = new MigrationService(dao);

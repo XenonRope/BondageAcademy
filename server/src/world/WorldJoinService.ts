@@ -1,21 +1,12 @@
 import { BusinessError } from "../common/model/BusinessError";
 import { type Position } from "../common/model/Position";
-import {
-  playerStoreService,
-  type PlayerStoreService,
-} from "../player/PlayerStoreService";
-import { roomService, type RoomService } from "../room/RoomService";
+import { type PlayerStoreService } from "../player/PlayerStoreService";
+import { type RoomService } from "../room/RoomService";
 import { type Room } from "../room/model/Room";
 import { type Session } from "../session/model/Session";
-import {
-  worldObjectIdProvider,
-  type WorldObjectIdProvider,
-} from "./WorldObjectIdProvider";
-import {
-  worldObjectSynchronizationService,
-  type WorldObjectSynchronizationService,
-} from "./WorldObjectSynchronizationService";
-import { worldService, type WorldService } from "./WorldService";
+import { type WorldObjectIdProvider } from "./WorldObjectIdProvider";
+import { type WorldObjectSynchronizationService } from "./WorldObjectSynchronizationService";
+import { type WorldService } from "./WorldService";
 import { isPlayerObject, type PlayerObject } from "./model/PlayerObject";
 import { type World } from "./model/World";
 import { WorldObjectType } from "./model/WorldObject";
@@ -145,11 +136,3 @@ export class WorldJoinService {
     return undefined;
   }
 }
-
-export const worldJoinService = new WorldJoinService(
-  worldService,
-  worldObjectIdProvider,
-  worldObjectSynchronizationService,
-  roomService,
-  playerStoreService
-);

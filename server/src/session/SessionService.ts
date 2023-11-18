@@ -29,5 +29,3 @@ export class SessionService {
     this.sessionsBySocketsIds.delete(socket.id);
   }
 }
-
-export const sessionService = new SessionService();

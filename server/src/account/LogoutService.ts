@@ -1,5 +1,5 @@
 import { type Session } from "../session/model/Session";
-import { worldService, type WorldService } from "../world/WorldService";
+import { type WorldService } from "../world/WorldService";
 
 export class LogoutService {
   constructor(private worldService: WorldService) {}
@@ -20,5 +20,3 @@ export class LogoutService {
     session.socket.emit("logout");
   }
 }
-
-export const logoutService = new LogoutService(worldService);

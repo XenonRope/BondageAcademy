@@ -1,7 +1,7 @@
 import { arePositionsEqual, type Position } from "../common/model/Position";
 import { type PlayerObject } from "../world/model/PlayerObject";
 import { type World } from "../world/model/World";
-import { worldService, type WorldService } from "../world/WorldService";
+import { type WorldService } from "../world/WorldService";
 
 const PLAYER_MOVE_DURATION = 500;
 
@@ -83,5 +83,3 @@ export class MovementService {
     }
   }
 }
-
-export const movementService = new MovementService(worldService);

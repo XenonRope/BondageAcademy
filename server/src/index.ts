@@ -1,17 +1,16 @@
 import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
-import { accountApi } from "./account/AccountApi";
-import { logoutService } from "./account/LogoutService";
-import { characterPoseApi } from "./character/CharacterPoseApi";
+import { accountApi, characterPoseApi, movementApi } from "./app/api";
+import {
+  logoutService,
+  migrationService,
+  roomInitializationService,
+  sessionService,
+  synchronizationService,
+} from "./app/services";
 import { BusinessError } from "./common/model/BusinessError";
 import { type ServerResponse } from "./common/model/ServerResponse";
-import { migrationService } from "./migration/MigrationService";
-import { movementApi } from "./movement/MovementApi";
-import { roomInitializationService } from "./room/RoomInitializationService";
-import { sessionService } from "./session/SessionService";
-import { synchronizationService } from "./synchronization/SynchronizationService";
-
 const app = express();
 const server = createServer(app);
 const io = new Server(server);

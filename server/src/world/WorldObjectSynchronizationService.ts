@@ -1,7 +1,4 @@
-import {
-  playerStoreService,
-  type PlayerStoreService,
-} from "../player/PlayerStoreService";
+import { type PlayerStoreService } from "../player/PlayerStoreService";
 import { type Session } from "../session/model/Session";
 import {
   isBlockObject,
@@ -85,6 +82,3 @@ export class WorldObjectSynchronizationService {
     };
   }
 }
-
-export const worldObjectSynchronizationService =
-  new WorldObjectSynchronizationService(playerStoreService);

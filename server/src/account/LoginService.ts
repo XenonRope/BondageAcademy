@@ -1,19 +1,13 @@
 import { BusinessError } from "../common/model/BusinessError";
-import {
-  playerStoreService,
-  type PlayerStoreService,
-} from "../player/PlayerStoreService";
+import { type PlayerStoreService } from "../player/PlayerStoreService";
 import { RoomCode } from "../room/model/RoomCode";
 import type { Session } from "../session/model/Session";
-import { sessionService, type SessionService } from "../session/SessionService";
+import { type SessionService } from "../session/SessionService";
 import { type PlayerObject } from "../world/model/PlayerObject";
 import { type World } from "../world/model/World";
-import {
-  worldJoinService,
-  type WorldJoinService,
-} from "../world/WorldJoinService";
-import { accountService, type AccountService } from "./AccountService";
-import { logoutService, type LogoutService } from "./LogoutService";
+import { type WorldJoinService } from "../world/WorldJoinService";
+import { type AccountService } from "./AccountService";
+import { type LogoutService } from "./LogoutService";
 
 export class LoginService {
   constructor(
@@ -94,11 +88,3 @@ export class LoginService {
     throw new Error("Cannot join introduction world");
   }
 }
-
-export const loginService = new LoginService(
-  accountService,
-  playerStoreService,
-  sessionService,
-  logoutService,
-  worldJoinService
-);

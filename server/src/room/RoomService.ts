@@ -1,5 +1,5 @@
 import { type Collection } from "mongodb";
-import { dao, type Dao } from "../common/Dao";
+import { type Dao } from "../common/Dao";
 import { CollectionName } from "../common/model/CollectionName";
 import { type Room } from "./model/Room";
 
@@ -30,5 +30,3 @@ export class RoomService {
     return room?.id;
   }
 }
-
-export const roomService = new RoomService(dao);

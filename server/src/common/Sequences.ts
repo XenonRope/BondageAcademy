@@ -1,5 +1,5 @@
 import { type Collection } from "mongodb";
-import { type Dao, dao } from "./Dao";
+import { type Dao } from "./Dao";
 import { CollectionName } from "./model/CollectionName";
 import { type Sequence } from "./model/Sequence";
 import { type SequenceName } from "./model/SequenceName";
@@ -21,5 +21,3 @@ export class Sequences {
     return result!.value;
   }
 }
-
-export const sequences = new Sequences(dao);

@@ -3,14 +3,8 @@ import { type Room } from "../room/model/Room";
 import { type Session } from "../session/model/Session";
 import { isPlayerObject } from "./model/PlayerObject";
 import { type World } from "./model/World";
-import {
-  worldCreationService,
-  type WorldCreationService,
-} from "./WorldCreationService";
-import {
-  worldObjectSynchronizationService,
-  type WorldObjectSynchronizationService,
-} from "./WorldObjectSynchronizationService";
+import { type WorldCreationService } from "./WorldCreationService";
+import { type WorldObjectSynchronizationService } from "./WorldObjectSynchronizationService";
 
 export class WorldService {
   private worlds: World[] = [];
@@ -70,8 +64,3 @@ export class WorldService {
     return true;
   }
 }
-
-export const worldService = new WorldService(
-  worldObjectSynchronizationService,
-  worldCreationService
-);

@@ -1,23 +1,14 @@
 import { requiredString } from "../common/Validators";
-import {
-  playerStoreService,
-  type PlayerStoreService,
-} from "../player/PlayerStoreService";
+import { type PlayerStoreService } from "../player/PlayerStoreService";
 import {
   mapToPlayerForClient,
   type PlayerForClient,
 } from "../player/model/Player";
 import type { Session } from "../session/model/Session";
-import {
-  worldObjectSynchronizationService,
-  type WorldObjectSynchronizationService,
-} from "../world/WorldObjectSynchronizationService";
+import { type WorldObjectSynchronizationService } from "../world/WorldObjectSynchronizationService";
 import { type WorldObjectForClient } from "../world/model/WorldObject";
-import {
-  accountRegistrationService,
-  type AccountRegistrationService,
-} from "./AccountRegistrationService";
-import { loginService, type LoginService } from "./LoginService";
+import { type AccountRegistrationService } from "./AccountRegistrationService";
+import { type LoginService } from "./LoginService";
 
 export interface AccountRegisterRequest {
   username: string;
@@ -77,9 +68,7 @@ export class AccountApi {
     );
 
     return {
-      player: mapToPlayerForClient(
-        await this.playerStoreService.get(playerId)
-      ),
+      player: mapToPlayerForClient(await this.playerStoreService.get(playerId)),
       world: {
         width: world.width,
         height: world.height,
@@ -91,10 +80,3 @@ export class AccountApi {
     };
   }
 }
-
-export const accountApi = new AccountApi(
-  accountRegistrationService,
-  loginService,
-  worldObjectSynchronizationService,
-  playerStoreService
-);

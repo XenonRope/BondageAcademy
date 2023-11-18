@@ -1,8 +1,5 @@
-import {
-  roomCreationService,
-  type RoomCreationService,
-} from "./RoomCreationService";
-import { roomService, type RoomService } from "./RoomService";
+import { type RoomCreationService } from "./RoomCreationService";
+import { type RoomService } from "./RoomService";
 import { RoomCode } from "./model/RoomCode";
 import {
   BlockColor,
@@ -134,8 +131,3 @@ export class RoomInitializationService {
     };
   }
 }
-
-export const roomInitializationService = new RoomInitializationService(
-  roomService,
-  roomCreationService
-);

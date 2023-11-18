@@ -1,5 +1,5 @@
 import { Store } from "../store/Store";
-import { playerService, type PlayerService } from "./PlayerService";
+import { type PlayerService } from "./PlayerService";
 import { type Player } from "./model/Player";
 
 export class PlayerStoreService extends Store<number, Player> {
@@ -11,5 +11,3 @@ export class PlayerStoreService extends Store<number, Player> {
     return this.playerService.getPlayer(key);
   }
 }
-
-export const playerStoreService = new PlayerStoreService(playerService);

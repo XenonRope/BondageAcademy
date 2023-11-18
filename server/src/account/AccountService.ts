@@ -1,5 +1,5 @@
 import type { ClientSession, Collection } from "mongodb";
-import { dao, type Dao } from "../common/Dao";
+import { type Dao } from "../common/Dao";
 import { CollectionName } from "../common/model/CollectionName";
 import type { Account } from "./model/Account";
 
@@ -28,5 +28,3 @@ export class AccountService {
     return await this.collection.findOne({ username, password });
   }
 }
-
-export const accountService = new AccountService(dao);

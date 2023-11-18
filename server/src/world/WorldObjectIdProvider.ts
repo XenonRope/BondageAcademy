@@ -5,5 +5,3 @@ export class WorldObjectIdProvider {
     return this.nextObjectId++;
   }
 }
-
-export const worldObjectIdProvider = new WorldObjectIdProvider();

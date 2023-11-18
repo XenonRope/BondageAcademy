@@ -8,15 +8,8 @@ import {
 import { type CollectionName } from "./model/CollectionName";
 
 export class Dao {
-  private client!: MongoClient;
-  private database!: Db;
-
-  initialize(): void {
-    this.client = new MongoClient(
-      "mongodb://root:root@localhost:27017/admin?replicaSet=rs0"
-    );
-    this.database = this.client.db("BondageAcademy");
-  }
+  private _client?: MongoClient;
+  private _database?: Db;
 
   getCollection<T extends Document>(
     collectionName: CollectionName
@@ -32,7 +25,20 @@ export class Dao {
       return await action(session);
     });
   }
-}
 
-export const dao = new Dao();
-dao.initialize();
+  private get client(): MongoClient {
+    if (!this._client) {
+      this._client = new MongoClient(
+        "mongodb://root:root@localhost:27017/admin?replicaSet=rs0"
+      );
+    }
+    return this._client;
+  }
+
+  private get database(): Db {
+    if (!this._database) {
+      this._database = this.client.db("BondageAcademy");
+    }
+    return this._database;
+  }
+}

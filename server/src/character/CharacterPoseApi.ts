@@ -1,9 +1,6 @@
 import { parseEnum, parseOptionalEnum } from "../common/Parsers";
 import { type Session } from "../session/model/Session";
-import {
-  characterPoseService,
-  type CharacterPoseService,
-} from "./CharacterPoseService";
+import { type CharacterPoseService } from "./CharacterPoseService";
 import {
   FullBodyPose,
   HeadPose,
@@ -65,5 +62,3 @@ export class CharacterPoseApi {
     );
   }
 }
-
-export const characterPoseApi = new CharacterPoseApi(characterPoseService);

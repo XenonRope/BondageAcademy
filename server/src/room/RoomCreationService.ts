@@ -1,6 +1,6 @@
-import { sequences, type Sequences } from "../common/Sequences";
+import { type Sequences } from "../common/Sequences";
 import { SequenceName } from "../common/model/SequenceName";
-import { roomService, type RoomService } from "./RoomService";
+import { type RoomService } from "./RoomService";
 import {
   type Room,
   type RoomRestrictions,
@@ -45,8 +45,3 @@ export class RoomCreationService {
     return room;
   }
 }
-
-export const roomCreationService = new RoomCreationService(
-  roomService,
-  sequences
-);

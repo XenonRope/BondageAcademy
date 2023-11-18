@@ -1,5 +1,5 @@
 import { type ClientSession, type Collection } from "mongodb";
-import { dao, type Dao } from "../common/Dao";
+import { type Dao } from "../common/Dao";
 import { CollectionName } from "../common/model/CollectionName";
 import type { Player } from "./model/Player";
 
@@ -41,5 +41,3 @@ export class PlayerService {
     return (await this.collection.countDocuments({ name })) > 0;
   }
 }
-
-export const playerService = new PlayerService(dao);

@@ -1,7 +1,7 @@
 import { requiredPosition } from "../common/Validators";
 import { type Position } from "../common/model/Position";
 import { type Session } from "../session/model/Session";
-import { movementService, type MovementService } from "./MovementService";
+import { type MovementService } from "./MovementService";
 
 export class MovementApi {
   constructor(private movementService: MovementService) {}
@@ -30,5 +30,3 @@ export class MovementApi {
     );
   }
 }
-
-export const movementApi = new MovementApi(movementService);

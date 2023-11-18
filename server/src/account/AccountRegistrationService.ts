@@ -1,13 +1,10 @@
-import { dao, type Dao } from "../common/Dao";
-import { sequences, type Sequences } from "../common/Sequences";
+import { type Dao } from "../common/Dao";
+import { type Sequences } from "../common/Sequences";
 import { BusinessError } from "../common/model/BusinessError";
 import { SequenceName } from "../common/model/SequenceName";
-import {
-  playerCreationService,
-  type PlayerCreationService,
-} from "../player/PlayerCreationService";
-import { playerService, type PlayerService } from "../player/PlayerService";
-import { accountService, type AccountService } from "./AccountService";
+import { type PlayerCreationService } from "../player/PlayerCreationService";
+import { type PlayerService } from "../player/PlayerService";
+import { type AccountService } from "./AccountService";
 import type { Account } from "./model/Account";
 
 export interface AccountRegisterParams {
@@ -53,11 +50,3 @@ export class AccountRegistrationService {
     });
   }
 }
-
-export const accountRegistrationService = new AccountRegistrationService(
-  accountService,
-  sequences,
-  playerCreationService,
-  dao,
-  playerService
-);

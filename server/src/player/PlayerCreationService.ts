@@ -5,11 +5,11 @@ import {
   LowerBodyPose,
   UpperBodyPose,
 } from "../character/model/CharacterPose";
-import { sequences, type Sequences } from "../common/Sequences";
+import { type Sequences } from "../common/Sequences";
 import { SequenceName } from "../common/model/SequenceName";
-import { roomService, type RoomService } from "../room/RoomService";
+import { type RoomService } from "../room/RoomService";
 import { RoomCode } from "../room/model/RoomCode";
-import { playerService, type PlayerService } from "./PlayerService";
+import { type PlayerService } from "./PlayerService";
 import { type Player } from "./model/Player";
 
 export interface PlayerCreateParams {
@@ -52,9 +52,3 @@ export class PlayerCreationService {
     return player;
   }
 }
-
-export const playerCreationService = new PlayerCreationService(
-  playerService,
-  roomService,
-  sequences
-);
