@@ -126,5 +126,3 @@ export class CharacterLayerService {
     return POSES_CONFIG[pose].headOffsetY ?? 0;
   }
 }
-
-export const characterLayerService = new CharacterLayerService();

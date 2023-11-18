@@ -1,6 +1,6 @@
-import { socketService, type SocketService } from "../../common/SocketService";
+import { type SocketService } from "../../common/SocketService";
 import type { Player } from "../../player/model/Player";
-import { storeService } from "../../store/StoreService";
+import type { StoreService } from "../../store/StoreService";
 import type { WorldObject } from "../../world/model/WorldObject";
 
 export interface AccountRegisterRequest {
@@ -24,7 +24,10 @@ export interface LoginResponse {
 }
 
 export class AccountService {
-  constructor(private socketService: SocketService) {}
+  constructor(
+    private socketService: SocketService,
+    private storeService: StoreService,
+  ) {}
 
   async registerAccount(request: AccountRegisterRequest): Promise<void> {
     await this.socketService.emit("register_account", request);
@@ -37,13 +40,11 @@ export class AccountService {
     );
     const objects: Record<number, WorldObject> = {};
     response.world.objects.forEach((object) => (objects[object.id] = object));
-    storeService.setPlayer(response.player);
-    storeService.setWorld({
+    this.storeService.setPlayer(response.player);
+    this.storeService.setWorld({
       width: response.world.width,
       height: response.world.height,
       objects,
     });
   }
 }
-
-export const accountService = new AccountService(socketService);

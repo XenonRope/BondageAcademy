@@ -1,14 +1,12 @@
 import { trackBounds } from "solid-boundaries";
 import { For } from "solid-js";
+import { characterLayerService } from "../app/services";
 import {
   CHARACTER_VIEW_HEIGHT,
   CHARACTER_VIEW_WIDTH,
   type Character,
 } from "./model/Character";
-import {
-  characterLayerService,
-  type CharacterLayer,
-} from "./service/CharacterLayerService";
+import { type CharacterLayer } from "./service/CharacterLayerService";
 
 export default function CharacterView(props: { character: Character }) {
   const { ref, bounds } = trackBounds();

@@ -1,7 +1,6 @@
 import { trackBounds } from "solid-boundaries";
 import { For, createMemo } from "solid-js";
-import { socketService } from "../common/SocketService";
-import { storeService } from "../store/StoreService";
+import { socketService, store } from "../app/services";
 import { isPlayerObject, type PlayerObject } from "./model/PlayerObject";
 import { WORLD_TILE_SIZE, type World } from "./model/World";
 import ObjectView from "./object/ObjectVIew";
@@ -19,7 +18,7 @@ export default function WorldView(props: { world: World }) {
   }
 
   const offset = createMemo(() => {
-    const playerId = storeService.getStore().player?.id;
+    const playerId = store.player?.id;
     const player = Object.values(props.world.objects).find(
       (object): object is PlayerObject =>
         isPlayerObject(object) && object.playerId === playerId,

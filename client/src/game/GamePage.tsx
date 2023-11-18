@@ -1,7 +1,7 @@
+import { store } from "../app/services";
 import CharacterGridView from "../character/CharacterGridView";
 import type { Character } from "../character/model/Character";
 import ChatView from "../chat/ChatView";
-import { store } from "../store/StoreService";
 import WorldView from "../world/WorldView";
 import { isPlayerObject } from "../world/model/PlayerObject";
 import SideMenuBar from "./SideMenuBar";

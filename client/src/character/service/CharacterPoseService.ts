@@ -1,4 +1,4 @@
-import { socketService, type SocketService } from "../../common/SocketService";
+import { type SocketService } from "../../common/SocketService";
 import type { Character } from "../model/Character";
 import {
   LowerBodyPose,
@@ -57,5 +57,3 @@ export class CharacterPoseService {
     await this.socketService.emit("change_pose", { pose });
   }
 }
-
-export const characterPoseService = new CharacterPoseService(socketService);

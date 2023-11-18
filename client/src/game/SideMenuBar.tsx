@@ -1,7 +1,6 @@
-import { store } from "../store/StoreService";
+import { sideMenuService, store } from "../app/services";
 import { characterPoseIcon, clothIcon, equipmentIcon } from "../ui/Icons";
 import { SideMenuView } from "./model/SideMenuView";
-import { sideMenuService } from "./services/SideMenuService";
 
 export default function SideMenuBar() {
   function toggleSideMenu(sideMenuView: SideMenuView) {

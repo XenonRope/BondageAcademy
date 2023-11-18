@@ -1,57 +1,41 @@
 import type { Socket } from "socket.io-client";
-import { createStore, produce } from "solid-js/store";
+import { produce, type SetStoreFunction } from "solid-js/store";
 import type { CharacterPose } from "../character/model/CharacterPose";
 import type { Position } from "../common/model/Position";
-import { View } from "../common/model/View";
+import { type View } from "../common/model/View";
 import type { SideMenuView } from "../game/model/SideMenuView";
-import type { RawDictionary } from "../i18n/en";
 import type { Item } from "../item/model/Item";
 import type { Player } from "../player/model/Player";
 import { isPlayerObject } from "../world/model/PlayerObject";
 import type { World } from "../world/model/World";
 import type { WorldObject } from "../world/model/WorldObject";
-
-export type Locale = "en" | "pl";
-
-export interface Store {
-  locale: Locale;
-  dictionary?: RawDictionary;
-  view: View;
-  sideMenuView?: SideMenuView;
-  socket?: Socket;
-  player?: Player;
-  world?: World;
-}
-
-const [store, setStore] = createStore<Store>({ locale: "en", view: View.Home });
+import type { Locale, Store } from "./model/store";
 
 export class StoreService {
-  getStore() {
-    return store;
-  }
+  constructor(private setStore: SetStoreFunction<Store>) {}
 
   setLocale(locale: Locale) {
-    setStore({ locale });
+    this.setStore({ locale });
   }
 
   setSocket(socket: Socket) {
-    setStore("socket", socket);
+    this.setStore("socket", socket);
   }
 
   setView(view: View) {
-    setStore({ view });
+    this.setStore({ view });
   }
 
   setSideMenuView(sideMenuView?: SideMenuView) {
-    setStore({ sideMenuView });
+    this.setStore({ sideMenuView });
   }
 
   setPlayer(player: Player) {
-    setStore({ player });
+    this.setStore({ player });
   }
 
   setWorld(world: World) {
-    setStore({ world });
+    this.setStore({ world });
   }
 
   updateWorldObjects({
@@ -61,7 +45,7 @@ export class StoreService {
     objects?: WorldObject[];
     toRemove?: number[];
   }) {
-    setStore(
+    this.setStore(
       "world",
       produce((world) => {
         if (world != null) {
@@ -75,7 +59,7 @@ export class StoreService {
   }
 
   logout() {
-    setStore({
+    this.setStore({
       player: undefined,
       world: undefined,
     });
@@ -90,7 +74,7 @@ export class StoreService {
     position: Position;
     duration: number;
   }) {
-    setStore(
+    this.setStore(
       "world",
       produce((world) => {
         const object = world?.objects[objectId];
@@ -111,7 +95,7 @@ export class StoreService {
   }
 
   executePlayerMotion(objectId: number) {
-    setStore(
+    this.setStore(
       produce(({ world }) => {
         const object = world?.objects[objectId];
         if (!isPlayerObject(object) || object.motion == null) {
@@ -139,7 +123,7 @@ export class StoreService {
   }
 
   changePose({ playerId, pose }: { playerId: number; pose: CharacterPose }) {
-    setStore(
+    this.setStore(
       produce(({ world, player }) => {
         for (const object of Object.values(world?.objects ?? {})) {
           if (isPlayerObject(object) && object.playerId === playerId) {
@@ -154,13 +138,10 @@ export class StoreService {
   }
 
   addItem(item: Item) {
-    setStore(
+    this.setStore(
       produce(({ player }) => {
         player?.items.push(item);
       }),
     );
   }
 }
-
-export const storeService = new StoreService();
-export { store };

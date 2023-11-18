@@ -1,3 +1,4 @@
+import { characterPoseService } from "../app/services";
 import Button from "../ui/Button";
 import type { Character } from "./model/Character";
 import {
@@ -6,7 +7,6 @@ import {
   LowerBodyPose,
   UpperBodyPose,
 } from "./model/CharacterPose";
-import { characterPoseService } from "./service/CharacterPoseService";
 
 export default function CharacterPoseController(props: {
   character: Character;

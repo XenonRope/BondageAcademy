@@ -1,4 +1,5 @@
-import { store, storeService, type Locale } from "../store/StoreService";
+import { store, storeService } from "../app/services";
+import type { Locale } from "../store/model/store";
 import { enIcon, plIcon } from "../ui/Icons";
 
 export default function LocaleSelector() {

@@ -1,4 +1,4 @@
-import { storeService, type StoreService } from "../store/StoreService";
+import { type StoreService } from "../store/StoreService";
 import type { View } from "./model/View";
 
 export class NavigationService {
@@ -8,5 +8,3 @@ export class NavigationService {
     this.storeService.setView(view);
   }
 }
-
-export const navigationService = new NavigationService(storeService);

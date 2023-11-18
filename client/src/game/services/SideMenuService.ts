@@ -1,4 +1,4 @@
-import { storeService, type StoreService } from "../../store/StoreService";
+import { type StoreService } from "../../store/StoreService";
 import type { SideMenuView } from "../model/SideMenuView";
 
 export class SideMenuService {
@@ -12,5 +12,3 @@ export class SideMenuService {
     this.storeService.setSideMenuView(undefined);
   }
 }
-
-export const sideMenuService = new SideMenuService(storeService);

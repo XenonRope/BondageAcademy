@@ -1,11 +1,9 @@
 import { createSignal } from "solid-js";
-import { navigationService } from "../common/NavigationService";
+import { accountService, navigationService, t } from "../app/services";
 import { View } from "../common/model/View";
-import { t } from "../locale/services/LocaleService";
 import Button from "../ui/Button";
 import Label from "../ui/Label";
 import TextInput from "../ui/TextInput";
-import { accountService } from "./service/AccountService";
 
 export default function AccountRegistrationPage() {
   const [username, setUsername] = createSignal("");
