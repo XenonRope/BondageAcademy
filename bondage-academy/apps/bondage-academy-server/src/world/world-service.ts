@@ -30,10 +30,10 @@ export class WorldService {
   }
 
   async createWorld(room: Room): Promise<World> {
-    const wolrd = await this.worldCreationService.createWorld(room);
-    this.worlds.push(wolrd);
+    const world = await this.worldCreationService.createWorld(room);
+    this.worlds.push(world);
 
-    return wolrd;
+    return world;
   }
 
   removeObject(world: World, objectId: number): void {
