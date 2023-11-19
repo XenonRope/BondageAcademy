@@ -4,7 +4,7 @@ import {
 } from "@bondage-academy/bondage-academy-model";
 import { type Session } from "../session/model/session";
 
-export class ObjectSynchronizationService {
+export class ObjectClientSynchronizationService {
   synchronizeObjects(
     params: { objects?: GameObject[]; toRemove?: number[] },
     sessions: Session[]

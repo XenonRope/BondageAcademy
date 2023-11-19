@@ -13,7 +13,7 @@ export interface RoomTransitArea {
 }
 
 export interface RoomRestrictions {
-  singlePlayer?: boolean;
+  players?: number[];
 }
 
 export interface Room {
@@ -21,10 +21,11 @@ export interface Room {
   code?: string;
   name?: string;
   customName?: string;
-  persistent: boolean;
+  template: boolean;
+  persistent?: boolean;
   width: number;
   height: number;
   transitAreas: RoomTransitArea[];
-  restrictions: RoomRestrictions;
-  objects?: GameObject[];
+  restrictions?: RoomRestrictions;
+  objects: GameObject[];
 }

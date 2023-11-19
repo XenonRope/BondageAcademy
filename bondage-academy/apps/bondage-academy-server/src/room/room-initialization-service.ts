@@ -26,16 +26,12 @@ export class RoomInitializationService {
       return;
     }
 
-    await this.roomCreationService.createRoom({
+    await this.roomCreationService.createTemplateRoom({
       code: RoomCode.Introduction,
       name: "rooms.intrdocution",
-      persistent: false,
       width: 10,
       height: 10,
       transitAreas: [{ x: 2, y: 1, width: 1, height: 1 }],
-      restrictions: {
-        singlePlayer: true,
-      },
       objects: [
         await this.createBlock(0, 0),
         await this.createBlock(1, 0),
@@ -83,17 +79,15 @@ export class RoomInitializationService {
       return;
     }
 
-    await this.roomCreationService.createRoom({
+    await this.roomCreationService.createTemplateRoom({
       code: RoomCode.PrisonCell,
       name: "rooms.prisonCell",
-      persistent: false,
       width: 6,
       height: 5,
       transitAreas: [
         { x: 5, y: 2, width: 1, height: 1 },
         { x: 4, y: 2, width: 1, height: 1 },
       ],
-      restrictions: {},
       objects: [
         await this.createBlock(0, 0),
         await this.createBlock(1, 0),

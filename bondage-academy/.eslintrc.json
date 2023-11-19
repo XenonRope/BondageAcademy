@@ -23,8 +23,21 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
-      "rules": {}
+      "extends": [
+        "plugin:@typescript-eslint/recommended-type-checked",
+        "plugin:@nx/typescript"
+      ],
+      "rules": {
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off"
+      },
+      "parserOptions": {
+        "project": [
+          "apps/bondage-academy-client/tsconfig.*?.json",
+          "apps/bondage-academy-server/tsconfig.*?.json"
+        ]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

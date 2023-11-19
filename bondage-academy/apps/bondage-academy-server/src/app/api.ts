@@ -7,12 +7,14 @@ import {
   loginService,
   movementService,
   playerStoreService,
+  roomStoreService,
 } from "./services";
 
 export const accountApi = new AccountApi(
   accountRegistrationService,
   loginService,
-  playerStoreService
+  playerStoreService,
+  roomStoreService
 );
 
 export const characterPoseApi = new CharacterPoseApi(characterPoseService);

@@ -13,4 +13,3 @@ export * from "./lib/model/position";
 export * from "./lib/model/room";
 export * from "./lib/model/server-response";
 export * from "./lib/model/slot";
-export * from "./lib/model/world";

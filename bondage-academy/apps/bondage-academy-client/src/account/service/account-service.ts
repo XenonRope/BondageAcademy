@@ -22,7 +22,7 @@ export class AccountService {
       request
     );
     this.storeService.setPlayerId(response.playerId);
-    this.storeService.setWorld(response.world);
+    this.storeService.setRoom(response.room);
     this.storeService.setPlayers(response.players);
   }
 }

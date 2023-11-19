@@ -1,7 +1,7 @@
 import {
   PartialRecord,
   Player,
-  World,
+  Room,
 } from "@bondage-academy/bondage-academy-model";
 import type { Socket } from "socket.io-client";
 import type { View } from "../../common/model/view";
@@ -17,7 +17,7 @@ export interface Store {
   view: View;
   socket?: Socket;
   playerId?: number;
-  world?: World;
+  room?: Room;
   players?: Player[];
   motions?: PartialRecord<number, Motion>;
   sideMenuView?: SideMenuView;

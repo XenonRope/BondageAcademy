@@ -11,22 +11,13 @@ export class MovementApi {
     session: Session
   ): Promise<void> {
     requiredPosition(targetPosition);
-    if (session.playerObject == null || session.world == null) {
-      throw new Error("Player is not in the world");
-    }
-    if (
-      targetPosition.x < 0 ||
-      targetPosition.y < 0 ||
-      targetPosition.x >= session.world.width ||
-      targetPosition.y >= session.world.height
-    ) {
-      throw new Error("Target position is out of bounds");
+    if (!session.playerId) {
+      throw new Error("User is not logged in");
     }
 
-    await this.movementService.setPlayerTargetPosition(
-      session.world,
-      session.playerObject,
-      { x: targetPosition.x, y: targetPosition.y }
-    );
+    await this.movementService.setPlayerTargetPosition(session.playerId, {
+      x: targetPosition.x,
+      y: targetPosition.y,
+    });
   }
 }

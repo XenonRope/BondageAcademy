@@ -21,15 +21,11 @@ export class CharacterPoseApi {
     session: Session
   ): Promise<void> {
     const pose = this.parseCharacterPose(request.pose);
-    if (session.playerObject == null || session.world == null) {
-      throw new Error("Player is not in the world");
+    if (!session.playerId) {
+      throw new Error("User is not logged in");
     }
 
-    await this.characterPoseService.changePose(
-      session.world,
-      session.playerObject,
-      pose
-    );
+    await this.characterPoseService.changePose(session.playerId, pose);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

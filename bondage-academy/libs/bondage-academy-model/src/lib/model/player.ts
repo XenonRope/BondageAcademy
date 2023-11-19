@@ -5,7 +5,6 @@ export interface Player {
   id: number;
   name: string;
   roomId?: number;
-  worldId?: number;
   character: Character;
   items: Item[];
 }

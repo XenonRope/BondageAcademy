@@ -1,5 +1,5 @@
 import type { Player } from "../model/player";
-import type { World } from "../model/world";
+import { Room } from "../model/room";
 
 export interface AccountRegisterRequest {
   username: string;
@@ -14,6 +14,6 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   playerId: number;
-  world: World;
+  room: Room;
   players: Player[];
 }

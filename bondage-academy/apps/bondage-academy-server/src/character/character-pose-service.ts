@@ -1,29 +1,28 @@
-import {
-  CharacterPose,
-  PlayerObject,
-  World,
-} from "@bondage-academy/bondage-academy-model";
+import { CharacterPose } from "@bondage-academy/bondage-academy-model";
 import { PlayerStoreService } from "../player/player-store-service";
-import { WorldService } from "../world/world-service";
+import { RoomSessionService } from "../room/room-session-service";
 
 export class CharacterPoseService {
   constructor(
-    private worldService: WorldService,
-    private playerStoreService: PlayerStoreService
+    private playerStoreService: PlayerStoreService,
+    private roomSessionService: RoomSessionService
   ) {}
 
-  async changePose(
-    world: World,
-    playerObject: PlayerObject,
-    pose: CharacterPose
-  ): Promise<void> {
+  async changePose(playerId: number, pose: CharacterPose): Promise<void> {
     await this.playerStoreService.update(
-      playerObject.playerId,
+      playerId,
       (player) => (player.character.pose = pose)
     );
-    for (const session of this.worldService.getSessionsFromWorld(world)) {
+    const player = await this.playerStoreService.get(playerId);
+    if (player.roomId == null) {
+      return;
+    }
+    const sessions = await this.roomSessionService.getSessionsInRoom(
+      player.roomId
+    );
+    for (const session of sessions) {
       session.socket.emit("change_pose", {
-        playerId: playerObject.playerId,
+        playerId,
         pose,
       });
     }

@@ -1,7 +1,7 @@
-import { PlayerService } from "../player/player-service";
-import { PlayerStoreService } from "../player/player-store-service";
+import { PlayerService } from "./player-service";
+import { PlayerStoreService } from "./player-store-service";
 
-export class PlayerSynchronizationService {
+export class PlayerDatabaseSynchronizationService {
   constructor(
     private playerStoreService: PlayerStoreService,
     private playerService: PlayerService

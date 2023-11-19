@@ -4,7 +4,7 @@ import {
   Item,
   Player,
   Position,
-  World,
+  Room,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
 import { Socket } from "socket.io-client";
@@ -20,7 +20,7 @@ export class StoreService {
   ) {}
 
   getPlayerPosition(): Position | undefined {
-    const playerObject = this.store.world?.objects?.find(
+    const playerObject = this.store.room?.objects?.find(
       (object) =>
         isPlayerObject(object) && object.playerId === this.store.playerId
     );
@@ -44,7 +44,7 @@ export class StoreService {
       return motion.currentPosition;
     }
 
-    return this.store.world?.objects.find((object) => object.id === objectId)
+    return this.store.room?.objects.find((object) => object.id === objectId)
       ?.position;
   }
 
@@ -68,8 +68,8 @@ export class StoreService {
     this.setStore({ playerId });
   }
 
-  setWorld(world: World) {
-    this.setStore({ world });
+  setRoom(room: Room) {
+    this.setStore({ room });
   }
 
   setPlayers(players: Player[]) {
@@ -84,19 +84,19 @@ export class StoreService {
     toRemove?: number[];
   }) {
     this.setStore(
-      "world",
-      produce((world) => {
-        if (world != null) {
+      "room",
+      produce((room) => {
+        if (room != null) {
           for (const newObject of objects ?? []) {
-            for (let i = 0; i < world.objects.length; i++) {
-              if (world.objects[i].id === newObject.id) {
-                world.objects[i] = newObject;
+            for (let i = 0; i < room.objects.length; i++) {
+              if (room.objects[i].id === newObject.id) {
+                room.objects[i] = newObject;
                 break;
               }
             }
           }
           if (toRemove) {
-            world.objects = world.objects.filter(
+            room.objects = room.objects.filter(
               (object) => !toRemove.includes(object.id)
             );
           }
@@ -108,7 +108,7 @@ export class StoreService {
   logout() {
     this.setStore({
       playerId: undefined,
-      world: undefined,
+      room: undefined,
       players: undefined,
       motions: undefined,
       sideMenuView: undefined,
@@ -126,7 +126,7 @@ export class StoreService {
   }) {
     this.setStore(
       produce((store) => {
-        const object = store.world?.objects?.find((obj) => obj.id === objectId);
+        const object = store.room?.objects?.find((obj) => obj.id === objectId);
         if (isPlayerObject(object)) {
           const startPosition = object.position;
           const now = new Date();
@@ -149,7 +149,7 @@ export class StoreService {
 
   executePlayerMotion(objectId: number) {
     this.setStore(
-      produce(({ world, motions }) => {
+      produce(({ room: world, motions }) => {
         const object = world?.objects.find((obj) => obj.id === objectId);
         const motion = motions?.[objectId];
         if (!isPlayerObject(object) || motions == null || motion == null) {

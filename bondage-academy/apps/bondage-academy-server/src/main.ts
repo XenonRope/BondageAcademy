@@ -9,7 +9,7 @@ import {
   migrationService,
   roomInitializationService,
   sessionService,
-  synchronizationService,
+  databaseSynchronizationService,
 } from "./app/services";
 
 const app = express();
@@ -40,7 +40,7 @@ const handleRequest = (
 async function start(): Promise<void> {
   await migrationService.migrate();
   await roomInitializationService.initializeRooms();
-  synchronizationService.startSynchronizationLoop();
+  databaseSynchronizationService.startSynchronizationLoop();
 
   io.on("connection", (socket) => {
     console.log("User connected");
