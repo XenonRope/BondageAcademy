@@ -79,6 +79,8 @@ const WEARABLES_NAMES = [
   "Beyond Suit Bones",
   "X Fashion Sleeve Left",
   "X Fashion Sleeve Right",
+  "Magic Christmas Glove Left",
+  "Magic Christmas Glove Right",
   "X Fashion Thong",
   "Ball gag",
   "Pet suit",
@@ -327,6 +329,46 @@ const WEARABLES: Wearable[] = [
     ],
   },
   {
+    name: "Magic Christmas Glove Left",
+    fragments: [
+      {
+        name: "Magic Christmas Glove Left",
+        path: "clothes\\gloves\\Magic Christmas Glove\\Magic Christmas Glove Left.duf",
+        nodes: ["Magic Christmas Gloves"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: UPPER_BODY_POSES,
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Magic Christmas Glove Right",
+    fragments: [
+      {
+        name: "Magic Christmas Glove Right",
+        path: "clothes\\gloves\\Magic Christmas Glove\\Magic Christmas Glove Right.duf",
+        nodes: ["Magic Christmas Gloves"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: UPPER_BODY_POSES,
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
     name: "X Fashion Thong",
     fragments: [
       {
@@ -398,20 +440,24 @@ interface RenderSettings {
   wearables: readonly WearableName[];
 }
 
-// renderCharacters({
-//   characters: CHARACTERS,
-//   bodyParts: BODY_PARTS,
-//   poses: POSES,
-//   wearables: WEARABLES_NAMES,
-// });
+renderCharacters({
+  characters: CHARACTERS,
+  bodyParts: BODY_PARTS,
+  poses: POSES,
+  wearables: ["Magic Christmas Glove Left", "Magic Christmas Glove Right"],
+});
 
 renderItemsPreview();
 
 function renderItemsPreview() {
-  renderItemPreview("clothes\\panties\\X Fashion Thong", "X Fashion Thong");
-  renderItemPreview("clothes\\gloves\\X Fashion Sleeve", "X Fashion Sleeve");
-  renderItemPreview("clothes\\bras\\Becca Mesh Bra", "Becca Mesh Bra Black");
-  renderItemPreview("clothes\\bras\\Becca Mesh Bra", "Becca Mesh Bra Dots");
+  // renderItemPreview("clothes\\panties\\X Fashion Thong", "X Fashion Thong");
+  // renderItemPreview("clothes\\gloves\\X Fashion Sleeve", "X Fashion Sleeve");
+  renderItemPreview(
+    "clothes\\gloves\\Magic Christmas Glove",
+    "Magic Christmas Glove"
+  );
+  // renderItemPreview("clothes\\bras\\Becca Mesh Bra", "Becca Mesh Bra Black");
+  // renderItemPreview("clothes\\bras\\Becca Mesh Bra", "Becca Mesh Bra Dots");
 }
 
 function renderItemPreview(basePath: string, itemName: string) {
