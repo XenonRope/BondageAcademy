@@ -1,0 +1,2 @@
+export const CHARACTER_VIEW_WIDTH = 600;
+export const CHARACTER_VIEW_HEIGHT = 800;

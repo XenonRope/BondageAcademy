@@ -1,0 +1,29 @@
+{
+  "name": "bondage-academy-model",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/bondage-academy-model/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/bondage-academy-model",
+        "main": "libs/bondage-academy-model/src/index.ts",
+        "tsConfig": "libs/bondage-academy-model/tsconfig.lib.json",
+        "assets": ["libs/bondage-academy-model/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/bondage-academy-model/**/*.ts",
+          "libs/bondage-academy-model/package.json"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

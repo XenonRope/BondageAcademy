@@ -1,0 +1,92 @@
+import {
+  PlayerObject,
+  RoomCode,
+  World,
+} from "@bondage-academy/bondage-academy-model";
+import { BusinessError } from "../api/model/business-error";
+import { type PlayerStoreService } from "../player/player-store-service";
+import type { Session } from "../session/model/session";
+import type { SessionService } from "../session/session-service";
+import { type WorldJoinService } from "../world/world-join-service";
+import { type AccountService } from "./account-service";
+import { type LogoutService } from "./logout-service";
+
+export class LoginService {
+  constructor(
+    private accountService: AccountService,
+    private playerStoreService: PlayerStoreService,
+    private sessionService: SessionService,
+    private logoutService: LogoutService,
+    private worldJoinService: WorldJoinService
+  ) {}
+
+  async login(
+    session: Session,
+    username: string,
+    password: string
+  ): Promise<{ world: World; playerId: number }> {
+    const account = await this.accountService.getAccountByUsernameAndPassword(
+      username,
+      password
+    );
+    if (account == null) {
+      throw new BusinessError("incorrectUsernameOrPassword");
+    }
+
+    const otherSessionForSamePlayer = this.sessionService.getSessionByPlayerId(
+      account.playerId
+    );
+    if (otherSessionForSamePlayer != null) {
+      this.logoutService.logout(otherSessionForSamePlayer);
+    }
+
+    session.accountId = account.id;
+    session.playerId = account.playerId;
+
+    const { world, playerObject } = await this.joinWorld(
+      session,
+      account.playerId
+    );
+
+    session.world = world;
+    session.playerObject = playerObject;
+
+    return { world, playerId: account.playerId };
+  }
+
+  private async joinWorld(
+    session: Session,
+    playerId: number
+  ): Promise<{ world: World; playerObject: PlayerObject }> {
+    const { worldId, roomId } = await this.playerStoreService.get(playerId);
+    if (worldId) {
+      const response = await this.worldJoinService.joinWorldById(
+        session,
+        worldId
+      );
+      if (!(response instanceof BusinessError)) {
+        return response;
+      }
+    }
+
+    if (roomId) {
+      const response = await this.worldJoinService.joinWorldByRoomId(
+        session,
+        roomId
+      );
+      if (!(response instanceof BusinessError)) {
+        return response;
+      }
+    }
+
+    const response = await this.worldJoinService.joinWorldByRoomCode(
+      session,
+      RoomCode.Introduction
+    );
+    if (!(response instanceof BusinessError)) {
+      return response;
+    }
+
+    throw new Error("Cannot join introduction world");
+  }
+}

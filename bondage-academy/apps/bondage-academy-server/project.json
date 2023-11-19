@@ -1,0 +1,75 @@
+{
+  "name": "bondage-academy-server",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/bondage-academy-server/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/bondage-academy-server",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/bondage-academy-server/src/main.ts",
+        "tsConfig": "apps/bondage-academy-server/tsconfig.app.json",
+        "assets": ["apps/bondage-academy-server/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "generateLockfile": true,
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "bondage-academy-server:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "bondage-academy-server:build:development"
+        },
+        "production": {
+          "buildTarget": "bondage-academy-server:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/bondage-academy-server/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/bondage-academy-server/jest.config.ts"
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/bondage-academy-server/Dockerfile . -t bondage-academy-server"
+    }
+  },
+  "tags": []
+}

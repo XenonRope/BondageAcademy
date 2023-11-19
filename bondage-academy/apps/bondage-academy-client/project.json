@@ -1,0 +1,72 @@
+{
+  "name": "bondage-academy-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/bondage-academy-client/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/bondage-academy-client"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "bondage-academy-client:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "bondage-academy-client:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "bondage-academy-client:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "bondage-academy-client:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "bondage-academy-client:build:development"
+        },
+        "production": {
+          "buildTarget": "bondage-academy-client:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/apps/bondage-academy-client"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/bondage-academy-client/**/*.ts"]
+      }
+    }
+  }
+}
