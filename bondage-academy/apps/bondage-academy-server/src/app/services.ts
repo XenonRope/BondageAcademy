@@ -25,6 +25,7 @@ import { RoomObjectCreationService } from "../room/room-object-creation-service"
 import { RoomService } from "../room/room-service";
 import { RoomSessionService } from "../room/room-session-service";
 import { RoomStoreService } from "../room/room-store-service";
+import { RoomUtilsService } from "../room/room-utils-service";
 import { SessionService } from "../session/session-service";
 import { DatabaseSynchronizationService } from "../synchronization/database-synchronization-service";
 export const dao = new Dao();
@@ -65,6 +66,11 @@ export const roomCreationService = new RoomCreationService(
 );
 
 export const roomFieldService = new RoomFieldService();
+
+export const roomUtilsService = new RoomUtilsService(
+  roomStoreService,
+  playerStoreService
+);
 
 export const objectCreationService = new ObjectCreationService(
   objectIdProvider

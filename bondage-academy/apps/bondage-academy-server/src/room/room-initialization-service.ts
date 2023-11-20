@@ -35,6 +35,9 @@ export class RoomInitializationService {
       name: "rooms.intrdocution",
       width: 10,
       height: 10,
+      templateSettings: {
+        singleplayer: true,
+      },
       transitAreas: [{ x: 2, y: 1, width: 1, height: 1 }],
       objects: [
         await this.createBlock(0, 0),
@@ -89,6 +92,9 @@ export class RoomInitializationService {
       name: "rooms.prisonCell",
       width: 6,
       height: 5,
+      templateSettings: {
+        singleplayer: true,
+      },
       transitAreas: [
         { x: 5, y: 2, width: 1, height: 1 },
         { x: 4, y: 2, width: 1, height: 1 },

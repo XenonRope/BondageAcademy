@@ -1,4 +1,4 @@
-import { Room, RoomCode } from "@bondage-academy/bondage-academy-model";
+import { Room } from "@bondage-academy/bondage-academy-model";
 import { Collection } from "mongodb";
 import { Dao } from "../dao/dao";
 import { CollectionName } from "../dao/model/collection-name";
@@ -41,7 +41,7 @@ export class RoomService {
     return await this.collection.findOne({ code });
   }
 
-  async getRoomIdByCode(code: RoomCode): Promise<number> {
+  async getRoomIdByCode(code: string): Promise<number> {
     const room = await this.collection.findOne(
       { code },
       { projection: { _id: 0, id: 1 } }

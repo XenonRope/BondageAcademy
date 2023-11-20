@@ -1,15 +1,24 @@
-import { ServerResponse } from "@bondage-academy/bondage-academy-model";
+import {
+  RequestFromClient,
+  ServerResponse,
+} from "@bondage-academy/bondage-academy-model";
 import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { BusinessError } from "./api/model/business-error";
-import { accountApi, characterPoseApi, movementApi } from "./app/api";
 import {
+  accountApi,
+  characterPoseApi,
+  movementApi,
+  roomCreationApi,
+  roomJoinApi,
+} from "./app/api";
+import {
+  databaseSynchronizationService,
   logoutService,
   migrationService,
   roomInitializationService,
   sessionService,
-  databaseSynchronizationService,
 } from "./app/services";
 
 const app = express();
@@ -63,6 +72,12 @@ async function start(): Promise<void> {
     });
     socket.on("change_pose", (msg, callback) => {
       handleRequest(() => characterPoseApi.changePose(msg, session), callback);
+    });
+    socket.on(RequestFromClient.JoinRoom, (msg: unknown, callback) => {
+      handleRequest(() => roomJoinApi.joinRoom(msg, session), callback);
+    });
+    socket.on(RequestFromClient.CreateRoom, (msg: unknown, callback) => {
+      handleRequest(() => roomCreationApi.createRoom(msg, session), callback);
     });
   });
 

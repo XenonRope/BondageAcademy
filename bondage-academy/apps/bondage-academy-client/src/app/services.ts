@@ -12,6 +12,7 @@ import {
   type Dictionary,
 } from "../locale/services/locale-service";
 import { NPCCharacterService } from "../npc/npc-character-service";
+import { RoomService } from "../room/services/room-service";
 import type { Store } from "../store/model/store";
 import { StoreService } from "../store/store-service";
 
@@ -34,6 +35,8 @@ export const characterPoseService = new CharacterPoseService(socketService);
 export const navigationService = new NavigationService(storeService);
 
 export const sideMenuService = new SideMenuService(storeService);
+
+export const roomService = new RoomService(socketService, storeService);
 
 export const localeService = new LocaleService(store);
 

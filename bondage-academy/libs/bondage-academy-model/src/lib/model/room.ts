@@ -16,12 +16,17 @@ export interface RoomRestrictions {
   players?: number[];
 }
 
+export interface RoomTemplateSettings {
+  singleplayer?: boolean;
+}
+
 export interface Room {
   id: number;
   code?: string;
   name?: string;
   customName?: string;
   template: boolean;
+  templateSettings?: RoomTemplateSettings;
   persistent?: boolean;
   width: number;
   height: number;

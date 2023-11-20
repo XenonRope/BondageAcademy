@@ -2,6 +2,7 @@ import {
   GameObject,
   Room,
   RoomRestrictions,
+  RoomTemplateSettings,
   RoomTransitArea,
 } from "@bondage-academy/bondage-academy-model";
 import { SequenceName } from "../dao/model/sequence-name";
@@ -20,6 +21,7 @@ export interface CreateTemplateRoomParams {
   name?: string;
   width: number;
   height: number;
+  templateSettings: RoomTemplateSettings;
   transitAreas: RoomTransitArea[];
   objects: GameObject[];
 }
@@ -35,6 +37,9 @@ export class RoomCreationService {
     params: CreateRoomFromTemplateParams
   ): Promise<Room> {
     const templateRoom = await this.roomStoreService.get(params.templateRoomId);
+    if (!templateRoom.template) {
+      throw new Error(`Room ${params.templateRoomId} is not a template room`);
+    }
     const room: Room = {
       id: await this.getRoomId(),
       name: templateRoom.name,
@@ -57,6 +62,7 @@ export class RoomCreationService {
       code: params.code,
       name: params.name,
       template: true,
+      templateSettings: params.templateSettings,
       width: params.width,
       height: params.height,
       transitAreas: params.transitAreas,

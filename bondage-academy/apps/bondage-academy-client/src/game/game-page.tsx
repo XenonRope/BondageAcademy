@@ -6,6 +6,7 @@ import {
 import { npcCharacterService, store } from "../app/services";
 import CharacterGridView from "../character/character-grid-view";
 import ChatView from "../chat/chat-view";
+import RoomSelectionView from "../room/room-selection-view";
 import RoomView from "../room/room-view";
 import SideMenuBar from "./side-menu-bar";
 import SideMenuPanel from "./side-menu-panel";
@@ -55,7 +56,11 @@ export default function GamePage() {
         <div class="flex-grow min-w-0">
           <div class="relative flex h-full">
             <div class="w-[50%]">
-              {store.room != null && <RoomView room={store.room} />}
+              {store.room != null ? (
+                <RoomView room={store.room} />
+              ) : (
+                <RoomSelectionView />
+              )}
             </div>
             <div class="w-[25%]">
               <CharacterGridView characters={getCharacters()} />

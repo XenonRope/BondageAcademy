@@ -2,11 +2,10 @@ import {
   AccountRegisterRequest,
   LoginRequest,
   LoginResponse,
-  isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
 import { requiredString } from "../api/utils/validators";
 import { PlayerStoreService } from "../player/player-store-service";
-import { RoomStoreService } from "../room/room-store-service";
+import { RoomUtilsService } from "../room/room-utils-service";
 import { Session } from "../session/model/session";
 import { AccountRegistrationService } from "./account-registration-service";
 import { LoginService } from "./login-service";
@@ -16,7 +15,7 @@ export class AccountApi {
     private accountRegistrationService: AccountRegistrationService,
     private loginService: LoginService,
     private playerStoreService: PlayerStoreService,
-    private roomStoreService: RoomStoreService
+    private roomUtilsService: RoomUtilsService
   ) {}
 
   async registerAccount({
@@ -56,11 +55,9 @@ export class AccountApi {
       };
     }
 
-    const room = await this.roomStoreService.get(player.roomId);
-    const playersIds = room.objects.flatMap((object) =>
-      isPlayerObject(object) ? [object.playerId] : []
+    const { room, players } = await this.roomUtilsService.getRoomAndPlayers(
+      player.roomId
     );
-    const players = await this.playerStoreService.getAll(playersIds);
 
     return {
       playerId,
