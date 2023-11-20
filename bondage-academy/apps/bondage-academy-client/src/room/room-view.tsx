@@ -1,18 +1,18 @@
-import { World } from "@bondage-academy/bondage-academy-model";
+import { Room } from "@bondage-academy/bondage-academy-model";
 import { trackBounds } from "solid-boundaries";
 import { For, createMemo } from "solid-js";
 import { socketService, storeService } from "../app/services";
-import { WORLD_TILE_SIZE } from "./model/world";
+import { ROOM_TILE_SIZE } from "./model/room";
 import ObjectView from "./object/object-view";
 
-export default function WorldView(props: { world: World }) {
+export default function RoomView(props: { room: Room }) {
   const { ref, bounds } = trackBounds();
 
   async function move(event: MouseEvent & { currentTarget: HTMLDivElement }) {
     const rect = event.currentTarget?.getBoundingClientRect();
     const x = Math.floor((event.clientX - rect.left - offset().x) / 48);
     const y = Math.floor((event.clientY - rect.top - offset().y) / 48);
-    if (x >= 0 && x < props.world.width && y >= 0 && y < props.world.height) {
+    if (x >= 0 && x < props.room.width && y >= 0 && y < props.room.height) {
       await socketService.emit("set_player_target_position", { x, y });
     }
   }
@@ -22,32 +22,32 @@ export default function WorldView(props: { world: World }) {
 
     const halfScreenWidth = (bounds()?.width ?? 0) / 2;
     const halfScreenHeight = (bounds()?.height ?? 0) / 2;
-    const worldWidth = props.world.width * WORLD_TILE_SIZE;
-    const worldHeight = props.world.height * WORLD_TILE_SIZE;
+    const roomWidth = props.room.width * ROOM_TILE_SIZE;
+    const roomHeight = props.room.height * ROOM_TILE_SIZE;
     let x =
-      -(position?.x ?? 0) * WORLD_TILE_SIZE +
+      -(position?.x ?? 0) * ROOM_TILE_SIZE +
       halfScreenWidth -
-      WORLD_TILE_SIZE / 2;
+      ROOM_TILE_SIZE / 2;
     let y =
-      -(position?.y ?? 0) * WORLD_TILE_SIZE +
+      -(position?.y ?? 0) * ROOM_TILE_SIZE +
       halfScreenHeight -
-      WORLD_TILE_SIZE / 2;
+      ROOM_TILE_SIZE / 2;
 
     if (x > 0) {
       x = 0;
-    } else if (x < -worldWidth + (bounds()?.width ?? 0)) {
-      x = -worldWidth + (bounds()?.width ?? 0);
+    } else if (x < -roomWidth + (bounds()?.width ?? 0)) {
+      x = -roomWidth + (bounds()?.width ?? 0);
     }
     if (y > 0) {
       y = 0;
-    } else if (y < -worldHeight + (bounds()?.height ?? 0)) {
-      y = -worldHeight + (bounds()?.height ?? 0);
+    } else if (y < -roomHeight + (bounds()?.height ?? 0)) {
+      y = -roomHeight + (bounds()?.height ?? 0);
     }
 
-    if (worldWidth < (bounds()?.width ?? 0)) {
+    if (roomWidth < (bounds()?.width ?? 0)) {
       x = 0;
     }
-    if (worldHeight < (bounds()?.height ?? 0)) {
+    if (roomHeight < (bounds()?.height ?? 0)) {
       y = 0;
     }
 
@@ -59,12 +59,12 @@ export default function WorldView(props: { world: World }) {
       <div
         class="relative bg-green-100"
         style={{
-          width: `${props.world.width * WORLD_TILE_SIZE}px`,
-          height: `${props.world.height * WORLD_TILE_SIZE}px`,
+          width: `${props.room.width * ROOM_TILE_SIZE}px`,
+          height: `${props.room.height * ROOM_TILE_SIZE}px`,
           transform: `translate(${offset().x}px, ${offset().y}px)`,
         }}
       >
-        <For each={Object.values(props.world.objects)}>
+        <For each={Object.values(props.room.objects)}>
           {(object) => object != null && <ObjectView object={object} />}
         </For>
       </div>

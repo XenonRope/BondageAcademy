@@ -6,6 +6,7 @@ export * from "./lib/model/character";
 export * from "./lib/model/character-pose";
 export * from "./lib/model/game-object";
 export * from "./lib/model/item";
+export * from "./lib/model/npc-object";
 export * from "./lib/model/partial-record";
 export * from "./lib/model/player";
 export * from "./lib/model/player-object";

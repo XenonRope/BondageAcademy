@@ -149,8 +149,8 @@ export class StoreService {
 
   executePlayerMotion(objectId: number) {
     this.setStore(
-      produce(({ room: world, motions }) => {
-        const object = world?.objects.find((obj) => obj.id === objectId);
+      produce(({ room, motions }) => {
+        const object = room?.objects.find((obj) => obj.id === objectId);
         const motion = motions?.[objectId];
         if (!isPlayerObject(object) || motions == null || motion == null) {
           return;

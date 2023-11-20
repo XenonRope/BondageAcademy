@@ -1,4 +1,6 @@
 import {
+  NPCCode,
+  NPCObject,
   ObjectType,
   PlayerObject,
   Position,
@@ -20,6 +22,21 @@ export class ObjectCreationService {
       id: await this.objectIdProvider.getNextId(),
       position,
       playerId,
+    };
+  }
+
+  async createNPC({
+    position,
+    code,
+  }: {
+    position: Position;
+    code: NPCCode;
+  }): Promise<NPCObject> {
+    return {
+      type: ObjectType.NPC,
+      id: await this.objectIdProvider.getNextId(),
+      position,
+      code,
     };
   }
 }

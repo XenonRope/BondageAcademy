@@ -132,7 +132,8 @@ export const movementService = new MovementService(
 export const roomInitializationService = new RoomInitializationService(
   roomService,
   roomCreationService,
-  objectIdProvider
+  objectIdProvider,
+  objectCreationService
 );
 
 export const roomDatabaseSynchronizationService =

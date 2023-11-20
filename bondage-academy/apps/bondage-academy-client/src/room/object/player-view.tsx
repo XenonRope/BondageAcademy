@@ -1,7 +1,7 @@
 import { PlayerObject } from "@bondage-academy/bondage-academy-model";
 import { JSX } from "solid-js";
 import { storeService } from "../../app/services";
-import { WORLD_TILE_SIZE } from "../model/world";
+import { ROOM_TILE_SIZE } from "../model/room";
 
 export default function PlayerView(props: { object: PlayerObject }) {
   function render(): JSX.Element {
@@ -14,10 +14,10 @@ export default function PlayerView(props: { object: PlayerObject }) {
       <div
         class="absolute rounded-[50%] bg-red-400"
         style={{
-          width: `${WORLD_TILE_SIZE}px`,
-          height: `${WORLD_TILE_SIZE}px`,
-          left: `${position.x * 48}px`,
-          top: `${position.y * 48}px`,
+          width: `${ROOM_TILE_SIZE}px`,
+          height: `${ROOM_TILE_SIZE}px`,
+          left: `${position.x * ROOM_TILE_SIZE}px`,
+          top: `${position.y * ROOM_TILE_SIZE}px`,
         }}
       />
     );

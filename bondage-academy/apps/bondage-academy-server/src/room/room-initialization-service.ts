@@ -1,9 +1,12 @@
 import {
   BlockColor,
   BlockObject,
+  NPCCode,
+  NPCObject,
   ObjectType,
   RoomCode,
 } from "@bondage-academy/bondage-academy-model";
+import { ObjectCreationService } from "../object/object-creation-service";
 import { ObjectIdProvider } from "../object/object-id-provider";
 import { RoomCreationService } from "./room-creation-service";
 import { RoomService } from "./room-service";
@@ -12,7 +15,8 @@ export class RoomInitializationService {
   constructor(
     private roomService: RoomService,
     private roomCreationService: RoomCreationService,
-    private objectIdProvider: ObjectIdProvider
+    private objectIdProvider: ObjectIdProvider,
+    private objectCreationService: ObjectCreationService
   ) {}
 
   async initializeRooms(): Promise<void> {
@@ -69,6 +73,7 @@ export class RoomInitializationService {
         await this.createBlock(0, 3),
         await this.createBlock(0, 2),
         await this.createBlock(0, 1),
+        await this.createNPC(8, 8, NPCCode.Tutor),
       ],
     });
   }
@@ -127,5 +132,19 @@ export class RoomInitializationService {
       position: { x, y },
       color: BlockColor.Green,
     };
+  }
+
+  private async createNPC(
+    x: number,
+    y: number,
+    code: NPCCode
+  ): Promise<NPCObject> {
+    return await this.objectCreationService.createNPC({
+      position: {
+        x,
+        y,
+      },
+      code,
+    });
   }
 }
