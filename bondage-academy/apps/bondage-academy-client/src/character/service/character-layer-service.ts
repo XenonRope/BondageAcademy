@@ -71,7 +71,7 @@ export class CharacterLayerService {
     );
     if ("fullBody" in character.pose) {
       layers.push({
-        url: `public/character/${characterPrefix} - ${this.getImagePathPartForPose(
+        url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
           character.pose.fullBody
         )} - Body.png`,
         order: this.getOrderForPose(character.pose.fullBody),
@@ -79,14 +79,14 @@ export class CharacterLayerService {
       });
     } else {
       layers.push({
-        url: `public/character/${characterPrefix} - ${this.getImagePathPartForPose(
+        url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
           character.pose.upperBody
         )} - Upper body.png`,
         order: this.getOrderForPose(character.pose.upperBody),
         offsetY: rootOffsetY,
       });
       layers.push({
-        url: `public/character/${characterPrefix} - ${this.getImagePathPartForPose(
+        url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
           character.pose.lowerBody
         )} - Lower body.png`,
         order: this.getOrderForPose(character.pose.lowerBody),
@@ -94,7 +94,7 @@ export class CharacterLayerService {
       });
     }
     layers.push({
-      url: `public/character/${characterPrefix} - ${this.getImagePathPartForPose(
+      url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
         character.pose.head
       )} - Head.png`,
       order: this.getOrderForPose(character.pose.head),
