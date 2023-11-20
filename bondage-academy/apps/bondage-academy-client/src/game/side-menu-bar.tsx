@@ -1,4 +1,10 @@
-import { roomService, sideMenuService, store } from "../app/services";
+import { createMemo } from "solid-js";
+import {
+  roomService,
+  sideMenuService,
+  store,
+  storeService,
+} from "../app/services";
 import {
   characterPoseIcon,
   clothIcon,
@@ -19,6 +25,30 @@ export default function SideMenuBar() {
   function leaveRoom() {
     roomService.leaveRoom().catch(console.log);
   }
+
+  const canLeave = createMemo(() => {
+    if (!store.room) {
+      return false;
+    }
+
+    const playerPosition = storeService.getPlayerObject()?.position;
+    if (!playerPosition) {
+      return false;
+    }
+
+    for (const transitArea of store.room.transitAreas) {
+      if (
+        playerPosition.x >= transitArea.x &&
+        playerPosition.x < transitArea.x + transitArea.width &&
+        playerPosition.y >= transitArea.y &&
+        playerPosition.y < transitArea.y + transitArea.height
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  });
 
   return (
     <div
@@ -50,7 +80,10 @@ export default function SideMenuBar() {
       <div
         onClick={leaveRoom}
         class="h-[52px] w-[52px] bg-yellow-100 border-2 border-black mt-[-2px]"
-        style={{ "writing-mode": "horizontal-tb" }}
+        style={{
+          "writing-mode": "horizontal-tb",
+          "background-color": canLeave() ? undefined : "gray",
+        }}
       >
         <div class="relative top-[4px] px-[2px]">{leaveIcon}</div>
       </div>

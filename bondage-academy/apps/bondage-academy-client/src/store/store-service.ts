@@ -3,6 +3,7 @@ import {
   GameObject,
   Item,
   Player,
+  PlayerObject,
   Position,
   Room,
   isPlayerObject,
@@ -27,6 +28,15 @@ export class StoreService {
     return playerObject?.id
       ? this.getPositionByObjectId(playerObject.id)
       : undefined;
+  }
+
+  getPlayerObject(): PlayerObject | undefined {
+    for (const object of this.store.room?.objects ?? []) {
+      if (isPlayerObject(object) && object.playerId === this.store.playerId) {
+        return object;
+      }
+    }
+    return undefined;
   }
 
   getPlayer(): Player | undefined {
