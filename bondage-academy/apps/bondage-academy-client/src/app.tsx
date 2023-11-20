@@ -1,5 +1,5 @@
 import {
-  CharacterPose,
+  ChangePoseEvent,
   EventFromServer,
   GameObject,
   Item,
@@ -41,12 +41,9 @@ export default function App() {
           });
         }
       );
-      socket.on(
-        "change_pose",
-        (msg: { playerId: number; pose: CharacterPose }) => {
-          storeService.changePose(msg);
-        }
-      );
+      socket.on(EventFromServer.ChangePose, (event: ChangePoseEvent) => {
+        storeService.changePose(event);
+      });
       socket.on("add_item", (msg: { item: Item }) => {
         storeService.addItem(msg.item);
       });

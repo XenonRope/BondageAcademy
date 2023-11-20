@@ -42,13 +42,21 @@ export class AccountApi {
     requiredString(username, 3, 30, "invalidUsername");
     requiredString(password, 12, 100, "invalidPassword");
 
-    const { playerId, roomId } = await this.loginService.login(
+    const { playerId } = await this.loginService.login(
       session,
       username,
       password
     );
 
-    const room = await this.roomStoreService.get(roomId);
+    const player = await this.playerStoreService.get(playerId);
+    if (!player.roomId) {
+      return {
+        playerId,
+        players: [player],
+      };
+    }
+
+    const room = await this.roomStoreService.get(player.roomId);
     const playersIds = room.objects.flatMap((object) =>
       isPlayerObject(object) ? [object.playerId] : []
     );

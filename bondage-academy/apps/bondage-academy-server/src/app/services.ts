@@ -94,11 +94,7 @@ export const roomJoinService = new RoomJoinService(
 export const loginService = new LoginService(
   accountService,
   sessionService,
-  logoutService,
-  playerStoreService,
-  roomCreationService,
-  roomService,
-  roomJoinService
+  logoutService
 );
 
 export const playerCreationService = new PlayerCreationService(
@@ -116,7 +112,8 @@ export const accountRegistrationService = new AccountRegistrationService(
 
 export const characterPoseService = new CharacterPoseService(
   playerStoreService,
-  roomSessionService
+  roomSessionService,
+  sessionService
 );
 
 export const migrationService = new MigrationService(dao);

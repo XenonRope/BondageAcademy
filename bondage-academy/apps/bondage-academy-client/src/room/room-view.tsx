@@ -8,12 +8,14 @@ import ObjectView from "./object/object-view";
 export default function RoomView(props: { room: Room }) {
   const { ref, bounds } = trackBounds();
 
-  async function move(event: MouseEvent & { currentTarget: HTMLDivElement }) {
+  function move(event: MouseEvent & { currentTarget: HTMLDivElement }) {
     const rect = event.currentTarget?.getBoundingClientRect();
     const x = Math.floor((event.clientX - rect.left - offset().x) / 48);
     const y = Math.floor((event.clientY - rect.top - offset().y) / 48);
     if (x >= 0 && x < props.room.width && y >= 0 && y < props.room.height) {
-      await socketService.emit("set_player_target_position", { x, y });
+      socketService
+        .emit("set_player_target_position", { x, y })
+        .catch(console.log);
     }
   }
 

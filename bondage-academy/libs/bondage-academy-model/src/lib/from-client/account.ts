@@ -14,6 +14,6 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   playerId: number;
-  room: Room;
+  room?: Room;
   players: Player[];
 }

@@ -1,13 +1,13 @@
 import {
   EventFromServer,
   Player,
-  SynchronizePlayersRequest,
+  SynchronizePlayersEvent,
 } from "@bondage-academy/bondage-academy-model";
 import { Session } from "../session/model/session";
 
 export class PlayerClientSynchronizationService {
   synchronizePlayers(players: Player[], sessions: Session[]): void {
-    const requst: SynchronizePlayersRequest = {
+    const requst: SynchronizePlayersEvent = {
       players,
     };
     for (const session of sessions) {

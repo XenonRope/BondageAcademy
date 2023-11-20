@@ -1,5 +1,5 @@
 import {
-  CharacterPose,
+  ChangePoseEvent,
   GameObject,
   Item,
   Player,
@@ -68,7 +68,7 @@ export class StoreService {
     this.setStore({ playerId });
   }
 
-  setRoom(room: Room) {
+  setRoom(room?: Room) {
     this.setStore({ room });
   }
 
@@ -175,7 +175,7 @@ export class StoreService {
     );
   }
 
-  changePose({ playerId, pose }: { playerId: number; pose: CharacterPose }) {
+  changePose({ playerId, pose }: ChangePoseEvent) {
     this.setStore(
       produce(({ players }) => {
         const character = players?.find(

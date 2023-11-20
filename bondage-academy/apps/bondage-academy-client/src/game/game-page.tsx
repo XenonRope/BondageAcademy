@@ -12,7 +12,18 @@ import SideMenuPanel from "./side-menu-panel";
 
 export default function GamePage() {
   function getCharacters(): Character[] {
-    return [...getPlayerCharacters(), ...getNPCCharacters()];
+    if (store.room) {
+      return [...getPlayerCharacters(), ...getNPCCharacters()];
+    }
+
+    const player = store.players?.find(
+      (player) => player.id === store.playerId
+    );
+    if (player) {
+      return [player.character];
+    }
+
+    return [];
   }
 
   function getPlayerCharacters(): Character[] {
