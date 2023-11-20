@@ -92,9 +92,7 @@ export class RoomInitializationService {
       name: "rooms.prisonCell",
       width: 6,
       height: 5,
-      templateSettings: {
-        singleplayer: true,
-      },
+      templateSettings: {},
       transitAreas: [
         { x: 5, y: 2, width: 1, height: 1 },
         { x: 4, y: 2, width: 1, height: 1 },

@@ -17,6 +17,12 @@ export class RoomJoinService {
 
   async joinRoom(playerId: number, roomId: number): Promise<void> {
     const room = await this.roomStoreService.get(roomId);
+    if (
+      room.restrictions?.players &&
+      !room.restrictions.players.includes(playerId)
+    ) {
+      throw new BusinessError("youAreNotAllowedToJoinThisRoom");
+    }
     const position = this.findFreeFieldInTransitArea(room);
 
     await this.playerStoreService.update(
