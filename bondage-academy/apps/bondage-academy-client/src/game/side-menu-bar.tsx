@@ -1,4 +1,4 @@
-import { sideMenuService, store } from "../app/services";
+import { roomService, sideMenuService, store } from "../app/services";
 import {
   characterPoseIcon,
   clothIcon,
@@ -14,6 +14,10 @@ export default function SideMenuBar() {
     } else {
       sideMenuService.showSideMenu(sideMenuView);
     }
+  }
+
+  function leaveRoom() {
+    roomService.leaveRoom().catch(console.log);
   }
 
   return (
@@ -44,6 +48,7 @@ export default function SideMenuBar() {
         <div class="relative top-[2px] px-[2px]">{equipmentIcon}</div>
       </div>
       <div
+        onClick={leaveRoom}
         class="h-[52px] w-[52px] bg-yellow-100 border-2 border-black mt-[-2px]"
         style={{ "writing-mode": "horizontal-tb" }}
       >

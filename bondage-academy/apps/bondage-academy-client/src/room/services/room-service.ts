@@ -37,4 +37,9 @@ export class RoomService {
     this.storeService.setRoom(response.room);
     this.storeService.setPlayers(response.players);
   }
+
+  async leaveRoom(): Promise<void> {
+    await this.socketService.emit(RequestFromClient.LeaveRoom, undefined);
+    this.storeService.setRoom(undefined);
+  }
 }

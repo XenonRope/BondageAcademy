@@ -12,6 +12,7 @@ import {
   movementApi,
   roomCreationApi,
   roomJoinApi,
+  roomLeaveApi,
 } from "./app/api";
 import {
   databaseSynchronizationService,
@@ -78,6 +79,9 @@ async function start(): Promise<void> {
     });
     socket.on(RequestFromClient.CreateRoom, (msg: unknown, callback) => {
       handleRequest(() => roomCreationApi.createRoom(msg, session), callback);
+    });
+    socket.on(RequestFromClient.LeaveRoom, (_msg: unknown, callback) => {
+      handleRequest(() => roomLeaveApi.leaveRoom(session), callback);
     });
   });
 

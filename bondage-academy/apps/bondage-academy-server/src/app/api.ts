@@ -3,6 +3,7 @@ import { CharacterPoseApi } from "../character/character-pose-api";
 import { MovementApi } from "../movement/movement-api";
 import { RoomCreationApi } from "../room/room-creation-api";
 import { RoomJoinApi } from "../room/room-join-api";
+import { RoomLeaveApi } from "../room/room-leave-api";
 import {
   accountRegistrationService,
   characterPoseService,
@@ -11,6 +12,7 @@ import {
   playerStoreService,
   roomCreationService,
   roomJoinService,
+  roomLeaveService,
   roomService,
   roomStoreService,
   roomUtilsService,
@@ -36,3 +38,5 @@ export const roomCreationApi = new RoomCreationApi(
   roomJoinService,
   roomUtilsService
 );
+
+export const roomLeaveApi = new RoomLeaveApi(roomLeaveService);

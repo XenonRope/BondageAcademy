@@ -1,18 +1,21 @@
-import { Room } from "@bondage-academy/bondage-academy-model";
 import { trackBounds } from "solid-boundaries";
 import { For, createMemo } from "solid-js";
-import { socketService, storeService } from "../app/services";
+import { socketService, store, storeService } from "../app/services";
 import { ROOM_TILE_SIZE } from "./model/room";
 import ObjectView from "./object/object-view";
 
-export default function RoomView(props: { room: Room }) {
+export default function RoomView() {
   const { ref, bounds } = trackBounds();
 
   function move(event: MouseEvent & { currentTarget: HTMLDivElement }) {
+    if (!store.room) {
+      return;
+    }
+
     const rect = event.currentTarget?.getBoundingClientRect();
     const x = Math.floor((event.clientX - rect.left - offset().x) / 48);
     const y = Math.floor((event.clientY - rect.top - offset().y) / 48);
-    if (x >= 0 && x < props.room.width && y >= 0 && y < props.room.height) {
+    if (x >= 0 && x < store.room.width && y >= 0 && y < store.room.height) {
       socketService
         .emit("set_player_target_position", { x, y })
         .catch(console.log);
@@ -20,12 +23,16 @@ export default function RoomView(props: { room: Room }) {
   }
 
   const offset = createMemo(() => {
+    if (!store.room) {
+      return { x: 0, y: 0 };
+    }
+
     const position = storeService.getPlayerPosition();
 
     const halfScreenWidth = (bounds()?.width ?? 0) / 2;
     const halfScreenHeight = (bounds()?.height ?? 0) / 2;
-    const roomWidth = props.room.width * ROOM_TILE_SIZE;
-    const roomHeight = props.room.height * ROOM_TILE_SIZE;
+    const roomWidth = store.room.width * ROOM_TILE_SIZE;
+    const roomHeight = store.room.height * ROOM_TILE_SIZE;
     let x =
       -(position?.x ?? 0) * ROOM_TILE_SIZE +
       halfScreenWidth -
@@ -57,19 +64,23 @@ export default function RoomView(props: { room: Room }) {
   });
 
   return (
-    <div ref={ref} onClick={move} class="w-full h-full overflow-hidden">
-      <div
-        class="relative bg-green-100"
-        style={{
-          width: `${props.room.width * ROOM_TILE_SIZE}px`,
-          height: `${props.room.height * ROOM_TILE_SIZE}px`,
-          transform: `translate(${offset().x}px, ${offset().y}px)`,
-        }}
-      >
-        <For each={Object.values(props.room.objects)}>
-          {(object) => object != null && <ObjectView object={object} />}
-        </For>
-      </div>
-    </div>
+    <>
+      {store.room && (
+        <div ref={ref} onClick={move} class="w-full h-full overflow-hidden">
+          <div
+            class="relative bg-green-100"
+            style={{
+              width: `${store.room.width * ROOM_TILE_SIZE}px`,
+              height: `${store.room.height * ROOM_TILE_SIZE}px`,
+              transform: `translate(${offset().x}px, ${offset().y}px)`,
+            }}
+          >
+            <For each={Object.values(store.room.objects)}>
+              {(object) => object != null && <ObjectView object={object} />}
+            </For>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

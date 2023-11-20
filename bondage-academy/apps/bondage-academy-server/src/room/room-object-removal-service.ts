@@ -5,7 +5,7 @@ import { RoomStoreService } from "./room-store-service";
 export class RoomObjectRemovalService {
   constructor(
     private roomStoreService: RoomStoreService,
-    private objectSynchronizationService: ObjectClientSynchronizationService,
+    private objectClientSynchronizationService: ObjectClientSynchronizationService,
     private roomSessionService: RoomSessionService
   ) {}
 
@@ -14,7 +14,7 @@ export class RoomObjectRemovalService {
       room.objects = room.objects.filter((object) => object.id !== objectId);
     });
     const sessions = await this.roomSessionService.getSessionsInRoom(roomId);
-    this.objectSynchronizationService.synchronizeObjects(
+    this.objectClientSynchronizationService.synchronizeObjects(
       {
         toRemove: [objectId],
       },

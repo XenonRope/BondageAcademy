@@ -56,11 +56,7 @@ export default function GamePage() {
         <div class="flex-grow min-w-0">
           <div class="relative flex h-full">
             <div class="w-[50%]">
-              {store.room != null ? (
-                <RoomView room={store.room} />
-              ) : (
-                <RoomSelectionView />
-              )}
+              {store.room != null ? <RoomView /> : <RoomSelectionView />}
             </div>
             <div class="w-[25%]">
               <CharacterGridView characters={getCharacters()} />

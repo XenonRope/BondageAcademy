@@ -21,7 +21,9 @@ import { RoomDatabaseSynchronizationService } from "../room/room-database-synchr
 import { RoomFieldService } from "../room/room-field-service";
 import { RoomInitializationService } from "../room/room-initialization-service";
 import { RoomJoinService } from "../room/room-join-service";
+import { RoomLeaveService } from "../room/room-leave-service";
 import { RoomObjectCreationService } from "../room/room-object-creation-service";
+import { RoomObjectRemovalService } from "../room/room-object-removal-service";
 import { RoomService } from "../room/room-service";
 import { RoomSessionService } from "../room/room-session-service";
 import { RoomStoreService } from "../room/room-store-service";
@@ -59,6 +61,23 @@ export const logoutService = new LogoutService();
 
 export const roomStoreService = new RoomStoreService(roomService);
 
+export const roomSessionService = new RoomSessionService(
+  sessionService,
+  roomStoreService
+);
+
+export const roomObjectRemovalService = new RoomObjectRemovalService(
+  roomStoreService,
+  objectClientSynchronizationService,
+  roomSessionService
+);
+
+export const roomLeaveService = new RoomLeaveService(
+  roomObjectRemovalService,
+  playerStoreService,
+  roomStoreService
+);
+
 export const roomCreationService = new RoomCreationService(
   roomService,
   sequences,
@@ -74,11 +93,6 @@ export const roomUtilsService = new RoomUtilsService(
 
 export const objectCreationService = new ObjectCreationService(
   objectIdProvider
-);
-
-export const roomSessionService = new RoomSessionService(
-  sessionService,
-  roomStoreService
 );
 
 export const roomObjectCreationService = new RoomObjectCreationService(
