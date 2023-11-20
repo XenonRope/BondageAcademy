@@ -34,3 +34,9 @@ export interface Room {
   restrictions?: RoomRestrictions;
   objects: GameObject[];
 }
+
+export interface RoomSearchDetails {
+  id: number;
+  name?: string;
+  customName?: string;
+}

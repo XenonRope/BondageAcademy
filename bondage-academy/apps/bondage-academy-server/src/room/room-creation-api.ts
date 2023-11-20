@@ -32,18 +32,15 @@ export class RoomCreationApi {
     );
     const templateRoomId = await this.roomService.getRoomIdByCode(roomCode);
     const templateRoom = await this.roomStoreService.get(templateRoomId);
-    if (
-      !templateRoom.template ||
-      !templateRoom.templateSettings?.singleplayer
-    ) {
-      throw new Error(
-        `Room ${templateRoomId} is not a singleplayer template room`
-      );
+    if (!templateRoom.template) {
+      throw new Error(`Room ${templateRoomId} is not a template room`);
     }
     const room = await this.roomCreationService.createRoomFromTemplate({
       templateRoomId,
       restrictions: {
-        players: [session.playerId],
+        players: templateRoom.templateSettings?.singleplayer
+          ? [session.playerId]
+          : undefined,
       },
     });
     await this.roomJoinService.joinRoom(session.playerId, room.id);

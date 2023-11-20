@@ -4,6 +4,7 @@ import { MovementApi } from "../movement/movement-api";
 import { RoomCreationApi } from "../room/room-creation-api";
 import { RoomJoinApi } from "../room/room-join-api";
 import { RoomLeaveApi } from "../room/room-leave-api";
+import { RoomSearchApi } from "../room/room-search-api";
 import {
   accountRegistrationService,
   characterPoseService,
@@ -13,6 +14,7 @@ import {
   roomCreationService,
   roomJoinService,
   roomLeaveService,
+  roomSearchService,
   roomService,
   roomStoreService,
   roomUtilsService,
@@ -40,3 +42,5 @@ export const roomCreationApi = new RoomCreationApi(
 );
 
 export const roomLeaveApi = new RoomLeaveApi(roomLeaveService);
+
+export const roomSearchApi = new RoomSearchApi(roomSearchService);

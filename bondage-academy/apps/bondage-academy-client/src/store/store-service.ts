@@ -98,11 +98,16 @@ export class StoreService {
       produce((room) => {
         if (room != null) {
           for (const newObject of objects ?? []) {
+            let replaced = false;
             for (let i = 0; i < room.objects.length; i++) {
               if (room.objects[i].id === newObject.id) {
                 room.objects[i] = newObject;
+                replaced = true;
                 break;
               }
+            }
+            if (!replaced) {
+              room.objects.push(newObject);
             }
           }
           if (toRemove) {

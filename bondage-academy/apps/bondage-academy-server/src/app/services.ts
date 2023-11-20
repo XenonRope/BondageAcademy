@@ -24,6 +24,7 @@ import { RoomJoinService } from "../room/room-join-service";
 import { RoomLeaveService } from "../room/room-leave-service";
 import { RoomObjectCreationService } from "../room/room-object-creation-service";
 import { RoomObjectRemovalService } from "../room/room-object-removal-service";
+import { RoomSearchService } from "../room/room-search-service";
 import { RoomService } from "../room/room-service";
 import { RoomSessionService } from "../room/room-session-service";
 import { RoomStoreService } from "../room/room-store-service";
@@ -65,6 +66,8 @@ export const roomSessionService = new RoomSessionService(
   sessionService,
   roomStoreService
 );
+
+export const roomSearchService = new RoomSearchService(dao);
 
 export const roomObjectRemovalService = new RoomObjectRemovalService(
   roomStoreService,

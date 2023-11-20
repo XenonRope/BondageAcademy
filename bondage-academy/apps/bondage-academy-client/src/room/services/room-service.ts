@@ -1,9 +1,11 @@
 import {
-  CreateRoomRequest,
-  CreateRoomResponse,
-  JoinRoomRequest,
-  JoinRoomResponse,
-  RequestFromClient,
+    CreateRoomRequest,
+    CreateRoomResponse,
+    JoinRoomRequest,
+    JoinRoomResponse,
+    RequestFromClient,
+    SearchRoomRequest,
+    SearchRoomResponse,
 } from "@bondage-academy/bondage-academy-model";
 import { SocketService } from "../../common/socket-service";
 import { StoreService } from "../../store/store-service";
@@ -41,5 +43,9 @@ export class RoomService {
   async leaveRoom(): Promise<void> {
     await this.socketService.emit(RequestFromClient.LeaveRoom, undefined);
     this.storeService.setRoom(undefined);
+  }
+
+  async searchRooms(request: SearchRoomRequest): Promise<SearchRoomResponse> {
+    return await this.socketService.emit(RequestFromClient.SearchRoom, request);
   }
 }

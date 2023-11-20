@@ -6,13 +6,15 @@ import type { Locale, Store } from "../../store/model/store";
 
 export type Dictionary = i18n.Flatten<RawDictionary>;
 
+export type DictionaryKey = keyof Dictionary;
+
 export class LocaleService {
   constructor(private store: Store) {}
 
   createTranslator(): NullableTranslator<Dictionary> {
     const [dictionary] = createResource(
       () => this.store.locale,
-      async (locale) => await this.fetchDictionary(locale),
+      async (locale) => await this.fetchDictionary(locale)
     );
     return i18n.translator(dictionary);
   }

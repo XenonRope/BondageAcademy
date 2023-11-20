@@ -6,6 +6,7 @@ export const dictionary = {
     login: "Login",
     createAccount: "Create account",
     back: "Back",
+    roomName: "Room name",
   },
   rooms: {
     introduction: "Introduction",
