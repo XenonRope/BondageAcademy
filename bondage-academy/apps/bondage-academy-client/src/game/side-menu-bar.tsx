@@ -1,5 +1,10 @@
 import { sideMenuService, store } from "../app/services";
-import { characterPoseIcon, clothIcon, equipmentIcon } from "../ui/icons";
+import {
+  characterPoseIcon,
+  clothIcon,
+  equipmentIcon,
+  leaveIcon,
+} from "../ui/icons";
 import { SideMenuView } from "./model/side-menu-view";
 
 export default function SideMenuBar() {
@@ -37,6 +42,12 @@ export default function SideMenuBar() {
         style={{ "writing-mode": "horizontal-tb" }}
       >
         <div class="relative top-[2px] px-[2px]">{equipmentIcon}</div>
+      </div>
+      <div
+        class="h-[52px] w-[52px] bg-yellow-100 border-2 border-black mt-[-2px]"
+        style={{ "writing-mode": "horizontal-tb" }}
+      >
+        <div class="relative top-[4px] px-[2px]">{leaveIcon}</div>
       </div>
     </div>
   );
