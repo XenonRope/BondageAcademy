@@ -7,10 +7,10 @@ type FullBodyPose = (typeof FULL_BODY_POSES)[number];
 const HEAD_POSES = ["Normal", "Wide open"] as const;
 type HeadPose = (typeof HEAD_POSES)[number];
 
-const UPPER_BODY_POSES = ["Attention", "Crossed"] as const;
+const UPPER_BODY_POSES = ["Attention", "Crossed", "Hands up"] as const;
 type UpperBodyPose = (typeof UPPER_BODY_POSES)[number];
 
-const LOWER_BODY_POSES = ["Stand", "Simple kneel", "Wide kneel"] as const;
+const LOWER_BODY_POSES = ["Stand", "Simple kneel", "Wide kneel", "Wide legs"] as const;
 type LowerBodyPose = (typeof LOWER_BODY_POSES)[number];
 
 const POSES = [
