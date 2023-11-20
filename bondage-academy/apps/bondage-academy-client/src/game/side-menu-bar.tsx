@@ -23,7 +23,9 @@ export default function SideMenuBar() {
   }
 
   function leaveRoom() {
-    roomService.leaveRoom().catch(console.log);
+    if (canLeave()) {
+      roomService.leaveRoom().catch(console.log);
+    }
   }
 
   const canLeave = createMemo(() => {
