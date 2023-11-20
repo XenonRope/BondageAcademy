@@ -11,12 +11,15 @@ import {
   LocaleService,
   type Dictionary,
 } from "../locale/services/locale-service";
+import { NPCCharacterService } from "../npc/npc-character-service";
 import type { Store } from "../store/model/store";
 import { StoreService } from "../store/store-service";
 
 const [store, setStore] = createStore<Store>({ locale: "en", view: View.Home });
 
 export { store };
+
+export const npcCharacterService = new NPCCharacterService();
 
 export const storeService = new StoreService(store, setStore);
 

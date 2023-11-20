@@ -1,8 +1,9 @@
 import {
   Character,
+  isNPCObject,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
-import { store } from "../app/services";
+import { npcCharacterService, store } from "../app/services";
 import CharacterGridView from "../character/character-grid-view";
 import ChatView from "../chat/chat-view";
 import RoomView from "../room/room-view";
@@ -11,13 +12,26 @@ import SideMenuPanel from "./side-menu-panel";
 
 export default function GamePage() {
   function getCharacters(): Character[] {
+    return [...getPlayerCharacters(), ...getNPCCharacters()];
+  }
+
+  function getPlayerCharacters(): Character[] {
     return (
       store.room?.objects
-        ?.flatMap((object) => (isPlayerObject(object) ? [object.playerId] : []))
+        .flatMap((object) => (isPlayerObject(object) ? [object.playerId] : []))
         .map((playerId) =>
           store.players?.find((player) => player.id === playerId)
         )
         .flatMap((player) => (player ? [player.character] : [])) ?? []
+    );
+  }
+
+  function getNPCCharacters(): Character[] {
+    return (
+      store.room?.objects
+        .flatMap((object) => (isNPCObject(object) ? [object.code] : []))
+        .map((npcCode) => npcCharacterService.getCharacterByNPCCode(npcCode)) ??
+      []
     );
   }
 
