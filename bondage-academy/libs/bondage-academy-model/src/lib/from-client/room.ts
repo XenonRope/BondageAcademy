@@ -15,8 +15,8 @@ export type JoinRoomResponse = {
 
 export const CreateRoomRequestSchema = t.type({
   roomCode: t.string,
-  name: t.string,
-  description: t.string,
+  name: t.union([t.string, t.undefined]),
+  description: t.union([t.string, t.undefined]),
 });
 
 export type CreateRoomRequest = t.TypeOf<typeof CreateRoomRequestSchema>;
