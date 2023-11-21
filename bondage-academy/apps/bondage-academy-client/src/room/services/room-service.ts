@@ -1,11 +1,11 @@
 import {
-    CreateRoomRequest,
-    CreateRoomResponse,
-    JoinRoomRequest,
-    JoinRoomResponse,
-    RequestFromClient,
-    SearchRoomRequest,
-    SearchRoomResponse,
+  CreateRoomRequest,
+  CreateRoomResponse,
+  JoinRoomRequest,
+  JoinRoomResponse,
+  RequestFromClient,
+  SearchRoomRequest,
+  SearchRoomResponse,
 } from "@bondage-academy/bondage-academy-model";
 import { SocketService } from "../../common/socket-service";
 import { StoreService } from "../../store/store-service";
@@ -28,9 +28,17 @@ export class RoomService {
     this.storeService.setPlayers(response.players);
   }
 
-  async createRoom(roomCode: string): Promise<void> {
+  async createRoom(params: {
+    roomCode: string;
+    name?: string;
+    description?: string;
+    publicRoom: boolean;
+  }): Promise<void> {
     const request: CreateRoomRequest = {
-      roomCode,
+      roomCode: params.roomCode,
+      name: params.name,
+      description: params.description,
+      publicRoom: params.publicRoom,
     };
     const response = await this.socketService.emit<CreateRoomResponse>(
       RequestFromClient.CreateRoom,

@@ -12,8 +12,8 @@ export default function RoomSelectionView() {
     roomService.searchRooms({ name })
   );
 
-  function createRoom(roomCode: RoomCode) {
-    roomService.createRoom(roomCode).catch(console.log);
+  function createPrivateRoom(roomCode: RoomCode) {
+    roomService.createRoom({ roomCode, publicRoom: false }).catch(console.log);
   }
 
   function jointRoom(roomId: number) {
@@ -25,10 +25,10 @@ export default function RoomSelectionView() {
       <div>
         <div class="text-lg font-bold mb-2">{t("common.exploreAcademy")}</div>
         <div class="flex gap-2 mb-2">
-          <Button onClick={() => createRoom(RoomCode.Introduction)}>
+          <Button onClick={() => createPrivateRoom(RoomCode.Introduction)}>
             {t("rooms.introduction")}
           </Button>
-          <Button onClick={() => createRoom(RoomCode.PrisonCell)}>
+          <Button onClick={() => createPrivateRoom(RoomCode.PrisonCell)}>
             {t("rooms.prisonCell")}
           </Button>
         </div>
