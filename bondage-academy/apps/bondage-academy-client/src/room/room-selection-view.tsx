@@ -23,18 +23,18 @@ export default function RoomSelectionView() {
   return (
     <div class="p-2">
       <div>
-        <div class="mb-2">
+        <div class="text-lg font-bold mb-2">{t("common.exploreAcademy")}</div>
+        <div class="flex gap-2 mb-2">
           <Button onClick={() => createRoom(RoomCode.Introduction)}>
             {t("rooms.introduction")}
           </Button>
-        </div>
-        <div class="mb-2">
           <Button onClick={() => createRoom(RoomCode.PrisonCell)}>
             {t("rooms.prisonCell")}
           </Button>
         </div>
       </div>
       <div>
+        <div class="text-lg font-bold mb-2">{t("common.searchRoom")}</div>
         <div class="mb-3">
           <Label for="room_name">{t("common.roomName")}</Label>
           <TextInput id="room_name" value={name()} onInput={setName} />

@@ -6,6 +6,8 @@ export const dictionary = {
     login: "Login",
     createAccount: "Create account",
     back: "Back",
+    exploreAcademy: "Explore academy",
+    searchRoom: "Search room",
     roomName: "Room name",
     pose: "Pose",
     wardrobe: "Wardrobe",

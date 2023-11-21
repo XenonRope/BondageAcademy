@@ -13,6 +13,7 @@ import { RoomStoreService } from "./room-store-service";
 export interface CreateRoomFromTemplateParams {
   templateRoomId: number;
   customName?: string;
+  description?: string;
   restrictions?: RoomRestrictions;
 }
 
@@ -44,6 +45,7 @@ export class RoomCreationService {
       id: await this.getRoomId(),
       name: templateRoom.name,
       customName: params.customName,
+      description: params.description,
       template: false,
       width: templateRoom.width,
       height: templateRoom.height,

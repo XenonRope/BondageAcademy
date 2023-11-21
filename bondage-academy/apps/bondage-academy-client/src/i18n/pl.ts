@@ -8,6 +8,8 @@ export const dictionary: RawDictionary = {
     login: "Zaloguj",
     createAccount: "Utwórz konto",
     back: "Wstecz",
+    exploreAcademy: "Eksploruj akademię",
+    searchRoom: "Szukaj pokoju",
     roomName: "Nazwa pokoju",
     pose: "Pozycja",
     wardrobe: "Garderoba",

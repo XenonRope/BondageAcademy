@@ -26,7 +26,7 @@ export class RoomCreationApi {
     if (!session.playerId) {
       throw new Error("User is not logged in");
     }
-    const { roomCode } = await tPromise.decode(
+    const { roomCode, name, description } = await tPromise.decode(
       CreateRoomRequestSchema,
       request
     );
@@ -37,6 +37,8 @@ export class RoomCreationApi {
     }
     const room = await this.roomCreationService.createRoomFromTemplate({
       templateRoomId,
+      customName: name,
+      description,
       restrictions: {
         players: templateRoom.templateSettings?.singleplayer
           ? [session.playerId]

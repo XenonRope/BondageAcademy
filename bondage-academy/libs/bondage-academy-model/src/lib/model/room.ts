@@ -25,6 +25,7 @@ export interface Room {
   code?: string;
   name?: string;
   customName?: string;
+  description?: string;
   template: boolean;
   templateSettings?: RoomTemplateSettings;
   persistent?: boolean;
@@ -39,5 +40,6 @@ export interface RoomSearchDetails {
   id: number;
   name?: string;
   customName?: string;
+  description?: string;
   playersCount: number;
 }
