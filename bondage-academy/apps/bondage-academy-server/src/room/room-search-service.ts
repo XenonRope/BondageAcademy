@@ -1,6 +1,7 @@
 import {
   Room,
   RoomSearchDetails,
+  isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
 import { Collection, Filter } from "mongodb";
 import { Dao } from "../dao/dao";
@@ -23,13 +24,26 @@ export class RoomSearchService {
     }
     return (
       await this.collection
-        .find(filter, { projection: { _id: 0, id: 1, name: 1, customName: 1 } })
+        .find(filter, {
+          projection: {
+            _id: 0,
+            id: 1,
+            name: 1,
+            customName: 1,
+            "objects.type": 1,
+          },
+        })
         .toArray()
-    ).map((room) => ({
+    ).map(this.mapRoomToRoomSearchDetails.bind(this));
+  }
+
+  private mapRoomToRoomSearchDetails(room: Room): RoomSearchDetails {
+    return {
       id: room.id,
       name: room.name,
       customName: room.customName,
-    }));
+      playersCount: room.objects.filter(isPlayerObject).length,
+    };
   }
 
   private escapeRegExp(text: string) {

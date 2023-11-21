@@ -14,9 +14,9 @@ export default function LocaleSelector() {
   function getIcon() {
     switch (store.locale) {
       case "en":
-        return enIcon;
+        return enIcon();
       case "pl":
-        return plIcon;
+        return plIcon();
     }
   }
 

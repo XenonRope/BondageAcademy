@@ -39,4 +39,5 @@ export interface RoomSearchDetails {
   id: number;
   name?: string;
   customName?: string;
+  playersCount: number;
 }

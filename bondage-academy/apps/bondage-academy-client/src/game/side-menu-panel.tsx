@@ -46,7 +46,7 @@ export default function SideMenuPanel() {
               sideMenuService.hideSideMenu();
             }}
           >
-            {xIcon}
+            {xIcon()}
           </div>
         </div>
       </div>

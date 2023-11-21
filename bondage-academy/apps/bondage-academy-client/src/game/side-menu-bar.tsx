@@ -67,7 +67,7 @@ export default function SideMenuBar() {
         }}
       >
         <div class="relative h-full left-[6px] top-[1px] py-[2px]">
-          {characterPoseIcon}
+          {characterPoseIcon()}
         </div>
       </div>
       <div
@@ -76,7 +76,7 @@ export default function SideMenuBar() {
           "writing-mode": "horizontal-tb",
         }}
       >
-        <div class="relative top-[6px] left-[-1px] px-[2px]">{clothIcon}</div>
+        <div class="relative top-[6px] left-[-1px] px-[2px]">{clothIcon()}</div>
       </div>
       <div
         onClick={() => toggleSideMenu(SideMenuView.Equipment)}
@@ -85,7 +85,7 @@ export default function SideMenuBar() {
           "writing-mode": "horizontal-tb",
         }}
       >
-        <div class="relative top-[2px] px-[2px]">{equipmentIcon}</div>
+        <div class="relative top-[2px] px-[2px]">{equipmentIcon()}</div>
       </div>
       <div
         onClick={leaveRoom}
@@ -98,7 +98,7 @@ export default function SideMenuBar() {
           "writing-mode": "horizontal-tb",
         }}
       >
-        <div class="relative top-[4px] px-[2px]">{leaveIcon}</div>
+        <div class="relative top-[4px] px-[2px]">{leaveIcon()}</div>
       </div>
     </div>
   );

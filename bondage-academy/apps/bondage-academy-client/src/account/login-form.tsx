@@ -10,12 +10,16 @@ export default function LoginForm() {
   const [username, setUsername] = createSignal("");
   const [password, setPassword] = createSignal("");
 
-  async function login() {
-    await accountService.login({
-      username: username(),
-      password: password(),
-    });
-    navigationService.navigate(View.Game);
+  function login() {
+    accountService
+      .login({
+        username: username(),
+        password: password(),
+      })
+      .then(() => {
+        navigationService.navigate(View.Game);
+      })
+      .catch(console.log);
   }
 
   function registerAccount() {

@@ -1,10 +1,10 @@
 import { RoomCode } from "@bondage-academy/bondage-academy-model";
 import { For, createResource, createSignal } from "solid-js";
 import { roomService, t } from "../app/services";
-import { DictionaryKey } from "../locale/services/locale-service";
 import Button from "../ui/button";
 import Label from "../ui/label";
 import TextInput from "../ui/text-input";
+import RoomSearchDetailsView from "./room-search-details-view";
 
 export default function RoomSelectionView() {
   const [name, setName] = createSignal("");
@@ -35,20 +35,17 @@ export default function RoomSelectionView() {
         </div>
       </div>
       <div>
-        <div>
+        <div class="mb-3">
           <Label for="room_name">{t("common.roomName")}</Label>
           <TextInput id="room_name" value={name()} onInput={setName} />
         </div>
-        <div>
+        <div class="grid grid-cols-1 xl:grid-cols-2 2xl:lg:grid-cols-3 gap-2">
           <For each={searchResult()?.rooms}>
             {(room) => (
-              <div>
-                <Button onClick={() => jointRoom(room.id)}>
-                  {room.name
-                    ? (t(room.name as DictionaryKey) as string)
-                    : room.customName}
-                </Button>
-              </div>
+              <RoomSearchDetailsView
+                room={room}
+                onClick={() => jointRoom(room.id)}
+              />
             )}
           </For>
         </div>
