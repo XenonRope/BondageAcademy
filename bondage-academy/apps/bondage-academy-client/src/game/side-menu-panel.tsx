@@ -1,9 +1,8 @@
-import { Show } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import { sideMenuService, store, storeService } from "../app/services";
+import { sideMenuService, store, storeService, t } from "../app/services";
 import CharacterPoseController from "../character/character-pose-controller";
 import EquipmentView from "../item/equipment-view";
-import Button from "../ui/button";
+import { xIcon } from "../ui/icons";
 import { SideMenuView } from "./model/side-menu-view";
 
 export default function SideMenuPanel() {
@@ -24,20 +23,34 @@ export default function SideMenuPanel() {
     }
   }
 
+  function title(): string | undefined {
+    switch (store.sideMenuView) {
+      case SideMenuView.CharacterPoses:
+        return t("common.pose");
+      case SideMenuView.Wardrobe:
+        return t("common.wardrobe");
+      case SideMenuView.Equipment:
+        return t("common.equipment");
+    }
+    return undefined;
+  }
+
   return (
-    <Show when={store.sideMenuView != null}>
-      <div class="absolute h-full overflow-auto p-2 bg-yellow-100">
-        <div class="mb-2">
-          <Button
+    <div class="h-full overflow-auto p-2 pt-1 bg-primary-50">
+      <div class="flex items-center mb-2">
+        <div class="text-lg font-bold mr-4">{title()}</div>
+        <div class="ml-auto">
+          <div
+            class="w-5 h-5 text-primary-800 hover:text-primary-700"
             onClick={() => {
               sideMenuService.hideSideMenu();
             }}
           >
-            Close
-          </Button>
+            {xIcon}
+          </div>
         </div>
-        <div>{renderView()}</div>
       </div>
-    </Show>
+      <div>{renderView()}</div>
+    </div>
   );
 }

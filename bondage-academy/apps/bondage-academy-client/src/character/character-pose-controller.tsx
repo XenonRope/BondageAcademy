@@ -38,6 +38,7 @@ export default function CharacterPoseController(props: {
   return (
     <div>
       <div class="mb-2">
+        <div class="text-sm font-bold mb-1">Upper body</div>
         <span class="mr-2">
           <Button onClick={() => changeUpperBodyPose(UpperBodyPose.Attention)}>
             Attention
@@ -48,6 +49,7 @@ export default function CharacterPoseController(props: {
         </Button>
       </div>
       <div class="mb-2">
+        <div class="text-sm font-bold mb-1">Lower body</div>
         <span class="mr-2">
           <Button onClick={() => changeLowerBodyPose(LowerBodyPose.Stand)}>
             Stand
@@ -65,11 +67,13 @@ export default function CharacterPoseController(props: {
         </Button>
       </div>
       <div class="mb-2">
+        <div class="text-sm font-bold mb-1">Full body</div>
         <Button onClick={() => changeFullBodyPose(FullBodyPose.PetSuit)}>
           Pet suit
         </Button>
       </div>
       <div>
+        <div class="text-sm font-bold mb-1">Head</div>
         <span class="mr-2">
           <Button onClick={() => changeHeadPose(HeadPose.Normal)}>
             Normal

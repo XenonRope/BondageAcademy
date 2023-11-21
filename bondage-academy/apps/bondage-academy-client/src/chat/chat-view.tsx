@@ -8,10 +8,10 @@ export default function ChatView() {
         <TextInput />
         <button
           type="button"
-          class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100"
+          class="inline-flex justify-center p-2 pr-[3px] text-primary-800 rounded-lg cursor-pointer hover:text-primary-700"
         >
           <svg
-            class="w-6 h-6 text-gray-800 rotate-90"
+            class="w-6 h-6 rotate-90"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"

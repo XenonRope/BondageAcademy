@@ -3,6 +3,7 @@ import {
   isNPCObject,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
+import { Show } from "solid-js";
 import { npcCharacterService, store } from "../app/services";
 import CharacterGridView from "../character/character-grid-view";
 import ChatView from "../chat/chat-view";
@@ -48,23 +49,27 @@ export default function GamePage() {
   }
 
   return (
-    <div class="h-full overflow-hidden">
+    <div class="h-full overflow-hidden bg-primary-800">
       <div class="flex h-full">
-        <div class="flex-none">
+        <div class="flex-none m-[3px] mr-0">
           <SideMenuBar />
         </div>
         <div class="flex-grow min-w-0">
           <div class="relative flex h-full">
-            <div class="w-[50%]">
+            <div class="w-[50%] m-[3px] mr-0 bg-primary-50">
               {store.room != null ? <RoomView /> : <RoomSelectionView />}
             </div>
-            <div class="w-[25%]">
+            <div class="w-[25%] m-[3px] mr-0 bg-primary-50">
               <CharacterGridView characters={getCharacters()} />
             </div>
-            <div class="w-[25%]">
+            <div class="w-[25%] m-[3px] bg-primary-50">
               <ChatView />
             </div>
-            <SideMenuPanel />
+            <Show when={store.sideMenuView != null}>
+              <div class="absolute h-full border-[3px] border-primary-800">
+                <SideMenuPanel />
+              </div>
+            </Show>
           </div>
         </div>
       </div>

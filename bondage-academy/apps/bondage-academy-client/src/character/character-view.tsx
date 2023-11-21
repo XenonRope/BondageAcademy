@@ -19,7 +19,7 @@ export default function CharacterView(props: { character: Character }) {
   return (
     <div
       ref={ref}
-      class="max-h-full overflow-hidden bg-gray-100"
+      class="max-h-full overflow-hidden"
       style={{
         "aspect-ratio": `${CHARACTER_VIEW_WIDTH}/${CHARACTER_VIEW_HEIGHT}`,
       }}
