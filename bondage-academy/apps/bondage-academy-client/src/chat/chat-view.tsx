@@ -16,10 +16,10 @@ export default function ChatView() {
 
   return (
     <div class="flex flex-col h-full p-1">
-      <div class="min-h-0 flex-grow overflow-y-auto mb-1">
+      <div class="min-h-0 flex-grow overflow-y-auto">
         <For each={store.chatMessages ?? []}>
           {(message) => (
-            <div>
+            <div style={{ "overflow-anchor": "none" }}>
               <span class="incline-block font-bold mr-1">
                 {message.speaker + ":"}
               </span>
@@ -27,6 +27,7 @@ export default function ChatView() {
             </div>
           )}
         </For>
+        <div class="h-1"></div>
       </div>
       <div class="flex">
         <div
