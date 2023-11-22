@@ -36,7 +36,7 @@ export default function SideMenuPanel() {
   }
 
   return (
-    <div class="h-full overflow-auto p-2 pt-1 bg-primary-50">
+    <div class="h-full overflow-auto p-2 bg-primary-50">
       <div class="flex items-center mb-2">
         <div class="text-lg font-bold mr-4">{title()}</div>
         <div class="ml-auto">

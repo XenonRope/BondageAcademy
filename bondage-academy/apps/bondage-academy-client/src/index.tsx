@@ -1,5 +1,4 @@
 /* @refresh reload */
-import "flowbite";
 import { render } from "solid-js/web";
 import App from "./app";
 import "./index.css";

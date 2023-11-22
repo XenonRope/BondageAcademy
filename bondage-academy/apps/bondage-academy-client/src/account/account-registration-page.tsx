@@ -10,13 +10,17 @@ export default function AccountRegistrationPage() {
   const [password, setPassword] = createSignal("");
   const [nick, setNick] = createSignal("");
 
-  async function registerAccount() {
-    await accountService.registerAccount({
-      username: username(),
-      password: password(),
-      nick: nick(),
-    });
-    navigationService.navigate(View.Home);
+  function registerAccount() {
+    accountService
+      .registerAccount({
+        username: username(),
+        password: password(),
+        nick: nick(),
+      })
+      .then(() => {
+        navigationService.navigate(View.Home);
+      })
+      .catch(console.log);
   }
 
   function cancel() {
@@ -48,12 +52,8 @@ export default function AccountRegistrationPage() {
           <Label for="character_name">{t("common.characterName")}</Label>
           <TextInput id="character_name" value={nick()} onInput={setNick} />
         </div>
-        <div>
-          <span class="mr-4">
-            <Button onClick={registerAccount}>
-              {t("common.createAccount")}
-            </Button>
-          </span>
+        <div class="flex gap-2">
+          <Button onClick={registerAccount}>{t("common.createAccount")}</Button>
           <Button onClick={cancel}>{t("common.back")}</Button>
         </div>
       </div>

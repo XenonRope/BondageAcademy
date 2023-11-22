@@ -46,13 +46,9 @@ export default function LoginForm() {
           onInput={setPassword}
         />
       </div>
-      <div class="flex mb-4">
-        <div class="mr-4">
-          <Button onClick={login}>{t("common.login")}</Button>
-        </div>
-        <div>
-          <Button onClick={registerAccount}>{t("common.createAccount")}</Button>
-        </div>
+      <div class="flex gap-2 mb-4">
+        <Button onClick={login}>{t("common.login")}</Button>
+        <Button onClick={registerAccount}>{t("common.createAccount")}</Button>
       </div>
       <div>
         <LocaleSelector />

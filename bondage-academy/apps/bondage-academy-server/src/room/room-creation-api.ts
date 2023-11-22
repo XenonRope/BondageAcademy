@@ -1,8 +1,11 @@
 import {
   CreateRoomRequestSchema,
   CreateRoomResponse,
+  ROOM_DESCRIPTION_MAX_LENGHT,
+  ROOM_NAME_MAX_LENGHT,
 } from "@bondage-academy/bondage-academy-model";
 import * as tPromise from "io-ts-promise";
+import { PlayerStoreService } from "../player/player-store-service";
 import { Session } from "../session/model/session";
 import { RoomCreationService } from "./room-creation-service";
 import { RoomJoinService } from "./room-join-service";
@@ -16,7 +19,8 @@ export class RoomCreationApi {
     private roomService: RoomService,
     private roomCreationService: RoomCreationService,
     private roomJoinService: RoomJoinService,
-    private roomUtilsService: RoomUtilsService
+    private roomUtilsService: RoomUtilsService,
+    private playerStoreService: PlayerStoreService
   ) {}
 
   async createRoom(
@@ -26,10 +30,24 @@ export class RoomCreationApi {
     if (!session.playerId) {
       throw new Error("User is not logged in");
     }
+    const player = await this.playerStoreService.get(session.playerId);
+    if (player.roomId) {
+      throw new Error("Cannot create room while in a room");
+    }
     const { roomCode, name, description, publicRoom } = await tPromise.decode(
       CreateRoomRequestSchema,
       request
     );
+    if (name && name.length > ROOM_NAME_MAX_LENGHT) {
+      throw new Error(
+        `Room name has length ${name.length} but max length is ${ROOM_NAME_MAX_LENGHT}`
+      );
+    }
+    if (description && description.length > ROOM_DESCRIPTION_MAX_LENGHT) {
+      throw new Error(
+        `Room description has length ${description.length} but max length is ${ROOM_DESCRIPTION_MAX_LENGHT}`
+      );
+    }
     const templateRoomId = await this.roomService.getRoomIdByCode(roomCode);
     const templateRoom = await this.roomStoreService.get(templateRoomId);
     if (!templateRoom.template) {

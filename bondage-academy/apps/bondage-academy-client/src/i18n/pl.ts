@@ -9,11 +9,17 @@ export const dictionary: RawDictionary = {
     createAccount: "Utwórz konto",
     back: "Wstecz",
     exploreAcademy: "Eksploruj akademię",
-    searchRoom: "Szukaj pokoju",
+    publicRooms: "Publiczne pokoje",
+    createRoom: "Utwórz pokój",
     roomName: "Nazwa pokoju",
     pose: "Pozycja",
     wardrobe: "Garderoba",
     equipment: "Ekwipunek",
+  },
+  roomCreation: {
+    template: "Szablon",
+    name: "Nazwa",
+    description: "Opis",
   },
   rooms: {
     introduction: "Wprowadzenie",

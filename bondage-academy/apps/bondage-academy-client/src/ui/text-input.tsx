@@ -4,6 +4,7 @@ export default function TextInput(props: {
   id?: string;
   type?: "text" | "password";
   autocomplete?: string;
+  maxLength?: number;
 }) {
   return (
     <input
@@ -15,6 +16,7 @@ export default function TextInput(props: {
       onInput={(event) => {
         props.onInput?.(event.currentTarget.value);
       }}
+      maxLength={props.maxLength}
     />
   );
 }

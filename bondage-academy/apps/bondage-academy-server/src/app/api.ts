@@ -38,7 +38,8 @@ export const roomCreationApi = new RoomCreationApi(
   roomService,
   roomCreationService,
   roomJoinService,
-  roomUtilsService
+  roomUtilsService,
+  playerStoreService
 );
 
 export const roomLeaveApi = new RoomLeaveApi(roomLeaveService);

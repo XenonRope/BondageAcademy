@@ -1,5 +1,8 @@
 import type { GameObject } from "./game-object";
 
+export const ROOM_NAME_MAX_LENGHT = 60;
+export const ROOM_DESCRIPTION_MAX_LENGHT = 100;
+
 export enum RoomCode {
   Introduction = "Introduction",
   PrisonCell = "PrisonCell",
