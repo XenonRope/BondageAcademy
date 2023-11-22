@@ -3,6 +3,7 @@ import { AccountService } from "../account/account-service";
 import { LoginService } from "../account/login-service";
 import { LogoutService } from "../account/logout-service";
 import { CharacterPoseService } from "../character/character-pose-service";
+import { ChatService } from "../chat/chat-service";
 import { ChatSpeakService } from "../chat/chat-speak-service";
 import { Dao } from "../dao/dao";
 import { Sequences } from "../dao/sequences";
@@ -30,6 +31,7 @@ import { RoomService } from "../room/room-service";
 import { RoomSessionService } from "../room/room-session-service";
 import { RoomStoreService } from "../room/room-store-service";
 import { RoomUtilsService } from "../room/room-utils-service";
+import { ScriptService } from "../script/script-service";
 import { SessionService } from "../session/session-service";
 import { DatabaseSynchronizationService } from "../synchronization/database-synchronization-service";
 export const dao = new Dao();
@@ -41,6 +43,8 @@ export const objectIdProvider = new ObjectIdProvider(sequences);
 export const playerService = new PlayerService(dao);
 
 export const playerStoreService = new PlayerStoreService(playerService);
+
+export const scriptService = new ScriptService();
 
 export const objectClientSynchronizationService =
   new ObjectClientSynchronizationService();
@@ -112,7 +116,8 @@ export const roomJoinService = new RoomJoinService(
   roomFieldService,
   objectCreationService,
   playerStoreService,
-  roomObjectCreationService
+  roomObjectCreationService,
+  scriptService
 );
 
 export const loginService = new LoginService(
@@ -150,10 +155,13 @@ export const movementService = new MovementService(
   roomSessionService
 );
 
+export const chatService = new ChatService();
+
 export const chatSpeakService = new ChatSpeakService(
   playerStoreService,
   sessionService,
-  roomSessionService
+  roomSessionService,
+  chatService
 );
 
 export const roomInitializationService = new RoomInitializationService(

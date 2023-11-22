@@ -47,6 +47,7 @@ export class RoomCreationService {
       customName: params.customName,
       description: params.description,
       template: false,
+      templateRoomId: params.templateRoomId,
       width: templateRoom.width,
       height: templateRoom.height,
       transitAreas: structuredClone(templateRoom.transitAreas),

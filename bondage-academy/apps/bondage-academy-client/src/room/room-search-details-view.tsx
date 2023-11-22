@@ -1,6 +1,8 @@
-import { RoomSearchDetails } from "@bondage-academy/bondage-academy-model";
+import {
+  DictionaryKey,
+  RoomSearchDetails,
+} from "@bondage-academy/bondage-academy-model";
 import { t } from "../app/services";
-import { DictionaryKey } from "../locale/services/locale-service";
 import { usersIcon } from "../ui/icons";
 
 export default function RoomSearchDetailsView(props: {

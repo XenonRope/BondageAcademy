@@ -1,16 +1,16 @@
-import {
-  ChatMessageEvent,
-  EventFromServer,
-} from "@bondage-academy/bondage-academy-model";
+import { Player } from "@bondage-academy/bondage-academy-model";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomSessionService } from "../room/room-session-service";
+import { Session } from "../session/model/session";
 import { SessionService } from "../session/session-service";
+import { ChatService } from "./chat-service";
 
 export class ChatSpeakService {
   constructor(
     private playerStoreService: PlayerStoreService,
     private sessionService: SessionService,
-    private roomSessionService: RoomSessionService
+    private roomSessionService: RoomSessionService,
+    private chatService: ChatService
   ) {}
 
   async speak(playerId: number, content: string): Promise<void> {
@@ -18,20 +18,19 @@ export class ChatSpeakService {
       throw new Error("Speak content cannot be empty");
     }
     const player = await this.playerStoreService.get(playerId);
-    const event: ChatMessageEvent = {
-      message: { time: new Date().getTime(), speaker: player.name, content },
-    };
+    const sessions = await this.getSessions(player);
+    this.chatService.sendChatMessage(sessions, {
+      time: new Date().getTime(),
+      speaker: player.name,
+      content,
+    });
+  }
+
+  private async getSessions(player: Player): Promise<Session[]> {
     if (!player.roomId) {
-      this.sessionService
-        .getSessionByPlayerId(playerId)
-        ?.socket.emit(EventFromServer.ChatMessage, event);
-      return;
+      const session = this.sessionService.getSessionByPlayerId(player.id);
+      return session ? [session] : [];
     }
-    const sessions = await this.roomSessionService.getSessionsInRoom(
-      player.roomId
-    );
-    sessions.forEach((session) =>
-      session.socket.emit(EventFromServer.ChatMessage, event)
-    );
+    return await this.roomSessionService.getSessionsInRoom(player.roomId);
   }
 }

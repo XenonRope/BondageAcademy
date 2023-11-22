@@ -2,6 +2,7 @@ import { Room } from "@bondage-academy/bondage-academy-model";
 import { BusinessError } from "../api/model/business-error";
 import { ObjectCreationService } from "../object/object-creation-service";
 import { PlayerStoreService } from "../player/player-store-service";
+import { ScriptService } from "../script/script-service";
 import { RoomFieldService } from "./room-field-service";
 import { RoomObjectCreationService } from "./room-object-creation-service";
 import { RoomStoreService } from "./room-store-service";
@@ -12,7 +13,8 @@ export class RoomJoinService {
     private roomFieldService: RoomFieldService,
     private objectCreationService: ObjectCreationService,
     private playerStoreService: PlayerStoreService,
-    private roomObjectCreationService: RoomObjectCreationService
+    private roomObjectCreationService: RoomObjectCreationService,
+    private scriptService: ScriptService
   ) {}
 
   async joinRoom(playerId: number, roomId: number): Promise<void> {
@@ -38,6 +40,7 @@ export class RoomJoinService {
       playerId,
     });
     await this.roomObjectCreationService.createObject(roomId, playerObject);
+    await this.scriptService.onPlayerJoinRoom({ playerId, roomId });
   }
 
   private findFreeFieldInTransitArea(room: Room) {

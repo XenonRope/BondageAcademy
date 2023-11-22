@@ -1,3 +1,4 @@
+import { Dictionary } from "@bondage-academy/bondage-academy-model";
 import type { NullableTranslator } from "@solid-primitives/i18n";
 import { createStore } from "solid-js/store";
 import { AccountService } from "../account/service/account-service";
@@ -8,10 +9,7 @@ import { View } from "../common/model/view";
 import { NavigationService } from "../common/navigation-service";
 import { SocketService } from "../common/socket-service";
 import { SideMenuService } from "../game/services/side-menu-service";
-import {
-  LocaleService,
-  type Dictionary,
-} from "../locale/services/locale-service";
+import { LocaleService } from "../locale/services/locale-service";
 import { NPCCharacterService } from "../npc/npc-character-service";
 import { RoomService } from "../room/services/room-service";
 import type { Store } from "../store/model/store";

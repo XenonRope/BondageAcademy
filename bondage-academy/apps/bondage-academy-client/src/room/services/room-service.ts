@@ -17,6 +17,7 @@ export class RoomService {
   ) {}
 
   async joinRoom(roomId: number): Promise<void> {
+    this.storeService.clearChatMessages();
     const request: JoinRoomRequest = {
       roomId,
     };
@@ -26,7 +27,6 @@ export class RoomService {
     );
     this.storeService.setRoom(response.room);
     this.storeService.setPlayers(response.players);
-    this.storeService.clearChatMessages();
   }
 
   async createRoom(params: {
@@ -35,6 +35,7 @@ export class RoomService {
     description?: string;
     publicRoom: boolean;
   }): Promise<void> {
+    this.storeService.clearChatMessages();
     const request: CreateRoomRequest = {
       roomCode: params.roomCode,
       name: params.name,
@@ -47,7 +48,6 @@ export class RoomService {
     );
     this.storeService.setRoom(response.room);
     this.storeService.setPlayers(response.players);
-    this.storeService.clearChatMessages();
   }
 
   async leaveRoom(): Promise<void> {

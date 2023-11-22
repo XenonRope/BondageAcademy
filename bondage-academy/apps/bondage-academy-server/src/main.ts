@@ -17,12 +17,16 @@ import {
   roomSearchApi,
 } from "./app/api";
 import {
+  chatService,
   databaseSynchronizationService,
   logoutService,
   migrationService,
   roomInitializationService,
+  roomStoreService,
+  scriptService,
   sessionService,
 } from "./app/services";
+import { HeadmasterScript } from "./script/scripts/headmaster-script";
 
 const app = express();
 const server = createServer(app);
@@ -53,6 +57,9 @@ async function start(): Promise<void> {
   await migrationService.migrate();
   await roomInitializationService.initializeRooms();
   databaseSynchronizationService.startSynchronizationLoop();
+  scriptService.addScripts([
+    new HeadmasterScript(roomStoreService, sessionService, chatService),
+  ]);
 
   io.on("connection", (socket) => {
     console.log("User connected");
