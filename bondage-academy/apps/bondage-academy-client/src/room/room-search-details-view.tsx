@@ -19,16 +19,17 @@ export default function RoomSearchDetailsView(props: {
 
   return (
     <div
-      class="h-8 font-medium border-[3px] border-primary-800 bg-primary-100 hover:bg-primary-200"
+      class="px-1 border-[3px] border-primary-800 bg-primary-100 hover:bg-primary-200"
       onClick={props.onClick}
     >
-      <div class="flex px-1">
-        <div>{getTitle()}</div>
+      <div class="flex font-medium">
+        <div class="truncate">{getTitle()}</div>
         <div class="flex items-center ml-auto">
           <div class="h-4 w-4 mr-1">{usersIcon()}</div>
           <div>{props.room.playersCount}</div>
         </div>
       </div>
+      <div class="h-12 line-clamp-2">{props.room.description}</div>
     </div>
   );
 }

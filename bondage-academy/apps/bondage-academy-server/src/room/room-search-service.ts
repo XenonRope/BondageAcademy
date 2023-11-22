@@ -30,6 +30,7 @@ export class RoomSearchService {
             id: 1,
             name: 1,
             customName: 1,
+            description: 1,
             "objects.type": 1,
           },
         })
@@ -42,6 +43,7 @@ export class RoomSearchService {
       id: room.id,
       name: room.name,
       customName: room.customName,
+      description: room.description,
       playersCount: room.objects.filter(isPlayerObject).length,
     };
   }

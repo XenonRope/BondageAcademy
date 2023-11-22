@@ -54,7 +54,7 @@ export default function RoomSelectionView() {
               <Label for="room_name">{t("common.roomName")}</Label>
               <TextInput id="room_name" value={name()} onInput={setName} />
             </div>
-            <div class="grid grid-cols-1 xl:grid-cols-2 2xl:lg:grid-cols-3 gap-2">
+            <div class="grid grid-cols-1 2xl:grid-cols-2 gap-2">
               <For each={searchResult()?.rooms}>
                 {(room) => (
                   <RoomSearchDetailsView
