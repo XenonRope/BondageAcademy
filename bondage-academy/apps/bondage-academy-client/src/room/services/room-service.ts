@@ -26,6 +26,7 @@ export class RoomService {
     );
     this.storeService.setRoom(response.room);
     this.storeService.setPlayers(response.players);
+    this.storeService.clearChatMessages();
   }
 
   async createRoom(params: {
@@ -46,11 +47,13 @@ export class RoomService {
     );
     this.storeService.setRoom(response.room);
     this.storeService.setPlayers(response.players);
+    this.storeService.clearChatMessages();
   }
 
   async leaveRoom(): Promise<void> {
     await this.socketService.emit(RequestFromClient.LeaveRoom, undefined);
     this.storeService.setRoom(undefined);
+    this.storeService.clearChatMessages();
   }
 
   async searchRooms(request: SearchRoomRequest): Promise<SearchRoomResponse> {

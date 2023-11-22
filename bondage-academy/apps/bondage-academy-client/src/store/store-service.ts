@@ -237,6 +237,10 @@ export class StoreService {
     );
   }
 
+  clearChatMessages() {
+    this.setStore({ chatMessages: undefined });
+  }
+
   addChatMessage(message: ChatMessage): void {
     this.setStore(
       produce((store) => {
