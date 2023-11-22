@@ -67,7 +67,7 @@ export const roomSessionService = new RoomSessionService(
   roomStoreService
 );
 
-export const roomSearchService = new RoomSearchService(dao);
+export const roomSearchService = new RoomSearchService(dao, roomStoreService);
 
 export const roomObjectRemovalService = new RoomObjectRemovalService(
   roomStoreService,

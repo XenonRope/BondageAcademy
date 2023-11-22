@@ -29,10 +29,13 @@ export type CreateRoomResponse = {
 
 export const SearchRoomRequestSchema = t.type({
   name: t.string,
+  skip: t.number,
+  limit: t.number,
 });
 
 export type SearchRoomRequest = t.TypeOf<typeof SearchRoomRequestSchema>;
 
 export type SearchRoomResponse = {
   rooms: RoomSearchDetails[];
+  totalCount: number;
 };

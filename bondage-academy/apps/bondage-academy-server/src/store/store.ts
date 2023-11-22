@@ -13,6 +13,10 @@ export abstract class Store<K, V> {
     return await this.getEntry(key).promise;
   }
 
+  getIfExists(key: K): V | undefined {
+    return this.entries.get(key)?.value;
+  }
+
   async getAll(keys: K[]): Promise<V[]> {
     return Promise.all(keys.map((key) => this.get(key)));
   }

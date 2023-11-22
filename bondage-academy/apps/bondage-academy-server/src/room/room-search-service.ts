@@ -6,15 +6,20 @@ import {
 import { Collection, Filter } from "mongodb";
 import { Dao } from "../dao/dao";
 import { CollectionName } from "../dao/model/collection-name";
+import { RoomStoreService } from "./room-store-service";
 
 export class RoomSearchService {
   private collection!: Collection<Room>;
 
-  constructor(dao: Dao) {
+  constructor(dao: Dao, private roomStoreService: RoomStoreService) {
     this.collection = dao.getCollection(CollectionName.ROOMS);
   }
 
-  async searchRooms(params: { name?: string }): Promise<RoomSearchDetails[]> {
+  async searchRooms(params: {
+    name?: string;
+    skip?: number;
+    limit?: number;
+  }): Promise<{ rooms: RoomSearchDetails[]; totalCount: number }> {
     const filter: Filter<Room> = {
       template: false,
       "restrictions.players": null,
@@ -22,7 +27,8 @@ export class RoomSearchService {
     if (params.name) {
       filter.customName = new RegExp(this.escapeRegExp(params.name));
     }
-    return (
+    const totalCount = await this.collection.countDocuments(filter);
+    const rooms = (
       await this.collection
         .find(filter, {
           projection: {
@@ -34,17 +40,22 @@ export class RoomSearchService {
             "objects.type": 1,
           },
         })
+        .skip(params.skip ?? 0)
+        .limit(params.limit ?? 20)
         .toArray()
     ).map(this.mapRoomToRoomSearchDetails.bind(this));
+
+    return { rooms, totalCount };
   }
 
   private mapRoomToRoomSearchDetails(room: Room): RoomSearchDetails {
+    const roomToMap = this.roomStoreService.getIfExists(room.id) ?? room;
     return {
       id: room.id,
       name: room.name,
       customName: room.customName,
       description: room.description,
-      playersCount: room.objects.filter(isPlayerObject).length,
+      playersCount: roomToMap.objects.filter(isPlayerObject).length,
     };
   }
 

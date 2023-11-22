@@ -9,8 +9,10 @@ export class RoomSearchApi {
   constructor(private roomSearchService: RoomSearchService) {}
 
   async searchRooms(request: unknown): Promise<SearchRoomResponse> {
-    const { name } = await tPromise.decode(SearchRoomRequestSchema, request);
-    const rooms = await this.roomSearchService.searchRooms({ name });
-    return { rooms };
+    const searchRoomsRequest = await tPromise.decode(
+      SearchRoomRequestSchema,
+      request
+    );
+    return await this.roomSearchService.searchRooms(searchRoomsRequest);
   }
 }
