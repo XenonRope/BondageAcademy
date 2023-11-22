@@ -5,6 +5,7 @@ import {
   GameObject,
   Item,
   Position,
+  SynchronizePlayersEvent,
 } from "@bondage-academy/bondage-academy-model";
 import { createEffect, type JSX } from "solid-js";
 import AccountRegistrationPage from "./account/account-registration-page";
@@ -51,6 +52,12 @@ export default function App() {
       socket.on(EventFromServer.ChatMessage, (msg: ChatMessageEvent) => {
         storeService.addChatMessage(msg.message);
       });
+      socket.on(
+        EventFromServer.SynchronizePlayers,
+        (msg: SynchronizePlayersEvent) => {
+          storeService.updatePlayers(msg.players);
+        }
+      );
     }
   });
 

@@ -87,6 +87,29 @@ export class StoreService {
     this.setStore({ players });
   }
 
+  updatePlayers(players: Player[]) {
+    this.setStore(
+      produce((store) => {
+        if (!store.players) {
+          store.players = [];
+        }
+        for (const newPlayer of players) {
+          let replaced = false;
+          for (let i = 0; i < store.players.length; i++) {
+            if (store.players[i].id === newPlayer.id) {
+              store.players[i] = newPlayer;
+              replaced = true;
+              break;
+            }
+          }
+          if (!replaced) {
+            store.players.push(newPlayer);
+          }
+        }
+      })
+    );
+  }
+
   updateObjects({
     objects,
     toRemove,
