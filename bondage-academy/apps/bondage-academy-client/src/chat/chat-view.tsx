@@ -16,7 +16,7 @@ export default function ChatView() {
 
   return (
     <div class="flex flex-col h-full p-1">
-      <div class="flex-grow">
+      <div class="min-h-0 flex-grow overflow-y-auto mb-1">
         <For each={store.chatMessages ?? []}>
           {(message) => (
             <div>
