@@ -1,4 +1,5 @@
 import {
+  ChatMessage,
   PartialRecord,
   Player,
   Room,
@@ -21,4 +22,5 @@ export interface Store {
   players?: Player[];
   motions?: PartialRecord<number, Motion>;
   sideMenuView?: SideMenuView;
+  chatMessages?: ChatMessage[];
 }

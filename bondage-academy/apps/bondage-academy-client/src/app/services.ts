@@ -3,6 +3,7 @@ import { createStore } from "solid-js/store";
 import { AccountService } from "../account/service/account-service";
 import { CharacterLayerService } from "../character/service/character-layer-service";
 import { CharacterPoseService } from "../character/service/character-pose-service";
+import { ChatService } from "../chat/services/chat-service";
 import { View } from "../common/model/view";
 import { NavigationService } from "../common/navigation-service";
 import { SocketService } from "../common/socket-service";
@@ -37,6 +38,8 @@ export const navigationService = new NavigationService(storeService);
 export const sideMenuService = new SideMenuService(storeService);
 
 export const roomService = new RoomService(socketService, storeService);
+
+export const chatService = new ChatService(socketService);
 
 export const localeService = new LocaleService(store);
 

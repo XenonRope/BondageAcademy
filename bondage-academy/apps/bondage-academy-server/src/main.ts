@@ -9,6 +9,7 @@ import { BusinessError } from "./api/model/business-error";
 import {
   accountApi,
   characterPoseApi,
+  chatSpeakApi,
   movementApi,
   roomCreationApi,
   roomJoinApi,
@@ -86,6 +87,9 @@ async function start(): Promise<void> {
     });
     socket.on(RequestFromClient.SearchRoom, (msg: unknown, callback) => {
       handleRequest(() => roomSearchApi.searchRooms(msg), callback);
+    });
+    socket.on(RequestFromClient.Speak, (msg: unknown, callback) => {
+      handleRequest(() => chatSpeakApi.speak(msg, session), callback);
     });
   });
 

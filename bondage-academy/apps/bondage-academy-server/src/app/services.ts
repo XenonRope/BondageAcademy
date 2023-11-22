@@ -3,6 +3,7 @@ import { AccountService } from "../account/account-service";
 import { LoginService } from "../account/login-service";
 import { LogoutService } from "../account/logout-service";
 import { CharacterPoseService } from "../character/character-pose-service";
+import { ChatSpeakService } from "../chat/chat-speak-service";
 import { Dao } from "../dao/dao";
 import { Sequences } from "../dao/sequences";
 import { MigrationService } from "../migration/migration-service";
@@ -146,6 +147,12 @@ export const movementService = new MovementService(
   roomStoreService,
   playerStoreService,
   roomFieldService,
+  roomSessionService
+);
+
+export const chatSpeakService = new ChatSpeakService(
+  playerStoreService,
+  sessionService,
   roomSessionService
 );
 

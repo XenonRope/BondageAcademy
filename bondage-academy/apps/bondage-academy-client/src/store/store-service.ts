@@ -1,5 +1,6 @@
 import {
   ChangePoseEvent,
+  ChatMessage,
   GameObject,
   Item,
   Player,
@@ -127,6 +128,7 @@ export class StoreService {
       players: undefined,
       motions: undefined,
       sideMenuView: undefined,
+      chatMessages: undefined,
     });
   }
 
@@ -208,6 +210,21 @@ export class StoreService {
       produce(({ playerId, players }) => {
         const player = players?.find((player) => player.id === playerId);
         player?.items.push(item);
+      })
+    );
+  }
+
+  addChatMessage(message: ChatMessage): void {
+    this.setStore(
+      produce((store) => {
+        if (!store.chatMessages) {
+          store.chatMessages = [];
+        }
+        store.chatMessages.push(message);
+        store.chatMessages.sort(
+          (firstMessage, secondMessage) =>
+            firstMessage.time - secondMessage.time
+        );
       })
     );
   }

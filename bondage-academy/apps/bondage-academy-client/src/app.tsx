@@ -1,5 +1,6 @@
 import {
   ChangePoseEvent,
+  ChatMessageEvent,
   EventFromServer,
   GameObject,
   Item,
@@ -46,6 +47,9 @@ export default function App() {
       });
       socket.on("add_item", (msg: { item: Item }) => {
         storeService.addItem(msg.item);
+      });
+      socket.on(EventFromServer.ChatMessage, (msg: ChatMessageEvent) => {
+        storeService.addChatMessage(msg.message);
       });
     }
   });

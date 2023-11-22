@@ -1,24 +1,36 @@
+import { For, createSignal } from "solid-js";
+import { chatService, store } from "../app/services";
+import { sendMessageIcon } from "../ui/icons";
 import TextInput from "../ui/text-input";
 
 export default function ChatView() {
+  const [message, setMessage] = createSignal("");
+
+  function sendMessage() {
+    chatService.speak(message()).catch(console.log);
+    setMessage("");
+  }
+
   return (
     <div class="flex flex-col h-full p-1">
-      <div class="flex-grow">User: Hello! How are you?</div>
+      <div class="flex-grow">
+        <For each={store.chatMessages ?? []}>
+          {(message) => (
+            <div>
+              <span class="incline-block font-bold mr-1">{message.speaker + ":"}</span>
+              <span>{message.content}</span>
+            </div>
+          )}
+        </For>
+      </div>
       <div class="flex">
-        <TextInput />
+        <TextInput value={message()} onInput={setMessage} />
         <button
           type="button"
           class="inline-flex justify-center p-2 pr-[3px] text-primary-800 rounded-lg cursor-pointer hover:text-primary-700"
+          onClick={sendMessage}
         >
-          <svg
-            class="w-6 h-6 rotate-90"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 18 20"
-          >
-            <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
-          </svg>
+          {sendMessageIcon()}
         </button>
       </div>
     </div>

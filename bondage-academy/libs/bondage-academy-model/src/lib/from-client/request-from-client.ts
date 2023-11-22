@@ -3,4 +3,5 @@ export enum RequestFromClient {
   CreateRoom = "create_room",
   LeaveRoom = "leave_room",
   SearchRoom = "search_room",
+  Speak = "speak",
 }
