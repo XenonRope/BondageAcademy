@@ -20,7 +20,7 @@ export class RoomSearchService {
       "restrictions.players": null,
     };
     if (params.name) {
-      filter.name = new RegExp(this.escapeRegExp(params.name));
+      filter.customName = new RegExp(this.escapeRegExp(params.name));
     }
     return (
       await this.collection
