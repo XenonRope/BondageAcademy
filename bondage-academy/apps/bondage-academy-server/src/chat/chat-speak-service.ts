@@ -14,6 +14,9 @@ export class ChatSpeakService {
   ) {}
 
   async speak(playerId: number, content: string): Promise<void> {
+    if (content === "") {
+      throw new Error("Speak content cannot be empty");
+    }
     const player = await this.playerStoreService.get(playerId);
     const event: ChatMessageEvent = {
       message: { time: new Date().getTime(), speaker: player.name, content },
