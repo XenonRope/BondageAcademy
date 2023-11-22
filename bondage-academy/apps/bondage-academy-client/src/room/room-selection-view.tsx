@@ -29,7 +29,7 @@ export default function RoomSelectionView() {
   return (
     <>
       <Show when={!creatingRoom()}>
-        <div class="p-2">
+        <div class="flex flex-col h-full p-2">
           <div>
             <div class="text-lg font-bold mb-2">
               {t("common.exploreAcademy")}
@@ -43,7 +43,7 @@ export default function RoomSelectionView() {
               </Button>
             </div>
           </div>
-          <div>
+          <div class="flex flex-col min-h-0">
             <div class="text-lg font-bold mb-2">{t("common.publicRooms")}</div>
             <div class="mb-2">
               <Button onClick={startCreatingRoom}>
@@ -54,7 +54,7 @@ export default function RoomSelectionView() {
               <Label for="room_name">{t("common.roomName")}</Label>
               <TextInput id="room_name" value={name()} onInput={setName} />
             </div>
-            <div class="grid grid-cols-1 2xl:grid-cols-2 gap-2">
+            <div class="grid grid-cols-1 2xl:grid-cols-2 min-h-0 gap-2 overflow-y-auto">
               <For each={searchResult()?.rooms}>
                 {(room) => (
                   <RoomSearchDetailsView
