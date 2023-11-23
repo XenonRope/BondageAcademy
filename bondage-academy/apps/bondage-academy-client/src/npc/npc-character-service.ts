@@ -11,7 +11,7 @@ import {
 export class NPCCharacterService {
   getCharacterByNPCCode(code: NPCCode): Character {
     switch (code) {
-      case NPCCode.Tutor:
+      case NPCCode.Headmistress:
         return {
           shape: CharacterShape.Shape1,
           skin: CharacterSkin.Skin1,

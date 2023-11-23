@@ -26,7 +26,7 @@ import {
   scriptService,
   sessionService,
 } from "./app/services";
-import { HeadmasterScript } from "./script/scripts/headmaster-script";
+import { HeadmistressScript } from "./script/scripts/headmistress-script";
 
 const app = express();
 const server = createServer(app);
@@ -58,7 +58,7 @@ async function start(): Promise<void> {
   await roomInitializationService.initializeRooms();
   databaseSynchronizationService.startSynchronizationLoop();
   scriptService.addScripts([
-    new HeadmasterScript(roomStoreService, sessionService, chatService),
+    new HeadmistressScript(roomStoreService, sessionService, chatService),
   ]);
 
   io.on("connection", (socket) => {

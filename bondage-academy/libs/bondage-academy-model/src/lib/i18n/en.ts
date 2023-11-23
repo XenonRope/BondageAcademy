@@ -24,9 +24,11 @@ export const enDictionary = {
     prisonCell: "Prison cell",
   },
   npc: {
-    headmaster: "Headmaster",
+    headmistress: "Headmistress",
   },
   dialogue: {
     welcomeInOurAcademy: "Welcome in our academy!",
+    whoAreYou: "Who are you?",
+    iAmHeadmistressOfThisAcademy: "I am headmistress of this academy!",
   },
 };

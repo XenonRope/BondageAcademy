@@ -32,6 +32,7 @@ export interface Room {
   template: boolean;
   templateSettings?: RoomTemplateSettings;
   templateRoomId?: number;
+  templateRoomCode?: string;
   persistent?: boolean;
   width: number;
   height: number;

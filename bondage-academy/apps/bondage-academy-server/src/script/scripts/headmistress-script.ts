@@ -8,7 +8,7 @@ import {
 } from "../model/script-event";
 import { GameScript } from "./game-script";
 
-export class HeadmasterScript extends GameScript {
+export class HeadmistressScript extends GameScript {
   constructor(
     private roomStoreService: RoomStoreService,
     private sessionService: SessionService,
@@ -34,7 +34,7 @@ export class HeadmasterScript extends GameScript {
     if (templateRoom.code === RoomCode.Introduction) {
       this.chatService.sendChatMessage([session], {
         time: new Date().getTime(),
-        speakerDictionaryKey: "npc.headmaster",
+        speakerDictionaryKey: "npc.headmistress",
         contentDictionaryKey: "dialogue.welcomeInOurAcademy",
       });
     }

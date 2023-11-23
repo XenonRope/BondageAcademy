@@ -76,7 +76,7 @@ export class RoomInitializationService {
         await this.createBlock(0, 3),
         await this.createBlock(0, 2),
         await this.createBlock(0, 1),
-        await this.createNPC(8, 8, NPCCode.Tutor),
+        await this.createNPC(8, 8, NPCCode.Headmistress),
       ],
     });
   }

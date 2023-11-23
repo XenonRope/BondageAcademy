@@ -1,8 +1,12 @@
-import { ChatMessage } from "@bondage-academy/bondage-academy-model";
+import {
+  ChatMessage,
+  DialogueOption,
+} from "@bondage-academy/bondage-academy-model";
 import { For, createSignal } from "solid-js";
-import { chatService, store, t } from "../app/services";
+import { chatService, dialogueOptionService, store, t } from "../app/services";
 import { sendMessageIcon } from "../ui/icons";
 import TextInput from "../ui/text-input";
+import DialogueOptionView from "./dialogue-option-view";
 
 export default function ChatView() {
   const [message, setMessage] = createSignal("");
@@ -29,9 +33,13 @@ export default function ChatView() {
     return message.content ?? "";
   }
 
+  function getDialogueOptions(): DialogueOption[] {
+    return dialogueOptionService.getAvailableDialogueOptions();
+  }
+
   return (
-    <div class="flex flex-col h-full p-1">
-      <div class="min-h-0 flex-grow overflow-y-auto">
+    <div class="flex flex-col h-full">
+      <div class="min-h-0 flex-grow overflow-y-auto p-1">
         <For each={store.chatMessages ?? []}>
           {(message) => (
             <div style={{ "overflow-anchor": "none" }}>
@@ -42,6 +50,17 @@ export default function ChatView() {
             </div>
           )}
         </For>
+        <div class="mt-1">
+          <For each={getDialogueOptions()}>
+            {(option) => (
+              <div style={{ "overflow-anchor": "none" }}>
+                <DialogueOptionView>
+                  {t(option.content) as string}
+                </DialogueOptionView>
+              </div>
+            )}
+          </For>
+        </div>
         <div class="h-1"></div>
       </div>
       <div class="flex">

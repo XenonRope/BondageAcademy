@@ -26,9 +26,11 @@ export const plDictionary: RawDictionary = {
     prisonCell: "Cela więzienna",
   },
   npc: {
-    headmaster: "Dyrektor",
+    headmistress: "Dyrektorka",
   },
   dialogue: {
     welcomeInOurAcademy: "Witaj w naszej akademii!",
+    whoAreYou: "Kim jestes?",
+    iAmHeadmistressOfThisAcademy: "Jestem dyrektorką tej akademii!",
   },
 };
