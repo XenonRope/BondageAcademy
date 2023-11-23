@@ -65,7 +65,7 @@ export default function ChatView() {
         </For>
         <div class="h-1"></div>
       </div>
-      <div class="flex">
+      <div class="flex p-1">
         <div
           class="w-full"
           onKeyPress={(e) => e.key === "Enter" && sendMessage()}
