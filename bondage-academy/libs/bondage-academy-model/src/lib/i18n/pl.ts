@@ -15,6 +15,7 @@ export const plDictionary: RawDictionary = {
     pose: "Pozycja",
     wardrobe: "Garderoba",
     equipment: "Ekwipunek",
+    chooseItem: "Wybierz przedmiot",
   },
   roomCreation: {
     template: "Szablon",
@@ -36,5 +37,17 @@ export const plDictionary: RawDictionary = {
     kneelIfYouWantToAskMeForFavor:
       "Klęknij jeżeli chcesz mnie prosić o przysługę!",
     iHaveSomethingSuitableForYouHere: "Mam tutaj dla ciebie coś odpowiedniego.",
+  },
+  slots: {
+    leftSleeve: "Lewy rękaw",
+    rightSleeve: "Prawy rękaw",
+    mouth: "Usta",
+    body: "Ciało",
+  },
+  items: {
+    xFashionSleeve: "X fashion sleeve",
+    xFashionThong: "X fashion thong",
+    ballGag: "Ball gag",
+    petSuit: "Pet suit",
   },
 };

@@ -13,6 +13,7 @@ export const enDictionary = {
     pose: "Pose",
     wardrobe: "Wardrobe",
     equipment: "Equipment",
+    chooseItem: "Choose item",
   },
   roomCreation: {
     template: "Template",
@@ -33,5 +34,17 @@ export const enDictionary = {
     iNeedClothes: "I need clothes.",
     kneelIfYouWantToAskMeForFavor: "Kneel if you want to ask me for a favor!",
     iHaveSomethingSuitableForYouHere: "I have something suitable for you here.",
+  },
+  slots: {
+    leftSleeve: "Left sleeve",
+    rightSleeve: "Right sleeve",
+    mouth: "Mouth",
+    body: "Body",
+  },
+  items: {
+    xFashionSleeve: "X fashion sleeve",
+    xFashionThong: "X fashion thong",
+    ballGag: "Ball gag",
+    petSuit: "Pet suit",
   },
 };
