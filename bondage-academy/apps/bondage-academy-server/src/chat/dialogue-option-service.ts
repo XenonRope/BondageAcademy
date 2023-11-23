@@ -8,13 +8,17 @@ import {
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomStoreService } from "../room/room-store-service";
 import { ScriptService } from "../script/script-service";
+import { SessionService } from "../session/session-service";
+import { ChatService } from "./chat-service";
 
 export class DialogueOptionService {
   constructor(
     private playerStoreService: PlayerStoreService,
     private dialogueOptions: DialogueOption[],
     private roomStoreServie: RoomStoreService,
-    private scriptService: ScriptService
+    private scriptService: ScriptService,
+    private chatService: ChatService,
+    private sessionService: SessionService
   ) {}
 
   async useDialogueOption(
@@ -50,6 +54,14 @@ export class DialogueOptionService {
       throw new Error(
         `Condition of dialogue option with npcCode ${npcCode} and content ${content} not satisfied`
       );
+    }
+    const session = this.sessionService.getSessionByPlayerId(playerId);
+    if (session) {
+      this.chatService.sendChatMessage([session], {
+        time: new Date().getTime(),
+        speaker: player.name,
+        contentDictionaryKey: content,
+      });
     }
     await this.scriptService.onDialogueOptionUse({
       playerId,

@@ -172,7 +172,9 @@ export const dialogueOptionService = new DialogueOptionService(
   playerStoreService,
   dialogueOptions,
   roomStoreService,
-  scriptService
+  scriptService,
+  chatService,
+  sessionService
 );
 
 export const roomInitializationService = new RoomInitializationService(
