@@ -1,3 +1,4 @@
+import { dialogueOptions } from "@bondage-academy/bondage-academy-model";
 import { AccountRegistrationService } from "../account/account-registration-service";
 import { AccountService } from "../account/account-service";
 import { LoginService } from "../account/login-service";
@@ -5,6 +6,7 @@ import { LogoutService } from "../account/logout-service";
 import { CharacterPoseService } from "../character/character-pose-service";
 import { ChatService } from "../chat/chat-service";
 import { ChatSpeakService } from "../chat/chat-speak-service";
+import { DialogueOptionService } from "../chat/dialogue-option-service";
 import { Dao } from "../dao/dao";
 import { Sequences } from "../dao/sequences";
 import { MigrationService } from "../migration/migration-service";
@@ -162,6 +164,13 @@ export const chatSpeakService = new ChatSpeakService(
   sessionService,
   roomSessionService,
   chatService
+);
+
+export const dialogueOptionService = new DialogueOptionService(
+  playerStoreService,
+  dialogueOptions,
+  roomStoreService,
+  scriptService
 );
 
 export const roomInitializationService = new RoomInitializationService(

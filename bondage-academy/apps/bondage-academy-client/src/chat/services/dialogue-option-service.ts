@@ -2,13 +2,16 @@ import {
   DialogueOption,
   DialogueOptionContext,
   NPCCode,
+  RequestFromClient,
+  UseDialogueOptionRequest,
   dialogueOptions,
   isNPCObject,
 } from "@bondage-academy/bondage-academy-model";
+import { SocketService } from "../../common/socket-service";
 import { Store } from "../../store/model/store";
 
 export class DialogueOptionService {
-  constructor(private store: Store) {}
+  constructor(private store: Store, private socketService: SocketService) {}
 
   getAvailableDialogueOptions(): DialogueOption[] {
     if (!this.store.room) {
@@ -25,5 +28,13 @@ export class DialogueOptionService {
     return dialogueOptions.filter(
       (option) => npcCodes.includes(option.npcCode) && option.condition(context)
     );
+  }
+
+  async useDialogueOption(option: DialogueOption): Promise<void> {
+    const request: UseDialogueOptionRequest = {
+      npcCode: option.npcCode,
+      content: option.content,
+    };
+    await this.socketService.emit(RequestFromClient.UseDialogueOption, request);
   }
 }

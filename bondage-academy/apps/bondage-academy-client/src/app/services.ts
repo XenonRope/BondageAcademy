@@ -42,7 +42,10 @@ export const chatService = new ChatService(socketService);
 
 export const localeService = new LocaleService(store);
 
-export const dialogueOptionService = new DialogueOptionService(store);
+export const dialogueOptionService = new DialogueOptionService(
+  store,
+  socketService
+);
 
 export const t: NullableTranslator<Dictionary> =
   localeService.createTranslator();

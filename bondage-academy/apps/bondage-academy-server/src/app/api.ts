@@ -1,6 +1,7 @@
 import { AccountApi } from "../account/account-api";
 import { CharacterPoseApi } from "../character/character-pose-api";
 import { ChatSpeakApi } from "../chat/chat-speak-api";
+import { DialogueOptionApi } from "../chat/dialogue-option-api";
 import { MovementApi } from "../movement/movement-api";
 import { RoomCreationApi } from "../room/room-creation-api";
 import { RoomJoinApi } from "../room/room-join-api";
@@ -10,6 +11,7 @@ import {
   accountRegistrationService,
   characterPoseService,
   chatSpeakService,
+  dialogueOptionService,
   loginService,
   movementService,
   playerStoreService,
@@ -49,3 +51,5 @@ export const roomLeaveApi = new RoomLeaveApi(roomLeaveService);
 export const roomSearchApi = new RoomSearchApi(roomSearchService);
 
 export const chatSpeakApi = new ChatSpeakApi(chatSpeakService);
+
+export const dialogueOptionApi = new DialogueOptionApi(dialogueOptionService);

@@ -1,9 +1,14 @@
-import { PlayerJoinRoomEvent, ScriptEventEmitters } from "./model/script-event";
+import {
+  DialogueOptionUseEvent,
+  PlayerJoinRoomEvent,
+  ScriptEventEmitters,
+} from "./model/script-event";
 import { GameScript } from "./scripts/game-script";
 
 export class ScriptService {
   private eventEmitters: ScriptEventEmitters = {
     onPlayerJoinRoom: [],
+    onDialogueOptionUse: [],
   };
 
   addScripts(scripts: GameScript[]) {
@@ -13,6 +18,12 @@ export class ScriptService {
   async onPlayerJoinRoom(event: PlayerJoinRoomEvent): Promise<void> {
     await Promise.all(
       this.eventEmitters.onPlayerJoinRoom.map((handler) => handler(event))
+    );
+  }
+
+  async onDialogueOptionUse(event: DialogueOptionUseEvent): Promise<void> {
+    await Promise.all(
+      this.eventEmitters.onDialogueOptionUse.map((handler) => handler(event))
     );
   }
 }

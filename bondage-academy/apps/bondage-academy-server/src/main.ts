@@ -10,6 +10,7 @@ import {
   accountApi,
   characterPoseApi,
   chatSpeakApi,
+  dialogueOptionApi,
   movementApi,
   roomCreationApi,
   roomJoinApi,
@@ -97,6 +98,12 @@ async function start(): Promise<void> {
     });
     socket.on(RequestFromClient.Speak, (msg: unknown, callback) => {
       handleRequest(() => chatSpeakApi.speak(msg, session), callback);
+    });
+    socket.on(RequestFromClient.UseDialogueOption, (msg: unknown, callback) => {
+      handleRequest(
+        () => dialogueOptionApi.useDialogueOption(msg, session),
+        callback
+      );
     });
   });
 

@@ -37,6 +37,10 @@ export default function ChatView() {
     return dialogueOptionService.getAvailableDialogueOptions();
   }
 
+  function useDialogueOption(option: DialogueOption): void {
+    dialogueOptionService.useDialogueOption(option).catch(console.log);
+  }
+
   return (
     <div class="flex flex-col h-full">
       <div class="min-h-0 flex-grow overflow-y-auto p-1">
@@ -54,7 +58,7 @@ export default function ChatView() {
           <For each={getDialogueOptions()}>
             {(option) => (
               <div style={{ "overflow-anchor": "none" }}>
-                <DialogueOptionView>
+                <DialogueOptionView onClick={() => useDialogueOption(option)}>
                   {t(option.content) as string}
                 </DialogueOptionView>
               </div>
