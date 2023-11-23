@@ -30,5 +30,8 @@ export const enDictionary = {
     welcomeInOurAcademy: "Welcome in our academy!",
     whoAreYou: "Who are you?",
     iAmHeadmistressOfThisAcademy: "I am headmistress of this academy!",
+    iNeedClothes: "I need clothes.",
+    kneelIfYouWantToAskMeForFavor: "Kneel if you want to ask me for a favor!",
+    iHaveSomethingSuitableForYouHere: "I have something suitable for you here.",
   },
 };

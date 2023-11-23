@@ -65,11 +65,11 @@ export class CharacterLayerService {
     const characterPrefix = "Kiri";
     const layers: CharacterLayer[] = [];
     const rootOffsetY = this.getRootOffset(
-      "fullBody" in character.pose
+      character.pose.fullBody
         ? character.pose.fullBody
         : character.pose.lowerBody
     );
-    if ("fullBody" in character.pose) {
+    if (character.pose.fullBody) {
       layers.push({
         url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
           character.pose.fullBody
@@ -77,7 +77,7 @@ export class CharacterLayerService {
         order: this.getOrderForPose(character.pose.fullBody),
         offsetY: rootOffsetY,
       });
-    } else {
+    } else if (character.pose.upperBody && character.pose.lowerBody) {
       layers.push({
         url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
           character.pose.upperBody
@@ -100,7 +100,7 @@ export class CharacterLayerService {
       order: this.getOrderForPose(character.pose.head),
       offsetY:
         rootOffsetY +
-        ("fullBody" in character.pose
+        (character.pose.fullBody
           ? this.getHeadOffsetY(character.pose.fullBody)
           : 0),
     });
@@ -118,7 +118,10 @@ export class CharacterLayerService {
     return POSES_CONFIG[pose].order;
   }
 
-  getRootOffset(pose: FullBodyPose | LowerBodyPose): number {
+  getRootOffset(pose: FullBodyPose | LowerBodyPose | undefined): number {
+    if (!pose) {
+      return 0;
+    }
     return (POSES_CONFIG[pose].rootOffsetY ?? 0) - 20;
   }
 

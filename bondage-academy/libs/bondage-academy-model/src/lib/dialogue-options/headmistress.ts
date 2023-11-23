@@ -6,3 +6,9 @@ export const whoAreYou: DialogueOption = {
   npcCode: NPCCode.Headmistress,
   content: "dialogue.whoAreYou",
 };
+
+export const iNeedClothes: DialogueOption = {
+  condition: () => true,
+  npcCode: NPCCode.Headmistress,
+  content: "dialogue.iNeedClothes",
+};

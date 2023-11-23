@@ -20,7 +20,9 @@ export enum HeadPose {
 
 export type AnyPose = FullBodyPose | UpperBodyPose | LowerBodyPose | HeadPose;
 
-export type CharacterPose = (
-  | { fullBody: FullBodyPose }
-  | { upperBody: UpperBodyPose; lowerBody: LowerBodyPose }
-) & { head: HeadPose };
+export type CharacterPose = {
+  fullBody?: FullBodyPose;
+  upperBody?: UpperBodyPose;
+  lowerBody?: LowerBodyPose;
+  head: HeadPose;
+};

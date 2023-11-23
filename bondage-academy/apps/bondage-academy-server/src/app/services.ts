@@ -34,6 +34,8 @@ import { RoomSessionService } from "../room/room-session-service";
 import { RoomStoreService } from "../room/room-store-service";
 import { RoomUtilsService } from "../room/room-utils-service";
 import { ScriptService } from "../script/script-service";
+import { GameScript } from "../script/scripts/game-script";
+import { HeadmistressScript } from "../script/scripts/headmistress-script";
 import { SessionService } from "../session/session-service";
 import { DatabaseSynchronizationService } from "../synchronization/database-synchronization-service";
 export const dao = new Dao();
@@ -188,3 +190,12 @@ export const databaseSynchronizationService =
     playerDatabaseSynchronizationService,
     roomDatabaseSynchronizationService
   );
+
+export const headmistressScript = new HeadmistressScript(
+  roomStoreService,
+  sessionService,
+  chatService,
+  playerStoreService
+);
+
+export const scripts: GameScript[] = [headmistressScript];

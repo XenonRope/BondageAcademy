@@ -54,17 +54,15 @@ export default function ChatView() {
             </div>
           )}
         </For>
-        <div class="mt-1">
-          <For each={getDialogueOptions()}>
-            {(option) => (
-              <div style={{ "overflow-anchor": "none" }}>
-                <DialogueOptionView onClick={() => useDialogueOption(option)}>
-                  {t(option.content) as string}
-                </DialogueOptionView>
-              </div>
-            )}
-          </For>
-        </div>
+        <For each={getDialogueOptions()}>
+          {(option) => (
+            <div class="mt-1" style={{ "overflow-anchor": "none" }}>
+              <DialogueOptionView onClick={() => useDialogueOption(option)}>
+                {t(option.content) as string}
+              </DialogueOptionView>
+            </div>
+          )}
+        </For>
         <div class="h-1"></div>
       </div>
       <div class="flex">

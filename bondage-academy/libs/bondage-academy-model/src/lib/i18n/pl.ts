@@ -32,5 +32,9 @@ export const plDictionary: RawDictionary = {
     welcomeInOurAcademy: "Witaj w naszej akademii!",
     whoAreYou: "Kim jestes?",
     iAmHeadmistressOfThisAcademy: "Jestem dyrektorką tej akademii!",
+    iNeedClothes: "Potrzebuję ubrań.",
+    kneelIfYouWantToAskMeForFavor:
+      "Klęknij jeżeli chcesz mnie prosić o przysługę!",
+    iHaveSomethingSuitableForYouHere: "Mam tutaj dla ciebie coś odpowiedniego.",
   },
 };
