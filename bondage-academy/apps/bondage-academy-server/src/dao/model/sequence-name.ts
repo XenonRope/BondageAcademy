@@ -3,4 +3,5 @@ export enum SequenceName {
   ACCOUNT = "account",
   ROOM = "room",
   OBJECT = "object",
+  ITEM = "item",
 }

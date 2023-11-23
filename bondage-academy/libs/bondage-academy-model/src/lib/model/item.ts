@@ -8,6 +8,7 @@ export enum ItemCode {
   PetSuit = "PetSuit",
 }
 export interface Item {
+  id: number;
   code: ItemCode;
 }
 

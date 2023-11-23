@@ -119,7 +119,7 @@ export class StoreService {
               }
               if (updatedPlayer.items && updatedPlayer.items.remove) {
                 player.items = player.items.filter(
-                  (item) => !updatedPlayer.items?.remove?.includes(item.code)
+                  (item) => !updatedPlayer.items?.remove?.includes(item.id)
                 );
               }
               for (const [slot, { item }] of Object.entries(
