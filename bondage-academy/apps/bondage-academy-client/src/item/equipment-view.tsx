@@ -1,7 +1,7 @@
 import { Item } from "@bondage-academy/bondage-academy-model";
 import { For } from "solid-js";
 import { storeService } from "../app/services";
-import { itemPreviewService } from "./services/item-preview-service";
+import ItemPreview from "./item-preview";
 
 export default function EquipmentView() {
   function getItems(): Item[] {
@@ -9,19 +9,8 @@ export default function EquipmentView() {
   }
 
   return (
-    <div>
-      <For each={getItems()}>
-        {(item) => (
-          <div
-            class="h-[96px] w-[96px]"
-            style={{
-              "background-image": `url(${itemPreviewService.getPreviewImageUrl(
-                item
-              )}})`,
-            }}
-          />
-        )}
-      </For>
+    <div class="grid grid-cols-4 gap-2">
+      <For each={getItems()}>{(item) => <ItemPreview item={item} />}</For>
     </div>
   );
 }
