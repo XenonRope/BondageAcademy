@@ -1,12 +1,12 @@
 import {
-  ChangePoseEvent,
   ChatMessage,
   GameObject,
-  Item,
   Player,
   PlayerObject,
   Position,
   Room,
+  Slot,
+  SynchronizePlayersEvent,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
 import { Socket } from "socket.io-client";
@@ -87,23 +87,47 @@ export class StoreService {
     this.setStore({ players });
   }
 
-  updatePlayers(players: Player[]) {
+  synchronizePlayers(event: SynchronizePlayersEvent) {
     this.setStore(
       produce((store) => {
         if (!store.players) {
           store.players = [];
         }
-        for (const newPlayer of players) {
-          let replaced = false;
-          for (let i = 0; i < store.players.length; i++) {
-            if (store.players[i].id === newPlayer.id) {
-              store.players[i] = newPlayer;
-              replaced = true;
-              break;
+        if (event.replacePlayers) {
+          for (const newPlayer of event.replacePlayers) {
+            let replaced = false;
+            for (let i = 0; i < store.players.length; i++) {
+              if (store.players[i].id === newPlayer.id) {
+                store.players[i] = newPlayer;
+                replaced = true;
+                break;
+              }
+            }
+            if (!replaced) {
+              store.players.push(newPlayer);
             }
           }
-          if (!replaced) {
-            store.players.push(newPlayer);
+        }
+        for (const updatedPlayer of event.updatePlayers ?? []) {
+          for (const player of store.players) {
+            if (player.id === updatedPlayer.id) {
+              if (updatedPlayer.pose) {
+                player.character.pose = updatedPlayer.pose;
+              }
+              if (updatedPlayer.items && updatedPlayer.items.add) {
+                player.items.push(...updatedPlayer.items.add);
+              }
+              if (updatedPlayer.items && updatedPlayer.items.remove) {
+                player.items = player.items.filter(
+                  (item) => !updatedPlayer.items?.remove?.includes(item.code)
+                );
+              }
+              for (const [slot, { item }] of Object.entries(
+                updatedPlayer.wearables ?? {}
+              )) {
+                player.character.wearables[slot as Slot] = item;
+              }
+            }
           }
         }
       })
@@ -211,28 +235,6 @@ export class StoreService {
             motion.startPosition.y +
             (motion.endPosition.y - motion.startPosition.y) * timeFraction,
         };
-      })
-    );
-  }
-
-  changePose({ playerId, pose }: ChangePoseEvent) {
-    this.setStore(
-      produce(({ players }) => {
-        const character = players?.find(
-          (player) => player.id === playerId
-        )?.character;
-        if (character) {
-          character.pose = pose;
-        }
-      })
-    );
-  }
-
-  addItems(playerId: number, items: Item[]) {
-    this.setStore(
-      produce(({ players }) => {
-        const player = players?.find((player) => player.id === playerId);
-        player?.items.push(...items);
       })
     );
   }

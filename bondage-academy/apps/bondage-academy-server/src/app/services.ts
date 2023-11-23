@@ -147,7 +147,8 @@ export const accountRegistrationService = new AccountRegistrationService(
 export const characterPoseService = new CharacterPoseService(
   playerStoreService,
   roomSessionService,
-  sessionService
+  sessionService,
+  playerClientSynchronizationService
 );
 
 export const migrationService = new MigrationService(dao);
@@ -197,7 +198,8 @@ export const databaseSynchronizationService =
 export const itemService = new ItemService(
   sessionService,
   playerStoreService,
-  roomSessionService
+  roomSessionService,
+  playerClientSynchronizationService
 );
 
 export const headmistressScript = new HeadmistressScript(

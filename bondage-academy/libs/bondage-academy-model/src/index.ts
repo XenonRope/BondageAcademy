@@ -8,7 +8,6 @@ export * from "./lib/from-server/character";
 export * from "./lib/from-server/chat";
 export * from "./lib/from-server/dialogue-option";
 export * from "./lib/from-server/event-from-server";
-export * from "./lib/from-server/item";
 export * from "./lib/i18n/dictionary";
 export * from "./lib/i18n/en";
 export * from "./lib/i18n/pl";

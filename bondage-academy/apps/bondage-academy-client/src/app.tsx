@@ -1,6 +1,4 @@
 import {
-  AddItemEvent,
-  ChangePoseEvent,
   ChatMessageEvent,
   EventFromServer,
   GameObject,
@@ -43,19 +41,13 @@ export default function App() {
           });
         }
       );
-      socket.on(EventFromServer.ChangePose, (event: ChangePoseEvent) => {
-        storeService.changePose(event);
-      });
-      socket.on(EventFromServer.AddItems, (event: AddItemEvent) => {
-        storeService.addItems(event.playerId, event.items);
-      });
       socket.on(EventFromServer.ChatMessage, (msg: ChatMessageEvent) => {
         storeService.addChatMessage(msg.message);
       });
       socket.on(
         EventFromServer.SynchronizePlayers,
-        (msg: SynchronizePlayersEvent) => {
-          storeService.updatePlayers(msg.players);
+        (event: SynchronizePlayersEvent) => {
+          storeService.synchronizePlayers(event);
         }
       );
     }

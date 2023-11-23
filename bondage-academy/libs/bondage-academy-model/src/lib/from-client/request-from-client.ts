@@ -5,4 +5,5 @@ export enum RequestFromClient {
   SearchRoom = "search_room",
   Speak = "speak",
   UseDialogueOption = "use_dialogue_option",
+  Wear = "wear",
 }

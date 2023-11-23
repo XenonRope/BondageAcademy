@@ -1,9 +1,9 @@
 import {
-  ChangePoseEvent,
   CharacterPose,
-  EventFromServer,
   Player,
+  SynchronizePlayersEvent,
 } from "@bondage-academy/bondage-academy-model";
+import { PlayerClientSynchronizationService } from "../player/player-client-synchronization-service";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomSessionService } from "../room/room-session-service";
 import { Session } from "../session/model/session";
@@ -13,7 +13,8 @@ export class CharacterPoseService {
   constructor(
     private playerStoreService: PlayerStoreService,
     private roomSessionService: RoomSessionService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private playerClientSynchronizationService: PlayerClientSynchronizationService
   ) {}
 
   async changePose(playerId: number, pose: CharacterPose): Promise<void> {
@@ -23,13 +24,15 @@ export class CharacterPoseService {
     );
     const player = await this.playerStoreService.get(playerId);
     const sessions = await this.getSessions(player);
-    const event: ChangePoseEvent = {
-      playerId,
-      pose,
+    const event: SynchronizePlayersEvent = {
+      updatePlayers: [
+        {
+          id: player.id,
+          pose,
+        },
+      ],
     };
-    for (const session of sessions) {
-      session.socket.emit(EventFromServer.ChangePose, event);
-    }
+    this.playerClientSynchronizationService.synchronizePlayers(sessions, event);
   }
 
   private async getSessions(player: Player): Promise<Session[]> {

@@ -28,10 +28,9 @@ export class RoomObjectCreationService {
     );
     if (isPlayerObject(object)) {
       const player = await this.playerStoreService.get(object.playerId);
-      this.playerClientSynchronizationService.synchronizePlayers(
-        [player],
-        sessions
-      );
+      this.playerClientSynchronizationService.synchronizePlayers(sessions, {
+        replacePlayers: [player],
+      });
     }
   }
 }
