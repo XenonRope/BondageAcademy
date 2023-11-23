@@ -2,6 +2,7 @@ import type { JSX } from "solid-js/jsx-runtime";
 import { sideMenuService, store, storeService, t } from "../app/services";
 import CharacterPoseController from "../character/character-pose-controller";
 import EquipmentView from "../item/equipment-view";
+import WardrobeView from "../item/wardrobe-view";
 import { xIcon } from "../ui/icons";
 import { SideMenuView } from "./model/side-menu-view";
 
@@ -16,6 +17,8 @@ export default function SideMenuPanel() {
           )
         );
       }
+      case SideMenuView.Wardrobe:
+        return <WardrobeView />;
       case SideMenuView.Equipment:
         return <EquipmentView />;
       default:

@@ -71,6 +71,7 @@ export default function SideMenuBar() {
         </div>
       </div>
       <div
+        onClick={() => toggleSideMenu(SideMenuView.Wardrobe)}
         class="h-[52px] w-[52px] mb-[3px] bg-yellow-100 hover:bg-yellow-200"
         style={{
           "writing-mode": "horizontal-tb",
