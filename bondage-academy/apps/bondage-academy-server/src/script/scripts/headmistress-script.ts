@@ -1,9 +1,11 @@
 import {
+  ItemCode,
   LowerBodyPose,
   NPCCode,
   RoomCode,
 } from "@bondage-academy/bondage-academy-model";
 import { ChatService } from "../../chat/chat-service";
+import { ItemService } from "../../item/item-service";
 import { PlayerStoreService } from "../../player/player-store-service";
 import { RoomStoreService } from "../../room/room-store-service";
 import { SessionService } from "../../session/session-service";
@@ -19,7 +21,8 @@ export class HeadmistressScript extends GameScript {
     private roomStoreService: RoomStoreService,
     private sessionService: SessionService,
     private chatService: ChatService,
-    private playerStoreService: PlayerStoreService
+    private playerStoreService: PlayerStoreService,
+    private itemService: ItemService
   ) {
     super();
   }
@@ -92,6 +95,9 @@ export class HeadmistressScript extends GameScript {
         speakerDictionaryKey: "npc.headmistress",
         contentDictionaryKey: "dialogue.iHaveSomethingSuitableForYouHere",
       });
+      await this.itemService.addItemsToPlayer(event.playerId, [
+        { code: ItemCode.XFashionSleeve },
+      ]);
     } else {
       this.chatService.sendChatMessage([session], {
         time: new Date().getTime(),

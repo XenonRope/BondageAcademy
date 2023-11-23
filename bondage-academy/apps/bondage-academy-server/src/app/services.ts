@@ -9,6 +9,7 @@ import { ChatSpeakService } from "../chat/chat-speak-service";
 import { DialogueOptionService } from "../chat/dialogue-option-service";
 import { Dao } from "../dao/dao";
 import { Sequences } from "../dao/sequences";
+import { ItemService } from "../item/item-service";
 import { MigrationService } from "../migration/migration-service";
 import { MotionStorage } from "../movement/motion-storage";
 import { MovementService } from "../movement/movement-service";
@@ -193,11 +194,18 @@ export const databaseSynchronizationService =
     roomDatabaseSynchronizationService
   );
 
+export const itemService = new ItemService(
+  sessionService,
+  playerStoreService,
+  roomSessionService
+);
+
 export const headmistressScript = new HeadmistressScript(
   roomStoreService,
   sessionService,
   chatService,
-  playerStoreService
+  playerStoreService,
+  itemService
 );
 
 export const scripts: GameScript[] = [headmistressScript];

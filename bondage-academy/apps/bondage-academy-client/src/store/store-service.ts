@@ -228,11 +228,11 @@ export class StoreService {
     );
   }
 
-  addItem(item: Item) {
+  addItems(playerId: number, items: Item[]) {
     this.setStore(
-      produce(({ playerId, players }) => {
+      produce(({ players }) => {
         const player = players?.find((player) => player.id === playerId);
-        player?.items.push(item);
+        player?.items.push(...items);
       })
     );
   }

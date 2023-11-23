@@ -1,9 +1,9 @@
 import {
+  AddItemEvent,
   ChangePoseEvent,
   ChatMessageEvent,
   EventFromServer,
   GameObject,
-  Item,
   Position,
   SynchronizePlayersEvent,
 } from "@bondage-academy/bondage-academy-model";
@@ -46,8 +46,8 @@ export default function App() {
       socket.on(EventFromServer.ChangePose, (event: ChangePoseEvent) => {
         storeService.changePose(event);
       });
-      socket.on("add_item", (msg: { item: Item }) => {
-        storeService.addItem(msg.item);
+      socket.on(EventFromServer.AddItems, (event: AddItemEvent) => {
+        storeService.addItems(event.playerId, event.items);
       });
       socket.on(EventFromServer.ChatMessage, (msg: ChatMessageEvent) => {
         storeService.addChatMessage(msg.message);

@@ -4,4 +4,5 @@ export enum EventFromServer {
   UpdateDialogueOptions = "update_dialogue_options",
   ChangePose = "change_pose",
   ChatMessage = "chat_message",
+  AddItems = "add_items",
 }
