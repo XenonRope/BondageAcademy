@@ -59,6 +59,15 @@ export class StoreService {
       ?.position;
   }
 
+  getSelectedPlayer(): Player | undefined {
+    if (this.store.selectedPlayer && this.store.players) {
+      return this.store.players.find(
+        (player) => player.id === this.store.selectedPlayer
+      );
+    }
+    return undefined;
+  }
+
   setLocale(locale: Locale) {
     this.setStore({ locale });
   }
@@ -256,5 +265,9 @@ export class StoreService {
         );
       })
     );
+  }
+
+  selectPlayer(playerId?: number): void {
+    this.setStore({ selectedPlayer: playerId });
   }
 }

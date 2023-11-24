@@ -23,4 +23,5 @@ export interface Store {
   motions?: PartialRecord<number, Motion>;
   sideMenuView?: SideMenuView;
   chatMessages?: ChatMessage[];
+  selectedPlayer?: number;
 }
