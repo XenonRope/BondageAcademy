@@ -9,6 +9,7 @@ import CharacterGridView from "../character/character-grid-view";
 import ChatView from "../chat/chat-view";
 import RoomSelectionView from "../room/room-selection-view";
 import RoomView from "../room/room-view";
+import ActionMenuBar from "./action-menu-bar";
 import SideMenuBar from "./side-menu-bar";
 import SideMenuPanel from "./side-menu-panel";
 
@@ -78,6 +79,9 @@ export default function GamePage() {
               </div>
               <div class="flex-1 min-w-0 bg-primary-50">
                 <ChatView />
+              </div>
+              <div>
+                <ActionMenuBar />
               </div>
             </Show>
             <Show when={store.sideMenuView != null}>
