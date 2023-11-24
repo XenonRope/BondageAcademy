@@ -34,13 +34,13 @@ export default function WardrobeView() {
     () => storeService.getPlayer()?.character.wearables ?? {}
   );
 
-  function wear(item: Item) {
+  function wear(item?: Item) {
     const slot = selectedSlot();
     if (!slot) {
       return;
     }
     wardrobeService
-      .wear(slot, item.id)
+      .wear(slot, item?.id)
       .then(() => setSelectedSlot(undefined))
       .catch(console.log);
   }
@@ -77,7 +77,10 @@ export default function WardrobeView() {
                 onSelect={wear}
               ></ItemSelector>
             </div>
-            <div>
+            <div class="flex gap-2">
+              <Button onClick={() => wear(undefined)}>
+                {t("common.removeCloth")}
+              </Button>
               <Button onClick={() => setSelectedSlot(undefined)}>
                 {t("common.back")}
               </Button>

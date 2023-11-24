@@ -8,7 +8,7 @@ import { SocketService } from "../../common/socket-service";
 export class WardrobeService {
   constructor(private socketService: SocketService) {}
 
-  async wear(slot: Slot, itemId: number): Promise<void> {
+  async wear(slot: Slot, itemId?: number): Promise<void> {
     const request: WearRequest = {
       slot,
       itemId,

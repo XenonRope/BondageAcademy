@@ -12,18 +12,22 @@ export class WardrobeService {
     private playerClientSynchronizationService: PlayerClientSynchronizationService
   ) {}
 
-  async wear(playerId: number, slot: Slot, itemId: number): Promise<void> {
+  async wear(playerId: number, slot: Slot, itemId?: number): Promise<void> {
     const player = await this.playerStoreService.get(playerId);
-    const newItem = player.items.find((item) => item.id === itemId);
-    if (!newItem) {
+    const newItem = itemId
+      ? player.items.find((item) => item.id === itemId)
+      : undefined;
+    if (itemId && !newItem) {
       throw new Error("Item not found");
     }
-    if (!itemConfigs[newItem.code].allowedSlots.includes(slot)) {
+    if (newItem && !itemConfigs[newItem.code].allowedSlots.includes(slot)) {
       throw new Error(`Item ${newItem.code} not allowed in slot ${slot}`);
     }
     const oldItem: Item | undefined = player.character.wearables[slot];
     await this.playerStoreService.update(playerId, (player) => {
-      player.items = player.items.filter((item) => item.id !== itemId);
+      if (itemId) {
+        player.items = player.items.filter((item) => item.id !== itemId);
+      }
       if (oldItem) {
         player.items.push(oldItem);
       }
@@ -34,7 +38,7 @@ export class WardrobeService {
       {
         items: {
           add: oldItem ? [oldItem] : [],
-          remove: [itemId],
+          remove: itemId ? [itemId] : [],
         },
         wearables: {
           [slot]: {

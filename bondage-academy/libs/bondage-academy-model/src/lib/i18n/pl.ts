@@ -16,6 +16,7 @@ export const plDictionary: RawDictionary = {
     wardrobe: "Garderoba",
     equipment: "Ekwipunek",
     chooseItem: "Wybierz przedmiot",
+    removeCloth: "Zdejmij",
   },
   roomCreation: {
     template: "Szablon",

@@ -14,6 +14,7 @@ export const enDictionary = {
     wardrobe: "Wardrobe",
     equipment: "Equipment",
     chooseItem: "Choose item",
+    removeCloth: "Remove",
   },
   roomCreation: {
     template: "Template",
