@@ -81,7 +81,7 @@ export default function GamePage() {
               </div>
             </Show>
             <Show when={store.sideMenuView != null}>
-              <div class="absolute h-full border-[3px] border-primary-800">
+              <div class="absolute top-[3px] bottom-[3px] border-r-[3px] border-primary-800">
                 <SideMenuPanel />
               </div>
             </Show>
