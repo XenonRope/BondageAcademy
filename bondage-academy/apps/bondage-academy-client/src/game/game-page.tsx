@@ -56,15 +56,30 @@ export default function GamePage() {
         </div>
         <div class="flex-grow min-w-0">
           <div class="relative flex h-full gap-[3px] p-[3px]">
-            <div class="flex-[2] min-w-0 bg-primary-50">
-              {store.room != null ? <RoomView /> : <RoomSelectionView />}
-            </div>
-            <div class="flex-1 min-w-0 bg-primary-50">
-              <CharacterGridView characters={getCharacters()} />
-            </div>
-            <div class="flex-1 min-w-0 bg-primary-50">
-              <ChatView />
-            </div>
+            <Show when={!store.room}>
+              <div class="flex-[2] min-w-0 bg-primary-50">
+                <RoomSelectionView />
+              </div>
+              <div class="flex-1 min-w-0 bg-primary-50">
+                <CharacterGridView characters={getCharacters()} />
+              </div>
+              <div class="flex-1 min-w-0 bg-primary-50">
+                <ChatView />
+              </div>
+            </Show>
+            <Show when={store.room}>
+              <div class="flex flex-col flex-[3] min-w-0 gap-[3px]">
+                <div class="flex-1 min-h-0 bg-primary-50">
+                  <RoomView />
+                </div>
+                <div class="flex-1 min-h-0 bg-primary-50">
+                  <CharacterGridView characters={getCharacters()} />
+                </div>
+              </div>
+              <div class="flex-1 min-w-0 bg-primary-50">
+                <ChatView />
+              </div>
+            </Show>
             <Show when={store.sideMenuView != null}>
               <div class="absolute h-full border-[3px] border-primary-800">
                 <SideMenuPanel />
