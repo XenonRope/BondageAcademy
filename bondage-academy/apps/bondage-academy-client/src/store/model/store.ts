@@ -7,6 +7,7 @@ import {
 } from "@bondage-academy/bondage-academy-model";
 import type { Socket } from "socket.io-client";
 import type { View } from "../../common/model/view";
+import { ActionMenuView } from "../../game/model/action-menu-view";
 import type { SideMenuView } from "../../game/model/side-menu-view";
 import { Motion } from "../../motion/model/motion";
 
@@ -22,6 +23,7 @@ export interface Store {
   players?: Player[];
   motions?: PartialRecord<number, Motion>;
   sideMenuView?: SideMenuView;
+  actionMenuView?: ActionMenuView;
   chatMessages?: ChatMessage[];
   selectedPlayer?: number;
 }

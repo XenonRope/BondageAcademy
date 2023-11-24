@@ -1,9 +1,16 @@
-import { Show, createMemo } from "solid-js";
-import { storeService } from "../app/services";
-import { characterPoseIcon } from "../ui/icons";
+import { Show } from "solid-js";
+import { sideMenuService, store } from "../app/services";
+import { clothIcon } from "../ui/icons";
+import { ActionMenuView } from "./model/action-menu-view";
 
 export default function ActionMenuBar() {
-  const selectedPlayer = createMemo(() => storeService.getSelectedPlayer());
+  function toggleActionMenu(view: ActionMenuView) {
+    if (store.actionMenuView === view) {
+      sideMenuService.hideActionMenu();
+    } else {
+      sideMenuService.showActionMenu(view);
+    }
+  }
 
   return (
     <div
@@ -12,15 +19,18 @@ export default function ActionMenuBar() {
         "writing-mode": "vertical-lr",
       }}
     >
-      <Show when={selectedPlayer()}>
+      <Show
+        when={store.selectedPlayer && store.selectedPlayer !== store.playerId}
+      >
         <div
+          onClick={() => toggleActionMenu(ActionMenuView.Wardrobe)}
           class="h-[52px] w-[52px] mb-[3px] bg-yellow-100 hover:bg-yellow-200"
           style={{
             "writing-mode": "horizontal-tb",
           }}
         >
-          <div class="relative h-full left-[6px] top-[1px] py-[2px]">
-            {characterPoseIcon()}
+          <div class="relative top-[6px] left-[-1px] px-[2px]">
+            {clothIcon()}
           </div>
         </div>
       </Show>

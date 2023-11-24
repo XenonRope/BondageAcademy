@@ -12,6 +12,7 @@ import {
 import { Socket } from "socket.io-client";
 import { SetStoreFunction, produce } from "solid-js/store";
 import { View } from "../common/model/view";
+import { ActionMenuView } from "../game/model/action-menu-view";
 import { SideMenuView } from "../game/model/side-menu-view";
 import { Locale, Store } from "./model/store";
 
@@ -49,6 +50,13 @@ export class StoreService {
     return undefined;
   }
 
+  getPlayerById(playerId: number): Player | undefined {
+    if (this.store.players) {
+      return this.store.players.find((player) => player.id === playerId);
+    }
+    return undefined;
+  }
+
   getPositionByObjectId(objectId: number): Position | undefined {
     const motion = this.store.motions?.[objectId];
     if (motion && motion.currentPosition) {
@@ -82,6 +90,10 @@ export class StoreService {
 
   setSideMenuView(sideMenuView?: SideMenuView) {
     this.setStore({ sideMenuView });
+  }
+
+  setActionMenuView(actionMenuView?: ActionMenuView) {
+    this.setStore({ actionMenuView });
   }
 
   setPlayerId(playerId: number) {
@@ -268,6 +280,11 @@ export class StoreService {
   }
 
   selectPlayer(playerId?: number): void {
-    this.setStore({ selectedPlayer: playerId });
+    if (this.store.selectedPlayer !== playerId) {
+      this.setStore({
+        selectedPlayer: playerId,
+        actionMenuView: undefined,
+      });
+    }
   }
 }

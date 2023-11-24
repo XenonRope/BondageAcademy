@@ -14,9 +14,13 @@ export class WardrobeApi {
     if (!session.playerId) {
       throw new Error("User is not logged in");
     }
-    const { slot, itemId } = await tPromise.decode(WearRequestSchema, request);
+    const { targetPlayerId, slot, itemId } = await tPromise.decode(
+      WearRequestSchema,
+      request
+    );
     await this.wardrobeService.wear(
       session.playerId,
+      targetPlayerId,
       parseEnum(slot, Slot),
       itemId
     );

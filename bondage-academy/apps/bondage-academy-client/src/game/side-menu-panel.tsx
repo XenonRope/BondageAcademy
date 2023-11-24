@@ -18,7 +18,7 @@ export default function SideMenuPanel() {
         );
       }
       case SideMenuView.Wardrobe:
-        return <WardrobeView />;
+        return store.playerId && <WardrobeView playerId={store.playerId} />;
       case SideMenuView.Equipment:
         return <EquipmentView />;
       default:

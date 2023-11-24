@@ -10,7 +10,7 @@ import Button from "../ui/button";
 import ItemSelector from "./item-selector";
 import WardrobeSlot from "./wardrobe-slot";
 
-export default function WardrobeView() {
+export default function WardrobeView(props: { playerId: number }) {
   const [selectedSlot, setSelectedSlot] = createSignal<Slot | undefined>(
     undefined
   );
@@ -31,7 +31,7 @@ export default function WardrobeView() {
   });
 
   const wearables = createMemo(
-    () => storeService.getPlayer()?.character.wearables ?? {}
+    () => storeService.getPlayerById(props.playerId)?.character.wearables ?? {}
   );
 
   function wear(item?: Item) {
@@ -40,7 +40,7 @@ export default function WardrobeView() {
       return;
     }
     wardrobeService
-      .wear(slot, item?.id)
+      .wear(props.playerId, slot, item?.id)
       .then(() => setSelectedSlot(undefined))
       .catch(console.log);
   }
