@@ -1,3 +1,5 @@
+export * from "./lib/config/item-config";
+export * from "./lib/config/slot-config";
 export * from "./lib/dialogue-options/index";
 export * from "./lib/from-client/account";
 export * from "./lib/from-client/chat";
