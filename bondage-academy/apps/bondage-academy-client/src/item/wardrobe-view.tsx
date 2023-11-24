@@ -78,9 +78,11 @@ export default function WardrobeView(props: { playerId: number }) {
               ></ItemSelector>
             </div>
             <div class="flex gap-2">
-              <Button onClick={() => wear(undefined)}>
-                {t("common.removeCloth")}
-              </Button>
+              <Show when={wearables()[slot()]}>
+                <Button onClick={() => wear(undefined)}>
+                  {t("common.removeCloth")}
+                </Button>
+              </Show>
               <Button onClick={() => setSelectedSlot(undefined)}>
                 {t("common.back")}
               </Button>
