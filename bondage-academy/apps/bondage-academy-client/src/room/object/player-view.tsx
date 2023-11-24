@@ -25,7 +25,8 @@ export default function PlayerView(props: { object: PlayerObject }) {
 
     return (
       <div
-        onClick={selectPlayer}
+        onClick={(event) => event.stopPropagation()}
+        onMouseDown={selectPlayer}
         class="absolute rounded-[50%] bg-red-400"
         classList={{ "border-[3px] border-red-800": selected() }}
         style={{
