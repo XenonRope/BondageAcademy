@@ -54,6 +54,7 @@ export class RoomService {
     await this.socketService.emit(RequestFromClient.LeaveRoom, undefined);
     this.storeService.setRoom(undefined);
     this.storeService.clearChatMessages();
+    this.storeService.selectPlayer(undefined);
   }
 
   async searchRooms(request: SearchRoomRequest): Promise<SearchRoomResponse> {
