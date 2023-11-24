@@ -51,12 +51,12 @@ export default function WardrobeView(props: { playerId: number }) {
         <div class="flex flex-col gap-2">
           <WardrobeSlot
             slot={Slot.LeftSleeve}
-            item={wearables()[Slot.LeftSleeve]}
+            item={wearables()[Slot.LeftSleeve]?.item}
             onItemChange={() => setSelectedSlot(Slot.LeftSleeve)}
           ></WardrobeSlot>
           <WardrobeSlot
             slot={Slot.RightSleeve}
-            item={wearables()[Slot.RightSleeve]}
+            item={wearables()[Slot.RightSleeve]?.item}
             onItemChange={() => setSelectedSlot(Slot.RightSleeve)}
           ></WardrobeSlot>
         </div>
@@ -67,7 +67,7 @@ export default function WardrobeView(props: { playerId: number }) {
             <div class="mb-2">
               <WardrobeSlot
                 slot={slot()}
-                item={wearables()[slot()]}
+                item={wearables()[slot()]?.item}
               ></WardrobeSlot>
             </div>
             <div class="mb-4">

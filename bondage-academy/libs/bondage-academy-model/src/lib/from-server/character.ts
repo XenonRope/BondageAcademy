@@ -1,6 +1,6 @@
+import { EquippedItem } from "../model/character";
 import { CharacterPose } from "../model/character-pose";
 import { Item } from "../model/item";
-import { PartialRecord } from "../model/partial-record";
 import { Player } from "../model/player";
 import { Slot } from "../model/slot";
 
@@ -16,5 +16,5 @@ export interface UpdatePlayer {
     add?: Item[];
     remove?: number[];
   };
-  wearables?: PartialRecord<Slot, { item?: Item }>;
+  wearables?: Array<{ slot: Slot; equippedItem?: EquippedItem }>;
 }

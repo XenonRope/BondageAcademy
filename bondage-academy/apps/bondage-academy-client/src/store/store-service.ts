@@ -143,10 +143,9 @@ export class StoreService {
                   (item) => !updatedPlayer.items?.remove?.includes(item.id)
                 );
               }
-              for (const [slot, { item }] of Object.entries(
-                updatedPlayer.wearables ?? {}
-              )) {
-                player.character.wearables[slot as Slot] = item;
+              for (const { slot, equippedItem } of updatedPlayer.wearables ??
+                []) {
+                player.character.wearables[slot as Slot] = equippedItem;
               }
             }
           }

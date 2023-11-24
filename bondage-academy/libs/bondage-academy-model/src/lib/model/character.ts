@@ -11,9 +11,14 @@ export enum CharacterSkin {
   Skin1 = "Skin_1",
 }
 
+export interface EquippedItem {
+  item: Item;
+  ownerPlayerId: number;
+}
+
 export interface Character {
   shape: CharacterShape;
   skin: CharacterSkin;
-  wearables: PartialRecord<Slot, Item>;
+  wearables: PartialRecord<Slot, EquippedItem>;
   pose: CharacterPose;
 }

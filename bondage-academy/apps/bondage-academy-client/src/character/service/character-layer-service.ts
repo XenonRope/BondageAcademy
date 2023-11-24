@@ -121,11 +121,11 @@ export class CharacterLayerService {
   ): CharacterLayer[] {
     const layers: CharacterLayer[] = [];
 
-    for (const [slot, item] of Object.entries(character.wearables)) {
-      if (!item) {
+    for (const [slot, equippedItem] of Object.entries(character.wearables)) {
+      if (!equippedItem) {
         continue;
       }
-      const itemConfig: ItemConfig = itemConfigs[item.code];
+      const itemConfig: ItemConfig = itemConfigs[equippedItem.item.code];
 
       for (const fragment of itemConfig.fragments) {
         if (fragment.slot !== (slot as Slot)) {
