@@ -46,10 +46,11 @@ export default function ChatView() {
       <div class="min-h-0 flex-grow overflow-y-auto p-1">
         <For each={store.chatMessages ?? []}>
           {(message) => (
-            <div style={{ "overflow-anchor": "none" }}>
-              <span class="incline-block font-bold mr-1">
-                {getSpeaker(message) + ":"}
-              </span>
+            <div
+              class="overflow-hidden break-words"
+              style={{ "overflow-anchor": "none" }}
+            >
+              <span class="font-bold">{getSpeaker(message) + ": "}</span>
               <span>{getContent(message)}</span>
             </div>
           )}
