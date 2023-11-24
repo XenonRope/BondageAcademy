@@ -6,13 +6,15 @@ import { Slot } from "../model/slot";
 
 export interface SynchronizePlayersEvent {
   replacePlayers?: Player[];
-  updatePlayers?: Array<{
-    id: number;
-    pose?: CharacterPose;
-    items?: {
-      add?: Item[];
-      remove?: number[];
-    };
-    wearables?: PartialRecord<Slot, { item?: Item }>;
-  }>;
+  updatePlayers?: UpdatePlayer[];
+}
+
+export interface UpdatePlayer {
+  id: number;
+  pose?: CharacterPose;
+  items?: {
+    add?: Item[];
+    remove?: number[];
+  };
+  wearables?: PartialRecord<Slot, { item?: Item }>;
 }

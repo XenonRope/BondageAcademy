@@ -2,6 +2,7 @@ export * from "./lib/dialogue-options/index";
 export * from "./lib/from-client/account";
 export * from "./lib/from-client/chat";
 export * from "./lib/from-client/dialogue-option";
+export * from "./lib/from-client/item";
 export * from "./lib/from-client/request-from-client";
 export * from "./lib/from-client/room";
 export * from "./lib/from-server/character";

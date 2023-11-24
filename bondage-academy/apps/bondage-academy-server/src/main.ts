@@ -16,6 +16,7 @@ import {
   roomJoinApi,
   roomLeaveApi,
   roomSearchApi,
+  wardrobeApi,
 } from "./app/api";
 import {
   databaseSynchronizationService,
@@ -100,6 +101,9 @@ async function start(): Promise<void> {
         () => dialogueOptionApi.useDialogueOption(msg, session),
         callback
       );
+    });
+    socket.on(RequestFromClient.Wear, (msg: unknown, callback) => {
+      handleRequest(() => wardrobeApi.wear(msg, session), callback);
     });
   });
 

@@ -5,7 +5,7 @@ import {
   itemConfigs,
 } from "@bondage-academy/bondage-academy-model";
 import { Show, createMemo, createSignal } from "solid-js";
-import { storeService, t } from "../app/services";
+import { storeService, t, wardrobeService } from "../app/services";
 import Button from "../ui/button";
 import ItemSelector from "./item-selector";
 import WardrobeSlot from "./wardrobe-slot";
@@ -33,6 +33,17 @@ export default function WardrobeView() {
   const wearables = createMemo(
     () => storeService.getPlayer()?.character.wearables ?? {}
   );
+
+  function wear(item: Item) {
+    const slot = selectedSlot();
+    if (!slot) {
+      return;
+    }
+    wardrobeService
+      .wear(slot, item.id)
+      .then(() => setSelectedSlot(undefined))
+      .catch(console.log);
+  }
 
   return (
     <>
@@ -63,7 +74,7 @@ export default function WardrobeView() {
               <div class="text-sm font-bold mb-1">{t("common.chooseItem")}</div>
               <ItemSelector
                 items={allowedItems()}
-                onSelect={() => setSelectedSlot(undefined)}
+                onSelect={wear}
               ></ItemSelector>
             </div>
             <div>

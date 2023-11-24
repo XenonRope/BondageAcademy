@@ -7,6 +7,7 @@ import { RoomCreationApi } from "../room/room-creation-api";
 import { RoomJoinApi } from "../room/room-join-api";
 import { RoomLeaveApi } from "../room/room-leave-api";
 import { RoomSearchApi } from "../room/room-search-api";
+import { WardrobeApi } from "../wardrobe/wardrobe-api";
 import {
   accountRegistrationService,
   characterPoseService,
@@ -22,6 +23,7 @@ import {
   roomService,
   roomStoreService,
   roomUtilsService,
+  wardrobeService,
 } from "./services";
 
 export const accountApi = new AccountApi(
@@ -53,3 +55,5 @@ export const roomSearchApi = new RoomSearchApi(roomSearchService);
 export const chatSpeakApi = new ChatSpeakApi(chatSpeakService);
 
 export const dialogueOptionApi = new DialogueOptionApi(dialogueOptionService);
+
+export const wardrobeApi = new WardrobeApi(wardrobeService);

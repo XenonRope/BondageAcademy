@@ -40,6 +40,7 @@ import { GameScript } from "../script/scripts/game-script";
 import { HeadmistressScript } from "../script/scripts/headmistress-script";
 import { SessionService } from "../session/session-service";
 import { DatabaseSynchronizationService } from "../synchronization/database-synchronization-service";
+import { WardrobeService } from "../wardrobe/wardrobe-service";
 export const dao = new Dao();
 
 export const sequences = new Sequences(dao);
@@ -64,19 +65,23 @@ export const roomService = new RoomService(dao);
 export const playerDatabaseSynchronizationService =
   new PlayerDatabaseSynchronizationService(playerStoreService, playerService);
 
-export const playerClientSynchronizationService =
-  new PlayerClientSynchronizationService();
-
-export const accountService = new AccountService(dao);
-
-export const logoutService = new LogoutService();
-
 export const roomStoreService = new RoomStoreService(roomService);
 
 export const roomSessionService = new RoomSessionService(
   sessionService,
   roomStoreService
 );
+
+export const playerClientSynchronizationService =
+  new PlayerClientSynchronizationService(
+    playerStoreService,
+    roomSessionService,
+    sessionService
+  );
+
+export const accountService = new AccountService(dao);
+
+export const logoutService = new LogoutService();
 
 export const roomSearchService = new RoomSearchService(dao, roomStoreService);
 
@@ -103,6 +108,11 @@ export const roomFieldService = new RoomFieldService();
 export const roomUtilsService = new RoomUtilsService(
   roomStoreService,
   playerStoreService
+);
+
+export const wardrobeService = new WardrobeService(
+  playerStoreService,
+  playerClientSynchronizationService
 );
 
 export const objectCreationService = new ObjectCreationService(

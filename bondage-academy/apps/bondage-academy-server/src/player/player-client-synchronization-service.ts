@@ -1,10 +1,41 @@
 import {
   EventFromServer,
   SynchronizePlayersEvent,
+  UpdatePlayer,
 } from "@bondage-academy/bondage-academy-model";
+import { RoomSessionService } from "../room/room-session-service";
 import { Session } from "../session/model/session";
+import { SessionService } from "../session/session-service";
+import { PlayerStoreService } from "./player-store-service";
 
 export class PlayerClientSynchronizationService {
+  constructor(
+    private playerStoreService: PlayerStoreService,
+    private roomSessionService: RoomSessionService,
+    private sessionService: SessionService
+  ) {}
+
+  async synchronizePlayerByPlayerId(
+    playerId: number,
+    updatePlayer: Omit<UpdatePlayer, "id">
+  ): Promise<void> {
+    const event: SynchronizePlayersEvent = {
+      updatePlayers: [{ ...updatePlayer, id: playerId }],
+    };
+    const player = await this.playerStoreService.get(playerId);
+    if (!player.roomId) {
+      const session = this.sessionService.getSessionByPlayerId(playerId);
+      if (session) {
+        this.synchronizePlayers([session], event);
+      }
+      return;
+    }
+    const sessions = await this.roomSessionService.getSessionsInRoom(
+      player.roomId
+    );
+    this.synchronizePlayers(sessions, event);
+  }
+
   synchronizePlayers(
     sessions: Session[],
     event: SynchronizePlayersEvent
