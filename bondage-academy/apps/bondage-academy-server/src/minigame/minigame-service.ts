@@ -3,6 +3,7 @@ import {
   Minigame,
   MinigameChallange,
   MinigameStake,
+  isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
 import { MinigameChallangeService } from "./minigame-challange-service";
 import { MinigameClientSynchronizationService } from "./minigame-client-synchronization-service";
@@ -23,6 +24,17 @@ export class MinigameService {
     return Array.from(this.serverMinigames.values())
       .filter(({ minigame }) => minigame.roomId === roomId)
       .map(({ minigame }) => minigame);
+  }
+
+  getMinigameByPlayerId(playerId: number): Minigame | undefined {
+    const minigameWithState = Array.from(this.serverMinigames.values()).find(
+      ({ minigame }) =>
+        (isPlayerActor(minigame.actor) &&
+          minigame.actor.playerId === playerId) ||
+        (isPlayerActor(minigame.target) &&
+          minigame.target.playerId === playerId)
+    );
+    return minigameWithState ? minigameWithState.minigame : undefined;
   }
 
   async startMinigame(params: {

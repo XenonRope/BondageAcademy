@@ -20,6 +20,7 @@ import { MinigameStakeService } from "../minigame/minigame-stake-service";
 import { ChangeWardrobeMinigameStakeHandler } from "../minigame/stake/change-wardrobe-minigame-stake-handler";
 import { WardrobeMinigameService } from "../minigame/wardrobe-minigame-service";
 import { MotionStorage } from "../movement/motion-storage";
+import { MovementConditionChecker } from "../movement/movement-condition-checker";
 import { MovementService } from "../movement/movement-service";
 import { ObjectClientSynchronizationService } from "../object/object-client-synchronization-service";
 import { ObjectCreationService } from "../object/object-creation-service";
@@ -202,12 +203,17 @@ export const characterPoseService = new CharacterPoseService(
 
 export const migrationService = new MigrationService(dao);
 
+export const movementConditionChecker = new MovementConditionChecker(
+  minigameService
+);
+
 export const movementService = new MovementService(
   motionStorage,
   roomStoreService,
   playerStoreService,
   roomFieldService,
-  roomSessionService
+  roomSessionService,
+  movementConditionChecker
 );
 
 export const chatService = new ChatService();

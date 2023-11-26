@@ -10,6 +10,7 @@ import { RoomSessionService } from "../room/room-session-service";
 import { RoomStoreService } from "../room/room-store-service";
 import type { Motion } from "./model/motion";
 import type { MotionStorage } from "./motion-storage";
+import { MovementConditionChecker } from "./movement-condition-checker";
 
 const PLAYER_MOVE_DURATION = 500;
 
@@ -19,7 +20,8 @@ export class MovementService {
     private roomStoreService: RoomStoreService,
     private playerStoreService: PlayerStoreService,
     private roomFieldService: RoomFieldService,
-    private roomSessionService: RoomSessionService
+    private roomSessionService: RoomSessionService,
+    private movementConditionChecker: MovementConditionChecker
   ) {}
 
   async setPlayerTargetPosition(
@@ -76,6 +78,10 @@ export class MovementService {
     const room = await this.roomStoreService.get(roomId);
     const object = room.objects.find((object) => object.id === objectId);
     if (!object) {
+      this.motionStorage.stopMotion(objectId);
+      return;
+    }
+    if (!this.movementConditionChecker.canObjectMove(object)) {
       this.motionStorage.stopMotion(objectId);
       return;
     }
