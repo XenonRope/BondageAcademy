@@ -12,6 +12,13 @@ import { Sequences } from "../dao/sequences";
 import { ItemIdProvider } from "../item/item-id-provider";
 import { ItemService } from "../item/item-service";
 import { MigrationService } from "../migration/migration-service";
+import { ClickMinigameChallangeHandler } from "../minigame/challange/click-minigame-challange-handler";
+import { MinigameChallangeService } from "../minigame/minigame-challange-service";
+import { MinigameClientSynchronizationService } from "../minigame/minigame-client-synchronization-service";
+import { MinigameService } from "../minigame/minigame-service";
+import { MinigameStakeService } from "../minigame/minigame-stake-service";
+import { ChangeWardrobeMinigameStakeHandler } from "../minigame/stake/change-wardrobe-minigame-stake-handler";
+import { WardrobeMinigameService } from "../minigame/wardrobe-minigame-service";
 import { MotionStorage } from "../movement/motion-storage";
 import { MovementService } from "../movement/movement-service";
 import { ObjectClientSynchronizationService } from "../object/object-client-synchronization-service";
@@ -40,6 +47,8 @@ import { GameScript } from "../script/scripts/game-script";
 import { HeadmistressScript } from "../script/scripts/headmistress-script";
 import { SessionService } from "../session/session-service";
 import { DatabaseSynchronizationService } from "../synchronization/database-synchronization-service";
+import { WardrobeChangeService } from "../wardrobe/wardrobe-change-service";
+import { WardrobeConditionChecker } from "../wardrobe/wardrobe-condition-checker";
 import { WardrobeService } from "../wardrobe/wardrobe-service";
 export const dao = new Dao();
 
@@ -105,14 +114,43 @@ export const roomCreationService = new RoomCreationService(
 
 export const roomFieldService = new RoomFieldService();
 
-export const roomUtilsService = new RoomUtilsService(
-  roomStoreService,
+export const minigameClientSynchronizationService =
+  new MinigameClientSynchronizationService(roomSessionService, sessionService);
+
+export const clickMinigameChallangeHandler =
+  new ClickMinigameChallangeHandler();
+
+export const minigameChallangeService = new MinigameChallangeService([
+  clickMinigameChallangeHandler,
+]);
+
+export const wardrobeConditionChecker = new WardrobeConditionChecker(
   playerStoreService
 );
 
 export const wardrobeService = new WardrobeService(
   playerStoreService,
-  playerClientSynchronizationService
+  playerClientSynchronizationService,
+  wardrobeConditionChecker
+);
+
+export const changeWardrobeMinigameStakeHandler =
+  new ChangeWardrobeMinigameStakeHandler(wardrobeService);
+
+export const minigameStakeService = new MinigameStakeService([
+  changeWardrobeMinigameStakeHandler,
+]);
+
+export const minigameService = new MinigameService(
+  minigameClientSynchronizationService,
+  minigameChallangeService,
+  minigameStakeService
+);
+
+export const roomUtilsService = new RoomUtilsService(
+  roomStoreService,
+  playerStoreService,
+  minigameService
 );
 
 export const objectCreationService = new ObjectCreationService(
@@ -214,6 +252,17 @@ export const itemService = new ItemService(
   roomSessionService,
   playerClientSynchronizationService,
   itemIdProvider
+);
+
+export const wardrobeMinigameService = new WardrobeMinigameService(
+  minigameService,
+  playerStoreService
+);
+
+export const wardrobeChangeServiec = new WardrobeChangeService(
+  wardrobeService,
+  wardrobeConditionChecker,
+  wardrobeMinigameService
 );
 
 export const headmistressScript = new HeadmistressScript(

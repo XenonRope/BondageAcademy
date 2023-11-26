@@ -3,6 +3,7 @@ import {
   EventFromServer,
   GameObject,
   Position,
+  SynchronizeMinigamesEvent,
   SynchronizePlayersEvent,
 } from "@bondage-academy/bondage-academy-model";
 import { createEffect, type JSX } from "solid-js";
@@ -48,6 +49,12 @@ export default function App() {
         EventFromServer.SynchronizePlayers,
         (event: SynchronizePlayersEvent) => {
           storeService.synchronizePlayers(event);
+        }
+      );
+      socket.on(
+        EventFromServer.SynchronizeMinigames,
+        (event: SynchronizeMinigamesEvent) => {
+          storeService.synchronizeMinigames(event);
         }
       );
     }

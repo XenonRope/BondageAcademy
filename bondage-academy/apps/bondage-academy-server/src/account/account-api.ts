@@ -52,17 +52,17 @@ export class AccountApi {
       return {
         playerId,
         players: [player],
+        minigames: [],
       };
     }
 
-    const { room, players } = await this.roomUtilsService.getRoomAndPlayers(
-      player.roomId
-    );
-
+    const { room, players, minigames } =
+      await this.roomUtilsService.getRoomState(player.roomId);
     return {
       playerId,
       room,
       players,
+      minigames,
     };
   }
 }

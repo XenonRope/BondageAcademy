@@ -1,5 +1,6 @@
 import {
   ChatMessage,
+  Minigame,
   PartialRecord,
   Player,
   RawDictionary,
@@ -26,4 +27,5 @@ export interface Store {
   actionMenuView?: ActionMenuView;
   chatMessages?: ChatMessage[];
   selectedPlayer?: number;
+  minigames?: Minigame[];
 }

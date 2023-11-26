@@ -1,11 +1,13 @@
 import {
   ChatMessage,
   GameObject,
+  Minigame,
   Player,
   PlayerObject,
   Position,
   Room,
   Slot,
+  SynchronizeMinigamesEvent,
   SynchronizePlayersEvent,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
@@ -108,6 +110,10 @@ export class StoreService {
     this.setStore({ players });
   }
 
+  setMinigames(minigames?: Minigame[]) {
+    this.setStore({ minigames });
+  }
+
   synchronizePlayers(event: SynchronizePlayersEvent) {
     this.setStore(
       produce((store) => {
@@ -146,6 +152,41 @@ export class StoreService {
               for (const { slot, equippedItem } of updatedPlayer.wearables ??
                 []) {
                 player.character.wearables[slot as Slot] = equippedItem;
+              }
+              break;
+            }
+          }
+        }
+      })
+    );
+  }
+
+  synchronizeMinigames(event: SynchronizeMinigamesEvent): void {
+    this.setStore(
+      produce((store) => {
+        if (!store.minigames) {
+          store.minigames = [];
+        }
+        if (event.replaceMinigames) {
+          for (const newMinigame of event.replaceMinigames) {
+            let replaced = false;
+            for (let i = 0; i < store.minigames.length; i++) {
+              if (store.minigames[i].id === newMinigame.id) {
+                store.minigames[i] = newMinigame;
+                replaced = true;
+                break;
+              }
+            }
+            if (!replaced) {
+              store.minigames.push(newMinigame);
+            }
+          }
+        }
+        if (event.updateMinigames) {
+          for (const updatedMinigame of event.updateMinigames) {
+            for (const minigame of store.minigames) {
+              if (minigame.id === updatedMinigame.id) {
+                break;
               }
             }
           }

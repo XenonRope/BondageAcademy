@@ -23,7 +23,7 @@ import {
   roomService,
   roomStoreService,
   roomUtilsService,
-  wardrobeService,
+  wardrobeChangeServiec as wardrobeChangeService,
 } from "./services";
 
 export const accountApi = new AccountApi(
@@ -56,4 +56,4 @@ export const chatSpeakApi = new ChatSpeakApi(chatSpeakService);
 
 export const dialogueOptionApi = new DialogueOptionApi(dialogueOptionService);
 
-export const wardrobeApi = new WardrobeApi(wardrobeService);
+export const wardrobeApi = new WardrobeApi(wardrobeChangeService);

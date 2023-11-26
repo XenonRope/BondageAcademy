@@ -1,3 +1,4 @@
+import { Minigame } from "../model/minigame";
 import type { Player } from "../model/player";
 import { Room } from "../model/room";
 
@@ -16,4 +17,5 @@ export interface LoginResponse {
   playerId: number;
   room?: Room;
   players: Player[];
+  minigames: Minigame[];
 }

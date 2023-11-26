@@ -24,5 +24,6 @@ export class AccountService {
     this.storeService.setPlayerId(response.playerId);
     this.storeService.setRoom(response.room);
     this.storeService.setPlayers(response.players);
+    this.storeService.setMinigames(response.minigames);
   }
 }

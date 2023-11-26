@@ -27,6 +27,7 @@ export class RoomService {
     );
     this.storeService.setRoom(response.room);
     this.storeService.setPlayers(response.players);
+    this.storeService.setMinigames(response.minigames);
   }
 
   async createRoom(params: {
@@ -55,6 +56,7 @@ export class RoomService {
     this.storeService.setRoom(undefined);
     this.storeService.clearChatMessages();
     this.storeService.selectPlayer(undefined);
+    this.storeService.setMinigames(undefined);
   }
 
   async searchRooms(request: SearchRoomRequest): Promise<SearchRoomResponse> {

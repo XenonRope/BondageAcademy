@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { Minigame } from "../model/minigame";
 import { Player } from "../model/player";
 import { Room, RoomSearchDetails } from "../model/room";
 
@@ -11,6 +12,7 @@ export type JoinRoomRequest = t.TypeOf<typeof JoinRoomRequestSchema>;
 export type JoinRoomResponse = {
   room: Room;
   players: Player[];
+  minigames: Minigame[];
 };
 
 export const CreateRoomRequestSchema = t.type({
