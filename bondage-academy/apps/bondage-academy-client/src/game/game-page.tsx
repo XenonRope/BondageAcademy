@@ -3,10 +3,11 @@ import {
   isNPCObject,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
-import { Show } from "solid-js";
-import { npcCharacterService, store } from "../app/services";
+import { Show, createMemo } from "solid-js";
+import { npcCharacterService, store, storeService } from "../app/services";
 import CharacterGridView from "../character/character-grid-view";
 import ChatView from "../chat/chat-view";
+import MinigameView from "../minigame/minigame-view";
 import RoomSelectionView from "../room/room-selection-view";
 import RoomView from "../room/room-view";
 import ActionMenuBar from "./action-menu-bar";
@@ -15,6 +16,8 @@ import SideMenuBar from "./side-menu-bar";
 import SideMenuPanel from "./side-menu-panel";
 
 export default function GamePage() {
+  const minigame = createMemo(() => storeService.getMinigame());
+
   function getCharacters(): Character[] {
     if (store.room) {
       return [...getPlayerCharacters(), ...getNPCCharacters()];
@@ -91,6 +94,9 @@ export default function GamePage() {
               <div class="absolute top-[3px] bottom-[3px] right-[3px] border-l-[3px] border-primary-800">
                 <ActionMenuPanel />
               </div>
+            </Show>
+            <Show when={minigame()}>
+              {(minigame) => <MinigameView minigame={minigame()} />}
             </Show>
           </div>
         </div>

@@ -9,6 +9,7 @@ import {
   Slot,
   SynchronizeMinigamesEvent,
   SynchronizePlayersEvent,
+  isPlayerActor,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
 import { Socket } from "socket.io-client";
@@ -73,6 +74,19 @@ export class StoreService {
     if (this.store.selectedPlayer && this.store.players) {
       return this.store.players.find(
         (player) => player.id === this.store.selectedPlayer
+      );
+    }
+    return undefined;
+  }
+
+  getMinigame(): Minigame | undefined {
+    if (this.store.playerId && this.store.minigames) {
+      return this.store.minigames.find(
+        (minigame) =>
+          (isPlayerActor(minigame.actor) &&
+            minigame.actor.playerId === this.store.playerId) ||
+          (isPlayerActor(minigame.target) &&
+            minigame.target.playerId === this.store.playerId)
       );
     }
     return undefined;
@@ -190,6 +204,12 @@ export class StoreService {
               }
             }
           }
+        }
+        if (event.removeMinigames) {
+          const removeMinigames = event.removeMinigames;
+          store.minigames = store.minigames.filter(
+            (minigame) => !removeMinigames.includes(minigame.id)
+          );
         }
       })
     );
