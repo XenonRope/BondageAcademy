@@ -6,6 +6,7 @@ import {
   UpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
 import { parseEnum, parseOptionalEnum } from "../api/utils/parsers";
+import { MinigameService } from "../minigame/minigame-service";
 import { Session } from "../session/model/session";
 import { CharacterPoseService } from "./character-pose-service";
 
@@ -14,7 +15,10 @@ export interface ChangePoseRequest {
 }
 
 export class CharacterPoseApi {
-  constructor(private characterPoseService: CharacterPoseService) {}
+  constructor(
+    private characterPoseService: CharacterPoseService,
+    private minigameService: MinigameService
+  ) {}
 
   async changePose(
     request: ChangePoseRequest,
@@ -23,6 +27,9 @@ export class CharacterPoseApi {
     const pose = this.parseCharacterPose(request.pose);
     if (!session.playerId) {
       throw new Error("User is not logged in");
+    }
+    if (this.minigameService.getMinigameByPlayerId(session.playerId)) {
+      throw new Error("User is during minigame");
     }
 
     await this.characterPoseService.changePose(session.playerId, pose);

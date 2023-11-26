@@ -14,6 +14,7 @@ import {
   chatSpeakService,
   dialogueOptionService,
   loginService,
+  minigameService,
   movementService,
   playerStoreService,
   roomCreationService,
@@ -33,9 +34,12 @@ export const accountApi = new AccountApi(
   roomUtilsService
 );
 
-export const characterPoseApi = new CharacterPoseApi(characterPoseService);
+export const characterPoseApi = new CharacterPoseApi(
+  characterPoseService,
+  minigameService
+);
 
-export const movementApi = new MovementApi(movementService);
+export const movementApi = new MovementApi(movementService, minigameService);
 
 export const roomJoinApi = new RoomJoinApi(roomJoinService, roomUtilsService);
 
@@ -48,12 +52,18 @@ export const roomCreationApi = new RoomCreationApi(
   playerStoreService
 );
 
-export const roomLeaveApi = new RoomLeaveApi(roomLeaveService);
+export const roomLeaveApi = new RoomLeaveApi(roomLeaveService, minigameService);
 
 export const roomSearchApi = new RoomSearchApi(roomSearchService);
 
-export const chatSpeakApi = new ChatSpeakApi(chatSpeakService);
+export const chatSpeakApi = new ChatSpeakApi(chatSpeakService, minigameService);
 
-export const dialogueOptionApi = new DialogueOptionApi(dialogueOptionService);
+export const dialogueOptionApi = new DialogueOptionApi(
+  dialogueOptionService,
+  minigameService
+);
 
-export const wardrobeApi = new WardrobeApi(wardrobeChangeService);
+export const wardrobeApi = new WardrobeApi(
+  wardrobeChangeService,
+  minigameService
+);
