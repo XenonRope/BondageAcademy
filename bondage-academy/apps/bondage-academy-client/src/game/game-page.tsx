@@ -54,7 +54,7 @@ export default function GamePage() {
   }
 
   return (
-    <div class="h-full overflow-hidden bg-primary-800">
+    <div class="relative h-full overflow-hidden bg-primary-800">
       <div class="flex h-full">
         <div class="flex-none m-[3px] mr-0">
           <SideMenuBar />
@@ -95,15 +95,20 @@ export default function GamePage() {
                 <ActionMenuPanel />
               </div>
             </Show>
-            <Show when={minigame()}>
-              {(minigame) => <MinigameView minigame={minigame()} />}
-            </Show>
           </div>
         </div>
         <div class="flex-none m-[3px] ml-0">
           <ActionMenuBar />
         </div>
       </div>
+      <Show when={minigame()}>
+        {(minigame) => (
+          <>
+            <div class="fixed top-0 left-0 w-full h-full" />
+            <MinigameView minigame={minigame()} />
+          </>
+        )}
+      </Show>
     </div>
   );
 }
