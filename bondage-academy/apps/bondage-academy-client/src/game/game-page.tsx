@@ -103,10 +103,9 @@ export default function GamePage() {
       </div>
       <Show when={minigame()}>
         {(minigame) => (
-          <>
-            <div class="fixed top-0 left-0 w-full h-full" />
+          <div class="fixed top-0 left-0 w-full h-full">
             <MinigameView minigame={minigame()} />
-          </>
+          </div>
         )}
       </Show>
     </div>

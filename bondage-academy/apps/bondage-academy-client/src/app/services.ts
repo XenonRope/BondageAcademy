@@ -12,6 +12,7 @@ import { SocketService } from "../common/socket-service";
 import { SideMenuService } from "../game/services/side-menu-service";
 import { WardrobeService } from "../item/services/wardrobe-service";
 import { LocaleService } from "../locale/services/locale-service";
+import { MinigameService } from "../minigame/services/minigame-service";
 import { NPCCharacterService } from "../npc/npc-character-service";
 import { RoomService } from "../room/services/room-service";
 import type { Store } from "../store/model/store";
@@ -49,6 +50,8 @@ export const dialogueOptionService = new DialogueOptionService(
 );
 
 export const wardrobeService = new WardrobeService(socketService);
+
+export const minigameService = new MinigameService(socketService);
 
 export const t: NullableTranslator<Dictionary> =
   localeService.createTranslator();

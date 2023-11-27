@@ -52,15 +52,17 @@ export const plDictionary: RawDictionary = {
     petSuit: "Pet suit",
   },
   minigame: {
-    stake: {
-      changeWardrobe: {
-        youAreUsing: "Używasz",
-        youAreRemoving: "Zdejmujesz",
-        isUsing: "używa",
-        isRemoving: "zdejmuje",
-        on: "na",
-        from: "z",
-      },
+    common: {
+      cancel: "Przerwij",
+    },
+    changeWardrobe: {
+      youAreUsing: "Używasz",
+      youAreRemoving: "Zdejmujesz",
+      isUsing: "używa",
+      isRemoving: "zdejmuje",
+      on: "na",
+      from: "z",
+      resist: "Opieraj się",
     },
   },
 };

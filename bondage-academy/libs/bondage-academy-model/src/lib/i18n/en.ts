@@ -49,15 +49,17 @@ export const enDictionary = {
     petSuit: "Pet suit",
   },
   minigame: {
-    stake: {
-      changeWardrobe: {
-        youAreUsing: "You are using",
-        youAreRemoving: "You are removing",
-        isUsing: "is using",
-        isRemoving: "is removing",
-        on: "on",
-        from: "from",
-      },
+    common: {
+      cancel: "Cancel",
+    },
+    changeWardrobe: {
+      youAreUsing: "You are using",
+      youAreRemoving: "You are removing",
+      isUsing: "is using",
+      isRemoving: "is removing",
+      on: "on",
+      from: "from",
+      resist: "Resist",
     },
   },
 };
