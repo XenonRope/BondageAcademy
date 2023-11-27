@@ -1,7 +1,6 @@
 import {
-  Minigame,
   Player,
-  Room,
+  RoomState,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
 import { MinigameService } from "../minigame/minigame-service";
@@ -15,17 +14,16 @@ export class RoomUtilsService {
     private minigameService: MinigameService
   ) {}
 
-  async getRoomState(
-    roomId: number
-  ): Promise<{ room: Room; players: Player[]; minigames: Minigame[] }> {
+  async getRoomState(roomId: number): Promise<RoomState> {
     const room = await this.roomStoreService.get(roomId);
-    const players = await this.getPlayersInRoom(room);
+    const players = await this.getPlayersInRoom(room.id);
     const minigames = this.minigameService.getMinigamesByRoomId(roomId);
 
     return { room, players, minigames };
   }
 
-  async getPlayersInRoom(room: Room): Promise<Player[]> {
+  async getPlayersInRoom(roomId: number): Promise<Player[]> {
+    const room = await this.roomStoreService.get(roomId);
     const playersIds = room.objects.flatMap((object) =>
       isPlayerObject(object) ? [object.playerId] : []
     );

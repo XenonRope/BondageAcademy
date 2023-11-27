@@ -65,8 +65,6 @@ export class RoomCreationApi {
       },
     });
     await this.roomJoinService.joinRoom(session.playerId, room.id);
-    const players = await this.roomUtilsService.getPlayersInRoom(room);
-
-    return { room, players };
+    return { state: await this.roomUtilsService.getRoomState(room.id) };
   }
 }

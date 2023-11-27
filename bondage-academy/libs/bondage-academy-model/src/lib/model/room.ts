@@ -1,4 +1,6 @@
 import type { GameObject } from "./game-object";
+import { Minigame } from "./minigame";
+import { Player } from "./player";
 
 export const ROOM_NAME_MAX_LENGHT = 60;
 export const ROOM_DESCRIPTION_MAX_LENGHT = 100;
@@ -47,4 +49,10 @@ export interface RoomSearchDetails {
   customName?: string;
   description?: string;
   playersCount: number;
+}
+
+export interface RoomState {
+  room: Room;
+  players: Player[];
+  minigames: Minigame[];
 }

@@ -25,9 +25,9 @@ export class RoomService {
       RequestFromClient.JoinRoom,
       request
     );
-    this.storeService.setRoom(response.room);
-    this.storeService.setPlayers(response.players);
-    this.storeService.setMinigames(response.minigames);
+    this.storeService.setRoom(response.state.room);
+    this.storeService.setPlayers(response.state.players);
+    this.storeService.setMinigames(response.state.minigames);
   }
 
   async createRoom(params: {
@@ -47,8 +47,9 @@ export class RoomService {
       RequestFromClient.CreateRoom,
       request
     );
-    this.storeService.setRoom(response.room);
-    this.storeService.setPlayers(response.players);
+    this.storeService.setRoom(response.state.room);
+    this.storeService.setPlayers(response.state.players);
+    this.storeService.setMinigames(response.state.minigames);
   }
 
   async leaveRoom(): Promise<void> {

@@ -21,6 +21,6 @@ export class RoomJoinApi {
     }
     const { roomId } = await tPromise.decode(JoinRoomRequestSchema, request);
     await this.roomJoinService.joinRoom(session.playerId, roomId);
-    return await this.roomUtilsService.getRoomState(roomId);
+    return { state: await this.roomUtilsService.getRoomState(roomId) };
   }
 }
