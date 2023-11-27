@@ -11,6 +11,7 @@ import {
   characterPoseApi,
   chatSpeakApi,
   dialogueOptionApi,
+  minigameApi,
   movementApi,
   roomCreationApi,
   roomJoinApi,
@@ -104,6 +105,9 @@ async function start(): Promise<void> {
     });
     socket.on(RequestFromClient.Wear, (msg: unknown, callback) => {
       handleRequest(() => wardrobeApi.wear(msg, session), callback);
+    });
+    socket.on(RequestFromClient.ChangeProgess, (msg: unknown, callback) => {
+      handleRequest(() => minigameApi.changeProgress(msg, session), callback);
     });
   });
 

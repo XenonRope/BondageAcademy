@@ -2,6 +2,7 @@ import {
   Actor,
   ChangeWardrobeMinigameStake,
   ClickMinigameChallange,
+  Item,
   MinigameChallangeType,
   MinigameStakeType,
   Slot,
@@ -20,7 +21,7 @@ export class WardrobeMinigameService {
     actor: Actor;
     target: Actor;
     slot: Slot;
-    itemId?: number;
+    item?: Item;
   }): Promise<void> {
     if (!isPlayerActor(params.actor)) {
       throw new Error("Actor is not player");
@@ -32,7 +33,12 @@ export class WardrobeMinigameService {
     const stake: ChangeWardrobeMinigameStake = {
       type: MinigameStakeType.ChangeWardrobe,
       slot: params.slot,
-      itemId: params.itemId,
+      item: params.item
+        ? {
+            id: params.item.id,
+            code: params.item.code,
+          }
+        : undefined,
     };
     await this.minigameService.startMinigame({
       roomId: player.roomId,

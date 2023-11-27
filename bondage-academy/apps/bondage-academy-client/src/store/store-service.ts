@@ -1,4 +1,6 @@
 import {
+  Actor,
+  Character,
   ChatMessage,
   GameObject,
   Minigame,
@@ -75,6 +77,20 @@ export class StoreService {
       return this.store.players.find(
         (player) => player.id === this.store.selectedPlayer
       );
+    }
+    return undefined;
+  }
+
+  getCharacterByActor(actor: Actor): Character | undefined {
+    if (isPlayerActor(actor)) {
+      return this.getPlayerById(actor.playerId)?.character;
+    }
+    return undefined;
+  }
+
+  getNameByActor(actor: Actor): string | undefined {
+    if (isPlayerActor(actor)) {
+      return this.getPlayerById(actor.playerId)?.name;
     }
     return undefined;
   }

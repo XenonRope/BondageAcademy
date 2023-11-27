@@ -6,4 +6,5 @@ export enum RequestFromClient {
   Speak = "speak",
   UseDialogueOption = "use_dialogue_option",
   Wear = "wear",
+  ChangeProgess = "ChangeProgress",
 }

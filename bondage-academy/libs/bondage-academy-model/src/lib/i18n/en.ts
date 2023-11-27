@@ -48,4 +48,16 @@ export const enDictionary = {
     ballGag: "Ball gag",
     petSuit: "Pet suit",
   },
+  minigame: {
+    stake: {
+      changeWardrobe: {
+        youAreUsing: "You are using",
+        youAreRemoving: "You are removing",
+        isUsing: "is using",
+        isRemoving: "is removing",
+        on: "on",
+        from: "from",
+      },
+    },
+  },
 };

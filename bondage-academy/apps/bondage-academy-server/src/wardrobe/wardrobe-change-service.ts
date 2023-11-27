@@ -16,12 +16,17 @@ export class WardrobeChangeService {
     slot: Slot;
     itemId?: number;
   }): Promise<void> {
-    const { actorPlayer, targetPlayer } =
+    const { actorPlayer, targetPlayer, item } =
       await this.wardrobeConditionChecker.assertCanWear(params);
     if (actorPlayer.id === targetPlayer.id) {
       await this.wardrobeService.wear(params);
       return;
     }
-    await this.wardrobeMinigameService.startChangeWardrobeMinigame(params);
+    await this.wardrobeMinigameService.startChangeWardrobeMinigame({
+      actor: params.actor,
+      target: params.target,
+      slot: params.slot,
+      item,
+    });
   }
 }

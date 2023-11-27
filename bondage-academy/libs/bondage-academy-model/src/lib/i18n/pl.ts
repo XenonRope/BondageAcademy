@@ -51,4 +51,16 @@ export const plDictionary: RawDictionary = {
     ballGag: "Ball gag",
     petSuit: "Pet suit",
   },
+  minigame: {
+    stake: {
+      changeWardrobe: {
+        youAreUsing: "Używasz",
+        youAreRemoving: "Zdejmujesz",
+        isUsing: "używa",
+        isRemoving: "zdejmuje",
+        on: "na",
+        from: "z",
+      },
+    },
+  },
 };

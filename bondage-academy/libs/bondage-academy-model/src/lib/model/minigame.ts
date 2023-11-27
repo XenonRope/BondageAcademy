@@ -1,4 +1,5 @@
 import { Actor } from "./actor";
+import { ItemCode } from "./item";
 import { Slot } from "./slot";
 
 export enum MinigameChallangeType {
@@ -29,7 +30,10 @@ export interface MinigameStake {
 export interface ChangeWardrobeMinigameStake extends MinigameStake {
   type: MinigameStakeType.ChangeWardrobe;
   slot: Slot;
-  itemId?: number;
+  item?: {
+    id: number;
+    code: ItemCode;
+  };
 }
 
 export const isChangeWardrobeMinigameStake = (

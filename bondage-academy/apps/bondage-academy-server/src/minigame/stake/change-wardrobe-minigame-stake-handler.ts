@@ -32,7 +32,7 @@ export class ChangeWardrobeMinigameStakeHandler
       actor: minigame.actor,
       target: minigame.target,
       slot: stake.slot,
-      itemId: stake.itemId,
+      itemId: stake.item?.id,
     });
   }
 }

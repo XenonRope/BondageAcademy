@@ -2,6 +2,7 @@ import { AccountApi } from "../account/account-api";
 import { CharacterPoseApi } from "../character/character-pose-api";
 import { ChatSpeakApi } from "../chat/chat-speak-api";
 import { DialogueOptionApi } from "../chat/dialogue-option-api";
+import { MinigameApi } from "../minigame/minigame-api";
 import { MovementApi } from "../movement/movement-api";
 import { RoomCreationApi } from "../room/room-creation-api";
 import { RoomJoinApi } from "../room/room-join-api";
@@ -67,3 +68,5 @@ export const wardrobeApi = new WardrobeApi(
   wardrobeChangeService,
   minigameService
 );
+
+export const minigameApi = new MinigameApi(minigameService);
