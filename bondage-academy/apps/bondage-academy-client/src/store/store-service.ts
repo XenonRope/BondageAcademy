@@ -95,9 +95,9 @@ export class StoreService {
     return undefined;
   }
 
-  getMinigame(): Minigame | undefined {
+  getPlayerMinigames(): Minigame[] {
     if (this.store.playerId && this.store.minigames) {
-      return this.store.minigames.find(
+      return this.store.minigames.filter(
         (minigame) =>
           (isPlayerActor(minigame.actor) &&
             minigame.actor.playerId === this.store.playerId) ||
@@ -105,7 +105,7 @@ export class StoreService {
             minigame.target.playerId === this.store.playerId)
       );
     }
-    return undefined;
+    return [];
   }
 
   setLocale(locale: Locale) {

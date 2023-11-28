@@ -26,7 +26,16 @@ export class WardrobeMinigameService {
     if (!isPlayerActor(params.actor)) {
       throw new Error("Actor is not player");
     }
-    const player = await this.playerStoreService.get(params.actor.playerId);
+    if (!isPlayerActor(params.target)) {
+      throw new Error("Target is not player");
+    }
+    const actorPlayer = await this.playerStoreService.get(
+      params.actor.playerId
+    );
+    const targetPlayer = await this.playerStoreService.get(
+      params.target.playerId
+    );
+    const currentItem = targetPlayer.character.wearables[params.slot];
     const challange: ClickMinigameChallange = {
       type: MinigameChallangeType.Click,
     };
@@ -39,9 +48,12 @@ export class WardrobeMinigameService {
             code: params.item.code,
           }
         : undefined,
+      currentItem: currentItem
+        ? { id: currentItem.item.id, code: currentItem.item.code }
+        : undefined,
     };
     await this.minigameService.startMinigame({
-      roomId: player.roomId,
+      roomId: actorPlayer.roomId,
       actor: params.actor,
       target: params.target,
       challange,

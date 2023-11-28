@@ -34,6 +34,10 @@ export interface ChangeWardrobeMinigameStake extends MinigameStake {
     id: number;
     code: ItemCode;
   };
+  currentItem?: {
+    id: number;
+    code: ItemCode;
+  };
 }
 
 export const isChangeWardrobeMinigameStake = (

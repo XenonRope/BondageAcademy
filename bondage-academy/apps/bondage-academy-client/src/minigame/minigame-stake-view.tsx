@@ -2,11 +2,9 @@ import {
   Actor,
   ItemCode,
   Minigame,
-  Slot,
   isChangeWardrobeMinigameStake,
   isPlayerActor,
   itemConfigs,
-  slotConfigs,
 } from "@bondage-academy/bondage-academy-model";
 import { JSX } from "solid-js/jsx-runtime";
 import { store, storeService, t } from "../app/services";
@@ -32,13 +30,11 @@ export default function MinigameView(props: { minigame: Minigame }) {
           );
         } else {
           return (
-            props.minigame.target && (
+            props.minigame.target &&
+            props.minigame.stake.currentItem && (
               <div class="text-center">
                 {t("minigame.changeWardrobe.youAreRemoving")}{" "}
-                {getItemNameByActorAndSlot(
-                  props.minigame.target,
-                  props.minigame.stake.slot
-                )}{" "}
+                {getItemNameByItemCode(props.minigame.stake.currentItem.code)}{" "}
                 {t("minigame.changeWardrobe.from")}{" "}
                 {getNameByActor(props.minigame.target)}
                 {"..."}
@@ -63,16 +59,15 @@ export default function MinigameView(props: { minigame: Minigame }) {
           );
         } else {
           return (
-            <div class="text-center">
-              {getNameByActor(props.minigame.actor)}{" "}
-              {t("minigame.changeWardrobe.isRemoving")}{" "}
-              {getItemNameByActorAndSlot(
-                props.minigame.target,
-                props.minigame.stake.slot
-              )}{" "}
-              {t("minigame.changeWardrobe.fromYou")}
-              {"..."}
-            </div>
+            props.minigame.stake.currentItem && (
+              <div class="text-center">
+                {getNameByActor(props.minigame.actor)}{" "}
+                {t("minigame.changeWardrobe.isRemoving")}{" "}
+                {getItemNameByItemCode(props.minigame.stake.currentItem.code)}{" "}
+                {t("minigame.changeWardrobe.fromYou")}
+                {"..."}
+              </div>
+            )
           );
         }
       }
@@ -85,18 +80,8 @@ export default function MinigameView(props: { minigame: Minigame }) {
     return name ? <span class="font-bold">{name}</span> : <></>;
   }
 
-  function getItemNameByActorAndSlot(actor: Actor, slot: Slot): JSX.Element {
-    const itemCode =
-      storeService.getCharacterByActor(actor)?.wearables[slot]?.item.code;
-    return itemCode ? getItemNameByItemCode(itemCode) : <></>;
-  }
-
   function getItemNameByItemCode(code: ItemCode): JSX.Element {
     return <span class="font-bold">{t(itemConfigs[code].name) as string}</span>;
-  }
-
-  function getSlotName(slot: Slot): JSX.Element {
-    return <span class="font-bold">{t(slotConfigs[slot].name) as string}</span>;
   }
 
   return <>{render()}</>;
