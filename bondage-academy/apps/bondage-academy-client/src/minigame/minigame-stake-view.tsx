@@ -20,13 +20,15 @@ export default function MinigameView(props: { minigame: Minigame }) {
       ) {
         if (props.minigame.stake.item) {
           return (
-            <div class="text-center">
-              {t("minigame.changeWardrobe.youAreUsing")}{" "}
-              {getItemNameByItemCode(props.minigame.stake.item.code)}{" "}
-              {t("minigame.changeWardrobe.on")}{" "}
-              {getSlotName(props.minigame.stake.slot)}
-              {"..."}
-            </div>
+            props.minigame.target && (
+              <div class="text-center">
+                {t("minigame.changeWardrobe.youAreUsing")}{" "}
+                {getItemNameByItemCode(props.minigame.stake.item.code)}{" "}
+                {t("minigame.changeWardrobe.on")}{" "}
+                {getNameByActor(props.minigame.target)}
+                {"..."}
+              </div>
+            )
           );
         } else {
           return (
@@ -38,7 +40,7 @@ export default function MinigameView(props: { minigame: Minigame }) {
                   props.minigame.stake.slot
                 )}{" "}
                 {t("minigame.changeWardrobe.from")}{" "}
-                {getSlotName(props.minigame.stake.slot)}
+                {getNameByActor(props.minigame.target)}
                 {"..."}
               </div>
             )
@@ -55,8 +57,7 @@ export default function MinigameView(props: { minigame: Minigame }) {
               {getNameByActor(props.minigame.actor)}{" "}
               {t("minigame.changeWardrobe.isUsing")}{" "}
               {getItemNameByItemCode(props.minigame.stake.item.code)}{" "}
-              {t("minigame.changeWardrobe.on")}{" "}
-              {getSlotName(props.minigame.stake.slot)}
+              {t("minigame.changeWardrobe.onYou")}
               {"..."}
             </div>
           );
@@ -69,8 +70,7 @@ export default function MinigameView(props: { minigame: Minigame }) {
                 props.minigame.target,
                 props.minigame.stake.slot
               )}{" "}
-              {t("minigame.changeWardrobe.from")}{" "}
-              {getSlotName(props.minigame.stake.slot)}
+              {t("minigame.changeWardrobe.fromYou")}
               {"..."}
             </div>
           );
