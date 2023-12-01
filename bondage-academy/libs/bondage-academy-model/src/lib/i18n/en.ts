@@ -64,4 +64,9 @@ export const enDictionary = {
       resist: "Resist",
     },
   },
+  action: {
+    smile: {
+      smiles: "{{actor}} smiles",
+    },
+  },
 };

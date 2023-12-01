@@ -3,6 +3,8 @@ import { AccountRegistrationService } from "../account/account-registration-serv
 import { AccountService } from "../account/account-service";
 import { LoginService } from "../account/login-service";
 import { LogoutService } from "../account/logout-service";
+import { ActionService } from "../action/action-service";
+import { SmileActionHandler } from "../action/handler/smile-action-handler";
 import { CharacterPoseService } from "../character/character-pose-service";
 import { ChatService } from "../chat/chat-service";
 import { ChatSpeakService } from "../chat/chat-speak-service";
@@ -79,7 +81,8 @@ export const roomStoreService = new RoomStoreService(roomService);
 
 export const roomSessionService = new RoomSessionService(
   sessionService,
-  roomStoreService
+  roomStoreService,
+  playerStoreService
 );
 
 export const playerClientSynchronizationService =
@@ -270,6 +273,10 @@ export const wardrobeChangeServiec = new WardrobeChangeService(
   wardrobeConditionChecker,
   wardrobeMinigameService
 );
+
+export const actionService = new ActionService([
+  new SmileActionHandler(roomSessionService, chatService, playerStoreService),
+]);
 
 export const headmistressScript = new HeadmistressScript(
   roomStoreService,

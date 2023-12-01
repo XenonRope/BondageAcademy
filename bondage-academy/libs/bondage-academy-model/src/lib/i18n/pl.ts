@@ -67,4 +67,9 @@ export const plDictionary: RawDictionary = {
       resist: "Opieraj się",
     },
   },
+  action: {
+    smile: {
+      smiles: "{{actor}} uśmiecha się",
+    },
+  },
 };

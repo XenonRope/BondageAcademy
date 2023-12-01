@@ -45,7 +45,6 @@ export class HeadmistressScript extends GameScript {
     const templateRoom = await this.roomStoreService.get(room.templateRoomId);
     if (templateRoom.code === RoomCode.Introduction) {
       this.chatService.sendChatMessage([session], {
-        time: new Date().getTime(),
         speakerDictionaryKey: "npc.headmistress",
         contentDictionaryKey: "dialogue.welcomeInOurAcademy",
       });
@@ -64,7 +63,6 @@ export class HeadmistressScript extends GameScript {
       return Promise.resolve();
     }
     this.chatService.sendChatMessage([session], {
-      time: new Date().getTime(),
       speakerDictionaryKey: "npc.headmistress",
       contentDictionaryKey: "dialogue.iAmHeadmistressOfThisAcademy",
     });
@@ -91,7 +89,6 @@ export class HeadmistressScript extends GameScript {
       )
     ) {
       this.chatService.sendChatMessage([session], {
-        time: new Date().getTime(),
         speakerDictionaryKey: "npc.headmistress",
         contentDictionaryKey: "dialogue.iHaveSomethingSuitableForYouHere",
       });
@@ -100,7 +97,6 @@ export class HeadmistressScript extends GameScript {
       ]);
     } else {
       this.chatService.sendChatMessage([session], {
-        time: new Date().getTime(),
         speakerDictionaryKey: "npc.headmistress",
         contentDictionaryKey: "dialogue.kneelIfYouWantToAskMeForFavor",
       });

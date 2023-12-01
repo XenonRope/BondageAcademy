@@ -20,7 +20,6 @@ export class ChatSpeakService {
     const player = await this.playerStoreService.get(playerId);
     const sessions = await this.getSessions(player);
     this.chatService.sendChatMessage(sessions, {
-      time: new Date().getTime(),
       speaker: player.name,
       content,
     });

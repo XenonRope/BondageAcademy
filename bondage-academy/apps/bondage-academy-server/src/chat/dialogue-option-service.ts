@@ -58,7 +58,6 @@ export class DialogueOptionService {
     const session = this.sessionService.getSessionByPlayerId(playerId);
     if (session) {
       this.chatService.sendChatMessage([session], {
-        time: new Date().getTime(),
         speaker: player.name,
         contentDictionaryKey: content,
       });

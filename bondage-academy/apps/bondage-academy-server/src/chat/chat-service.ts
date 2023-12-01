@@ -6,9 +6,15 @@ import {
 import { Session } from "../session/model/session";
 
 export class ChatService {
-  sendChatMessage(sessions: Session[], message: ChatMessage): void {
+  sendChatMessage(
+    sessions: Session[],
+    message: Omit<ChatMessage, "time">
+  ): void {
     const event: ChatMessageEvent = {
-      message,
+      message: {
+        ...message,
+        time: new Date().getTime(),
+      },
     };
     sessions.forEach((session) => {
       session.socket.emit(EventFromServer.ChatMessage, event);
