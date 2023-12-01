@@ -9,6 +9,7 @@ import {
   characterPoseIcon,
   clothIcon,
   equipmentIcon,
+  handIcon,
   leaveIcon,
 } from "../ui/icons";
 import { SideMenuView } from "./model/side-menu-view";
@@ -60,13 +61,24 @@ export default function SideMenuBar() {
       }}
     >
       <div
+        onClick={() => toggleSideMenu(SideMenuView.Action)}
+        class="h-[52px] w-[52px] mb-[3px] bg-yellow-100 hover:bg-yellow-200"
+        style={{
+          "writing-mode": "horizontal-tb",
+        }}
+      >
+        <div class="relative h-full w-full left-[1px] py-[2px]">
+          {handIcon()}
+        </div>
+      </div>
+      <div
         onClick={() => toggleSideMenu(SideMenuView.CharacterPoses)}
         class="h-[52px] w-[52px] mb-[3px] bg-yellow-100 hover:bg-yellow-200"
         style={{
           "writing-mode": "horizontal-tb",
         }}
       >
-        <div class="relative h-full left-[6px] top-[1px] py-[2px]">
+        <div class="relative h-full left-[7px] top-[1px] py-[2px]">
           {characterPoseIcon()}
         </div>
       </div>
@@ -77,7 +89,7 @@ export default function SideMenuBar() {
           "writing-mode": "horizontal-tb",
         }}
       >
-        <div class="relative top-[6px] left-[-1px] px-[2px]">{clothIcon()}</div>
+        <div class="relative top-[7px] left-[0px] px-[2px]">{clothIcon()}</div>
       </div>
       <div
         onClick={() => toggleSideMenu(SideMenuView.Equipment)}
