@@ -69,4 +69,7 @@ export const enDictionary = {
       smiles: "{{actor}} smiles",
     },
   },
+  actionSidePanel: {
+    action: "Action",
+  },
 };

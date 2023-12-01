@@ -28,6 +28,8 @@ export default function SideMenuPanel() {
 
   function title(): string | undefined {
     switch (store.sideMenuView) {
+      case SideMenuView.Action:
+        return t("actionSidePanel.action");
       case SideMenuView.CharacterPoses:
         return t("common.pose");
       case SideMenuView.Wardrobe:
