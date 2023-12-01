@@ -1,4 +1,5 @@
 import type { JSX } from "solid-js/jsx-runtime";
+import ActionView from "../action/action-view";
 import { sideMenuService, store, storeService, t } from "../app/services";
 import CharacterPoseController from "../character/character-pose-controller";
 import EquipmentView from "../item/equipment-view";
@@ -9,6 +10,8 @@ import { SideMenuView } from "./model/side-menu-view";
 export default function SideMenuPanel() {
   function renderView(): JSX.Element {
     switch (store.sideMenuView) {
+      case SideMenuView.Action:
+        return <ActionView />;
       case SideMenuView.CharacterPoses: {
         const player = storeService.getPlayer();
         return (
