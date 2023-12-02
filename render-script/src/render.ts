@@ -10,7 +10,12 @@ type HeadPose = (typeof HEAD_POSES)[number];
 const UPPER_BODY_POSES = ["Attention", "Crossed", "Hands up"] as const;
 type UpperBodyPose = (typeof UPPER_BODY_POSES)[number];
 
-const LOWER_BODY_POSES = ["Stand", "Simple kneel", "Wide kneel", "Wide legs"] as const;
+const LOWER_BODY_POSES = [
+  "Stand",
+  "Simple kneel",
+  "Wide kneel",
+  "Wide legs",
+] as const;
 type LowerBodyPose = (typeof LOWER_BODY_POSES)[number];
 
 const POSES = [
@@ -26,6 +31,9 @@ type BodyPart = (typeof BODY_PARTS)[number];
 
 const BONES = ["Left Foot", "Right Foot", "Left Hand", "Right Hand"] as const;
 type Bone = (typeof BONES)[number];
+
+const DEVICES_NAMES = ["Restraint Frame", "Restraint Frame Open"] as const;
+type DeviceName = (typeof DEVICES_NAMES)[number];
 
 interface Fragment {
   name: string;
@@ -49,6 +57,17 @@ interface Wearable {
 interface WearableWithCondition {
   wearable: Wearable;
   condition: Condition;
+}
+
+interface DeviceFramgent {
+  name: string;
+  nodes: string[];
+}
+
+interface Device {
+  name: DeviceName;
+  path: string;
+  framgemnts: DeviceFramgent[];
 }
 
 interface DzNode {
@@ -252,7 +271,7 @@ const WEARABLES: Wearable[] = [
     name: "Becca Mesh Bra Black",
     fragments: [
       {
-        name: "Becca Mesh Bra",
+        name: "Becca Mesh Bra Black",
         path: "clothes\\bras\\Becca Mesh Bra\\Becca Mesh Bra Black.duf",
         nodes: ["Becca Mesh Bra Genesis 9"],
       },
@@ -272,7 +291,7 @@ const WEARABLES: Wearable[] = [
     name: "Becca Mesh Bra Dots",
     fragments: [
       {
-        name: "Becca Mesh Bra",
+        name: "Becca Mesh Bra Dots",
         path: "clothes\\bras\\Becca Mesh Bra\\Becca Mesh Bra Dots.duf",
         nodes: ["Becca Mesh Bra Genesis 9"],
       },
@@ -433,6 +452,57 @@ const WEARABLES: Wearable[] = [
   },
 ];
 
+const DEVICES: Device[] = [
+  {
+    name: "Restraint Frame",
+    path: "devices\\Restraint Frame\\Restraint Frame.duf",
+    framgemnts: [
+      {
+        name: "Frame",
+        nodes: ["Frame"],
+      },
+      {
+        name: "Back",
+        nodes: ["Back"],
+      },
+      {
+        name: "Plank back",
+        nodes: ["PlankBack"],
+      },
+      {
+        name: "Plank front",
+        nodes: ["PlankFront"],
+      },
+      {
+        name: "Pin",
+        nodes: ["Pin"],
+      },
+      {
+        name: "Padlock",
+        nodes: ["Padlock"],
+      },
+      {
+        name: "Girder1",
+        nodes: ["Girder1"],
+      },
+      {
+        name: "Girder2",
+        nodes: ["Girder2"],
+      },
+    ],
+  },
+  {
+    name: "Restraint Frame Open",
+    path: "devices\\Restraint Frame\\Restraint Frame Open.duf",
+    framgemnts: [
+      {
+        name: "Plank back",
+        nodes: ["PlankBack"],
+      },
+    ],
+  },
+];
+
 interface RenderSettings {
   characters: readonly Character[];
   bodyParts: readonly BodyPart[];
@@ -440,24 +510,31 @@ interface RenderSettings {
   wearables: readonly WearableName[];
 }
 
-renderCharacters({
-  characters: CHARACTERS,
-  bodyParts: BODY_PARTS,
-  poses: POSES,
-  wearables: ["Magic Christmas Glove Left", "Magic Christmas Glove Right"],
-});
+// renderCharacters({
+//   characters: CHARACTERS,
+//   bodyParts: BODY_PARTS,
+//   poses: POSES,
+//   wearables: ["Magic Christmas Glove Left", "Magic Christmas Glove Right"],
+// });
 
-renderItemsPreview();
+// renderItemsPreview();
+
+renderDevices();
+
+function renderDevices() {
+  renderDevice("Restraint Frame");
+  renderDevice("Restraint Frame Open");
+}
 
 function renderItemsPreview() {
-  // renderItemPreview("clothes\\panties\\X Fashion Thong", "X Fashion Thong");
-  // renderItemPreview("clothes\\gloves\\X Fashion Sleeve", "X Fashion Sleeve");
+  renderItemPreview("clothes\\panties\\X Fashion Thong", "X Fashion Thong");
+  renderItemPreview("clothes\\gloves\\X Fashion Sleeve", "X Fashion Sleeve");
   renderItemPreview(
     "clothes\\gloves\\Magic Christmas Glove",
     "Magic Christmas Glove"
   );
-  // renderItemPreview("clothes\\bras\\Becca Mesh Bra", "Becca Mesh Bra Black");
-  // renderItemPreview("clothes\\bras\\Becca Mesh Bra", "Becca Mesh Bra Dots");
+  renderItemPreview("clothes\\bras\\Becca Mesh Bra", "Becca Mesh Bra Black");
+  renderItemPreview("clothes\\bras\\Becca Mesh Bra", "Becca Mesh Bra Dots");
 }
 
 function renderItemPreview(basePath: string, itemName: string) {
@@ -681,6 +758,33 @@ function renderWearables(
       }
     }
   }
+}
+
+function renderDevice(deviceName: DeviceName) {
+  const device = findDeviceByName(deviceName);
+  loadScene("scenes/Character.duf");
+  loadRenderSettings();
+
+  // Create device
+  openFile(device.path);
+
+  enableRenderingToCanvases();
+  for (const { name, nodes } of device.framgemnts) {
+    clearNodesToRender();
+    for (const node of nodes) {
+      addNodeToRender(findNodeByLabel(node));
+    }
+    render(`output\\${deviceName} - ${name}.png`, WIDTH, HEIGHT);
+  }
+}
+
+function findDeviceByName(name: DeviceName): Device {
+  for (const device of DEVICES) {
+    if (device.name === name) {
+      return device;
+    }
+  }
+  throw "Cannot find device with name " + name;
 }
 
 function showOnlyHead(characterNode: DzNode) {
