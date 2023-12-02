@@ -15,7 +15,7 @@ export class LocaleService {
       () => this.store.locale,
       async (locale) => await this.fetchDictionary(locale)
     );
-    return i18n.translator(dictionary, i18n.resolveTemplate);
+    return i18n.translator(dictionary);
   }
 
   async fetchDictionary(locale: Locale): Promise<Dictionary> {
