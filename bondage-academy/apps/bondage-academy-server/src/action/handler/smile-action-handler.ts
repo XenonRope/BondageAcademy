@@ -30,9 +30,11 @@ export class SmileActionHandler implements ActionHandler<SmileAction> {
     );
     this.chatService.sendChatMessage(sessions, {
       action: true,
-      contentDictionaryKey: "action.smile.smiles",
-      contentParams: {
-        actor: (await this.playerStoreService.get(actor.playerId)).name,
+      content: {
+        dictionaryKey: "action.smile.smiles",
+        params: {
+          actor: (await this.playerStoreService.get(actor.playerId)).name,
+        },
       },
     });
   }

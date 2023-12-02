@@ -59,7 +59,7 @@ export class DialogueOptionService {
     if (session) {
       this.chatService.sendChatMessage([session], {
         speaker: player.name,
-        contentDictionaryKey: content,
+        content: { dictionaryKey: content },
       });
     }
     await this.scriptService.onDialogueOptionUse({

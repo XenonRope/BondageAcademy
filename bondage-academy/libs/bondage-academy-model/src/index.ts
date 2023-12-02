@@ -17,6 +17,7 @@ export * from "./lib/from-server/minigame";
 export * from "./lib/i18n/dictionary";
 export * from "./lib/i18n/en";
 export * from "./lib/i18n/pl";
+export * from "./lib/i18n/translatable-text";
 export * from "./lib/model/action";
 export * from "./lib/model/actor";
 export * from "./lib/model/block-object";

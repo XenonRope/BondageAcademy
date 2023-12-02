@@ -45,8 +45,8 @@ export class HeadmistressScript extends GameScript {
     const templateRoom = await this.roomStoreService.get(room.templateRoomId);
     if (templateRoom.code === RoomCode.Introduction) {
       this.chatService.sendChatMessage([session], {
-        speakerDictionaryKey: "npc.headmistress",
-        contentDictionaryKey: "dialogue.welcomeInOurAcademy",
+        speaker: { dictionaryKey: "npc.headmistress" },
+        content: { dictionaryKey: "dialogue.welcomeInOurAcademy" },
       });
     }
   }
@@ -63,8 +63,8 @@ export class HeadmistressScript extends GameScript {
       return Promise.resolve();
     }
     this.chatService.sendChatMessage([session], {
-      speakerDictionaryKey: "npc.headmistress",
-      contentDictionaryKey: "dialogue.iAmHeadmistressOfThisAcademy",
+      speaker: { dictionaryKey: "npc.headmistress" },
+      content: { dictionaryKey: "dialogue.iAmHeadmistressOfThisAcademy" },
     });
     return Promise.resolve();
   }
@@ -89,16 +89,16 @@ export class HeadmistressScript extends GameScript {
       )
     ) {
       this.chatService.sendChatMessage([session], {
-        speakerDictionaryKey: "npc.headmistress",
-        contentDictionaryKey: "dialogue.iHaveSomethingSuitableForYouHere",
+        speaker: { dictionaryKey: "npc.headmistress" },
+        content: { dictionaryKey: "dialogue.iHaveSomethingSuitableForYouHere" },
       });
       await this.itemService.addItemsToPlayer(event.playerId, [
         { code: ItemCode.XFashionSleeve },
       ]);
     } else {
       this.chatService.sendChatMessage([session], {
-        speakerDictionaryKey: "npc.headmistress",
-        contentDictionaryKey: "dialogue.kneelIfYouWantToAskMeForFavor",
+        speaker: { dictionaryKey: "npc.headmistress" },
+        content: { dictionaryKey: "dialogue.kneelIfYouWantToAskMeForFavor" },
       });
     }
   }

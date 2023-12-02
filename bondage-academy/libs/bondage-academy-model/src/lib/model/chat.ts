@@ -1,12 +1,8 @@
-import { BaseTemplateArgs } from "@solid-primitives/i18n";
-import { DictionaryKey } from "../i18n/dictionary";
+import { TranslatableText } from "../i18n/translatable-text";
 
 export interface ChatMessage {
   time: number;
   action?: boolean;
-  speaker?: string;
-  speakerDictionaryKey?: DictionaryKey;
-  content?: string;
-  contentDictionaryKey?: DictionaryKey;
-  contentParams?: BaseTemplateArgs;
+  speaker?: TranslatableText;
+  content?: TranslatableText;
 }

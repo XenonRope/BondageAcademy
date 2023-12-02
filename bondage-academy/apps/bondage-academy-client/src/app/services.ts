@@ -1,5 +1,4 @@
-import { Dictionary } from "@bondage-academy/bondage-academy-model";
-import type { NullableTranslator } from "@solid-primitives/i18n";
+import { DictionaryKey } from "@bondage-academy/bondage-academy-model";
 import { createStore } from "solid-js/store";
 import { AccountService } from "../account/service/account-service";
 import { ActionService } from "../action/services/action-service";
@@ -12,6 +11,7 @@ import { NavigationService } from "../common/navigation-service";
 import { SocketService } from "../common/socket-service";
 import { SideMenuService } from "../game/services/side-menu-service";
 import { WardrobeService } from "../item/services/wardrobe-service";
+import { Translator } from "../locale/model/translator";
 import { LocaleService } from "../locale/services/locale-service";
 import { MinigameService } from "../minigame/services/minigame-service";
 import { NPCCharacterService } from "../npc/npc-character-service";
@@ -56,5 +56,7 @@ export const actionService = new ActionService(socketService);
 
 export const minigameService = new MinigameService(socketService);
 
-export const t: NullableTranslator<Dictionary> =
-  localeService.createTranslator();
+export const translator: Translator = localeService.createTranslator();
+
+export const t = (dictionaryKey: DictionaryKey): string =>
+  translator({ dictionaryKey });

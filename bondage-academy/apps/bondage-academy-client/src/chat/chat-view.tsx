@@ -3,7 +3,13 @@ import {
   DialogueOption,
 } from "@bondage-academy/bondage-academy-model";
 import { For, Show, createSignal } from "solid-js";
-import { chatService, dialogueOptionService, store, t } from "../app/services";
+import {
+  chatService,
+  dialogueOptionService,
+  store,
+  t,
+  translator,
+} from "../app/services";
 import { sendMessageIcon } from "../ui/icons";
 import TextInput from "../ui/text-input";
 import DialogueOptionView from "./dialogue-option-view";
@@ -20,17 +26,11 @@ export default function ChatView() {
   }
 
   function getSpeaker(message: ChatMessage): string {
-    if (message.speakerDictionaryKey) {
-      return t(message.speakerDictionaryKey) as string;
-    }
-    return message.speaker ?? "";
+    return message.speaker ? translator(message.speaker) : "";
   }
 
   function getContent(message: ChatMessage): string {
-    if (message.contentDictionaryKey) {
-      return t(message.contentDictionaryKey, message.contentParams) as string;
-    }
-    return message.content ?? "";
+    return message.content ? translator(message.content) : "";
   }
 
   function getDialogueOptions(): DialogueOption[] {
@@ -64,7 +64,7 @@ export default function ChatView() {
           {(option) => (
             <div class="mt-1" style={{ "overflow-anchor": "none" }}>
               <DialogueOptionView onClick={() => useDialogueOption(option)}>
-                {t(option.content) as string}
+                {t(option.content)}
               </DialogueOptionView>
             </div>
           )}
