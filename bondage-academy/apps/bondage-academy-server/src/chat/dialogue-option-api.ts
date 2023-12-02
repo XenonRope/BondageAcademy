@@ -18,9 +18,7 @@ export class DialogueOptionApi {
     if (!session.playerId) {
       throw new Error("User is not logged in");
     }
-    if (this.minigameService.getMinigameByPlayerId(session.playerId)) {
-      throw new Error("User is during minigame");
-    }
+    this.minigameService.assertPlayerIsNotDuringMinigame(session.playerId);
 
     const { npcCode, content } = await tPromise.decode(
       UseDialogueOptionRequestSchema,

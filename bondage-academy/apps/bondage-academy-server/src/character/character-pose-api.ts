@@ -28,9 +28,7 @@ export class CharacterPoseApi {
     if (!session.playerId) {
       throw new Error("User is not logged in");
     }
-    if (this.minigameService.getMinigameByPlayerId(session.playerId)) {
-      throw new Error("User is during minigame");
-    }
+    this.minigameService.assertPlayerIsNotDuringMinigame(session.playerId);
 
     await this.characterPoseService.changePose(session.playerId, pose);
   }

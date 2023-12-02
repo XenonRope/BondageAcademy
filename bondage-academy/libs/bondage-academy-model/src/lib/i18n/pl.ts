@@ -70,7 +70,7 @@ export const plDictionary: RawDictionary = {
   action: {
     smile: {
       smile: "Uśmiechnij się",
-      smiles: "{{actor}} uśmiecha się",
+      smiles: "{{ actor }} uśmiecha się",
     },
   },
   actionSidePanel: {

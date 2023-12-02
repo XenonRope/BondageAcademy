@@ -15,6 +15,6 @@ export class MovementConditionChecker {
   }
 
   private canPlayerMove(playerId: number): boolean {
-    return !this.minigameService.getMinigameByPlayerId(playerId);
+    return this.minigameService.getMinigamesByPlayerId(playerId).length === 0;
   }
 }

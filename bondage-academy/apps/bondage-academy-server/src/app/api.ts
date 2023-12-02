@@ -1,4 +1,5 @@
 import { AccountApi } from "../account/account-api";
+import { ActionApi } from "../action/action-api";
 import { CharacterPoseApi } from "../character/character-pose-api";
 import { ChatSpeakApi } from "../chat/chat-speak-api";
 import { DialogueOptionApi } from "../chat/dialogue-option-api";
@@ -11,6 +12,7 @@ import { RoomSearchApi } from "../room/room-search-api";
 import { WardrobeApi } from "../wardrobe/wardrobe-api";
 import {
   accountRegistrationService,
+  actionService,
   characterPoseService,
   chatSpeakService,
   dialogueOptionService,
@@ -70,3 +72,5 @@ export const wardrobeApi = new WardrobeApi(
 );
 
 export const minigameApi = new MinigameApi(minigameService);
+
+export const actionApi = new ActionApi(actionService, minigameService);

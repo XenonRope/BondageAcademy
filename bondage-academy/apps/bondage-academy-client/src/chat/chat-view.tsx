@@ -2,7 +2,7 @@ import {
   ChatMessage,
   DialogueOption,
 } from "@bondage-academy/bondage-academy-model";
-import { For, createSignal } from "solid-js";
+import { For, Show, createSignal } from "solid-js";
 import { chatService, dialogueOptionService, store, t } from "../app/services";
 import { sendMessageIcon } from "../ui/icons";
 import TextInput from "../ui/text-input";
@@ -28,7 +28,7 @@ export default function ChatView() {
 
   function getContent(message: ChatMessage): string {
     if (message.contentDictionaryKey) {
-      return t(message.contentDictionaryKey) as string;
+      return t(message.contentDictionaryKey, message.contentParams) as string;
     }
     return message.content ?? "";
   }
@@ -50,8 +50,13 @@ export default function ChatView() {
               class="overflow-hidden break-words"
               style={{ "overflow-anchor": "none" }}
             >
-              <span class="font-bold">{getSpeaker(message) + ": "}</span>
-              <span>{getContent(message)}</span>
+              <Show when={message.action}>
+                <span>*{getContent(message)}*</span>
+              </Show>
+              <Show when={!message.action}>
+                <span class="font-bold">{getSpeaker(message) + ": "}</span>
+                <span>{getContent(message)}</span>
+              </Show>
             </div>
           )}
         </For>

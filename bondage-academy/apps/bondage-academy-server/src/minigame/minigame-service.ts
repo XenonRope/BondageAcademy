@@ -21,6 +21,12 @@ export class MinigameService {
     private minigameStakeService: MinigameStakeService
   ) {}
 
+  assertPlayerIsNotDuringMinigame(playerId: number) {
+    if (this.getMinigamesByPlayerId(playerId).length !== 0) {
+      throw new Error(`Player ${playerId} is during minigame`);
+    }
+  }
+
   getMinigame(id: number): Minigame {
     const minigameWithState = this.minigamesWithStates.get(id);
     if (!minigameWithState) {
@@ -35,17 +41,16 @@ export class MinigameService {
       .map(({ minigame }) => minigame);
   }
 
-  getMinigameByPlayerId(playerId: number): Minigame | undefined {
-    const minigameWithState = Array.from(
-      this.minigamesWithStates.values()
-    ).find(
-      ({ minigame }) =>
-        (isPlayerActor(minigame.actor) &&
-          minigame.actor.playerId === playerId) ||
-        (isPlayerActor(minigame.target) &&
-          minigame.target.playerId === playerId)
-    );
-    return minigameWithState ? minigameWithState.minigame : undefined;
+  getMinigamesByPlayerId(playerId: number): Minigame[] {
+    return Array.from(this.minigamesWithStates.values())
+      .map(({ minigame }) => minigame)
+      .filter(
+        (minigame) =>
+          (isPlayerActor(minigame.actor) &&
+            minigame.actor.playerId === playerId) ||
+          (isPlayerActor(minigame.target) &&
+            minigame.target.playerId === playerId)
+      );
   }
 
   async startMinigame(params: {

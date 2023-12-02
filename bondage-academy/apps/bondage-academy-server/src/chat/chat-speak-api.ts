@@ -14,9 +14,7 @@ export class ChatSpeakApi {
     if (!session.playerId) {
       throw new Error("User is not logged in");
     }
-    if (this.minigameService.getMinigameByPlayerId(session.playerId)) {
-      throw new Error("User is during minigame");
-    }
+    this.minigameService.assertPlayerIsNotDuringMinigame(session.playerId);
 
     const speakRequest = await tPromise.decode(SpeakRequestSchema, request);
     await this.chatSpeakService.speak(session.playerId, speakRequest.content);

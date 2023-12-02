@@ -8,6 +8,7 @@ import { Server } from "socket.io";
 import { BusinessError } from "./api/model/business-error";
 import {
   accountApi,
+  actionApi,
   characterPoseApi,
   chatSpeakApi,
   dialogueOptionApi,
@@ -108,6 +109,9 @@ async function start(): Promise<void> {
     });
     socket.on(RequestFromClient.ChangeProgess, (msg: unknown, callback) => {
       handleRequest(() => minigameApi.changeProgress(msg, session), callback);
+    });
+    socket.on(RequestFromClient.Action, (msg: unknown, callback) => {
+      handleRequest(() => actionApi.executeAction(msg, session), callback);
     });
   });
 

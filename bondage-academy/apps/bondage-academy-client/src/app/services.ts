@@ -2,6 +2,7 @@ import { Dictionary } from "@bondage-academy/bondage-academy-model";
 import type { NullableTranslator } from "@solid-primitives/i18n";
 import { createStore } from "solid-js/store";
 import { AccountService } from "../account/service/account-service";
+import { ActionService } from "../action/services/action-service";
 import { CharacterLayerService } from "../character/service/character-layer-service";
 import { CharacterPoseService } from "../character/service/character-pose-service";
 import { ChatService } from "../chat/services/chat-service";
@@ -50,6 +51,8 @@ export const dialogueOptionService = new DialogueOptionService(
 );
 
 export const wardrobeService = new WardrobeService(socketService);
+
+export const actionService = new ActionService(socketService);
 
 export const minigameService = new MinigameService(socketService);
 
