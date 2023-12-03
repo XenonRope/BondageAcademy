@@ -6,6 +6,9 @@ export interface SlotConfig {
 }
 
 export const slotConfigs: Record<Slot, SlotConfig> = {
+  [Slot.Hair]: {
+    name: "slots.hair",
+  },
   [Slot.LeftSleeve]: {
     name: "slots.leftSleeve",
   },

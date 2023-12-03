@@ -4,7 +4,7 @@ import {
   Slot,
   itemConfigs,
 } from "@bondage-academy/bondage-academy-model";
-import { Show, createMemo, createSignal } from "solid-js";
+import { For, Show, createMemo, createSignal } from "solid-js";
 import { storeService, t, wardrobeService } from "../app/services";
 import Button from "../ui/button";
 import ItemSelector from "./item-selector";
@@ -34,6 +34,8 @@ export default function WardrobeView(props: { playerId: number }) {
     () => storeService.getPlayerById(props.playerId)?.character.wearables ?? {}
   );
 
+  const slots: Slot[] = [Slot.Hair, Slot.LeftSleeve, Slot.RightSleeve];
+
   function wear(item?: Item) {
     const slot = selectedSlot();
     if (!slot) {
@@ -49,16 +51,15 @@ export default function WardrobeView(props: { playerId: number }) {
     <>
       <Show when={!selectedSlot()}>
         <div class="flex flex-col gap-2">
-          <WardrobeSlot
-            slot={Slot.LeftSleeve}
-            item={wearables()[Slot.LeftSleeve]?.item}
-            onItemChange={() => setSelectedSlot(Slot.LeftSleeve)}
-          ></WardrobeSlot>
-          <WardrobeSlot
-            slot={Slot.RightSleeve}
-            item={wearables()[Slot.RightSleeve]?.item}
-            onItemChange={() => setSelectedSlot(Slot.RightSleeve)}
-          ></WardrobeSlot>
+          <For each={slots}>
+            {(slot) => (
+              <WardrobeSlot
+                slot={slot}
+                item={wearables()[slot]?.item}
+                onItemChange={() => setSelectedSlot(slot)}
+              ></WardrobeSlot>
+            )}
+          </For>
         </div>
       </Show>
       <Show when={selectedSlot()}>

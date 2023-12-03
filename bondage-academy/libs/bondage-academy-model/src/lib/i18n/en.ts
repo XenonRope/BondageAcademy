@@ -37,12 +37,14 @@ export const enDictionary = {
     iHaveSomethingSuitableForYouHere: "I have something suitable for you here.",
   },
   slots: {
+    hair: "Hair",
     leftSleeve: "Left sleeve",
     rightSleeve: "Right sleeve",
     mouth: "Mouth",
     body: "Body",
   },
   items: {
+    hair1: "Hair 1",
     xFashionSleeve: "X fashion sleeve",
     xFashionThong: "X fashion thong",
     ballGag: "Ball gag",

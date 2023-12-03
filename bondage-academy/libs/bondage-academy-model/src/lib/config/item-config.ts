@@ -23,6 +23,25 @@ export interface ItemConfig {
 }
 
 export const itemConfigs: Record<ItemCode, ItemConfig> = {
+  [ItemCode.HalleyHair1]: {
+    code: ItemCode.HalleyHair1,
+    name: "items.hair1",
+    allowedSlots: [Slot.Hair],
+    fragments: [
+      {
+        slot: Slot.Hair,
+        bodyType: ItemFragmentBodyType.UpperBody,
+        filePathSuffix: "Halley Hair 1 White Back",
+        order: 25,
+      },
+      {
+        slot: Slot.Hair,
+        bodyType: ItemFragmentBodyType.UpperBody,
+        filePathSuffix: "Halley Hair 1 White Front",
+        order: 110,
+      },
+    ],
+  },
   [ItemCode.XFashionSleeve]: {
     code: ItemCode.XFashionSleeve,
     name: "items.xFashionSleeve",

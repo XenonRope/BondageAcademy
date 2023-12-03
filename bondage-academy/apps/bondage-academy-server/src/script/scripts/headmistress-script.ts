@@ -94,6 +94,7 @@ export class HeadmistressScript extends GameScript {
       });
       await this.itemService.addItemsToPlayer(event.playerId, [
         { code: ItemCode.XFashionSleeve },
+        { code: ItemCode.HalleyHair1 },
       ]);
     } else {
       this.chatService.sendChatMessage([session], {

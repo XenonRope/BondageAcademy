@@ -40,12 +40,14 @@ export const plDictionary: RawDictionary = {
     iHaveSomethingSuitableForYouHere: "Mam tutaj dla ciebie coś odpowiedniego.",
   },
   slots: {
+    hair: "Włosy",
     leftSleeve: "Lewy rękaw",
     rightSleeve: "Prawy rękaw",
     mouth: "Usta",
     body: "Ciało",
   },
   items: {
+    hair1: "Włosy 1",
     xFashionSleeve: "X fashion sleeve",
     xFashionThong: "X fashion thong",
     ballGag: "Ball gag",
