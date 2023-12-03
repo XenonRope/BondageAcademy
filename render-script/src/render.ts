@@ -774,7 +774,7 @@ function renderDevice(deviceName: DeviceName) {
     for (const node of nodes) {
       addNodeToRender(findNodeByLabel(node));
     }
-    render(`output\\${deviceName} - ${name}.png`, WIDTH, HEIGHT);
+    render(`output\\device\\${deviceName} - ${name}.png`, WIDTH, HEIGHT);
   }
 }
 
