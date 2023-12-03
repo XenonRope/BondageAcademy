@@ -170,10 +170,6 @@ const WEARABLES: Wearable[] = [
         bodyPart: "Upper body",
         poses: ["Attention"],
       },
-      {
-        bodyPart: "Body",
-        poses: FULL_BODY_POSES,
-      },
     ],
   },
   {
@@ -189,10 +185,6 @@ const WEARABLES: Wearable[] = [
       {
         bodyPart: "Upper body",
         poses: ["Attention"],
-      },
-      {
-        bodyPart: "Body",
-        poses: FULL_BODY_POSES,
       },
     ],
   },
@@ -210,10 +202,6 @@ const WEARABLES: Wearable[] = [
         bodyPart: "Upper body",
         poses: ["Attention"],
       },
-      {
-        bodyPart: "Body",
-        poses: FULL_BODY_POSES,
-      },
     ],
   },
   {
@@ -230,10 +218,6 @@ const WEARABLES: Wearable[] = [
         bodyPart: "Upper body",
         poses: ["Attention"],
       },
-      {
-        bodyPart: "Body",
-        poses: FULL_BODY_POSES,
-      },
     ],
   },
   {
@@ -242,17 +226,13 @@ const WEARABLES: Wearable[] = [
       {
         name: "Nipple Piercing Moon",
         path: "clothes\\piercing\\Nipple Piercing Moon\\Nipple Piercing Moon.duf",
-        nodes: ["NPLJ 1"],
+        nodes: ["NPLJ 01"],
       },
     ],
     conditions: [
       {
         bodyPart: "Upper body",
         poses: ["Attention"],
-      },
-      {
-        bodyPart: "Body",
-        poses: FULL_BODY_POSES,
       },
     ],
   },
@@ -562,10 +542,10 @@ interface RenderSettings {
 
 renderCharacters({
   characters: CHARACTERS,
-  bodyParts: ["Head"],
-  poses: ["Normal"],
-  wearables: ["Halley Hair 1 White Back", "Halley Hair 1 White Front"],
-  onlyWearables: true,
+  bodyParts: BODY_PARTS,
+  poses: POSES,
+  wearables: WEARABLES_NAMES,
+  onlyWearables: false,
 });
 
 // renderItemsPreview();
