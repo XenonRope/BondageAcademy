@@ -1,4 +1,5 @@
 import { DictionaryKey } from "../i18n/dictionary";
+import { FullBodyPose } from "../model/character-pose";
 import { ItemCode } from "../model/item";
 import { Slot } from "../model/slot";
 
@@ -13,6 +14,7 @@ export interface ItemFragment {
   bodyType: ItemFragmentBodyType;
   filePathSuffix: string;
   order: number;
+  hiddenWhenFullBodyPose?: FullBodyPose[];
 }
 
 export interface ItemConfig {
@@ -30,13 +32,14 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
     fragments: [
       {
         slot: Slot.Hair,
-        bodyType: ItemFragmentBodyType.UpperBody,
+        bodyType: ItemFragmentBodyType.Head,
         filePathSuffix: "Halley Hair 1 White Back",
         order: 25,
+        hiddenWhenFullBodyPose: [FullBodyPose.PetSuit],
       },
       {
         slot: Slot.Hair,
-        bodyType: ItemFragmentBodyType.UpperBody,
+        bodyType: ItemFragmentBodyType.Head,
         filePathSuffix: "Halley Hair 1 White Front",
         order: 110,
       },

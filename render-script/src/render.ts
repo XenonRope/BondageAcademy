@@ -29,11 +29,19 @@ type Pose = (typeof POSES)[number];
 const BODY_PARTS = ["Body", "Head", "Upper body", "Lower body"] as const;
 type BodyPart = (typeof BODY_PARTS)[number];
 
-const BONES = ["Left Foot", "Right Foot", "Left Hand", "Right Hand"] as const;
+const BONES = [
+  "Hip",
+  "Left Foot",
+  "Right Foot",
+  "Left Hand",
+  "Right Hand",
+] as const;
 type Bone = (typeof BONES)[number];
 
 const DEVICES_NAMES = ["Restraint Frame", "Restraint Frame Open"] as const;
 type DeviceName = (typeof DEVICES_NAMES)[number];
+
+type Section = "Hair Front" | "Hair Back";
 
 interface Fragment {
   name: string;
@@ -52,7 +60,7 @@ interface Wearable {
   name: WearableName;
   fragments: Fragment[];
   conditions: Condition[];
-  sections?: string[];
+  sections?: Section[];
 }
 
 interface WearableWithCondition {
@@ -125,12 +133,8 @@ const WEARABLES: Wearable[] = [
     ],
     conditions: [
       {
-        bodyPart: "Upper body",
-        poses: UPPER_BODY_POSES,
-      },
-      {
-        bodyPart: "Body",
-        poses: FULL_BODY_POSES,
+        bodyPart: "Head",
+        poses: ["Normal"],
       },
     ],
     sections: ["Hair Back"],
@@ -146,12 +150,8 @@ const WEARABLES: Wearable[] = [
     ],
     conditions: [
       {
-        bodyPart: "Upper body",
-        poses: UPPER_BODY_POSES,
-      },
-      {
-        bodyPart: "Body",
-        poses: FULL_BODY_POSES,
+        bodyPart: "Head",
+        poses: ["Normal"],
       },
     ],
     sections: ["Hair Front"],
@@ -562,8 +562,8 @@ interface RenderSettings {
 
 renderCharacters({
   characters: CHARACTERS,
-  bodyParts: ["Upper body", "Body"],
-  poses: POSES,
+  bodyParts: ["Head"],
+  poses: ["Normal"],
   wearables: ["Halley Hair 1 White Back", "Halley Hair 1 White Front"],
   onlyWearables: true,
 });

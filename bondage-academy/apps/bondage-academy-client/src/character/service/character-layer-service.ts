@@ -143,6 +143,12 @@ export class CharacterLayerService {
         if (!pose) {
           continue;
         }
+        if (
+          character.pose.fullBody &&
+          fragment.hiddenWhenFullBodyPose?.includes(character.pose.fullBody)
+        ) {
+          continue;
+        }
 
         layers.push({
           url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
