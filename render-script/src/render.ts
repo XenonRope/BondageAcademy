@@ -52,6 +52,7 @@ interface Wearable {
   name: WearableName;
   fragments: Fragment[];
   conditions: Condition[];
+  sections?: string[];
 }
 
 interface WearableWithCondition {
@@ -86,6 +87,12 @@ const WIDTH = 600;
 const HEIGHT = 800;
 
 const WEARABLES_NAMES = [
+  "Halley Hair 1 White Back",
+  "Halley Hair 1 White Front",
+  "Halley Hair 2 White Back",
+  "Halley Hair 2 White Front",
+  "Halley Hair 3 White Back",
+  "Halley Hair 3 White Front",
   "Nipple Piercing Sphere",
   "Nipple Piercing Spider",
   "Nipple Piercing C Shape",
@@ -107,6 +114,48 @@ const WEARABLES_NAMES = [
 type WearableName = (typeof WEARABLES_NAMES)[number];
 
 const WEARABLES: Wearable[] = [
+  {
+    name: "Halley Hair 1 White Back",
+    fragments: [
+      {
+        name: "Halley Hair 1 White Back",
+        path: "body\\hair\\Halley Hair\\Halley Hair 1 White.duf",
+        nodes: ["Halley Hair Genesis 9"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: UPPER_BODY_POSES,
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+    sections: ["Hair Back"],
+  },
+  {
+    name: "Halley Hair 1 White Front",
+    fragments: [
+      {
+        name: "Halley Hair 1 White Front",
+        path: "body\\hair\\Halley Hair\\Halley Hair 1 White.duf",
+        nodes: ["Halley Hair Genesis 9"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: UPPER_BODY_POSES,
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+    sections: ["Hair Front"],
+  },
   {
     name: "Nipple Piercing Sphere",
     fragments: [
@@ -508,18 +557,20 @@ interface RenderSettings {
   bodyParts: readonly BodyPart[];
   poses: readonly Pose[];
   wearables: readonly WearableName[];
+  onlyWearables: boolean;
 }
 
-// renderCharacters({
-//   characters: CHARACTERS,
-//   bodyParts: BODY_PARTS,
-//   poses: POSES,
-//   wearables: ["Magic Christmas Glove Left", "Magic Christmas Glove Right"],
-// });
+renderCharacters({
+  characters: CHARACTERS,
+  bodyParts: ["Upper body", "Body"],
+  poses: POSES,
+  wearables: ["Halley Hair 1 White Back", "Halley Hair 1 White Front"],
+  onlyWearables: true,
+});
 
 // renderItemsPreview();
 
-renderDevices();
+// renderDevices();
 
 function renderDevices() {
   renderDevice("Restraint Frame");
@@ -589,7 +640,7 @@ function renderFullBodyPose(
   selectSingleNodeByLabel(character);
   openFile("poses\\full body\\" + pose + ".duf");
 
-  if (settings.bodyParts.indexOf("Body") > -1) {
+  if (!settings.onlyWearables) {
     render(`output\\${character} - ${pose} - Body.png`, WIDTH, HEIGHT);
   }
 
@@ -630,7 +681,7 @@ function renderUpperBodyPose(
   enableRenderingToCanvases();
   addNodeToRender(upperBody);
 
-  if (settings.bodyParts.indexOf("Upper body") > 1) {
+  if (!settings.onlyWearables) {
     render(`output\\${character} - ${pose} - Upper body.png`, WIDTH, HEIGHT);
   }
 
@@ -675,7 +726,7 @@ function renderLowerBodyPose(
   enableRenderingToCanvases();
   addNodeToRender(lowerBody);
 
-  if (settings.bodyParts.indexOf("Lower body") > 1) {
+  if (!settings.onlyWearables) {
     render(`output\\${character} - ${pose} - Lower body.png`, WIDTH, HEIGHT);
   }
 
@@ -711,7 +762,7 @@ function renderHeadPose(
   selectSingleNodeByLabel(character);
   openFile("poses\\head\\" + pose + ".duf");
 
-  if (settings.bodyParts.indexOf("Head") > -1) {
+  if (!settings.onlyWearables) {
     render(`output\\${character} - ${pose} - Head.png`, WIDTH, HEIGHT);
   }
 
@@ -738,6 +789,9 @@ function renderWearables(
     for (const hideBodyPart of condition?.hideBodyParts ?? []) {
       hideChild(body, hideBodyPart);
     }
+    for (const section of wearable.sections ?? []) {
+      openFile(`sections\\${section}.duf`);
+    }
     for (const fragment of wearable.fragments) {
       clearNodesToRender();
       for (const node of fragment.nodes) {
@@ -748,6 +802,9 @@ function renderWearables(
         WIDTH,
         HEIGHT
       );
+    }
+    if (wearable?.sections?.length) {
+      removeNode(findNodeByLabel("Iray Section Plane Node"));
     }
     for (const hideBodyPart of condition?.hideBodyParts ?? []) {
       showChild(body, hideBodyPart);
