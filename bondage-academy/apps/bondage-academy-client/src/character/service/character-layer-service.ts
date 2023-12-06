@@ -103,7 +103,7 @@ export class CharacterLayerService {
         character.pose.head
       )} - Head.png`,
       order: this.getOrderForPose(character.pose.head),
-      offsetY: this.getOffset(character, rootOffset),
+      offsetY: this.getOffset(character, rootOffset, ItemFragmentBodyType.Head),
     });
 
     layers.push(
@@ -156,7 +156,7 @@ export class CharacterLayerService {
             pose
           )} - ${fragment.filePathSuffix}.png`,
           order: this.getOrderForPose(pose) + fragment.subOrder,
-          offsetY: this.getOffset(character, rootOffset),
+          offsetY: this.getOffset(character, rootOffset, fragment.bodyType),
         });
       }
     }
@@ -172,10 +172,14 @@ export class CharacterLayerService {
     return POSES_CONFIG[pose].order;
   }
 
-  private getOffset(character: Character, rootOffset: number): number {
+  private getOffset(
+    character: Character,
+    rootOffset: number,
+    bodyType: ItemFragmentBodyType
+  ): number {
     return (
       rootOffset +
-      (character.pose.fullBody
+      (character.pose.fullBody && bodyType === ItemFragmentBodyType.Head
         ? this.getHeadOffset(character.pose.fullBody)
         : 0)
     );
