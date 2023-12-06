@@ -36,7 +36,7 @@ export const poseConfigs: Record<AnyPose, PoseConfig> = {
   },
   [LowerBodyPose.SimpleKneel]: {
     iamgePathPart: "Simple kneel",
-    order: LayerOrder.LowerBody,
+    order: LayerOrder.LowerBodyFront,
     rootOffsetY: 280,
   },
   [LowerBodyPose.WideKneel]: {
