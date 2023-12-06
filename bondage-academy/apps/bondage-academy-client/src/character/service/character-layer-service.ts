@@ -1,10 +1,9 @@
 import {
   AnyPose,
   Character,
-  FullBodyPose,
   ItemConfig,
+  ItemFragment,
   ItemFragmentBodyType,
-  LowerBodyPose,
   Slot,
   itemConfigs,
   poseConfigs,
@@ -20,11 +19,7 @@ export class CharacterLayerService {
   getCharacterLayers(character: Character): CharacterLayer[] {
     const characterPrefix = "Kiri";
     const layers: CharacterLayer[] = [];
-    const rootOffset = this.getRootOffset(
-      character.pose.fullBody
-        ? character.pose.fullBody
-        : character.pose.lowerBody
-    );
+    const rootOffset = this.getRootOffset(character);
     if (character.pose.fullBody) {
       layers.push({
         url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
@@ -54,7 +49,7 @@ export class CharacterLayerService {
         character.pose.head
       )} - Head.png`,
       order: this.getOrderForPose(character.pose.head),
-      offsetY: this.getOffset(character, rootOffset, ItemFragmentBodyType.Head),
+      offsetY: rootOffset + this.getHeadOffset(character),
     });
 
     layers.push(
@@ -84,14 +79,7 @@ export class CharacterLayerService {
           continue;
         }
 
-        let pose: AnyPose | undefined = undefined;
-        if (fragment.bodyType === ItemFragmentBodyType.UpperBody) {
-          pose = character.pose.fullBody ?? character.pose.upperBody;
-        } else if (fragment.bodyType === ItemFragmentBodyType.LowerBody) {
-          pose = character.pose.fullBody ?? character.pose.lowerBody;
-        } else if (fragment.bodyType === ItemFragmentBodyType.Head) {
-          pose = character.pose.head;
-        }
+        const pose = this.getPoseForFragment(fragment, character);
         if (!pose) {
           continue;
         }
@@ -107,12 +95,30 @@ export class CharacterLayerService {
             pose
           )} - ${fragment.filePathSuffix}.png`,
           order: this.getOrderForPose(pose) + fragment.subOrder,
-          offsetY: this.getOffset(character, rootOffset, fragment.bodyType),
+          offsetY:
+            rootOffset +
+            (fragment.bodyType === ItemFragmentBodyType.Head
+              ? this.getHeadOffset(character)
+              : 0),
         });
       }
     }
 
     return layers;
+  }
+
+  private getPoseForFragment(
+    fragment: ItemFragment,
+    character: Character
+  ): AnyPose | undefined {
+    if (fragment.bodyType === ItemFragmentBodyType.UpperBody) {
+      return character.pose.fullBody ?? character.pose.upperBody;
+    } else if (fragment.bodyType === ItemFragmentBodyType.LowerBody) {
+      return character.pose.fullBody ?? character.pose.lowerBody;
+    } else if (fragment.bodyType === ItemFragmentBodyType.Head) {
+      return character.pose.head;
+    }
+    return undefined;
   }
 
   private getImagePathPartForPose(pose: AnyPose): string {
@@ -123,29 +129,16 @@ export class CharacterLayerService {
     return poseConfigs[pose].order;
   }
 
-  private getOffset(
-    character: Character,
-    rootOffset: number,
-    bodyType: ItemFragmentBodyType
-  ): number {
-    return (
-      rootOffset +
-      (character.pose.fullBody && bodyType === ItemFragmentBodyType.Head
-        ? this.getHeadOffset(character.pose.fullBody)
-        : 0)
-    );
-  }
-
-  private getRootOffset(
-    pose: FullBodyPose | LowerBodyPose | undefined
-  ): number {
+  private getRootOffset(character: Character): number {
+    const pose = character.pose.fullBody ?? character.pose.lowerBody;
     if (!pose) {
       return 0;
     }
     return (poseConfigs[pose].rootOffsetY ?? 0) - 20;
   }
 
-  private getHeadOffset(pose: FullBodyPose): number {
-    return poseConfigs[pose].headOffsetY ?? 0;
+  private getHeadOffset(character: Character): number {
+    const pose = character.pose.fullBody;
+    return (pose && poseConfigs[pose].headOffsetY) ?? 0;
   }
 }
