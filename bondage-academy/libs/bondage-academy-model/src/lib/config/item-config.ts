@@ -2,7 +2,7 @@ import { DictionaryKey } from "../i18n/dictionary";
 import { FullBodyPose } from "../model/character-pose";
 import { ItemCode } from "../model/item";
 import { Slot } from "../model/slot";
-import { LayerSubOrder } from "./layer-order";
+import { LayerOrder, LayerSubOrder } from "./layer-order";
 
 export enum ItemFragmentBodyType {
   Head = "Head",
@@ -14,7 +14,8 @@ export interface ItemFragment {
   slot: Slot;
   bodyType: ItemFragmentBodyType;
   filePathSuffix: string;
-  subOrder: LayerSubOrder;
+  order?: LayerOrder;
+  subOrder?: LayerSubOrder;
   hiddenWhenFullBodyPose?: FullBodyPose[];
 }
 
@@ -35,7 +36,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         slot: Slot.Hair,
         bodyType: ItemFragmentBodyType.Head,
         filePathSuffix: "Halley Hair 1 White Back",
-        subOrder: LayerSubOrder.Front,
+        order: LayerOrder.HairBack,
         hiddenWhenFullBodyPose: [FullBodyPose.PetSuit],
       },
       {

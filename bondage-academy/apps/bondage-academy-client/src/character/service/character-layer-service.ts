@@ -94,7 +94,9 @@ export class CharacterLayerService {
           url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
             pose
           )} - ${fragment.filePathSuffix}.png`,
-          order: this.getOrderForPose(pose) + fragment.subOrder,
+          order:
+            (fragment.order ?? this.getOrderForPose(pose)) +
+            (fragment.subOrder ?? 0),
           offsetY:
             rootOffset +
             (fragment.bodyType === ItemFragmentBodyType.Head

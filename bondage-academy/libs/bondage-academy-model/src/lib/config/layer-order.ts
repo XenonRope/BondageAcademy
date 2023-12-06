@@ -1,4 +1,5 @@
 export enum LayerOrder {
+  HairBack,
   LowerBody,
   UpperBody,
   LowerBodyFront,
