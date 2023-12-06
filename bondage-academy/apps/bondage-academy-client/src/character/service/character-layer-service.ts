@@ -2,62 +2,13 @@ import {
   AnyPose,
   Character,
   FullBodyPose,
-  HeadPose,
   ItemConfig,
   ItemFragmentBodyType,
-  LayerOrder,
   LowerBodyPose,
   Slot,
-  UpperBodyPose,
   itemConfigs,
+  poseConfigs,
 } from "@bondage-academy/bondage-academy-model";
-
-interface PoseConfig {
-  iamgePathPart: string;
-  order: number;
-  rootOffsetY?: number;
-  headOffsetY?: number;
-}
-
-const POSES_CONFIG: Record<AnyPose, PoseConfig> = {
-  [FullBodyPose.PetSuit]: {
-    iamgePathPart: "Pet suit",
-    order: LayerOrder.LowerBody,
-    rootOffsetY: 288,
-    headOffsetY: 214,
-  },
-  [UpperBodyPose.Attention]: {
-    iamgePathPart: "Attention",
-    order: LayerOrder.UpperBody,
-  },
-  [UpperBodyPose.Crossed]: {
-    iamgePathPart: "Crossed",
-    order: LayerOrder.UpperBodyFront,
-  },
-  [LowerBodyPose.Stand]: {
-    iamgePathPart: "Stand",
-    order: LayerOrder.LowerBody,
-    rootOffsetY: 39,
-  },
-  [LowerBodyPose.SimpleKneel]: {
-    iamgePathPart: "Simple kneel",
-    order: LayerOrder.LowerBody,
-    rootOffsetY: 280,
-  },
-  [LowerBodyPose.WideKneel]: {
-    iamgePathPart: "Wide kneel",
-    order: LayerOrder.LowerBodyFront,
-    rootOffsetY: 280,
-  },
-  [HeadPose.Normal]: {
-    iamgePathPart: "Normal",
-    order: LayerOrder.Head,
-  },
-  [HeadPose.WideOpen]: {
-    iamgePathPart: "Wide open",
-    order: LayerOrder.Head,
-  },
-};
 
 export interface CharacterLayer {
   url: string;
@@ -165,11 +116,11 @@ export class CharacterLayerService {
   }
 
   private getImagePathPartForPose(pose: AnyPose): string {
-    return POSES_CONFIG[pose].iamgePathPart;
+    return poseConfigs[pose].iamgePathPart;
   }
 
   private getOrderForPose(pose: AnyPose): number {
-    return POSES_CONFIG[pose].order;
+    return poseConfigs[pose].order;
   }
 
   private getOffset(
@@ -191,10 +142,10 @@ export class CharacterLayerService {
     if (!pose) {
       return 0;
     }
-    return (POSES_CONFIG[pose].rootOffsetY ?? 0) - 20;
+    return (poseConfigs[pose].rootOffsetY ?? 0) - 20;
   }
 
   private getHeadOffset(pose: FullBodyPose): number {
-    return POSES_CONFIG[pose].headOffsetY ?? 0;
+    return poseConfigs[pose].headOffsetY ?? 0;
   }
 }
