@@ -113,6 +113,10 @@ export class CharacterLayerService {
     fragment: ItemFragment,
     character: Character
   ): AnyPose | undefined {
+    if (fragment.pose) {
+      return fragment.pose;
+    }
+
     if (fragment.bodyType === ItemFragmentBodyType.UpperBody) {
       return character.pose.fullBody ?? character.pose.upperBody;
     } else if (fragment.bodyType === ItemFragmentBodyType.LowerBody) {
