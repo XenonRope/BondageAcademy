@@ -1,4 +1,5 @@
 export * from "./lib/config/item-config";
+export * from "./lib/config/layer-order";
 export * from "./lib/config/slot-config";
 export * from "./lib/dialogue-options/index";
 export * from "./lib/from-client/account";

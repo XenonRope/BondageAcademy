@@ -5,6 +5,7 @@ import {
   HeadPose,
   ItemConfig,
   ItemFragmentBodyType,
+  LayerOrder,
   LowerBodyPose,
   Slot,
   UpperBodyPose,
@@ -21,40 +22,40 @@ interface PoseConfig {
 const POSES_CONFIG: Record<AnyPose, PoseConfig> = {
   [FullBodyPose.PetSuit]: {
     iamgePathPart: "Pet suit",
-    order: 50,
+    order: LayerOrder.LowerBody,
     rootOffsetY: 288,
     headOffsetY: 214,
   },
   [UpperBodyPose.Attention]: {
     iamgePathPart: "Attention",
-    order: 52,
+    order: LayerOrder.UpperBody,
   },
   [UpperBodyPose.Crossed]: {
     iamgePathPart: "Crossed",
-    order: 57,
+    order: LayerOrder.UpperBodyFront,
   },
   [LowerBodyPose.Stand]: {
     iamgePathPart: "Stand",
-    order: 50,
+    order: LayerOrder.LowerBody,
     rootOffsetY: 39,
   },
   [LowerBodyPose.SimpleKneel]: {
     iamgePathPart: "Simple kneel",
-    order: 50,
+    order: LayerOrder.LowerBody,
     rootOffsetY: 280,
   },
   [LowerBodyPose.WideKneel]: {
     iamgePathPart: "Wide kneel",
-    order: 55,
+    order: LayerOrder.LowerBodyFront,
     rootOffsetY: 280,
   },
   [HeadPose.Normal]: {
     iamgePathPart: "Normal",
-    order: 100,
+    order: LayerOrder.Head,
   },
   [HeadPose.WideOpen]: {
     iamgePathPart: "Wide open",
-    order: 100,
+    order: LayerOrder.Head,
   },
 };
 
@@ -154,7 +155,7 @@ export class CharacterLayerService {
           url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
             pose
           )} - ${fragment.filePathSuffix}.png`,
-          order: fragment.order,
+          order: this.getOrderForPose(pose) + fragment.subOrder,
           offsetY: this.getOffset(character, rootOffset),
         });
       }

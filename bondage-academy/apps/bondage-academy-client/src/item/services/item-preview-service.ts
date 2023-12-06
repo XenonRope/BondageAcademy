@@ -1,6 +1,10 @@
-import { Item, ItemCode } from "@bondage-academy/bondage-academy-model";
+import {
+  Item,
+  ItemCode,
+  PartialRecord,
+} from "@bondage-academy/bondage-academy-model";
 
-const IMAGE_BY_ITEM_CODE: Record<ItemCode, string> = {
+const IMAGE_BY_ITEM_CODE: PartialRecord<ItemCode, string> = {
   [ItemCode.XFashionSleeve]: "X Fashion Sleeve",
   [ItemCode.XFashionThong]: "X Fashion Thong",
   [ItemCode.BallGag]: "Ball Gag",

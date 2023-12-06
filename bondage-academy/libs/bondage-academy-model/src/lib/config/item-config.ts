@@ -2,6 +2,7 @@ import { DictionaryKey } from "../i18n/dictionary";
 import { FullBodyPose } from "../model/character-pose";
 import { ItemCode } from "../model/item";
 import { Slot } from "../model/slot";
+import { LayerSubOrder } from "./layer-order";
 
 export enum ItemFragmentBodyType {
   Head = "Head",
@@ -13,7 +14,7 @@ export interface ItemFragment {
   slot: Slot;
   bodyType: ItemFragmentBodyType;
   filePathSuffix: string;
-  order: number;
+  subOrder: LayerSubOrder;
   hiddenWhenFullBodyPose?: FullBodyPose[];
 }
 
@@ -34,14 +35,14 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         slot: Slot.Hair,
         bodyType: ItemFragmentBodyType.Head,
         filePathSuffix: "Halley Hair 1 White Back",
-        order: 25,
+        subOrder: LayerSubOrder.Front,
         hiddenWhenFullBodyPose: [FullBodyPose.PetSuit],
       },
       {
         slot: Slot.Hair,
         bodyType: ItemFragmentBodyType.Head,
         filePathSuffix: "Halley Hair 1 White Front",
-        order: 110,
+        subOrder: LayerSubOrder.Front,
       },
     ],
   },
@@ -54,13 +55,13 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         slot: Slot.LeftSleeve,
         bodyType: ItemFragmentBodyType.UpperBody,
         filePathSuffix: "X Fashion Sleeve Left",
-        order: 200,
+        subOrder: LayerSubOrder.Front,
       },
       {
         slot: Slot.RightSleeve,
         bodyType: ItemFragmentBodyType.UpperBody,
         filePathSuffix: "X Fashion Sleeve Right",
-        order: 200,
+        subOrder: LayerSubOrder.Front,
       },
     ],
   },
