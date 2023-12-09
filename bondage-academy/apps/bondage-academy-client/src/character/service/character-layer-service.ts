@@ -95,8 +95,9 @@ export class CharacterLayerService {
           : "";
 
         layers.push({
-          url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
-            pose
+          url: `character/${characterPrefix} - ${this.getImagePathPartForFragmentPose(
+            fragment,
+            character
           )} - ${fragment.filePathSuffix}${variant}.png`,
           order:
             (fragment.order ?? this.getOrderForPose(pose)) +
@@ -117,10 +118,6 @@ export class CharacterLayerService {
     fragment: ItemFragment,
     character: Character
   ): AnyPose | undefined {
-    if (fragment.pose) {
-      return fragment.pose;
-    }
-
     if (fragment.bodyType === ItemFragmentBodyType.UpperBody) {
       return character.pose.fullBody ?? character.pose.upperBody;
     } else if (fragment.bodyType === ItemFragmentBodyType.LowerBody) {
@@ -129,6 +126,14 @@ export class CharacterLayerService {
       return character.pose.head;
     }
     return undefined;
+  }
+
+  private getImagePathPartForFragmentPose(
+    fragment: ItemFragment,
+    character: Character
+  ): string {
+    const pose = fragment.pose ?? this.getPoseForFragment(fragment, character);
+    return pose ? this.getImagePathPartForPose(pose) : "";
   }
 
   private getImagePathPartForPose(pose: AnyPose): string {
