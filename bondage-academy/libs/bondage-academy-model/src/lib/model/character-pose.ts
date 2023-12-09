@@ -5,10 +5,12 @@ export enum FullBodyPose {
 export enum UpperBodyPose {
   Attention = "Attention",
   Crossed = "Crossed",
+  HandsUp = "HandsUp",
 }
 
 export enum LowerBodyPose {
   Stand = "Stand",
+  WideLegs = "WideLegs",
   SimpleKneel = "SimpleKneel",
   WideKneel = "WideKneel",
 }

@@ -44,8 +44,13 @@ export default function CharacterPoseController(props: {
             Attention
           </Button>
         </span>
-        <Button onClick={() => changeUpperBodyPose(UpperBodyPose.Crossed)}>
-          Crossed
+        <span class="mr-2">
+          <Button onClick={() => changeUpperBodyPose(UpperBodyPose.Crossed)}>
+            Crossed
+          </Button>
+        </span>
+        <Button onClick={() => changeUpperBodyPose(UpperBodyPose.HandsUp)}>
+          Hands up
         </Button>
       </div>
       <div class="mb-2">
@@ -53,6 +58,11 @@ export default function CharacterPoseController(props: {
         <span class="mr-2">
           <Button onClick={() => changeLowerBodyPose(LowerBodyPose.Stand)}>
             Stand
+          </Button>
+        </span>
+        <span class="mr-2">
+          <Button onClick={() => changeLowerBodyPose(LowerBodyPose.WideLegs)}>
+            Wide legs
           </Button>
         </span>
         <span class="mr-2">

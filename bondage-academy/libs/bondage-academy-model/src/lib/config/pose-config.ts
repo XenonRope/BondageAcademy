@@ -29,10 +29,19 @@ export const poseConfigs: Record<AnyPose, PoseConfig> = {
     iamgePathPart: "Crossed",
     order: LayerOrder.UpperBodyFront,
   },
+  [UpperBodyPose.HandsUp]: {
+    iamgePathPart: "Hands up",
+    order: LayerOrder.UpperBody,
+  },
   [LowerBodyPose.Stand]: {
     iamgePathPart: "Stand",
     order: LayerOrder.LowerBody,
     rootOffsetY: 39,
+  },
+  [LowerBodyPose.WideLegs]: {
+    iamgePathPart: "Wide legs",
+    order: LayerOrder.LowerBody,
+    rootOffsetY: 45,
   },
   [LowerBodyPose.SimpleKneel]: {
     iamgePathPart: "Simple kneel",
