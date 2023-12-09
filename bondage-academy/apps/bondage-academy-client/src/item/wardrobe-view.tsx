@@ -34,7 +34,12 @@ export default function WardrobeView(props: { playerId: number }) {
     () => storeService.getPlayerById(props.playerId)?.character.wearables ?? {}
   );
 
-  const slots: Slot[] = [Slot.Hair, Slot.LeftSleeve, Slot.RightSleeve];
+  const slots: Slot[] = [
+    Slot.Hair,
+    Slot.LeftSleeve,
+    Slot.RightSleeve,
+    Slot.LowerUndies,
+  ];
 
   function wear(item?: Item) {
     const slot = selectedSlot();

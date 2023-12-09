@@ -41,10 +41,11 @@ export const plDictionary: RawDictionary = {
   },
   slots: {
     hair: "Włosy",
+    mouth: "Usta",
     leftSleeve: "Lewy rękaw",
     rightSleeve: "Prawy rękaw",
-    mouth: "Usta",
     body: "Ciało",
+    lowerUndies: "Dolna bielizna",
   },
   items: {
     hair1: "Włosy 1",

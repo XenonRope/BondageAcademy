@@ -1,8 +1,8 @@
 export enum ItemCode {
   HalleyHair1 = "HalleyHair1",
+  BallGag = "BallGag",
   XFashionSleeve = "XFashionSleeve",
   XFashionThong = "XFashionThong",
-  BallGag = "BallGag",
   PetSuit = "PetSuit",
 }
 export interface Item {

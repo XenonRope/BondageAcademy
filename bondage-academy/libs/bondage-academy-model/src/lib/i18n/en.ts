@@ -38,10 +38,11 @@ export const enDictionary = {
   },
   slots: {
     hair: "Hair",
+    mouth: "Mouth",
     leftSleeve: "Left sleeve",
     rightSleeve: "Right sleeve",
-    mouth: "Mouth",
     body: "Body",
+    lowerUndies: "Lower undies",
   },
   items: {
     hair1: "Hair 1",

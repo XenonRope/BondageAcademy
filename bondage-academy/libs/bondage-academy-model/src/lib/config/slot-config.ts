@@ -9,16 +9,20 @@ export const slotConfigs: Record<Slot, SlotConfig> = {
   [Slot.Hair]: {
     name: "slots.hair",
   },
+  [Slot.Mouth]: {
+    name: "slots.mouth",
+  },
   [Slot.LeftSleeve]: {
     name: "slots.leftSleeve",
   },
   [Slot.RightSleeve]: {
     name: "slots.rightSleeve",
   },
-  [Slot.Mouth]: {
-    name: "slots.mouth",
-  },
+
   [Slot.Body]: {
     name: "slots.body",
+  },
+  [Slot.LowerUndies]: {
+    name: "slots.lowerUndies",
   },
 };

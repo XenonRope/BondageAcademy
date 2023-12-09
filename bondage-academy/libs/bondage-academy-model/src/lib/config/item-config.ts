@@ -72,8 +72,15 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
   [ItemCode.XFashionThong]: {
     code: ItemCode.XFashionThong,
     name: "items.xFashionThong",
-    allowedSlots: [],
-    fragments: [],
+    allowedSlots: [Slot.LowerUndies],
+    fragments: [
+      {
+        slot: Slot.LowerUndies,
+        bodyType: ItemFragmentBodyType.LowerBody,
+        filePathSuffix: "X Fashion Thong",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
   },
   [ItemCode.BallGag]: {
     code: ItemCode.BallGag,
