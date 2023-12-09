@@ -90,10 +90,14 @@ export class CharacterLayerService {
           continue;
         }
 
+        const variant = equippedItem.item.variant
+          ? ` ${equippedItem.item.variant}`
+          : "";
+
         layers.push({
           url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
             pose
-          )} - ${fragment.filePathSuffix}.png`,
+          )} - ${fragment.filePathSuffix}${variant}.png`,
           order:
             (fragment.order ?? this.getOrderForPose(pose)) +
             (fragment.subOrder ?? 0),

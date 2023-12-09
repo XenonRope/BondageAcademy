@@ -39,6 +39,7 @@ export const enDictionary = {
   slots: {
     hair: "Hair",
     mouth: "Mouth",
+    upperUndies: "Upper undies",
     leftSleeve: "Left sleeve",
     rightSleeve: "Right sleeve",
     body: "Body",
@@ -46,10 +47,11 @@ export const enDictionary = {
   },
   items: {
     hair1: "Hair 1",
-    xFashionSleeve: "X fashion sleeve",
-    xFashionThong: "X fashion thong",
     ballGag: "Ball gag",
+    beccaMeshBra: "Becca mesh bra",
+    xFashionSleeve: "X fashion sleeve",
     petSuit: "Pet suit",
+    xFashionThong: "X fashion thong",
   },
   minigame: {
     common: {

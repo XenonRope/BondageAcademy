@@ -42,6 +42,7 @@ export const plDictionary: RawDictionary = {
   slots: {
     hair: "Włosy",
     mouth: "Usta",
+    upperUndies: "Górna bielizna",
     leftSleeve: "Lewy rękaw",
     rightSleeve: "Prawy rękaw",
     body: "Ciało",
@@ -49,10 +50,11 @@ export const plDictionary: RawDictionary = {
   },
   items: {
     hair1: "Włosy 1",
-    xFashionSleeve: "X fashion sleeve",
-    xFashionThong: "X fashion thong",
     ballGag: "Ball gag",
+    beccaMeshBra: "Becca mesh bra",
+    xFashionSleeve: "X fashion sleeve",
     petSuit: "Pet suit",
+    xFashionThong: "X fashion thong",
   },
   minigame: {
     common: {

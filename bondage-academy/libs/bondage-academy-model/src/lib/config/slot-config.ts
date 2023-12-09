@@ -12,6 +12,9 @@ export const slotConfigs: Record<Slot, SlotConfig> = {
   [Slot.Mouth]: {
     name: "slots.mouth",
   },
+  [Slot.UpperUndies]: {
+    name: "slots.upperUndies",
+  },
   [Slot.LeftSleeve]: {
     name: "slots.leftSleeve",
   },

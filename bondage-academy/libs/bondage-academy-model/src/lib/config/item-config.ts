@@ -24,11 +24,13 @@ export interface ItemConfig {
   code: ItemCode;
   name: DictionaryKey;
   preview?: string;
+  variants?: string[];
   allowedSlots: Slot[];
   fragments: ItemFragment[];
 }
 
 export const itemConfigs: Record<ItemCode, ItemConfig> = {
+  // Hair
   [ItemCode.HalleyHair1]: {
     code: ItemCode.HalleyHair1,
     name: "items.hair1",
@@ -49,12 +51,32 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
       },
     ],
   },
+
+  // Mouth
   [ItemCode.BallGag]: {
     code: ItemCode.BallGag,
     name: "items.ballGag",
     allowedSlots: [Slot.Mouth],
     fragments: [],
   },
+
+  // Upper undies
+  [ItemCode.BeccaMeshBra]: {
+    code: ItemCode.BeccaMeshBra,
+    name: "items.beccaMeshBra",
+    preview: "Becca Mesh Bra",
+    variants: ["Black", "Dots"],
+    allowedSlots: [Slot.UpperUndies],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.UpperBody,
+        filePathSuffix: "Becca Mesh Bra",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
+  },
+
+  // Sleeve
   [ItemCode.XFashionSleeve]: {
     code: ItemCode.XFashionSleeve,
     name: "items.xFashionSleeve",
@@ -75,12 +97,16 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
       },
     ],
   },
+
+  // Body
   [ItemCode.PetSuit]: {
     code: ItemCode.PetSuit,
     name: "items.petSuit",
     allowedSlots: [Slot.Body],
     fragments: [],
   },
+
+  // Lower undies
   [ItemCode.XFashionThong]: {
     code: ItemCode.XFashionThong,
     name: "items.xFashionThong",
