@@ -44,7 +44,7 @@ type DeviceName = (typeof DEVICES_NAMES)[number];
 type Section = "Hair Front" | "Hair Back";
 
 interface Fragment {
-  name: string;
+  name?: string;
   path: string;
   nodes: string[];
 }
@@ -126,7 +126,6 @@ const WEARABLES: Wearable[] = [
     name: "Halley Hair 1 White Back",
     fragments: [
       {
-        name: "Halley Hair 1 White Back",
         path: "body\\hair\\Halley Hair\\Halley Hair 1 White.duf",
         nodes: ["Halley Hair Genesis 9"],
       },
@@ -143,7 +142,6 @@ const WEARABLES: Wearable[] = [
     name: "Halley Hair 1 White Front",
     fragments: [
       {
-        name: "Halley Hair 1 White Front",
         path: "body\\hair\\Halley Hair\\Halley Hair 1 White.duf",
         nodes: ["Halley Hair Genesis 9"],
       },
@@ -160,7 +158,6 @@ const WEARABLES: Wearable[] = [
     name: "Nipple Piercing Sphere",
     fragments: [
       {
-        name: "Nipple Piercing Sphere",
         path: "clothes\\piercing\\Nipple Piercing Sphere\\Nipple Piercing Sphere.duf",
         nodes: ["NPLJ 06"],
       },
@@ -176,7 +173,6 @@ const WEARABLES: Wearable[] = [
     name: "Nipple Piercing Spider",
     fragments: [
       {
-        name: "Nipple Piercing Spider",
         path: "clothes\\piercing\\Nipple Piercing Spider\\Nipple Piercing Spider.duf",
         nodes: ["NPLJ 07"],
       },
@@ -192,7 +188,6 @@ const WEARABLES: Wearable[] = [
     name: "Nipple Piercing C Shape",
     fragments: [
       {
-        name: "Nipple Piercing C Shape",
         path: "clothes\\piercing\\Nipple Piercing C Shape\\Nipple Piercing C Shape.duf",
         nodes: ["NPLJ 08"],
       },
@@ -208,7 +203,6 @@ const WEARABLES: Wearable[] = [
     name: "Nipple Piercing Ornament",
     fragments: [
       {
-        name: "Nipple Piercing Ornament",
         path: "clothes\\piercing\\Nipple Piercing Ornament\\Nipple Piercing Ornament.duf",
         nodes: ["NPLJ 10"],
       },
@@ -224,7 +218,6 @@ const WEARABLES: Wearable[] = [
     name: "Nipple Piercing Moon",
     fragments: [
       {
-        name: "Nipple Piercing Moon",
         path: "clothes\\piercing\\Nipple Piercing Moon\\Nipple Piercing Moon.duf",
         nodes: ["NPLJ 01"],
       },
@@ -240,7 +233,6 @@ const WEARABLES: Wearable[] = [
     name: "Beyond Suit Bones",
     fragments: [
       {
-        name: "Becca Mesh Top",
         path: "clothes\\special\\Beyond Suit Bones\\Beyond Suit Bones.duf",
         nodes: ["Beyond_SuitG9"],
       },
@@ -260,7 +252,6 @@ const WEARABLES: Wearable[] = [
     name: "Beyond Suit Bra",
     fragments: [
       {
-        name: "Becca Mesh Top",
         path: "clothes\\bras\\Beyond Suit Bra\\Beyond Suit Bra.duf",
         nodes: ["Beyond_SuitG9"],
       },
@@ -280,7 +271,6 @@ const WEARABLES: Wearable[] = [
     name: "Becca Mesh Top",
     fragments: [
       {
-        name: "Becca Mesh Top",
         path: "clothes\\tops\\Becca Mesh Top\\Becca Mesh Top.duf",
         nodes: ["Becca Mesh Top G8"],
       },
@@ -300,7 +290,6 @@ const WEARABLES: Wearable[] = [
     name: "Becca Mesh Bra Black",
     fragments: [
       {
-        name: "Becca Mesh Bra Black",
         path: "clothes\\bras\\Becca Mesh Bra\\Becca Mesh Bra Black.duf",
         nodes: ["Becca Mesh Bra Genesis 9"],
       },
@@ -320,7 +309,6 @@ const WEARABLES: Wearable[] = [
     name: "Becca Mesh Bra Dots",
     fragments: [
       {
-        name: "Becca Mesh Bra Dots",
         path: "clothes\\bras\\Becca Mesh Bra\\Becca Mesh Bra Dots.duf",
         nodes: ["Becca Mesh Bra Genesis 9"],
       },
@@ -340,7 +328,6 @@ const WEARABLES: Wearable[] = [
     name: "X Fashion Sleeve Left",
     fragments: [
       {
-        name: "X Fashion Sleeve Left",
         path: "clothes\\gloves\\X Fashion Sleeve\\X Fashion Sleeve Left.duf",
         nodes: ["X Fashion Sleeve Left"],
       },
@@ -360,7 +347,6 @@ const WEARABLES: Wearable[] = [
     name: "X Fashion Sleeve Right",
     fragments: [
       {
-        name: "X Fashion Sleeve Right",
         path: "clothes\\gloves\\X Fashion Sleeve\\X Fashion Sleeve Right.duf",
         nodes: ["X Fashion Sleeve Right"],
       },
@@ -380,7 +366,6 @@ const WEARABLES: Wearable[] = [
     name: "Magic Christmas Glove Left",
     fragments: [
       {
-        name: "Magic Christmas Glove Left",
         path: "clothes\\gloves\\Magic Christmas Glove\\Magic Christmas Glove Left.duf",
         nodes: ["Magic Christmas Gloves"],
       },
@@ -400,7 +385,6 @@ const WEARABLES: Wearable[] = [
     name: "Magic Christmas Glove Right",
     fragments: [
       {
-        name: "Magic Christmas Glove Right",
         path: "clothes\\gloves\\Magic Christmas Glove\\Magic Christmas Glove Right.duf",
         nodes: ["Magic Christmas Gloves"],
       },
@@ -420,7 +404,6 @@ const WEARABLES: Wearable[] = [
     name: "X Fashion Thong",
     fragments: [
       {
-        name: "X Fashion Thong",
         path: "clothes\\panties\\X Fashion Thong\\X Fashion Thong.duf",
         nodes: ["X Fashion Thong"],
       },
@@ -440,12 +423,12 @@ const WEARABLES: Wearable[] = [
     name: "Ball gag",
     fragments: [
       {
-        name: "Ball gag ball",
+        name: "ball",
         path: "restraints\\gags\\Ball gag\\Ball gag - ball.duf",
         nodes: ["BallGag_Ball"],
       },
       {
-        name: "Ball gag strap",
+        name: "strap",
         path: "restraints\\gags\\Ball gag\\Ball gag - strap.duf",
         nodes: ["BallGag_Strap"],
       },
@@ -461,7 +444,6 @@ const WEARABLES: Wearable[] = [
     name: "Pet suit",
     fragments: [
       {
-        name: "Pet suit",
         path: "restraints\\suits\\Pet suit\\Pet suit.duf",
         nodes: [
           "Bitchsuit_left_arm",
@@ -777,8 +759,9 @@ function renderWearables(
       for (const node of fragment.nodes) {
         addNodeToRender(findChild(body, node));
       }
+      const fragmentName = fragment.name ? ` ${fragment.name}` : "";
       render(
-        `output\\${outputImagePrefix} - ${fragment.name}.png`,
+        `output\\${outputImagePrefix} - ${wearable.name}${fragmentName}}.png`,
         WIDTH,
         HEIGHT
       );
