@@ -75,7 +75,7 @@ export class CharacterLayerService {
       const itemConfig: ItemConfig = itemConfigs[equippedItem.item.code];
 
       for (const fragment of itemConfig.fragments) {
-        if (fragment.slot !== (slot as Slot)) {
+        if ((fragment.slot ?? itemConfig.allowedSlots[0]) !== (slot as Slot)) {
           continue;
         }
 

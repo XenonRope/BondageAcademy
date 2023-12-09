@@ -18,7 +18,6 @@ export const slotConfigs: Record<Slot, SlotConfig> = {
   [Slot.RightSleeve]: {
     name: "slots.rightSleeve",
   },
-
   [Slot.Body]: {
     name: "slots.body",
   },

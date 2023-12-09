@@ -11,7 +11,7 @@ export enum ItemFragmentBodyType {
 }
 
 export interface ItemFragment {
-  slot: Slot;
+  slot?: Slot;
   bodyType: ItemFragmentBodyType;
   pose?: AnyPose;
   filePathSuffix: string;
@@ -23,6 +23,7 @@ export interface ItemFragment {
 export interface ItemConfig {
   code: ItemCode;
   name: DictionaryKey;
+  preview?: string;
   allowedSlots: Slot[];
   fragments: ItemFragment[];
 }
@@ -34,7 +35,6 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
     allowedSlots: [Slot.Hair],
     fragments: [
       {
-        slot: Slot.Hair,
         bodyType: ItemFragmentBodyType.Head,
         pose: HeadPose.Normal,
         filePathSuffix: "Halley Hair 1 White Back",
@@ -42,7 +42,6 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         hiddenWhenFullBodyPose: [FullBodyPose.PetSuit],
       },
       {
-        slot: Slot.Hair,
         bodyType: ItemFragmentBodyType.Head,
         pose: HeadPose.Normal,
         filePathSuffix: "Halley Hair 1 White Front",
@@ -50,9 +49,16 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
       },
     ],
   },
+  [ItemCode.BallGag]: {
+    code: ItemCode.BallGag,
+    name: "items.ballGag",
+    allowedSlots: [Slot.Mouth],
+    fragments: [],
+  },
   [ItemCode.XFashionSleeve]: {
     code: ItemCode.XFashionSleeve,
     name: "items.xFashionSleeve",
+    preview: "X Fashion Sleeve",
     allowedSlots: [Slot.LeftSleeve, Slot.RightSleeve],
     fragments: [
       {
@@ -69,29 +75,23 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
       },
     ],
   },
-  [ItemCode.XFashionThong]: {
-    code: ItemCode.XFashionThong,
-    name: "items.xFashionThong",
-    allowedSlots: [Slot.LowerUndies],
-    fragments: [
-      {
-        slot: Slot.LowerUndies,
-        bodyType: ItemFragmentBodyType.LowerBody,
-        filePathSuffix: "X Fashion Thong",
-        subOrder: LayerSubOrder.Front,
-      },
-    ],
-  },
-  [ItemCode.BallGag]: {
-    code: ItemCode.BallGag,
-    name: "items.ballGag",
-    allowedSlots: [Slot.Mouth],
-    fragments: [],
-  },
   [ItemCode.PetSuit]: {
     code: ItemCode.PetSuit,
     name: "items.petSuit",
     allowedSlots: [Slot.Body],
     fragments: [],
+  },
+  [ItemCode.XFashionThong]: {
+    code: ItemCode.XFashionThong,
+    name: "items.xFashionThong",
+    preview: "X Fashion Thong",
+    allowedSlots: [Slot.LowerUndies],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.LowerBody,
+        filePathSuffix: "X Fashion Thong",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
   },
 };
