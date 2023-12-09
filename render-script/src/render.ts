@@ -95,33 +95,51 @@ const WIDTH = 600;
 const HEIGHT = 800;
 
 const WEARABLES_NAMES = [
+  // Hair
   "Halley Hair 1 White Back",
   "Halley Hair 1 White Front",
   "Halley Hair 2 White Back",
   "Halley Hair 2 White Front",
   "Halley Hair 3 White Back",
   "Halley Hair 3 White Front",
+
+  // Mouth
+  "Ball gag",
+
+  // Nipples
   "Nipple Piercing Sphere",
   "Nipple Piercing Spider",
   "Nipple Piercing C Shape",
   "Nipple Piercing Ornament",
   "Nipple Piercing Moon",
-  "Becca Mesh Top",
+
+  // Upper undies
   "Becca Mesh Bra Black",
   "Becca Mesh Bra Dots",
   "Beyond Suit Bra",
-  "Beyond Suit Bones",
+
+  // Upper outfit
+  "Becca Mesh Top",
+
+  // Sleeve
   "X Fashion Sleeve Left",
   "X Fashion Sleeve Right",
   "Magic Christmas Glove Left",
   "Magic Christmas Glove Right",
-  "X Fashion Thong",
-  "Ball gag",
+
+  // Body accessory
+  "Beyond Suit Bones",
+
+  // Body
   "Pet suit",
+
+  // Lower undies
+  "X Fashion Thong",
 ] as const;
 type WearableName = (typeof WEARABLES_NAMES)[number];
 
 const WEARABLES: Wearable[] = [
+  // Hair
   {
     name: "Halley Hair 1 White Back",
     fragments: [
@@ -154,6 +172,31 @@ const WEARABLES: Wearable[] = [
     ],
     sections: ["Hair Front"],
   },
+
+  // Mouth
+  {
+    name: "Ball gag",
+    fragments: [
+      {
+        name: "ball",
+        path: "restraints\\gags\\Ball gag\\Ball gag - ball.duf",
+        nodes: ["BallGag_Ball"],
+      },
+      {
+        name: "strap",
+        path: "restraints\\gags\\Ball gag\\Ball gag - strap.duf",
+        nodes: ["BallGag_Strap"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Head",
+        poses: ["Wide open"],
+      },
+    ],
+  },
+
+  // Nipples
   {
     name: "Nipple Piercing Sphere",
     fragments: [
@@ -229,12 +272,33 @@ const WEARABLES: Wearable[] = [
       },
     ],
   },
+
+  // Upper undies
   {
-    name: "Beyond Suit Bones",
+    name: "Becca Mesh Bra Black",
     fragments: [
       {
-        path: "clothes\\special\\Beyond Suit Bones\\Beyond Suit Bones.duf",
-        nodes: ["Beyond_SuitG9"],
+        path: "clothes\\bras\\Becca Mesh Bra\\Becca Mesh Bra Black.duf",
+        nodes: ["Becca Mesh Bra Genesis 9"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Upper body",
+        poses: UPPER_BODY_POSES,
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Becca Mesh Bra Dots",
+    fragments: [
+      {
+        path: "clothes\\bras\\Becca Mesh Bra\\Becca Mesh Bra Dots.duf",
+        nodes: ["Becca Mesh Bra Genesis 9"],
       },
     ],
     conditions: [
@@ -259,7 +323,7 @@ const WEARABLES: Wearable[] = [
     conditions: [
       {
         bodyPart: "Upper body",
-        poses: ["Attention"],
+        poses: UPPER_BODY_POSES,
       },
       {
         bodyPart: "Body",
@@ -267,6 +331,8 @@ const WEARABLES: Wearable[] = [
       },
     ],
   },
+
+  // Upper outfit
   {
     name: "Becca Mesh Top",
     fragments: [
@@ -286,44 +352,8 @@ const WEARABLES: Wearable[] = [
       },
     ],
   },
-  {
-    name: "Becca Mesh Bra Black",
-    fragments: [
-      {
-        path: "clothes\\bras\\Becca Mesh Bra\\Becca Mesh Bra Black.duf",
-        nodes: ["Becca Mesh Bra Genesis 9"],
-      },
-    ],
-    conditions: [
-      {
-        bodyPart: "Upper body",
-        poses: ["Attention"],
-      },
-      {
-        bodyPart: "Body",
-        poses: FULL_BODY_POSES,
-      },
-    ],
-  },
-  {
-    name: "Becca Mesh Bra Dots",
-    fragments: [
-      {
-        path: "clothes\\bras\\Becca Mesh Bra\\Becca Mesh Bra Dots.duf",
-        nodes: ["Becca Mesh Bra Genesis 9"],
-      },
-    ],
-    conditions: [
-      {
-        bodyPart: "Upper body",
-        poses: ["Attention"],
-      },
-      {
-        bodyPart: "Body",
-        poses: FULL_BODY_POSES,
-      },
-    ],
-  },
+
+  // Sleeve
   {
     name: "X Fashion Sleeve Left",
     fragments: [
@@ -400,18 +430,20 @@ const WEARABLES: Wearable[] = [
       },
     ],
   },
+
+  // Body accessory
   {
-    name: "X Fashion Thong",
+    name: "Beyond Suit Bones",
     fragments: [
       {
-        path: "clothes\\panties\\X Fashion Thong\\X Fashion Thong.duf",
-        nodes: ["X Fashion Thong"],
+        path: "clothes\\special\\Beyond Suit Bones\\Beyond Suit Bones.duf",
+        nodes: ["Beyond_SuitG9"],
       },
     ],
     conditions: [
       {
-        bodyPart: "Lower body",
-        poses: LOWER_BODY_POSES,
+        bodyPart: "Upper body",
+        poses: UPPER_BODY_POSES,
       },
       {
         bodyPart: "Body",
@@ -419,27 +451,8 @@ const WEARABLES: Wearable[] = [
       },
     ],
   },
-  {
-    name: "Ball gag",
-    fragments: [
-      {
-        name: "ball",
-        path: "restraints\\gags\\Ball gag\\Ball gag - ball.duf",
-        nodes: ["BallGag_Ball"],
-      },
-      {
-        name: "strap",
-        path: "restraints\\gags\\Ball gag\\Ball gag - strap.duf",
-        nodes: ["BallGag_Strap"],
-      },
-    ],
-    conditions: [
-      {
-        bodyPart: "Head",
-        poses: ["Wide open"],
-      },
-    ],
-  },
+
+  // Body
   {
     name: "Pet suit",
     fragments: [
@@ -458,6 +471,27 @@ const WEARABLES: Wearable[] = [
         bodyPart: "Body",
         poses: ["Pet suit"],
         hideBodyParts: ["Left Foot", "Right Foot", "Left Hand", "Right Hand"],
+      },
+    ],
+  },
+
+  // Lower undies
+  {
+    name: "X Fashion Thong",
+    fragments: [
+      {
+        path: "clothes\\panties\\X Fashion Thong\\X Fashion Thong.duf",
+        nodes: ["X Fashion Thong"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Lower body",
+        poses: LOWER_BODY_POSES,
+      },
+      {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
       },
     ],
   },
