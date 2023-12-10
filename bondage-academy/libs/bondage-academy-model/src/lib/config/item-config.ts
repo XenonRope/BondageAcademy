@@ -24,7 +24,7 @@ export interface ItemFragment {
   filePathSuffix: string;
   order?: LayerOrder;
   subOrder?: LayerSubOrder;
-  hiddenWhenFullBodyPose?: FullBodyPose[];
+  hiddenForPoses?: AnyPose[];
 }
 
 export interface ItemConfig {
@@ -57,7 +57,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         },
         filePathSuffix: "Halley Hair 1 White Back",
         order: LayerOrder.HairBack,
-        hiddenWhenFullBodyPose: [FullBodyPose.PetSuit],
+        hiddenForPoses: [FullBodyPose.PetSuit],
       },
       {
         bodyType: ItemFragmentBodyType.Head,
@@ -182,21 +182,25 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Strap",
         subOrder: LayerSubOrder.Front,
+        hiddenForPoses: [LowerBodyPose.SimpleKneel, LowerBodyPose.WideKneel],
       },
       {
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Insole",
         subOrder: LayerSubOrder.Front,
+        hiddenForPoses: [LowerBodyPose.SimpleKneel, LowerBodyPose.WideKneel],
       },
       {
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Platform",
         subOrder: LayerSubOrder.Front,
+        hiddenForPoses: [LowerBodyPose.SimpleKneel, LowerBodyPose.WideKneel],
       },
       {
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Outsole",
         subOrder: LayerSubOrder.Front,
+        hiddenForPoses: [LowerBodyPose.SimpleKneel, LowerBodyPose.WideKneel],
       },
     ],
   },

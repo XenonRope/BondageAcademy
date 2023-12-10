@@ -1,6 +1,7 @@
 import {
   AnyPose,
   Character,
+  CharacterPose,
   ItemConfig,
   ItemFragment,
   ItemFragmentBodyType,
@@ -83,10 +84,7 @@ export class CharacterLayerService {
         if (!pose) {
           continue;
         }
-        if (
-          character.pose.fullBody &&
-          fragment.hiddenWhenFullBodyPose?.includes(character.pose.fullBody)
-        ) {
+        if (!this.shouldShowFragmentForPose(fragment, character.pose)) {
           continue;
         }
 
@@ -112,6 +110,24 @@ export class CharacterLayerService {
     }
 
     return layers;
+  }
+
+  private shouldShowFragmentForPose(
+    fragment: ItemFragment,
+    characterPose: CharacterPose
+  ): boolean {
+    if (!fragment.hiddenForPoses) {
+      return true;
+    }
+
+    return ![
+      characterPose.fullBody,
+      characterPose.upperBody,
+      characterPose.lowerBody,
+      characterPose.head,
+    ].find((charactetPose) => {
+      return charactetPose && fragment.hiddenForPoses?.includes(charactetPose);
+    });
   }
 
   private getPoseForFragment(
