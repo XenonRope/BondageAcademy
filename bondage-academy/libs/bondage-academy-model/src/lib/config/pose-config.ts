@@ -41,7 +41,7 @@ export const poseConfigs: Record<AnyPose, PoseConfig> = {
   [LowerBodyPose.StandHeels]: {
     iamgePathPart: "Stand heels",
     order: LayerOrder.LowerBody,
-    rootOffsetY: 39,
+    rootOffsetY: 20,
   },
   [LowerBodyPose.WideLegs]: {
     iamgePathPart: "Wide legs",
@@ -51,7 +51,7 @@ export const poseConfigs: Record<AnyPose, PoseConfig> = {
   [LowerBodyPose.WideLegsHeels]: {
     iamgePathPart: "Wide legs heels",
     order: LayerOrder.LowerBody,
-    rootOffsetY: 45,
+    rootOffsetY: 30,
   },
   [LowerBodyPose.SimpleKneel]: {
     iamgePathPart: "Simple kneel",

@@ -153,7 +153,13 @@ export class CharacterLayerService {
     if (!pose) {
       return 0;
     }
-    return (poseConfigs[pose].rootOffsetY ?? 0) - 20;
+    const wearablesOffset: number = Object.values(character.wearables)
+      .map(
+        (equippedItem) =>
+          (equippedItem && itemConfigs[equippedItem.item.code].offset) ?? 0
+      )
+      .reduce((a, b) => a + b, 0);
+    return (poseConfigs[pose].rootOffsetY ?? 0) + wearablesOffset - 20;
   }
 
   private getHeadOffset(character: Character): number {

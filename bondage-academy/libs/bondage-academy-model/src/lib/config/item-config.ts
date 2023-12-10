@@ -31,6 +31,7 @@ export interface ItemConfig {
   name: DictionaryKey;
   preview?: string;
   variants?: string[];
+  offset?: number;
   allowedSlots: Slot[];
   fragments: ItemFragment[];
 }
@@ -139,6 +140,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
   [ItemCode.CynthiaHighHeels]: {
     code: ItemCode.CynthiaHighHeels,
     name: "items.cynthiaHighHeels",
+    offset: -18,
     allowedSlots: [Slot.Shoes],
     fragments: [
       {
