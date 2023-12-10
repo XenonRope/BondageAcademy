@@ -1,6 +1,6 @@
 import type { JSX } from "solid-js/jsx-runtime";
 import ActionView from "../action/action-view";
-import { sideMenuService, store, storeService, t } from "../app/services";
+import { sideMenuService, store, t } from "../app/services";
 import CharacterPoseController from "../character/character-pose-controller";
 import EquipmentView from "../item/equipment-view";
 import WardrobeView from "../item/wardrobe-view";
@@ -13,12 +13,7 @@ export default function SideMenuPanel() {
       case SideMenuView.Action:
         return <ActionView />;
       case SideMenuView.CharacterPoses: {
-        const player = storeService.getPlayer();
-        return (
-          player?.character && (
-            <CharacterPoseController character={player.character} />
-          )
-        );
+        return <CharacterPoseController />;
       }
       case SideMenuView.Wardrobe:
         return store.playerId && <WardrobeView playerId={store.playerId} />;

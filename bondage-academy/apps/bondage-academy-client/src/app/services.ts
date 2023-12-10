@@ -1,4 +1,7 @@
-import { DictionaryKey } from "@bondage-academy/bondage-academy-model";
+import {
+  CharacterPoseValidator,
+  DictionaryKey,
+} from "@bondage-academy/bondage-academy-model";
 import { createStore } from "solid-js/store";
 import { AccountService } from "../account/service/account-service";
 import { ActionService } from "../action/services/action-service";
@@ -22,6 +25,8 @@ import { StoreService } from "../store/store-service";
 const [store, setStore] = createStore<Store>({ locale: "en", view: View.Home });
 
 export { store };
+
+export const characterPoseValidator = new CharacterPoseValidator();
 
 export const npcCharacterService = new NPCCharacterService();
 

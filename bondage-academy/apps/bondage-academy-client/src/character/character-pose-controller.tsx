@@ -1,109 +1,79 @@
 import {
-  Character,
   FullBodyPose,
   HeadPose,
   LowerBodyPose,
   UpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
-import { characterPoseService } from "../app/services";
-import Button from "../ui/button";
+import CharacterPoseButton from "./character-pose-button";
 
-export default function CharacterPoseController(props: {
-  character: Character;
-}) {
-  function changeUpperBodyPose(pose: UpperBodyPose) {
-    characterPoseService
-      .changeUpperBodyPose(props.character, pose)
-      .catch(console.log);
-  }
-
-  function changeLowerBodyPose(pose: LowerBodyPose) {
-    characterPoseService
-      .changeLowerBodyPose(props.character, pose)
-      .catch(console.log);
-  }
-
-  function changeFullBodyPose(pose: FullBodyPose) {
-    characterPoseService
-      .changeFullBodyPose(props.character, pose)
-      .catch(console.log);
-  }
-
-  function changeHeadPose(pose: HeadPose) {
-    characterPoseService
-      .changeHeadPose(props.character, pose)
-      .catch(console.log);
-  }
-
+export default function CharacterPoseController() {
   return (
     <div>
       <div class="mb-2">
         <div class="text-sm font-bold mb-1">Upper body</div>
         <span class="mr-2">
-          <Button onClick={() => changeUpperBodyPose(UpperBodyPose.Attention)}>
-            Attention
-          </Button>
+          <CharacterPoseButton
+            pose={UpperBodyPose.Attention}
+          ></CharacterPoseButton>
         </span>
         <span class="mr-2">
-          <Button onClick={() => changeUpperBodyPose(UpperBodyPose.Crossed)}>
-            Crossed
-          </Button>
+          <CharacterPoseButton
+            pose={UpperBodyPose.Crossed}
+          ></CharacterPoseButton>
         </span>
-        <Button onClick={() => changeUpperBodyPose(UpperBodyPose.HandsUp)}>
-          Hands up
-        </Button>
+        <span class="mr-2">
+          <CharacterPoseButton
+            pose={UpperBodyPose.HandsUp}
+          ></CharacterPoseButton>
+        </span>
       </div>
       <div class="mb-2">
         <div class="text-sm font-bold mb-1">Lower body</div>
         <span class="mr-2">
-          <Button onClick={() => changeLowerBodyPose(LowerBodyPose.Stand)}>
-            Stand
-          </Button>
+          <CharacterPoseButton pose={LowerBodyPose.Stand}></CharacterPoseButton>
         </span>
         <span class="mr-2">
-          <Button onClick={() => changeLowerBodyPose(LowerBodyPose.StandHeels)}>
-            Stand heels
-          </Button>
+          <CharacterPoseButton
+            pose={LowerBodyPose.StandHeels}
+          ></CharacterPoseButton>
         </span>
         <span class="mr-2">
-          <Button onClick={() => changeLowerBodyPose(LowerBodyPose.WideLegs)}>
-            Wide legs
-          </Button>
+          <CharacterPoseButton
+            pose={LowerBodyPose.WideLegs}
+          ></CharacterPoseButton>
         </span>
         <span class="mr-2">
-          <Button
-            onClick={() => changeLowerBodyPose(LowerBodyPose.WideLegsHeels)}
-          >
-            Wide legs heels
-          </Button>
+          <CharacterPoseButton
+            pose={LowerBodyPose.WideLegsHeels}
+          ></CharacterPoseButton>
         </span>
         <span class="mr-2">
-          <Button
-            onClick={() => changeLowerBodyPose(LowerBodyPose.SimpleKneel)}
-          >
-            Simple kneel
-          </Button>
+          <CharacterPoseButton
+            pose={LowerBodyPose.SimpleKneel}
+          ></CharacterPoseButton>
         </span>
-        <Button onClick={() => changeLowerBodyPose(LowerBodyPose.WideKneel)}>
-          Wide kneel
-        </Button>
+        <span class="mr-2">
+          <CharacterPoseButton
+            pose={LowerBodyPose.WideKneel}
+          ></CharacterPoseButton>
+        </span>
       </div>
       <div class="mb-2">
         <div class="text-sm font-bold mb-1">Full body</div>
-        <Button onClick={() => changeFullBodyPose(FullBodyPose.PetSuit)}>
-          Pet suit
-        </Button>
+        <span class="mr-2">
+          <CharacterPoseButton
+            pose={FullBodyPose.PetSuit}
+          ></CharacterPoseButton>
+        </span>
       </div>
       <div>
         <div class="text-sm font-bold mb-1">Head</div>
         <span class="mr-2">
-          <Button onClick={() => changeHeadPose(HeadPose.Normal)}>
-            Normal
-          </Button>
+          <CharacterPoseButton pose={HeadPose.Normal}></CharacterPoseButton>
         </span>
-        <Button onClick={() => changeHeadPose(HeadPose.WideOpen)}>
-          Wide open
-        </Button>
+        <span class="mr-2">
+          <CharacterPoseButton pose={HeadPose.WideOpen}></CharacterPoseButton>
+        </span>
       </div>
     </div>
   );

@@ -169,7 +169,12 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
     name: "items.cynthiaHighHeels",
     offset: -18,
     requiredPoses: {
-      lowerBody: [LowerBodyPose.StandHeels, LowerBodyPose.WideLegsHeels],
+      lowerBody: [
+        LowerBodyPose.StandHeels,
+        LowerBodyPose.WideLegsHeels,
+        LowerBodyPose.SimpleKneel,
+        LowerBodyPose.WideKneel,
+      ],
     },
     allowedSlots: [Slot.Shoes],
     fragments: [
