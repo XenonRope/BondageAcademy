@@ -111,6 +111,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
   [ItemCode.MagicChristmasGlove]: {
     code: ItemCode.MagicChristmasGlove,
     name: "items.magicChristmasGlove",
+    preview: "Magic Christmas Glove",
     allowedSlots: [Slot.LeftSleeve, Slot.RightSleeve],
     fragments: [
       {
