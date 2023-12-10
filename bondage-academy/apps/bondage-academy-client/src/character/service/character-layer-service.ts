@@ -132,8 +132,12 @@ export class CharacterLayerService {
     fragment: ItemFragment,
     character: Character
   ): string {
-    const pose = fragment.pose ?? this.getPoseForFragment(fragment, character);
-    return pose ? this.getImagePathPartForPose(pose) : "";
+    let pose = this.getPoseForFragment(fragment, character);
+    if (!pose) {
+      return "";
+    }
+    pose = fragment.poseMapping?.[pose] ?? pose;
+    return this.getImagePathPartForPose(pose);
   }
 
   private getImagePathPartForPose(pose: AnyPose): string {

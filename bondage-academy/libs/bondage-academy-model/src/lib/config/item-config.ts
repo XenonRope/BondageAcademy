@@ -1,6 +1,7 @@
 import { DictionaryKey } from "../i18n/dictionary";
 import { AnyPose, FullBodyPose, HeadPose } from "../model/character-pose";
 import { ItemCode } from "../model/item";
+import { PartialRecord } from "../model/partial-record";
 import { Slot } from "../model/slot";
 import { LayerOrder, LayerSubOrder } from "./layer-order";
 
@@ -13,7 +14,7 @@ export enum ItemFragmentBodyType {
 export interface ItemFragment {
   slot?: Slot;
   bodyType: ItemFragmentBodyType;
-  pose?: AnyPose;
+  poseMapping?: PartialRecord<AnyPose, AnyPose>;
   filePathSuffix: string;
   order?: LayerOrder;
   subOrder?: LayerSubOrder;
@@ -38,14 +39,18 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
     fragments: [
       {
         bodyType: ItemFragmentBodyType.Head,
-        pose: HeadPose.Normal,
+        poseMapping: {
+          [HeadPose.WideOpen]: HeadPose.Normal,
+        },
         filePathSuffix: "Halley Hair 1 White Back",
         order: LayerOrder.HairBack,
         hiddenWhenFullBodyPose: [FullBodyPose.PetSuit],
       },
       {
         bodyType: ItemFragmentBodyType.Head,
-        pose: HeadPose.Normal,
+        poseMapping: {
+          [HeadPose.WideOpen]: HeadPose.Normal,
+        },
         filePathSuffix: "Halley Hair 1 White Front",
         subOrder: LayerSubOrder.Front,
       },
