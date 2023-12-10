@@ -16,6 +16,7 @@ export * from "./lib/from-server/chat";
 export * from "./lib/from-server/dialogue-option";
 export * from "./lib/from-server/event-from-server";
 export * from "./lib/from-server/minigame";
+export * from "./lib/services/character-pose-validator";
 export * from "./lib/i18n/dictionary";
 export * from "./lib/i18n/en";
 export * from "./lib/i18n/pl";

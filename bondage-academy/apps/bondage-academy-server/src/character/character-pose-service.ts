@@ -1,5 +1,6 @@
 import {
   CharacterPose,
+  CharacterPoseValidator,
   Player,
   SynchronizePlayersEvent,
 } from "@bondage-academy/bondage-academy-model";
@@ -14,15 +15,21 @@ export class CharacterPoseService {
     private playerStoreService: PlayerStoreService,
     private roomSessionService: RoomSessionService,
     private sessionService: SessionService,
-    private playerClientSynchronizationService: PlayerClientSynchronizationService
+    private playerClientSynchronizationService: PlayerClientSynchronizationService,
+    private characterPoseValidator: CharacterPoseValidator
   ) {}
 
-  async changePose(playerId: number, pose: CharacterPose): Promise<void> {
+  async changePose(playerId: number, pose: CharacterPose): Promise<boolean> {
     await this.playerStoreService.update(
       playerId,
       (player) => (player.character.pose = pose)
     );
     const player = await this.playerStoreService.get(playerId);
+    if (!this.characterPoseValidator.canChangeToPose(player.character, pose)) {
+      console.error(`Player ${playerId} cannot change pose`);
+      return false;
+    }
+
     const sessions = await this.getSessions(player);
     const event: SynchronizePlayersEvent = {
       updatePlayers: [
@@ -33,6 +40,8 @@ export class CharacterPoseService {
       ],
     };
     this.playerClientSynchronizationService.synchronizePlayers(sessions, event);
+
+    return true;
   }
 
   private async getSessions(player: Player): Promise<Session[]> {

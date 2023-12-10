@@ -1,4 +1,7 @@
-import { dialogueOptions } from "@bondage-academy/bondage-academy-model";
+import {
+  CharacterPoseValidator,
+  dialogueOptions,
+} from "@bondage-academy/bondage-academy-model";
 import { AccountRegistrationService } from "../account/account-registration-service";
 import { AccountService } from "../account/account-service";
 import { LoginService } from "../account/login-service";
@@ -53,6 +56,9 @@ import { DatabaseSynchronizationService } from "../synchronization/database-sync
 import { WardrobeChangeService } from "../wardrobe/wardrobe-change-service";
 import { WardrobeConditionChecker } from "../wardrobe/wardrobe-condition-checker";
 import { WardrobeService } from "../wardrobe/wardrobe-service";
+
+export const characterPoseValidator = new CharacterPoseValidator();
+
 export const dao = new Dao();
 
 export const sequences = new Sequences(dao);
@@ -201,7 +207,8 @@ export const characterPoseService = new CharacterPoseService(
   playerStoreService,
   roomSessionService,
   sessionService,
-  playerClientSynchronizationService
+  playerClientSynchronizationService,
+  characterPoseValidator
 );
 
 export const migrationService = new MigrationService(dao);

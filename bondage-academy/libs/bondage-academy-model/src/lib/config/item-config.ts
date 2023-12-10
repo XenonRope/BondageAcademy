@@ -4,6 +4,7 @@ import {
   FullBodyPose,
   HeadPose,
   LowerBodyPose,
+  UpperBodyPose,
 } from "../model/character-pose";
 import { ItemCode } from "../model/item";
 import { PartialRecord } from "../model/partial-record";
@@ -32,6 +33,12 @@ export interface ItemConfig {
   preview?: string;
   variants?: string[];
   offset?: number;
+  requiredPoses?: {
+    fullBody?: FullBodyPose[];
+    upperBody?: UpperBodyPose[];
+    lowerBody?: LowerBodyPose[];
+    head?: HeadPose[];
+  };
   allowedSlots: Slot[];
   fragments: ItemFragment[];
 }
@@ -161,6 +168,9 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
     code: ItemCode.CynthiaHighHeels,
     name: "items.cynthiaHighHeels",
     offset: -18,
+    requiredPoses: {
+      lowerBody: [LowerBodyPose.StandHeels, LowerBodyPose.WideLegsHeels],
+    },
     allowedSlots: [Slot.Shoes],
     fragments: [
       {
