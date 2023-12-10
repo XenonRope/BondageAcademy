@@ -100,10 +100,10 @@ const WEARABLES_NAMES = [
   // Hair
   "Halley Hair 1 White Back",
   "Halley Hair 1 White Front",
-  "Halley Hair 2 White Back",
-  "Halley Hair 2 White Front",
-  "Halley Hair 3 White Back",
-  "Halley Hair 3 White Front",
+  // "Halley Hair 2 White Back",
+  // "Halley Hair 2 White Front",
+  // "Halley Hair 3 White Back",
+  // "Halley Hair 3 White Front",
 
   // Mouth
   "Ball gag",
@@ -596,15 +596,15 @@ interface RenderSettings {
 
 renderCharacters({
   characters: CHARACTERS,
-  bodyParts: ["Lower body"],
-  poses: ["Stand", "Stand heels", "Wide legs", "Wide legs heels"],
-  wearables: ["Cynthia High Heels"],
+  bodyParts: BODY_PARTS,
+  poses: POSES,
+  wearables: WEARABLES_NAMES,
   onlyWearables: false,
 });
 
-// renderItemsPreview();
+renderItemsPreview();
 
-// renderDevices();
+renderDevices();
 
 function renderDevices() {
   renderDevice("Restraint Frame");
@@ -833,7 +833,7 @@ function renderWearables(
       }
       const fragmentName = fragment.name ? ` ${fragment.name}` : "";
       render(
-        `output\\${outputImagePrefix} - ${wearable.name}${fragmentName}}.png`,
+        `output\\${outputImagePrefix} - ${wearable.name}${fragmentName}.png`,
         WIDTH,
         HEIGHT
       );
