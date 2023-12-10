@@ -137,6 +137,9 @@ const WEARABLES_NAMES = [
 
   // Lower undies
   "X Fashion Thong",
+
+  // Shoes
+  "Cynthia High Heels",
 ] as const;
 type WearableName = (typeof WEARABLES_NAMES)[number];
 
@@ -497,6 +500,39 @@ const WEARABLES: Wearable[] = [
       },
     ],
   },
+
+  // Shoes
+  {
+    name: "Cynthia High Heels",
+    fragments: [
+      {
+        name: "Platform",
+        path: "clothes\\shoes\\Cynthia High Heels\\Cynthia High Heels Platform.duf",
+        nodes: ["Cynthia High Heels Platform"],
+      },
+      {
+        name: "Insole",
+        path: "clothes\\shoes\\Cynthia High Heels\\Cynthia High Heels Insole.duf",
+        nodes: ["Cynthia High Heels Insole"],
+      },
+      {
+        name: "Outsole",
+        path: "clothes\\shoes\\Cynthia High Heels\\Cynthia High Heels Outsole.duf",
+        nodes: ["Cynthia High Heels Outsole"],
+      },
+      {
+        name: "Strap",
+        path: "clothes\\shoes\\Cynthia High Heels\\Cynthia High Heels Strap.duf",
+        nodes: ["Cynthia High Heels Strap"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Lower body",
+        poses: ["Stand heels", "Wide legs heels"],
+      },
+    ],
+  },
 ];
 
 const DEVICES: Device[] = [
@@ -560,9 +596,9 @@ interface RenderSettings {
 
 renderCharacters({
   characters: CHARACTERS,
-  bodyParts: BODY_PARTS,
-  poses: POSES,
-  wearables: WEARABLES_NAMES,
+  bodyParts: ["Lower body"],
+  poses: ["Stand", "Stand heels", "Wide legs", "Wide legs heels"],
+  wearables: ["Cynthia High Heels"],
   onlyWearables: false,
 });
 
