@@ -1,5 +1,10 @@
 import { DictionaryKey } from "../i18n/dictionary";
-import { AnyPose, FullBodyPose, HeadPose } from "../model/character-pose";
+import {
+  AnyPose,
+  FullBodyPose,
+  HeadPose,
+  LowerBodyPose,
+} from "../model/character-pose";
 import { ItemCode } from "../model/item";
 import { PartialRecord } from "../model/partial-record";
 import { Slot } from "../model/slot";
@@ -120,6 +125,10 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
     fragments: [
       {
         bodyType: ItemFragmentBodyType.LowerBody,
+        poseMapping: {
+          [LowerBodyPose.StandHeels]: LowerBodyPose.Stand,
+          [LowerBodyPose.WideLegsHeels]: LowerBodyPose.WideLegs,
+        },
         filePathSuffix: "X Fashion Thong",
         subOrder: LayerSubOrder.Front,
       },
