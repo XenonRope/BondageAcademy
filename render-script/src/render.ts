@@ -12,9 +12,11 @@ type UpperBodyPose = (typeof UPPER_BODY_POSES)[number];
 
 const LOWER_BODY_POSES = [
   "Stand",
+  "Stand heels",
+  "Wide legs",
+  "Wide legs heels",
   "Simple kneel",
   "Wide kneel",
-  "Wide legs",
 ] as const;
 type LowerBodyPose = (typeof LOWER_BODY_POSES)[number];
 
@@ -487,7 +489,7 @@ const WEARABLES: Wearable[] = [
     conditions: [
       {
         bodyPart: "Lower body",
-        poses: LOWER_BODY_POSES,
+        poses: ["Stand", "Wide legs", "Simple kneel", "Wide kneel"],
       },
       {
         bodyPart: "Body",
