@@ -108,6 +108,25 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
       },
     ],
   },
+  [ItemCode.MagicChristmasGlove]: {
+    code: ItemCode.MagicChristmasGlove,
+    name: "items.magicChristmasGlove",
+    allowedSlots: [Slot.LeftSleeve, Slot.RightSleeve],
+    fragments: [
+      {
+        slot: Slot.LeftSleeve,
+        bodyType: ItemFragmentBodyType.UpperBody,
+        filePathSuffix: "Magic Christmas Glove Left",
+        subOrder: LayerSubOrder.Front,
+      },
+      {
+        slot: Slot.RightSleeve,
+        bodyType: ItemFragmentBodyType.UpperBody,
+        filePathSuffix: "Magic Christmas Glove Right",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
+  },
 
   // Body
   [ItemCode.PetSuit]: {

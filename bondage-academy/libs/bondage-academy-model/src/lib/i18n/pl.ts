@@ -54,6 +54,7 @@ export const plDictionary: RawDictionary = {
     ballGag: "Ball gag",
     beccaMeshBra: "Becca mesh bra",
     xFashionSleeve: "X fashion sleeve",
+    magicChristmasGlove: "Magic christmas glove",
     petSuit: "Pet suit",
     xFashionThong: "X fashion thong",
     cynthiaHighHeels: "Cynthia high heels",
