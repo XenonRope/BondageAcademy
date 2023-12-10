@@ -40,6 +40,7 @@ export default function WardrobeView(props: { playerId: number }) {
     Slot.LeftSleeve,
     Slot.RightSleeve,
     Slot.LowerUndies,
+    Slot.Shoes,
   ];
 
   function wear(item?: Item) {

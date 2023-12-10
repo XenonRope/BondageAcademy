@@ -98,6 +98,7 @@ export class HeadmistressScript extends GameScript {
         { code: ItemCode.XFashionThong },
         { code: ItemCode.BeccaMeshBra, variant: "Black" },
         { code: ItemCode.BeccaMeshBra, variant: "Dots" },
+        { code: ItemCode.CynthiaHighHeels },
       ]);
     } else {
       this.chatService.sendChatMessage([session], {

@@ -16,6 +16,9 @@ export enum ItemCode {
 
   // Lower undies
   XFashionThong = "XFashionThong",
+
+  // Shoes
+  CynthiaHighHeels = "CynthiaHighHeels",
 }
 
 export interface Item {

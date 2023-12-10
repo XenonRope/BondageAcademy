@@ -38,8 +38,18 @@ export const poseConfigs: Record<AnyPose, PoseConfig> = {
     order: LayerOrder.LowerBody,
     rootOffsetY: 39,
   },
+  [LowerBodyPose.StandHeels]: {
+    iamgePathPart: "Stand heels",
+    order: LayerOrder.LowerBody,
+    rootOffsetY: 39,
+  },
   [LowerBodyPose.WideLegs]: {
     iamgePathPart: "Wide legs",
+    order: LayerOrder.LowerBody,
+    rootOffsetY: 45,
+  },
+  [LowerBodyPose.WideLegsHeels]: {
+    iamgePathPart: "Wide legs heels",
     order: LayerOrder.LowerBody,
     rootOffsetY: 45,
   },

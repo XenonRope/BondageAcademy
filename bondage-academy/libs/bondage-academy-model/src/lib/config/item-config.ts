@@ -120,4 +120,33 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
       },
     ],
   },
+
+  // Shoes
+  [ItemCode.CynthiaHighHeels]: {
+    code: ItemCode.CynthiaHighHeels,
+    name: "items.cynthiaHighHeels",
+    allowedSlots: [Slot.Shoes],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.LowerBody,
+        filePathSuffix: "Cynthia High Heels Strap",
+        subOrder: LayerSubOrder.Front,
+      },
+      {
+        bodyType: ItemFragmentBodyType.LowerBody,
+        filePathSuffix: "Cynthia High Heels Insole",
+        subOrder: LayerSubOrder.Front,
+      },
+      {
+        bodyType: ItemFragmentBodyType.LowerBody,
+        filePathSuffix: "Cynthia High Heels Platform",
+        subOrder: LayerSubOrder.Front,
+      },
+      {
+        bodyType: ItemFragmentBodyType.LowerBody,
+        filePathSuffix: "Cynthia High Heels Outsole",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
+  },
 };

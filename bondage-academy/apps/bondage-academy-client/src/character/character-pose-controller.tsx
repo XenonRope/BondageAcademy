@@ -61,8 +61,20 @@ export default function CharacterPoseController(props: {
           </Button>
         </span>
         <span class="mr-2">
+          <Button onClick={() => changeLowerBodyPose(LowerBodyPose.StandHeels)}>
+            Stand heels
+          </Button>
+        </span>
+        <span class="mr-2">
           <Button onClick={() => changeLowerBodyPose(LowerBodyPose.WideLegs)}>
             Wide legs
+          </Button>
+        </span>
+        <span class="mr-2">
+          <Button
+            onClick={() => changeLowerBodyPose(LowerBodyPose.WideLegsHeels)}
+          >
+            Wide legs heels
           </Button>
         </span>
         <span class="mr-2">

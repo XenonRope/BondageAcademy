@@ -10,7 +10,9 @@ export enum UpperBodyPose {
 
 export enum LowerBodyPose {
   Stand = "Stand",
+  StandHeels = "StandHeels",
   WideLegs = "WideLegs",
+  WideLegsHeels = "WideLegsHeels",
   SimpleKneel = "SimpleKneel",
   WideKneel = "WideKneel",
 }

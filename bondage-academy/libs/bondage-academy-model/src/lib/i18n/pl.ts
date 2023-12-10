@@ -47,6 +47,7 @@ export const plDictionary: RawDictionary = {
     rightSleeve: "Prawy rękaw",
     body: "Ciało",
     lowerUndies: "Dolna bielizna",
+    shoes: "Buty",
   },
   items: {
     hair1: "Włosy 1",
@@ -55,6 +56,7 @@ export const plDictionary: RawDictionary = {
     xFashionSleeve: "X fashion sleeve",
     petSuit: "Pet suit",
     xFashionThong: "X fashion thong",
+    cynthiaHighHeels: "Cynthia high heels",
   },
   minigame: {
     common: {

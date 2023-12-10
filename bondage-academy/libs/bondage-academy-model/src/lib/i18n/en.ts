@@ -44,6 +44,7 @@ export const enDictionary = {
     rightSleeve: "Right sleeve",
     body: "Body",
     lowerUndies: "Lower undies",
+    shoes: "Shoes",
   },
   items: {
     hair1: "Hair 1",
@@ -52,6 +53,7 @@ export const enDictionary = {
     xFashionSleeve: "X fashion sleeve",
     petSuit: "Pet suit",
     xFashionThong: "X fashion thong",
+    cynthiaHighHeels: "Cynthia high heels",
   },
   minigame: {
     common: {

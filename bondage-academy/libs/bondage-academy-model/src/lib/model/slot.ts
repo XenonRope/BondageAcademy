@@ -6,4 +6,5 @@ export enum Slot {
   RightSleeve = "RightSleeve",
   Body = "Body",
   LowerUndies = "LowerUndies",
+  Shoes = "Shoes",
 }
