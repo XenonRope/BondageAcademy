@@ -1,40 +1,57 @@
-import { itemConfigs } from "../config/item-config";
+import { RequiredPoses, itemConfigs } from "../config/item-config";
 import { Character } from "../model/character";
 import { CharacterPose } from "../model/character-pose";
 
 export class CharacterPoseValidator {
   canChangeToPose(character: Character, pose: CharacterPose): boolean {
-    for (const equippedItem of Object.values(character.wearables)) {
-      if (!equippedItem) {
-        continue;
-      }
-      const requiredPoses = itemConfigs[equippedItem.item.code].requiredPoses;
-      if (!requiredPoses) {
-        continue;
-      }
-      if (
-        requiredPoses.fullBody &&
-        (!pose.fullBody || !requiredPoses.fullBody.includes(pose.fullBody))
-      ) {
-        return false;
-      }
-      if (
-        requiredPoses.upperBody &&
-        (!pose.upperBody || !requiredPoses.upperBody.includes(pose.upperBody))
-      ) {
-        return false;
-      }
-      if (
-        requiredPoses.lowerBody &&
-        (!pose.lowerBody || !requiredPoses.lowerBody.includes(pose.lowerBody))
-      ) {
-        return false;
-      }
-      if (requiredPoses.head && !requiredPoses.head.includes(pose.head)) {
-        return false;
-      }
-    }
+    const requiredPoses = this.getRequiredPoses(character);
 
-    return true;
+    return (
+      (!requiredPoses.fullBody ||
+        !pose.fullBody ||
+        requiredPoses.fullBody.includes(pose.fullBody)) &&
+      (!requiredPoses.upperBody ||
+        !pose.upperBody ||
+        requiredPoses.upperBody.includes(pose.upperBody)) &&
+      (!requiredPoses.lowerBody ||
+        !pose.lowerBody ||
+        requiredPoses.lowerBody.includes(pose.lowerBody)) &&
+      (!requiredPoses.head || requiredPoses.head.includes(pose.head))
+    );
+  }
+
+  private getRequiredPoses(character: Character): RequiredPoses {
+    return Object.values(character.wearables)
+      .filter((equippedItem) => equippedItem)
+      .map((equippedItem) => itemConfigs[equippedItem.item.code].requiredPoses)
+      .flatMap((requiredPoses) => (requiredPoses ? [requiredPoses] : []))
+      .reduce((first, second) => this.mergeRequiredPoses(first, second), {
+        fullBody: undefined,
+        upperBody: undefined,
+        lowerBody: undefined,
+        head: undefined,
+      });
+  }
+
+  private mergeRequiredPoses(
+    first: RequiredPoses,
+    second: RequiredPoses
+  ): RequiredPoses {
+    return {
+      fullBody: this.intersection(first.fullBody, second.fullBody),
+      upperBody: this.intersection(first.upperBody, second.upperBody),
+      lowerBody: this.intersection(first.lowerBody, second.lowerBody),
+      head: this.intersection(first.head, second.head),
+    };
+  }
+
+  private intersection<T>(
+    firstArray: T[] | undefined,
+    secondArray: T[] | undefined
+  ): T[] | undefined {
+    if (firstArray !== undefined && secondArray !== undefined) {
+      return firstArray.filter((value) => secondArray.includes(value));
+    }
+    return firstArray || secondArray;
   }
 }

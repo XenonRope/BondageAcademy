@@ -27,18 +27,20 @@ export interface ItemFragment {
   hiddenForPoses?: AnyPose[];
 }
 
+export interface RequiredPoses {
+  fullBody?: FullBodyPose[];
+  upperBody?: UpperBodyPose[];
+  lowerBody?: LowerBodyPose[];
+  head?: HeadPose[];
+}
+
 export interface ItemConfig {
   code: ItemCode;
   name: DictionaryKey;
   preview?: string;
   variants?: string[];
   offset?: number;
-  requiredPoses?: {
-    fullBody?: FullBodyPose[];
-    upperBody?: UpperBodyPose[];
-    lowerBody?: LowerBodyPose[];
-    head?: HeadPose[];
-  };
+  requiredPoses?: RequiredPoses;
   allowedSlots: Slot[];
   fragments: ItemFragment[];
 }
@@ -182,25 +184,41 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Strap",
         subOrder: LayerSubOrder.Front,
-        hiddenForPoses: [LowerBodyPose.SimpleKneel, LowerBodyPose.WideKneel],
+        hiddenForPoses: [
+          LowerBodyPose.SimpleKneel,
+          LowerBodyPose.WideKneel,
+          FullBodyPose.PetSuit,
+        ],
       },
       {
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Insole",
         subOrder: LayerSubOrder.Front,
-        hiddenForPoses: [LowerBodyPose.SimpleKneel, LowerBodyPose.WideKneel],
+        hiddenForPoses: [
+          LowerBodyPose.SimpleKneel,
+          LowerBodyPose.WideKneel,
+          FullBodyPose.PetSuit,
+        ],
       },
       {
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Platform",
         subOrder: LayerSubOrder.Front,
-        hiddenForPoses: [LowerBodyPose.SimpleKneel, LowerBodyPose.WideKneel],
+        hiddenForPoses: [
+          LowerBodyPose.SimpleKneel,
+          LowerBodyPose.WideKneel,
+          FullBodyPose.PetSuit,
+        ],
       },
       {
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Outsole",
         subOrder: LayerSubOrder.Front,
-        hiddenForPoses: [LowerBodyPose.SimpleKneel, LowerBodyPose.WideKneel],
+        hiddenForPoses: [
+          LowerBodyPose.SimpleKneel,
+          LowerBodyPose.WideKneel,
+          FullBodyPose.PetSuit,
+        ],
       },
     ],
   },
