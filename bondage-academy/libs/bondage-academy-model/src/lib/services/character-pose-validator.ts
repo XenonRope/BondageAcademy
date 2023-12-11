@@ -20,7 +20,7 @@ export class CharacterPoseValidator {
     );
   }
 
-  private getRequiredPoses(character: Character): RequiredPoses {
+  getRequiredPoses(character: Character): RequiredPoses {
     return Object.values(character.wearables)
       .filter((equippedItem) => equippedItem)
       .map((equippedItem) => itemConfigs[equippedItem.item.code].requiredPoses)

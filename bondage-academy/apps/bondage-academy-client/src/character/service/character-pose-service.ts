@@ -2,6 +2,7 @@ import {
   AnyPose,
   Character,
   CharacterPose,
+  CharacterPoseValidator,
   FullBodyPose,
   HeadPose,
   LowerBodyPose,
@@ -13,7 +14,10 @@ import {
 import { SocketService } from "../../common/socket-service";
 
 export class CharacterPoseService {
-  constructor(private socketService: SocketService) {}
+  constructor(
+    private socketService: SocketService,
+    private characterPoseValidator: CharacterPoseValidator
+  ) {}
 
   setAnyPose(character: Character, pose: AnyPose): CharacterPose {
     if (isFullBodyPose(pose)) {
@@ -42,7 +46,9 @@ export class CharacterPoseService {
       ? {
           ...character.pose,
           upperBody: pose,
-          lowerBody: LowerBodyPose.Stand,
+          lowerBody:
+            this.characterPoseValidator.getRequiredPoses(character)
+              .lowerBody?.[0] ?? LowerBodyPose.Stand,
           fullBody: undefined,
         }
       : { ...character.pose, upperBody: pose };
@@ -52,7 +58,9 @@ export class CharacterPoseService {
     return "fullBody" in character.pose
       ? {
           ...character.pose,
-          upperBody: UpperBodyPose.Crossed,
+          upperBody:
+            this.characterPoseValidator.getRequiredPoses(character)
+              .upperBody?.[0] ?? UpperBodyPose.Crossed,
           lowerBody: pose,
           fullBody: undefined,
         }

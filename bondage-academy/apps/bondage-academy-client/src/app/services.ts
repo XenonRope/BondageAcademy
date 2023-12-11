@@ -38,7 +38,10 @@ export const accountService = new AccountService(socketService, storeService);
 
 export const characterLayerService = new CharacterLayerService();
 
-export const characterPoseService = new CharacterPoseService(socketService);
+export const characterPoseService = new CharacterPoseService(
+  socketService,
+  characterPoseValidator
+);
 
 export const navigationService = new NavigationService(storeService);
 
