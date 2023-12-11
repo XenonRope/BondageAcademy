@@ -3,7 +3,7 @@ import { Character } from "../model/character";
 import { CharacterPose } from "../model/character-pose";
 
 export class CharacterPoseValidator {
-  canChangeToPose(character: Character, pose: CharacterPose): boolean {
+  isPoseValid(character: Character, pose: CharacterPose): boolean {
     const requiredPoses = this.getRequiredPoses(character);
 
     return (
@@ -17,6 +17,16 @@ export class CharacterPoseValidator {
         !pose.lowerBody ||
         requiredPoses.lowerBody.includes(pose.lowerBody)) &&
       (!requiredPoses.head || requiredPoses.head.includes(pose.head))
+    );
+  }
+
+  isAnyValidPose(character: Character): boolean {
+    const requiredPoses = this.getRequiredPoses(character);
+    return (
+      (requiredPoses.fullBody?.length !== 0 ||
+        (requiredPoses.upperBody?.length !== 0 &&
+          requiredPoses.lowerBody?.length !== 0)) &&
+      requiredPoses.head?.length !== 0
     );
   }
 

@@ -25,7 +25,7 @@ export class CharacterPoseService {
       (player) => (player.character.pose = pose)
     );
     const player = await this.playerStoreService.get(playerId);
-    if (!this.characterPoseValidator.canChangeToPose(player.character, pose)) {
+    if (!this.characterPoseValidator.isPoseValid(player.character, pose)) {
       console.error(`Player ${playerId} cannot change pose`);
       return false;
     }

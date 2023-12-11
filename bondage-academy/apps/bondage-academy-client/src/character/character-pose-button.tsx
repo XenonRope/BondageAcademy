@@ -20,7 +20,7 @@ export default function CharacterPoseButton(props: { pose: AnyPose }) {
     return characterPoseService.setAnyPose(character(), props.pose);
   });
   const canChangePose = createMemo(() => {
-    return characterPoseValidator.canChangeToPose(character(), newPose());
+    return characterPoseValidator.isPoseValid(character(), newPose());
   });
 
   function changePose() {

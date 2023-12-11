@@ -138,10 +138,20 @@ export const wardrobeConditionChecker = new WardrobeConditionChecker(
   playerStoreService
 );
 
+export const characterPoseService = new CharacterPoseService(
+  playerStoreService,
+  roomSessionService,
+  sessionService,
+  playerClientSynchronizationService,
+  characterPoseValidator
+);
+
 export const wardrobeService = new WardrobeService(
   playerStoreService,
   playerClientSynchronizationService,
-  wardrobeConditionChecker
+  wardrobeConditionChecker,
+  characterPoseValidator,
+  characterPoseService
 );
 
 export const changeWardrobeMinigameStakeHandler =
@@ -201,14 +211,6 @@ export const accountRegistrationService = new AccountRegistrationService(
   playerCreationService,
   dao,
   playerService
-);
-
-export const characterPoseService = new CharacterPoseService(
-  playerStoreService,
-  roomSessionService,
-  sessionService,
-  playerClientSynchronizationService,
-  characterPoseValidator
 );
 
 export const migrationService = new MigrationService(dao);

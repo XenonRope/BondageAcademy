@@ -12,7 +12,7 @@ export default function WardrobeSlot(props: {
   onItemChange?: () => void;
 }) {
   function getSlotName(): string {
-    return t(slotConfigs[props.slot].name) as string;
+    return t(slotConfigs[props.slot].name);
   }
 
   return (
