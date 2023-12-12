@@ -3,6 +3,7 @@ import {
   LowerBodyPose,
   NPCCode,
   RoomCode,
+  isStandardCharacterPose,
 } from "@bondage-academy/bondage-academy-model";
 import { ChatService } from "../../chat/chat-service";
 import { ItemService } from "../../item/item-service";
@@ -81,7 +82,9 @@ export class HeadmistressScript extends GameScript {
       return;
     }
     const player = await this.playerStoreService.get(event.playerId);
-    const lowerBodyPose = player.character.pose?.lowerBody;
+    const lowerBodyPose = isStandardCharacterPose(player.character.pose)
+      ? player.character.pose.lowerBody
+      : undefined;
     if (
       lowerBodyPose &&
       [LowerBodyPose.SimpleKneel, LowerBodyPose.WideKneel].includes(

@@ -9,6 +9,7 @@ import {
   LowerBodyPose,
   Slot,
   UpperBodyPose,
+  isStandardCharacterPose,
 } from "@bondage-academy/bondage-academy-model";
 import { CharacterPoseService } from "../character/character-pose-service";
 import { PlayerClientSynchronizationService } from "../player/player-client-synchronization-service";
@@ -123,7 +124,7 @@ export class WardrobeService {
       requiredPoses.head.includes(currentPose.head)
         ? currentPose.head
         : requiredPoses.head[0];
-    if (currentPose.upperBody && currentPose.lowerBody) {
+    if (isStandardCharacterPose(currentPose)) {
       if (
         requiredPoses.upperBody?.length !== 0 &&
         requiredPoses.lowerBody?.length !== 0
@@ -147,7 +148,7 @@ export class WardrobeService {
           head: newHeadPose,
         };
       }
-    } else if (currentPose.fullBody) {
+    } else {
       if (requiredPoses.fullBody?.length !== 0) {
         return {
           fullBody:
@@ -165,6 +166,5 @@ export class WardrobeService {
         };
       }
     }
-    throw new Error("No valid pose");
   }
 }

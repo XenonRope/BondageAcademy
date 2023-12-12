@@ -1,23 +1,39 @@
 import { RequiredPoses, itemConfigs } from "../config/item-config";
 import { Character } from "../model/character";
-import { CharacterPose } from "../model/character-pose";
+import {
+  CharacterPose,
+  isStandardCharacterPose,
+} from "../model/character-pose";
 
 export class CharacterPoseValidator {
   isPoseValid(character: Character, pose: CharacterPose): boolean {
     const requiredPoses = this.getRequiredPoses(character);
 
-    return (
-      (!requiredPoses.fullBody ||
-        !pose.fullBody ||
-        requiredPoses.fullBody.includes(pose.fullBody)) &&
-      (!requiredPoses.upperBody ||
-        !pose.upperBody ||
-        requiredPoses.upperBody.includes(pose.upperBody)) &&
-      (!requiredPoses.lowerBody ||
-        !pose.lowerBody ||
-        requiredPoses.lowerBody.includes(pose.lowerBody)) &&
-      (!requiredPoses.head || requiredPoses.head.includes(pose.head))
-    );
+    if (requiredPoses.head && !requiredPoses.head.includes(pose.head)) {
+      return false;
+    }
+
+    if (isStandardCharacterPose(pose)) {
+      if (
+        requiredPoses.upperBody &&
+        !requiredPoses.upperBody.includes(pose.upperBody)
+      ) {
+        return false;
+      }
+      if (
+        requiredPoses.lowerBody &&
+        !requiredPoses.lowerBody.includes(pose.lowerBody)
+      ) {
+        return false;
+      }
+    } else if (
+      requiredPoses.fullBody &&
+      !requiredPoses.fullBody.includes(pose.fullBody)
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   isAnyValidPose(character: Character): boolean {

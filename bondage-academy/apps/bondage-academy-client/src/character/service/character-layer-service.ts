@@ -6,6 +6,7 @@ import {
   ItemFragment,
   ItemFragmentBodyType,
   Slot,
+  isFullBodyCharacterPose,
   itemConfigs,
   poseConfigs,
 } from "@bondage-academy/bondage-academy-model";
@@ -21,7 +22,7 @@ export class CharacterLayerService {
     const characterPrefix = "Kiri";
     const layers: CharacterLayer[] = [];
     const rootOffset = this.getRootOffset(character);
-    if (character.pose.fullBody) {
+    if (isFullBodyCharacterPose(character.pose)) {
       layers.push({
         url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
           character.pose.fullBody
@@ -29,7 +30,7 @@ export class CharacterLayerService {
         order: this.getOrderForPose(character.pose.fullBody),
         offsetY: rootOffset,
       });
-    } else if (character.pose.upperBody && character.pose.lowerBody) {
+    } else {
       layers.push({
         url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
           character.pose.upperBody
@@ -120,28 +121,38 @@ export class CharacterLayerService {
       return true;
     }
 
-    return ![
-      characterPose.fullBody,
-      characterPose.upperBody,
-      characterPose.lowerBody,
-      characterPose.head,
-    ].find((charactetPose) => {
-      return charactetPose && fragment.hiddenForPoses?.includes(charactetPose);
-    });
+    if (isFullBodyCharacterPose(characterPose)) {
+      if (fragment.hiddenForPoses.includes(characterPose.fullBody)) {
+        return false;
+      }
+    } else {
+      if (
+        fragment.hiddenForPoses.includes(characterPose.upperBody) ||
+        fragment.hiddenForPoses.includes(characterPose.lowerBody)
+      ) {
+        return false;
+      }
+    }
+
+    return !fragment.hiddenForPoses.includes(characterPose.head);
   }
 
   private getPoseForFragment(
     fragment: ItemFragment,
     character: Character
-  ): AnyPose | undefined {
-    if (fragment.bodyType === ItemFragmentBodyType.UpperBody) {
-      return character.pose.fullBody ?? character.pose.upperBody;
-    } else if (fragment.bodyType === ItemFragmentBodyType.LowerBody) {
-      return character.pose.fullBody ?? character.pose.lowerBody;
-    } else if (fragment.bodyType === ItemFragmentBodyType.Head) {
-      return character.pose.head;
+  ): AnyPose {
+    switch (fragment.bodyType) {
+      case ItemFragmentBodyType.UpperBody:
+        return isFullBodyCharacterPose(character.pose)
+          ? character.pose.fullBody
+          : character.pose.upperBody;
+      case ItemFragmentBodyType.LowerBody:
+        return isFullBodyCharacterPose(character.pose)
+          ? character.pose.fullBody
+          : character.pose.lowerBody;
+      case ItemFragmentBodyType.Head:
+        return character.pose.head;
     }
-    return undefined;
   }
 
   private getImagePathPartForFragmentPose(
@@ -165,10 +176,9 @@ export class CharacterLayerService {
   }
 
   private getRootOffset(character: Character): number {
-    const pose = character.pose.fullBody ?? character.pose.lowerBody;
-    if (!pose) {
-      return 0;
-    }
+    const pose = isFullBodyCharacterPose(character.pose)
+      ? character.pose.fullBody
+      : character.pose.lowerBody;
     const wearablesOffset: number = Object.values(character.wearables)
       .map(
         (equippedItem) =>
@@ -179,7 +189,8 @@ export class CharacterLayerService {
   }
 
   private getHeadOffset(character: Character): number {
-    const pose = character.pose.fullBody;
-    return (pose && poseConfigs[pose].headOffsetY) ?? 0;
+    return isFullBodyCharacterPose(character.pose)
+      ? poseConfigs[character.pose.fullBody].headOffsetY ?? 0
+      : 0;
   }
 }

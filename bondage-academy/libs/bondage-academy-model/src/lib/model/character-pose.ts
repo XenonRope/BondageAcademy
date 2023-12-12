@@ -35,9 +35,23 @@ export const isHeadPose = (pose: AnyPose): pose is HeadPose => pose in HeadPose;
 
 export type AnyPose = FullBodyPose | UpperBodyPose | LowerBodyPose | HeadPose;
 
-export type CharacterPose = {
-  fullBody?: FullBodyPose;
-  upperBody?: UpperBodyPose;
-  lowerBody?: LowerBodyPose;
+export interface StandardCharacterPose {
+  upperBody: UpperBodyPose;
+  lowerBody: LowerBodyPose;
   head: HeadPose;
-};
+}
+
+export const isStandardCharacterPose = (
+  pose: CharacterPose
+): pose is StandardCharacterPose => "upperBody" in pose;
+
+export interface FullBodyCharacterPose {
+  fullBody: FullBodyPose;
+  head: HeadPose;
+}
+
+export const isFullBodyCharacterPose = (
+  pose: CharacterPose
+): pose is FullBodyCharacterPose => "fullBody" in pose;
+
+export type CharacterPose = StandardCharacterPose | FullBodyCharacterPose;
