@@ -1,3 +1,4 @@
+import { DIContainer } from "rsdi";
 import { AccountApi } from "../account/account-api";
 import { ActionApi } from "../action/action-api";
 import { CharacterPoseApi } from "../character/character-pose-api";
@@ -10,67 +11,97 @@ import { RoomJoinApi } from "../room/room-join-api";
 import { RoomLeaveApi } from "../room/room-leave-api";
 import { RoomSearchApi } from "../room/room-search-api";
 import { WardrobeApi } from "../wardrobe/wardrobe-api";
-import {
-  accountRegistrationService,
-  actionService,
-  characterPoseService,
-  chatSpeakService,
-  dialogueOptionService,
-  loginService,
-  minigameService,
-  movementService,
-  playerStoreService,
-  roomCreationService,
-  roomJoinService,
-  roomLeaveService,
-  roomSearchService,
-  roomService,
-  roomStoreService,
-  roomUtilsService,
-  wardrobeChangeServiec as wardrobeChangeService,
-} from "./services";
+import { serviceDIContainer } from "./services";
 
-export const accountApi = new AccountApi(
-  accountRegistrationService,
-  loginService,
-  playerStoreService,
-  roomUtilsService
-);
-
-export const characterPoseApi = new CharacterPoseApi(
-  characterPoseService,
-  minigameService
-);
-
-export const movementApi = new MovementApi(movementService, minigameService);
-
-export const roomJoinApi = new RoomJoinApi(roomJoinService, roomUtilsService);
-
-export const roomCreationApi = new RoomCreationApi(
-  roomStoreService,
-  roomService,
-  roomCreationService,
-  roomJoinService,
-  roomUtilsService,
-  playerStoreService
-);
-
-export const roomLeaveApi = new RoomLeaveApi(roomLeaveService, minigameService);
-
-export const roomSearchApi = new RoomSearchApi(roomSearchService);
-
-export const chatSpeakApi = new ChatSpeakApi(chatSpeakService, minigameService);
-
-export const dialogueOptionApi = new DialogueOptionApi(
-  dialogueOptionService,
-  minigameService
-);
-
-export const wardrobeApi = new WardrobeApi(
-  wardrobeChangeService,
-  minigameService
-);
-
-export const minigameApi = new MinigameApi(minigameService);
-
-export const actionApi = new ActionApi(actionService, minigameService);
+export const apiDIContainer = new DIContainer()
+  .add(
+    "accountApi",
+    () =>
+      new AccountApi(
+        serviceDIContainer.accountRegistrationService,
+        serviceDIContainer.loginService,
+        serviceDIContainer.playerStoreService,
+        serviceDIContainer.roomUtilsService
+      )
+  )
+  .add(
+    "characterPoseApi",
+    () =>
+      new CharacterPoseApi(
+        serviceDIContainer.characterPoseService,
+        serviceDIContainer.minigameService
+      )
+  )
+  .add(
+    "movementApi",
+    () =>
+      new MovementApi(
+        serviceDIContainer.movementService,
+        serviceDIContainer.minigameService
+      )
+  )
+  .add(
+    "roomJoinApi",
+    () =>
+      new RoomJoinApi(
+        serviceDIContainer.roomJoinService,
+        serviceDIContainer.roomUtilsService
+      )
+  )
+  .add(
+    "roomCreationApi",
+    () =>
+      new RoomCreationApi(
+        serviceDIContainer.roomStoreService,
+        serviceDIContainer.roomService,
+        serviceDIContainer.roomCreationService,
+        serviceDIContainer.roomJoinService,
+        serviceDIContainer.roomUtilsService,
+        serviceDIContainer.playerStoreService
+      )
+  )
+  .add(
+    "roomLeaveApi",
+    () =>
+      new RoomLeaveApi(
+        serviceDIContainer.roomLeaveService,
+        serviceDIContainer.minigameService
+      )
+  )
+  .add(
+    "roomSearchApi",
+    () => new RoomSearchApi(serviceDIContainer.roomSearchService)
+  )
+  .add(
+    "chatSpeakApi",
+    () =>
+      new ChatSpeakApi(
+        serviceDIContainer.chatSpeakService,
+        serviceDIContainer.minigameService
+      )
+  )
+  .add(
+    "dialogueOptionApi",
+    () =>
+      new DialogueOptionApi(
+        serviceDIContainer.dialogueOptionService,
+        serviceDIContainer.minigameService
+      )
+  )
+  .add(
+    "wardrobeApi",
+    () =>
+      new WardrobeApi(
+        serviceDIContainer.wardrobeChangeService,
+        serviceDIContainer.minigameService
+      )
+  )
+  .add("minigameApi", () => new MinigameApi(serviceDIContainer.minigameService))
+  .add(
+    "actionApi",
+    () =>
+      new ActionApi(
+        serviceDIContainer.actionService,
+        serviceDIContainer.minigameService
+      )
+  );

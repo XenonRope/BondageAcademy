@@ -6,7 +6,10 @@ import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { BusinessError } from "./api/model/business-error";
-import {
+import { apiDIContainer } from "./app/api";
+import { serviceDIContainer } from "./app/services";
+
+const {
   accountApi,
   actionApi,
   characterPoseApi,
@@ -19,8 +22,8 @@ import {
   roomLeaveApi,
   roomSearchApi,
   wardrobeApi,
-} from "./app/api";
-import {
+} = apiDIContainer;
+const {
   databaseSynchronizationService,
   logoutService,
   migrationService,
@@ -28,7 +31,7 @@ import {
   scriptService,
   scripts,
   sessionService,
-} from "./app/services";
+} = serviceDIContainer;
 
 const app = express();
 const server = createServer(app);
