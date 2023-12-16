@@ -1,4 +1,4 @@
-import { DIContainer } from "rsdi";
+import { DIContainer } from "@bondage-academy/rsdi";
 import { AccountApi } from "../account/account-api";
 import { ActionApi } from "../action/action-api";
 import { CharacterPoseApi } from "../character/character-pose-api";

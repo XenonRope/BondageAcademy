@@ -18,7 +18,8 @@
     "paths": {
       "@bondage-academy/bondage-academy-model": [
         "libs/bondage-academy-model/src/index.ts"
-      ]
+      ],
+      "@bondage-academy/rsdi": ["libs/rsdi/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

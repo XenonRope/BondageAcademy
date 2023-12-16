@@ -44,7 +44,8 @@
         "project": [
           "apps/bondage-academy-client/tsconfig.*?.json",
           "apps/bondage-academy-server/tsconfig.*?.json",
-          "libs/bondage-academy-model/tsconfig.*?.json"
+          "libs/bondage-academy-model/tsconfig.*?.json",
+          "libs/rsdi/tsconfig.*?.json"
         ]
       }
     },

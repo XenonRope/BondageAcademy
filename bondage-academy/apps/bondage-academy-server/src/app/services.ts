@@ -2,7 +2,7 @@ import {
   CharacterPoseValidator,
   dialogueOptions,
 } from "@bondage-academy/bondage-academy-model";
-import { DIContainer } from "rsdi";
+import { DIContainer } from "@bondage-academy/rsdi";
 import { AccountRegistrationService } from "../account/account-registration-service";
 import { AccountService } from "../account/account-service";
 import { LoginService } from "../account/login-service";
