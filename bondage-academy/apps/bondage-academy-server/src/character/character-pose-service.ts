@@ -20,16 +20,16 @@ export class CharacterPoseService {
   ) {}
 
   async changePose(playerId: number, pose: CharacterPose): Promise<boolean> {
-    await this.playerStoreService.update(
-      playerId,
-      (player) => (player.character.pose = pose)
-    );
     const player = await this.playerStoreService.get(playerId);
     if (!this.characterPoseValidator.isPoseValid(player.character, pose)) {
       console.error(`Player ${playerId} cannot change pose`);
       return false;
     }
 
+    await this.playerStoreService.update(
+      playerId,
+      (player) => (player.character.pose = pose)
+    );
     const sessions = await this.getSessions(player);
     const event: SynchronizePlayersEvent = {
       updatePlayers: [

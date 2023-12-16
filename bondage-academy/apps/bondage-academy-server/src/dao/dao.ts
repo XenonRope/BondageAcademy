@@ -5,6 +5,8 @@ export class Dao {
   private _client?: MongoClient;
   private _database?: Db;
 
+  constructor(private connectionString: string) {}
+
   getCollection<T extends Document>(
     collectionName: CollectionName
   ): Collection<T> {
@@ -22,9 +24,7 @@ export class Dao {
 
   private get client(): MongoClient {
     if (!this._client) {
-      this._client = new MongoClient(
-        "mongodb://root:root@localhost:27017/admin?replicaSet=rs0"
-      );
+      this._client = new MongoClient(this.connectionString);
     }
     return this._client;
   }

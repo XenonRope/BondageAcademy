@@ -11,97 +11,101 @@ import { RoomJoinApi } from "../room/room-join-api";
 import { RoomLeaveApi } from "../room/room-leave-api";
 import { RoomSearchApi } from "../room/room-search-api";
 import { WardrobeApi } from "../wardrobe/wardrobe-api";
-import { serviceDIContainer } from "./services";
+import { ServiceContainer } from "./services";
 
-export const apiDIContainer = new DIContainer()
-  .add(
-    "accountApi",
-    () =>
-      new AccountApi(
-        serviceDIContainer.accountRegistrationService,
-        serviceDIContainer.loginService,
-        serviceDIContainer.playerStoreService,
-        serviceDIContainer.roomUtilsService
-      )
-  )
-  .add(
-    "characterPoseApi",
-    () =>
-      new CharacterPoseApi(
-        serviceDIContainer.characterPoseService,
-        serviceDIContainer.minigameService
-      )
-  )
-  .add(
-    "movementApi",
-    () =>
-      new MovementApi(
-        serviceDIContainer.movementService,
-        serviceDIContainer.minigameService
-      )
-  )
-  .add(
-    "roomJoinApi",
-    () =>
-      new RoomJoinApi(
-        serviceDIContainer.roomJoinService,
-        serviceDIContainer.roomUtilsService
-      )
-  )
-  .add(
-    "roomCreationApi",
-    () =>
-      new RoomCreationApi(
-        serviceDIContainer.roomStoreService,
-        serviceDIContainer.roomService,
-        serviceDIContainer.roomCreationService,
-        serviceDIContainer.roomJoinService,
-        serviceDIContainer.roomUtilsService,
-        serviceDIContainer.playerStoreService
-      )
-  )
-  .add(
-    "roomLeaveApi",
-    () =>
-      new RoomLeaveApi(
-        serviceDIContainer.roomLeaveService,
-        serviceDIContainer.minigameService
-      )
-  )
-  .add(
-    "roomSearchApi",
-    () => new RoomSearchApi(serviceDIContainer.roomSearchService)
-  )
-  .add(
-    "chatSpeakApi",
-    () =>
-      new ChatSpeakApi(
-        serviceDIContainer.chatSpeakService,
-        serviceDIContainer.minigameService
-      )
-  )
-  .add(
-    "dialogueOptionApi",
-    () =>
-      new DialogueOptionApi(
-        serviceDIContainer.dialogueOptionService,
-        serviceDIContainer.minigameService
-      )
-  )
-  .add(
-    "wardrobeApi",
-    () =>
-      new WardrobeApi(
-        serviceDIContainer.wardrobeChangeService,
-        serviceDIContainer.minigameService
-      )
-  )
-  .add("minigameApi", () => new MinigameApi(serviceDIContainer.minigameService))
-  .add(
-    "actionApi",
-    () =>
-      new ActionApi(
-        serviceDIContainer.actionService,
-        serviceDIContainer.minigameService
-      )
-  );
+export type ApiContainer = ReturnType<typeof configureApiContainer>;
+
+export const configureApiContainer = (serviceContainer: ServiceContainer) => {
+  return new DIContainer()
+    .add(
+      "accountApi",
+      () =>
+        new AccountApi(
+          serviceContainer.accountRegistrationService,
+          serviceContainer.loginService,
+          serviceContainer.playerStoreService,
+          serviceContainer.roomUtilsService
+        )
+    )
+    .add(
+      "characterPoseApi",
+      () =>
+        new CharacterPoseApi(
+          serviceContainer.characterPoseService,
+          serviceContainer.minigameService
+        )
+    )
+    .add(
+      "movementApi",
+      () =>
+        new MovementApi(
+          serviceContainer.movementService,
+          serviceContainer.minigameService
+        )
+    )
+    .add(
+      "roomJoinApi",
+      () =>
+        new RoomJoinApi(
+          serviceContainer.roomJoinService,
+          serviceContainer.roomUtilsService
+        )
+    )
+    .add(
+      "roomCreationApi",
+      () =>
+        new RoomCreationApi(
+          serviceContainer.roomStoreService,
+          serviceContainer.roomService,
+          serviceContainer.roomCreationService,
+          serviceContainer.roomJoinService,
+          serviceContainer.roomUtilsService,
+          serviceContainer.playerStoreService
+        )
+    )
+    .add(
+      "roomLeaveApi",
+      () =>
+        new RoomLeaveApi(
+          serviceContainer.roomLeaveService,
+          serviceContainer.minigameService
+        )
+    )
+    .add(
+      "roomSearchApi",
+      () => new RoomSearchApi(serviceContainer.roomSearchService)
+    )
+    .add(
+      "chatSpeakApi",
+      () =>
+        new ChatSpeakApi(
+          serviceContainer.chatSpeakService,
+          serviceContainer.minigameService
+        )
+    )
+    .add(
+      "dialogueOptionApi",
+      () =>
+        new DialogueOptionApi(
+          serviceContainer.dialogueOptionService,
+          serviceContainer.minigameService
+        )
+    )
+    .add(
+      "wardrobeApi",
+      () =>
+        new WardrobeApi(
+          serviceContainer.wardrobeChangeService,
+          serviceContainer.minigameService
+        )
+    )
+    .add("minigameApi", () => new MinigameApi(serviceContainer.minigameService))
+    .add(
+      "actionApi",
+      () =>
+        new ActionApi(
+          serviceContainer.actionService,
+          serviceContainer.minigameService
+        )
+    );
+};

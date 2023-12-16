@@ -57,384 +57,402 @@ import { WardrobeChangeService } from "../wardrobe/wardrobe-change-service";
 import { WardrobeConditionChecker } from "../wardrobe/wardrobe-condition-checker";
 import { WardrobeService } from "../wardrobe/wardrobe-service";
 
-export const serviceDIContainer = new DIContainer()
-  .add("characterPoseValidator", () => new CharacterPoseValidator())
-  .add("dao", () => new Dao())
-  .add("sequences", ({ dao }) => new Sequences(dao))
-  .add("objectIdProvider", ({ sequences }) => new ObjectIdProvider(sequences))
-  .add("playerService", ({ dao }) => new PlayerService(dao))
-  .add(
-    "playerStoreService",
-    ({ playerService }) => new PlayerStoreService(playerService)
-  )
-  .add("scriptService", () => new ScriptService())
-  .add(
-    "objectClientSynchronizationService",
-    () => new ObjectClientSynchronizationService()
-  )
-  .add("motionStorage", () => new MotionStorage())
-  .add("sessionService", () => new SessionService())
-  .add("roomService", ({ dao }) => new RoomService(dao))
-  .add(
-    "playerDatabaseSynchronizationService",
-    ({ playerStoreService, playerService }) =>
-      new PlayerDatabaseSynchronizationService(
-        playerStoreService,
-        playerService
-      )
-  )
-  .add(
-    "roomStoreService",
-    ({ roomService }) => new RoomStoreService(roomService)
-  )
-  .add(
-    "roomSessionService",
-    ({ sessionService, roomStoreService, playerStoreService }) =>
-      new RoomSessionService(
-        sessionService,
-        roomStoreService,
-        playerStoreService
-      )
-  )
-  .add(
-    "playerClientSynchronizationService",
-    ({ playerStoreService, roomSessionService, sessionService }) =>
-      new PlayerClientSynchronizationService(
-        playerStoreService,
-        roomSessionService,
-        sessionService
-      )
-  )
-  .add("accountService", ({ dao }) => new AccountService(dao))
-  .add("logoutService", () => new LogoutService())
-  .add(
-    "roomSearchService",
-    ({ dao, roomStoreService }) => new RoomSearchService(dao, roomStoreService)
-  )
-  .add(
-    "roomObjectRemovalService",
-    ({
-      roomStoreService,
-      objectClientSynchronizationService,
-      roomSessionService,
-    }) =>
-      new RoomObjectRemovalService(
+export type ServiceContainer = ReturnType<typeof configureServiceContainer>;
+
+export const configureServiceContainer = () => {
+  return new DIContainer()
+    .add("characterPoseValidator", () => new CharacterPoseValidator())
+    .add(
+      "dao",
+      () => new Dao("mongodb://root:root@localhost:27017/admin?replicaSet=rs0")
+    )
+    .add("sequences", ({ dao }) => new Sequences(dao))
+    .add("objectIdProvider", ({ sequences }) => new ObjectIdProvider(sequences))
+    .add("playerService", ({ dao }) => new PlayerService(dao))
+    .add(
+      "playerStoreService",
+      ({ playerService }) => new PlayerStoreService(playerService)
+    )
+    .add("scriptService", () => new ScriptService())
+    .add(
+      "objectClientSynchronizationService",
+      () => new ObjectClientSynchronizationService()
+    )
+    .add("motionStorage", () => new MotionStorage())
+    .add("sessionService", () => new SessionService())
+    .add("roomService", ({ dao }) => new RoomService(dao))
+    .add(
+      "playerDatabaseSynchronizationService",
+      ({ playerStoreService, playerService }) =>
+        new PlayerDatabaseSynchronizationService(
+          playerStoreService,
+          playerService
+        )
+    )
+    .add(
+      "roomStoreService",
+      ({ roomService }) => new RoomStoreService(roomService)
+    )
+    .add(
+      "roomSessionService",
+      ({ sessionService, roomStoreService, playerStoreService }) =>
+        new RoomSessionService(
+          sessionService,
+          roomStoreService,
+          playerStoreService
+        )
+    )
+    .add(
+      "playerClientSynchronizationService",
+      ({ playerStoreService, roomSessionService, sessionService }) =>
+        new PlayerClientSynchronizationService(
+          playerStoreService,
+          roomSessionService,
+          sessionService
+        )
+    )
+    .add("accountService", ({ dao }) => new AccountService(dao))
+    .add("logoutService", () => new LogoutService())
+    .add(
+      "roomSearchService",
+      ({ dao, roomStoreService }) =>
+        new RoomSearchService(dao, roomStoreService)
+    )
+    .add(
+      "roomObjectRemovalService",
+      ({
         roomStoreService,
         objectClientSynchronizationService,
-        roomSessionService
-      )
-  )
-  .add(
-    "roomLeaveService",
-    ({ roomObjectRemovalService, playerStoreService, roomStoreService }) =>
-      new RoomLeaveService(
-        roomObjectRemovalService,
-        playerStoreService,
-        roomStoreService
-      )
-  )
-  .add(
-    "roomCreationService",
-    ({ roomService, sequences, roomStoreService }) =>
-      new RoomCreationService(roomService, sequences, roomStoreService)
-  )
-  .add("roomFieldService", () => new RoomFieldService())
-  .add(
-    "minigameClientSynchronizationService",
-    ({ roomSessionService, sessionService }) =>
-      new MinigameClientSynchronizationService(
         roomSessionService,
-        sessionService
-      )
-  )
-  .add(
-    "clickMinigameChallangeHandler",
-    () => new ClickMinigameChallangeHandler()
-  )
-  .add(
-    "minigameChallangeService",
-    ({ clickMinigameChallangeHandler }) =>
-      new MinigameChallangeService([clickMinigameChallangeHandler])
-  )
-  .add(
-    "wardrobeConditionChecker",
-    ({ playerStoreService }) => new WardrobeConditionChecker(playerStoreService)
-  )
-  .add(
-    "characterPoseService",
-    ({
-      playerStoreService,
-      roomSessionService,
-      sessionService,
-      playerClientSynchronizationService,
-      characterPoseValidator,
-    }) =>
-      new CharacterPoseService(
+      }) =>
+        new RoomObjectRemovalService(
+          roomStoreService,
+          objectClientSynchronizationService,
+          roomSessionService
+        )
+    )
+    .add(
+      "roomLeaveService",
+      ({ roomObjectRemovalService, playerStoreService, roomStoreService }) =>
+        new RoomLeaveService(
+          roomObjectRemovalService,
+          playerStoreService,
+          roomStoreService
+        )
+    )
+    .add(
+      "roomCreationService",
+      ({ roomService, sequences, roomStoreService }) =>
+        new RoomCreationService(roomService, sequences, roomStoreService)
+    )
+    .add("roomFieldService", () => new RoomFieldService())
+    .add(
+      "minigameClientSynchronizationService",
+      ({ roomSessionService, sessionService }) =>
+        new MinigameClientSynchronizationService(
+          roomSessionService,
+          sessionService
+        )
+    )
+    .add(
+      "clickMinigameChallangeHandler",
+      () => new ClickMinigameChallangeHandler()
+    )
+    .add(
+      "minigameChallangeService",
+      ({ clickMinigameChallangeHandler }) =>
+        new MinigameChallangeService([clickMinigameChallangeHandler])
+    )
+    .add(
+      "wardrobeConditionChecker",
+      ({ playerStoreService }) =>
+        new WardrobeConditionChecker(playerStoreService)
+    )
+    .add(
+      "characterPoseService",
+      ({
         playerStoreService,
         roomSessionService,
         sessionService,
         playerClientSynchronizationService,
-        characterPoseValidator
-      )
-  )
-  .add(
-    "wardrobeService",
-    ({
-      playerStoreService,
-      playerClientSynchronizationService,
-      wardrobeConditionChecker,
-      characterPoseValidator,
-      characterPoseService,
-    }) =>
-      new WardrobeService(
+        characterPoseValidator,
+      }) =>
+        new CharacterPoseService(
+          playerStoreService,
+          roomSessionService,
+          sessionService,
+          playerClientSynchronizationService,
+          characterPoseValidator
+        )
+    )
+    .add(
+      "wardrobeService",
+      ({
         playerStoreService,
         playerClientSynchronizationService,
         wardrobeConditionChecker,
         characterPoseValidator,
-        characterPoseService
-      )
-  )
-  .add(
-    "changeWardrobeMinigameStakeHandler",
-    ({ wardrobeService }) =>
-      new ChangeWardrobeMinigameStakeHandler(wardrobeService)
-  )
-  .add(
-    "minigameStakeService",
-    ({ changeWardrobeMinigameStakeHandler }) =>
-      new MinigameStakeService([changeWardrobeMinigameStakeHandler])
-  )
-  .add(
-    "minigameService",
-    ({
-      minigameClientSynchronizationService,
-      minigameChallangeService,
-      minigameStakeService,
-    }) =>
-      new MinigameService(
+        characterPoseService,
+      }) =>
+        new WardrobeService(
+          playerStoreService,
+          playerClientSynchronizationService,
+          wardrobeConditionChecker,
+          characterPoseValidator,
+          characterPoseService
+        )
+    )
+    .add(
+      "changeWardrobeMinigameStakeHandler",
+      ({ wardrobeService }) =>
+        new ChangeWardrobeMinigameStakeHandler(wardrobeService)
+    )
+    .add(
+      "minigameStakeService",
+      ({ changeWardrobeMinigameStakeHandler }) =>
+        new MinigameStakeService([changeWardrobeMinigameStakeHandler])
+    )
+    .add(
+      "minigameService",
+      ({
         minigameClientSynchronizationService,
         minigameChallangeService,
-        minigameStakeService
-      )
-  )
-  .add(
-    "roomUtilsService",
-    ({ roomStoreService, playerStoreService, minigameService }) =>
-      new RoomUtilsService(
-        roomStoreService,
-        playerStoreService,
-        minigameService
-      )
-  )
-  .add(
-    "objectCreationService",
-    ({ objectIdProvider }) => new ObjectCreationService(objectIdProvider)
-  )
-  .add(
-    "roomObjectCreationService",
-    ({
-      roomStoreService,
-      roomSessionService,
-      objectClientSynchronizationService,
-      playerStoreService,
-      playerClientSynchronizationService,
-    }) =>
-      new RoomObjectCreationService(
+        minigameStakeService,
+      }) =>
+        new MinigameService(
+          minigameClientSynchronizationService,
+          minigameChallangeService,
+          minigameStakeService
+        )
+    )
+    .add(
+      "roomUtilsService",
+      ({ roomStoreService, playerStoreService, minigameService }) =>
+        new RoomUtilsService(
+          roomStoreService,
+          playerStoreService,
+          minigameService
+        )
+    )
+    .add(
+      "objectCreationService",
+      ({ objectIdProvider }) => new ObjectCreationService(objectIdProvider)
+    )
+    .add(
+      "roomObjectCreationService",
+      ({
         roomStoreService,
         roomSessionService,
         objectClientSynchronizationService,
         playerStoreService,
-        playerClientSynchronizationService
-      )
-  )
-  .add(
-    "roomJoinService",
-    ({
-      roomStoreService,
-      roomFieldService,
-      objectCreationService,
-      playerStoreService,
-      roomObjectCreationService,
-      scriptService,
-    }) =>
-      new RoomJoinService(
+        playerClientSynchronizationService,
+      }) =>
+        new RoomObjectCreationService(
+          roomStoreService,
+          roomSessionService,
+          objectClientSynchronizationService,
+          playerStoreService,
+          playerClientSynchronizationService
+        )
+    )
+    .add(
+      "roomJoinService",
+      ({
         roomStoreService,
         roomFieldService,
         objectCreationService,
         playerStoreService,
         roomObjectCreationService,
-        scriptService
-      )
-  )
-  .add(
-    "loginService",
-    ({ accountService, sessionService, logoutService }) =>
-      new LoginService(accountService, sessionService, logoutService)
-  )
-  .add(
-    "playerCreationService",
-    ({ playerService, sequences }) =>
-      new PlayerCreationService(playerService, sequences)
-  )
-  .add(
-    "accountRegistrationService",
-    ({
-      accountService,
-      sequences,
-      playerCreationService,
-      dao,
-      playerService,
-    }) =>
-      new AccountRegistrationService(
+        scriptService,
+      }) =>
+        new RoomJoinService(
+          roomStoreService,
+          roomFieldService,
+          objectCreationService,
+          playerStoreService,
+          roomObjectCreationService,
+          scriptService
+        )
+    )
+    .add(
+      "loginService",
+      ({ accountService, sessionService, logoutService }) =>
+        new LoginService(accountService, sessionService, logoutService)
+    )
+    .add(
+      "playerCreationService",
+      ({ playerService, sequences }) =>
+        new PlayerCreationService(playerService, sequences)
+    )
+    .add(
+      "accountRegistrationService",
+      ({
         accountService,
         sequences,
         playerCreationService,
         dao,
-        playerService
-      )
-  )
-  .add("migrationService", ({ dao }) => new MigrationService(dao))
-  .add(
-    "movementConditionChecker",
-    ({ minigameService }) => new MovementConditionChecker(minigameService)
-  )
-  .add(
-    "movementService",
-    ({
-      motionStorage,
-      roomStoreService,
-      playerStoreService,
-      roomFieldService,
-      roomSessionService,
-      movementConditionChecker,
-    }) =>
-      new MovementService(
+        playerService,
+      }) =>
+        new AccountRegistrationService(
+          accountService,
+          sequences,
+          playerCreationService,
+          dao,
+          playerService
+        )
+    )
+    .add("migrationService", ({ dao }) => new MigrationService(dao))
+    .add(
+      "movementConditionChecker",
+      ({ minigameService }) => new MovementConditionChecker(minigameService)
+    )
+    .add(
+      "movementService",
+      ({
         motionStorage,
         roomStoreService,
         playerStoreService,
         roomFieldService,
         roomSessionService,
-        movementConditionChecker
-      )
-  )
-  .add("chatService", () => new ChatService())
-  .add(
-    "chatSpeakService",
-    ({ playerStoreService, sessionService, roomSessionService, chatService }) =>
-      new ChatSpeakService(
+        movementConditionChecker,
+      }) =>
+        new MovementService(
+          motionStorage,
+          roomStoreService,
+          playerStoreService,
+          roomFieldService,
+          roomSessionService,
+          movementConditionChecker
+        )
+    )
+    .add("chatService", () => new ChatService())
+    .add(
+      "chatSpeakService",
+      ({
         playerStoreService,
         sessionService,
         roomSessionService,
-        chatService
-      )
-  )
-  .add(
-    "dialogueOptionService",
-    ({
-      playerStoreService,
-      roomStoreService,
-      scriptService,
-      chatService,
-      sessionService,
-    }) =>
-      new DialogueOptionService(
+        chatService,
+      }) =>
+        new ChatSpeakService(
+          playerStoreService,
+          sessionService,
+          roomSessionService,
+          chatService
+        )
+    )
+    .add(
+      "dialogueOptionService",
+      ({
         playerStoreService,
-        dialogueOptions,
         roomStoreService,
         scriptService,
         chatService,
-        sessionService
-      )
-  )
-  .add(
-    "roomInitializationService",
-    ({
-      roomService,
-      roomCreationService,
-      objectIdProvider,
-      objectCreationService,
-    }) =>
-      new RoomInitializationService(
+        sessionService,
+      }) =>
+        new DialogueOptionService(
+          playerStoreService,
+          dialogueOptions,
+          roomStoreService,
+          scriptService,
+          chatService,
+          sessionService
+        )
+    )
+    .add(
+      "roomInitializationService",
+      ({
         roomService,
         roomCreationService,
         objectIdProvider,
-        objectCreationService
-      )
-  )
-  .add(
-    "roomDatabaseSynchronizationService",
-    ({ roomStoreService, roomService }) =>
-      new RoomDatabaseSynchronizationService(roomStoreService, roomService)
-  )
-  .add(
-    "databaseSynchronizationService",
-    ({
-      playerDatabaseSynchronizationService,
-      roomDatabaseSynchronizationService,
-    }) =>
-      new DatabaseSynchronizationService(
+        objectCreationService,
+      }) =>
+        new RoomInitializationService(
+          roomService,
+          roomCreationService,
+          objectIdProvider,
+          objectCreationService
+        )
+    )
+    .add(
+      "roomDatabaseSynchronizationService",
+      ({ roomStoreService, roomService }) =>
+        new RoomDatabaseSynchronizationService(roomStoreService, roomService)
+    )
+    .add(
+      "databaseSynchronizationService",
+      ({
         playerDatabaseSynchronizationService,
-        roomDatabaseSynchronizationService
-      )
-  )
-  .add("itemIdProvider", ({ sequences }) => new ItemIdProvider(sequences))
-  .add(
-    "itemService",
-    ({
-      sessionService,
-      playerStoreService,
-      roomSessionService,
-      playerClientSynchronizationService,
-      itemIdProvider,
-    }) =>
-      new ItemService(
+        roomDatabaseSynchronizationService,
+      }) =>
+        new DatabaseSynchronizationService(
+          playerDatabaseSynchronizationService,
+          roomDatabaseSynchronizationService
+        )
+    )
+    .add("itemIdProvider", ({ sequences }) => new ItemIdProvider(sequences))
+    .add(
+      "itemService",
+      ({
         sessionService,
         playerStoreService,
         roomSessionService,
         playerClientSynchronizationService,
-        itemIdProvider
-      )
-  )
-  .add(
-    "wardrobeMinigameService",
-    ({ minigameService, playerStoreService }) =>
-      new WardrobeMinigameService(minigameService, playerStoreService)
-  )
-  .add(
-    "wardrobeChangeService",
-    ({ wardrobeService, wardrobeConditionChecker, wardrobeMinigameService }) =>
-      new WardrobeChangeService(
+        itemIdProvider,
+      }) =>
+        new ItemService(
+          sessionService,
+          playerStoreService,
+          roomSessionService,
+          playerClientSynchronizationService,
+          itemIdProvider
+        )
+    )
+    .add(
+      "wardrobeMinigameService",
+      ({ minigameService, playerStoreService }) =>
+        new WardrobeMinigameService(minigameService, playerStoreService)
+    )
+    .add(
+      "wardrobeChangeService",
+      ({
         wardrobeService,
         wardrobeConditionChecker,
-        wardrobeMinigameService
-      )
-  )
-  .add(
-    "actionService",
-    ({ roomSessionService, chatService, playerStoreService }) =>
-      new ActionService([
-        new SmileActionHandler(
-          roomSessionService,
-          chatService,
-          playerStoreService
-        ),
-      ])
-  )
-  .add(
-    "headmistressScript",
-    ({
-      roomStoreService,
-      sessionService,
-      chatService,
-      playerStoreService,
-      itemService,
-    }) =>
-      new HeadmistressScript(
+        wardrobeMinigameService,
+      }) =>
+        new WardrobeChangeService(
+          wardrobeService,
+          wardrobeConditionChecker,
+          wardrobeMinigameService
+        )
+    )
+    .add(
+      "actionService",
+      ({ roomSessionService, chatService, playerStoreService }) =>
+        new ActionService([
+          new SmileActionHandler(
+            roomSessionService,
+            chatService,
+            playerStoreService
+          ),
+        ])
+    )
+    .add(
+      "headmistressScript",
+      ({
         roomStoreService,
         sessionService,
         chatService,
         playerStoreService,
-        itemService
-      )
-  )
-  .add("scripts", ({ headmistressScript }) => [headmistressScript]);
+        itemService,
+      }) =>
+        new HeadmistressScript(
+          roomStoreService,
+          sessionService,
+          chatService,
+          playerStoreService,
+          itemService
+        )
+    )
+    .add("scripts", ({ headmistressScript }) => [headmistressScript]);
+};

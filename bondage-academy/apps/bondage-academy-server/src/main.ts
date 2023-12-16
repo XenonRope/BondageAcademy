@@ -6,9 +6,20 @@ import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { BusinessError } from "./api/model/business-error";
-import { apiDIContainer } from "./app/api";
-import { serviceDIContainer } from "./app/services";
+import { configureApiContainer } from "./app/api";
+import { configureServiceContainer } from "./app/services";
 
+const serviceContainer = configureServiceContainer();
+const apiContainer = configureApiContainer(serviceContainer);
+const {
+  databaseSynchronizationService,
+  logoutService,
+  migrationService,
+  roomInitializationService,
+  scriptService,
+  scripts,
+  sessionService,
+} = serviceContainer;
 const {
   accountApi,
   actionApi,
@@ -22,16 +33,7 @@ const {
   roomLeaveApi,
   roomSearchApi,
   wardrobeApi,
-} = apiDIContainer;
-const {
-  databaseSynchronizationService,
-  logoutService,
-  migrationService,
-  roomInitializationService,
-  scriptService,
-  scripts,
-  sessionService,
-} = serviceDIContainer;
+} = apiContainer;
 
 const app = express();
 const server = createServer(app);
@@ -70,6 +72,7 @@ async function start(): Promise<void> {
     socket.on("disconnect", () => {
       console.log("User disconnected");
       logoutService.logout(session);
+      sessionService.removeSessionWithSocket(socket);
     });
     socket.on("register_account", (msg, callback) => {
       handleRequest(() => accountApi.registerAccount(msg), callback);
