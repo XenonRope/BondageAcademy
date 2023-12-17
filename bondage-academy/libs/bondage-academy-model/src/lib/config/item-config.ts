@@ -22,6 +22,7 @@ export interface ItemTexture {
 }
 
 export interface ItemFragment {
+  name?: DictionaryKey;
   slot?: Slot;
   bodyType: ItemFragmentBodyType;
   poseMapping?: PartialRecord<AnyPose, AnyPose>;
@@ -189,6 +190,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
     allowedSlots: [Slot.Shoes],
     fragments: [
       {
+        name: "fragments.strap",
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Strap",
         subOrder: LayerSubOrder.Front,
@@ -199,6 +201,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         ],
       },
       {
+        name: "fragments.insole",
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Insole",
         subOrder: LayerSubOrder.Front,
@@ -209,6 +212,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         ],
       },
       {
+        name: "fragments.platform",
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Platform",
         subOrder: LayerSubOrder.Front,
@@ -219,6 +223,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         ],
       },
       {
+        name: "fragments.outsole",
         bodyType: ItemFragmentBodyType.LowerBody,
         filePathSuffix: "Cynthia High Heels Outsole",
         subOrder: LayerSubOrder.Front,

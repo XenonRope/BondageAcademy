@@ -1,3 +1,4 @@
+import { DictionaryKey } from "../i18n/dictionary";
 import type { CharacterPose } from "./character-pose";
 import type { Item } from "./item";
 import type { PartialRecord } from "./partial-record";
@@ -12,6 +13,7 @@ export enum CharacterSkin {
 }
 
 export interface ItemCustomization {
+  fragmentName?: DictionaryKey;
   color?: string;
   texture?: string;
 }
@@ -19,7 +21,7 @@ export interface ItemCustomization {
 export interface EquippedItem {
   item: Item;
   ownerPlayerId: number;
-  customizations?: PartialRecord<string, ItemCustomization>;
+  customizations?: ItemCustomization[];
 }
 
 export interface Character {

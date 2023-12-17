@@ -70,6 +70,12 @@ export const enDictionary = {
     xFashionThong: "X fashion thong",
     cynthiaHighHeels: "Cynthia high heels",
   },
+  fragments: {
+    strap: "Strap",
+    insole: "Insole",
+    platform: "Platform",
+    outsole: "Outsole",
+  },
   minigame: {
     common: {
       cancel: "Cancel",
