@@ -113,6 +113,9 @@ async function start(): Promise<void> {
     socket.on(RequestFromClient.Wear, (msg: unknown, callback) => {
       handleRequest(() => wardrobeApi.wear(msg, session), callback);
     });
+    socket.on(RequestFromClient.CustomizeItem, (msg: unknown, callback) => {
+      handleRequest(() => wardrobeApi.customizeItem(msg, session), callback);
+    });
     socket.on(RequestFromClient.ChangeProgess, (msg: unknown, callback) => {
       handleRequest(() => minigameApi.changeProgress(msg, session), callback);
     });

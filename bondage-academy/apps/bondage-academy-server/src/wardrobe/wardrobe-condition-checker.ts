@@ -38,7 +38,7 @@ export class WardrobeConditionChecker {
     }
     if (!actorPlayer.roomId && actorPlayer.id !== targetPlayer.id) {
       throw new Error(
-        "Player can change only their own clothes if they are not in a room"
+        "Only player can change their own clothes if they are not in a room"
       );
     }
     const item = params.itemId

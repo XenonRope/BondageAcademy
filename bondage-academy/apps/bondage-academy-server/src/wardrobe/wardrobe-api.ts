@@ -1,5 +1,6 @@
 import {
   ActorType,
+  CustomizeItemRequest,
   PlayerActor,
   Slot,
   WearRequestSchema,
@@ -9,11 +10,13 @@ import { parseEnum } from "../api/utils/parsers";
 import { MinigameService } from "../minigame/minigame-service";
 import { Session } from "../session/model/session";
 import { WardrobeChangeService } from "./wardrobe-change-service";
+import { WardrobeCustomizationService } from "./wardrobe-customization-service";
 
 export class WardrobeApi {
   constructor(
     private wardrobeChangeService: WardrobeChangeService,
-    private minigameService: MinigameService
+    private minigameService: MinigameService,
+    private wardroveCustomizationService: WardrobeCustomizationService
   ) {}
 
   async wear(request: unknown, session: Session): Promise<void> {
@@ -38,6 +41,23 @@ export class WardrobeApi {
       target,
       slot: parseEnum(slot, Slot),
       itemId,
+    });
+  }
+
+  async customizeItem(request: unknown, session: Session): Promise<void> {
+    if (!session.playerId) {
+      throw new Error("User is not logged in");
+    }
+    this.minigameService.assertPlayerIsNotDuringMinigame(session.playerId);
+    const { targetPlayerId, slot, customizations } = await tPromise.decode(
+      CustomizeItemRequest,
+      request
+    );
+    await this.wardroveCustomizationService.customizeItem({
+      actorPlayerId: session.playerId,
+      targetPlayerId,
+      slot,
+      customizations,
     });
   }
 }

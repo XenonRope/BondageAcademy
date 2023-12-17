@@ -55,6 +55,7 @@ import { SessionService } from "../session/session-service";
 import { DatabaseSynchronizationService } from "../synchronization/database-synchronization-service";
 import { WardrobeChangeService } from "../wardrobe/wardrobe-change-service";
 import { WardrobeConditionChecker } from "../wardrobe/wardrobe-condition-checker";
+import { WardrobeCustomizationService } from "../wardrobe/wardrobe-customization-service";
 import { WardrobeService } from "../wardrobe/wardrobe-service";
 
 export type ServiceContainer = ReturnType<typeof configureServiceContainer>;
@@ -436,6 +437,14 @@ export const configureServiceContainer = () => {
             playerStoreService
           ),
         ])
+    )
+    .add(
+      "wardrobeCustomizationService",
+      ({ playerStoreService, playerClientSynchronizationService }) =>
+        new WardrobeCustomizationService(
+          playerStoreService,
+          playerClientSynchronizationService
+        )
     )
     .add(
       "headmistressScript",

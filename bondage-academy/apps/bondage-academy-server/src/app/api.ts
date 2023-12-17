@@ -96,7 +96,8 @@ export const configureApiContainer = (serviceContainer: ServiceContainer) => {
       () =>
         new WardrobeApi(
           serviceContainer.wardrobeChangeService,
-          serviceContainer.minigameService
+          serviceContainer.minigameService,
+          serviceContainer.wardrobeCustomizationService
         )
     )
     .add("minigameApi", () => new MinigameApi(serviceContainer.minigameService))
