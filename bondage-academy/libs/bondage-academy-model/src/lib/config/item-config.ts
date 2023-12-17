@@ -18,6 +18,7 @@ export enum ItemFragmentBodyType {
 }
 
 export interface ItemTexture {
+  code: string;
   filePathSuffix: string;
 }
 
@@ -30,7 +31,7 @@ export interface ItemFragment {
   order?: LayerOrder;
   subOrder?: LayerSubOrder;
   hiddenForPoses?: AnyPose[];
-  textures?: PartialRecord<string, ItemTexture>;
+  textures?: ItemTexture[];
 }
 
 export interface RequiredPoses {
@@ -96,11 +97,12 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         bodyType: ItemFragmentBodyType.UpperBody,
         filePathSuffix: "Becca Mesh Bra Black",
         subOrder: LayerSubOrder.Front,
-        textures: {
-          dots: {
+        textures: [
+          {
+            code: "Dots",
             filePathSuffix: "Becca Mesh Bra Dots",
           },
-        },
+        ],
       },
     ],
   },
