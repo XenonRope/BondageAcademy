@@ -11,9 +11,15 @@ export enum CharacterSkin {
   Skin1 = "Skin_1",
 }
 
+export interface ItemCustomization {
+  color?: string;
+  texture?: string;
+}
+
 export interface EquippedItem {
   item: Item;
   ownerPlayerId: number;
+  customizations?: PartialRecord<string, ItemCustomization>;
 }
 
 export interface Character {

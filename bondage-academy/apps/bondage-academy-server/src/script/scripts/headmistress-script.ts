@@ -100,8 +100,8 @@ export class HeadmistressScript extends GameScript {
         { code: ItemCode.MagicChristmasGlove },
         { code: ItemCode.HalleyHair1 },
         { code: ItemCode.XFashionThong },
-        { code: ItemCode.BeccaMeshBra, variant: "Black" },
-        { code: ItemCode.BeccaMeshBra, variant: "Dots" },
+        { code: ItemCode.BeccaMeshBra },
+        { code: ItemCode.BeccaMeshBra },
         { code: ItemCode.CynthiaHighHeels },
       ]);
     } else {

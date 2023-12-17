@@ -25,5 +25,4 @@ export enum ItemCode {
 export interface Item {
   id: number;
   code: ItemCode;
-  variant?: string;
 }

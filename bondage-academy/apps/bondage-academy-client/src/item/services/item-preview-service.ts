@@ -6,8 +6,7 @@ export class ItemPreviewService {
       return undefined;
     }
 
-    const variant = item.variant ? ` ${item.variant}` : "";
-    return `item/${itemConfigs[item.code].preview}${variant}.png`;
+    return `item/${itemConfigs[item.code].preview}.png`;
   }
 }
 

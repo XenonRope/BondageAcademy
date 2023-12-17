@@ -38,7 +38,6 @@ export interface ItemConfig {
   code: ItemCode;
   name: DictionaryKey;
   preview?: string;
-  variants?: string[];
   offset?: number;
   requiredPoses?: RequiredPoses;
   allowedSlots: Slot[];
@@ -84,13 +83,12 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
   [ItemCode.BeccaMeshBra]: {
     code: ItemCode.BeccaMeshBra,
     name: "items.beccaMeshBra",
-    preview: "Becca Mesh Bra",
-    variants: ["Black", "Dots"],
+    preview: "Becca Mesh Bra Black",
     allowedSlots: [Slot.UpperUndies],
     fragments: [
       {
         bodyType: ItemFragmentBodyType.UpperBody,
-        filePathSuffix: "Becca Mesh Bra",
+        filePathSuffix: "Becca Mesh Bra Black",
         subOrder: LayerSubOrder.Front,
       },
     ],
