@@ -26,10 +26,7 @@ export class CharacterPoseService {
       return false;
     }
 
-    await this.playerStoreService.update(
-      playerId,
-      (player) => (player.character.pose = pose)
-    );
+    await this.updatePose(playerId, pose);
     const sessions = await this.getSessions(player);
     const event: SynchronizePlayersEvent = {
       updatePlayers: [
@@ -42,6 +39,13 @@ export class CharacterPoseService {
     this.playerClientSynchronizationService.synchronizePlayers(sessions, event);
 
     return true;
+  }
+
+  async updatePose(playerId: number, pose: CharacterPose): Promise<void> {
+    await this.playerStoreService.update(
+      playerId,
+      (player) => (player.character.pose = pose)
+    );
   }
 
   private async getSessions(player: Player): Promise<Session[]> {
