@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import type { CharacterPose } from "./character-pose";
+import { Color } from "./color";
 import type { Item } from "./item";
 import type { PartialRecord } from "./partial-record";
 import type { Slot } from "./slot";
@@ -12,26 +13,9 @@ export enum CharacterSkin {
   Skin1 = "Skin_1",
 }
 
-export interface ColortPartBrand {
-  readonly ColorPart: unique symbol;
-}
-
-export const ColorPart = t.brand(
-  t.Integer,
-  (n): n is t.Branded<number, ColortPartBrand> => n >= 0 && n <= 255,
-  "ColorPart"
-);
-
 export const ItemCustomization = t.type({
   fragmentName: t.union([t.string, t.undefined]),
-  color: t.union([
-    t.undefined,
-    t.type({
-      red: ColorPart,
-      green: ColorPart,
-      blue: ColorPart,
-    }),
-  ]),
+  color: t.union([t.undefined, Color]),
   texture: t.union([t.string, t.undefined]),
 });
 

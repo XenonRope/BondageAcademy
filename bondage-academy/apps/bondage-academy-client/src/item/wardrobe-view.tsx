@@ -7,6 +7,7 @@ import {
 import { For, Show, createMemo, createSignal } from "solid-js";
 import { storeService, t, wardrobeService } from "../app/services";
 import Button from "../ui/button";
+import ColorPicker from "../ui/color-picker";
 import ItemSelector from "./item-selector";
 import WardrobeSlot from "./wardrobe-slot";
 
@@ -77,6 +78,10 @@ export default function WardrobeView(props: { playerId: number }) {
                 slot={slot()}
                 item={wearables()[slot()]?.item}
               ></WardrobeSlot>
+            </div>
+            <div class="mb-4">
+              <div class="text-sm font-bold mb-1">{t("common.customize")}</div>
+              <ColorPicker />
             </div>
             <div class="mb-4">
               <div class="text-sm font-bold mb-1">{t("common.chooseItem")}</div>
