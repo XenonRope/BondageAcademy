@@ -7,7 +7,7 @@ export default function ItemSelector(props: {
   onSelect?: (item: Item) => void;
 }) {
   return (
-    <div class="grid grid-cols-4 gap-2">
+    <div class="grid grid-cols-4 gap-2 w-fit">
       <For each={props.items}>
         {(item) => (
           <ItemPreview item={item} onClick={() => props.onSelect?.(item)} />

@@ -84,12 +84,12 @@ export default function GamePage() {
               </div>
             </Show>
             <Show when={store.sideMenuView != null}>
-              <div class="absolute top-[3px] bottom-[3px] border-r-[3px] border-primary-800">
+              <div class="absolute top-[3px] bottom-[3px] max-w-[calc(100%-3px)] border-r-[3px] border-primary-800">
                 <SideMenuPanel />
               </div>
             </Show>
             <Show when={store.actionMenuView != null}>
-              <div class="absolute top-[3px] bottom-[3px] right-[3px] border-l-[3px] border-primary-800">
+              <div class="absolute top-[3px] bottom-[3px] right-[3px] max-w-[calc(100%-3px)] border-l-[3px] border-primary-800">
                 <ActionMenuPanel />
               </div>
             </Show>

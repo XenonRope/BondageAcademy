@@ -7,6 +7,7 @@ import {
 } from "@bondage-academy/bondage-academy-model";
 import { For, Show, createMemo, createSignal } from "solid-js";
 import { storeService, t, wardrobeService } from "../app/services";
+import CharacterView from "../character/character-view";
 import Button from "../ui/button";
 import ColorPicker from "../ui/color-picker";
 import ItemSelector from "./item-selector";
@@ -32,9 +33,11 @@ export default function WardrobeView(props: { playerId: number }) {
     );
   });
 
-  const wearables = createMemo(
-    () => storeService.getPlayerById(props.playerId)?.character.wearables ?? {}
+  const character = createMemo(
+    () => storeService.getPlayerById(props.playerId)?.character
   );
+
+  const wearables = createMemo(() => character()?.wearables ?? {});
 
   const slots: Slot[] = [
     Slot.Hair,
@@ -61,53 +64,64 @@ export default function WardrobeView(props: { playerId: number }) {
   }
 
   return (
-    <>
-      <Show when={!selectedSlot()}>
-        <div class="flex flex-col gap-2">
-          <For each={slots}>
-            {(slot) => (
-              <WardrobeSlot
-                slot={slot}
-                item={wearables()[slot]?.item}
-                onItemChange={() => setSelectedSlot(slot)}
-              ></WardrobeSlot>
-            )}
-          </For>
-        </div>
-      </Show>
-      <Show when={selectedSlot()}>
-        {(slot) => (
-          <div>
-            <div class="mb-2">
-              <WardrobeSlot
-                slot={slot()}
-                item={wearables()[slot()]?.item}
-              ></WardrobeSlot>
-            </div>
-            <div class="mb-4">
-              <div class="text-sm font-bold mb-1">{t("common.customize")}</div>
-              <ColorPicker onInput={onColorChange} />
-            </div>
-            <div class="mb-4">
-              <div class="text-sm font-bold mb-1">{t("common.chooseItem")}</div>
-              <ItemSelector
-                items={allowedItems()}
-                onSelect={wear}
-              ></ItemSelector>
-            </div>
-            <div class="flex gap-2">
-              <Show when={wearables()[slot()]}>
-                <Button onClick={() => wear(undefined)}>
-                  {t("common.removeCloth")}
-                </Button>
-              </Show>
-              <Button onClick={() => setSelectedSlot(undefined)}>
-                {t("common.back")}
-              </Button>
-            </div>
+    <div class="flex">
+      <div class="w-60 shrink-0">
+        <Show when={!selectedSlot()}>
+          <div class="flex flex-col gap-2">
+            <For each={slots}>
+              {(slot) => (
+                <WardrobeSlot
+                  slot={slot}
+                  item={wearables()[slot]?.item}
+                  onItemChange={() => setSelectedSlot(slot)}
+                ></WardrobeSlot>
+              )}
+            </For>
           </div>
-        )}
-      </Show>
-    </>
+        </Show>
+        <Show when={selectedSlot()}>
+          {(slot) => (
+            <div>
+              <div class="mb-2">
+                <WardrobeSlot
+                  slot={slot()}
+                  item={wearables()[slot()]?.item}
+                ></WardrobeSlot>
+              </div>
+              <div class="mb-4">
+                <div class="text-sm font-bold mb-1">
+                  {t("common.customize")}
+                </div>
+                <ColorPicker onInput={onColorChange} />
+              </div>
+              <div class="mb-4">
+                <div class="text-sm font-bold mb-1">
+                  {t("common.chooseItem")}
+                </div>
+                <ItemSelector
+                  items={allowedItems()}
+                  onSelect={wear}
+                ></ItemSelector>
+              </div>
+              <div class="flex gap-2">
+                <Show when={wearables()[slot()]}>
+                  <Button onClick={() => wear(undefined)}>
+                    {t("common.removeCloth")}
+                  </Button>
+                </Show>
+                <Button onClick={() => setSelectedSlot(undefined)}>
+                  {t("common.back")}
+                </Button>
+              </div>
+            </div>
+          )}
+        </Show>
+      </div>
+      <div class="shrink overflow-hidden">
+        <Show when={character()}>
+          {(character) => <CharacterView character={character()} />}
+        </Show>
+      </div>
+    </div>
   );
 }
