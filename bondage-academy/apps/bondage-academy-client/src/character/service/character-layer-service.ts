@@ -2,6 +2,7 @@ import {
   AnyPose,
   Character,
   CharacterPose,
+  Color,
   ItemConfig,
   ItemFragment,
   ItemFragmentBodyType,
@@ -15,6 +16,7 @@ export interface CharacterLayer {
   url: string;
   order: number;
   offsetY?: number;
+  color?: Color;
 }
 
 export class CharacterLayerService {
@@ -102,6 +104,9 @@ export class CharacterLayerService {
             (fragment.bodyType === ItemFragmentBodyType.Head
               ? this.getHeadOffset(character)
               : 0),
+          color: equippedItem.customizations?.find(
+            (customization) => customization.fragmentName === fragment.name
+          )?.color,
         });
       }
     }

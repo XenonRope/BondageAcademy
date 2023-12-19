@@ -1,7 +1,8 @@
 import {
-  Color,
+  ArrayUtils,
   Item,
   ItemCode,
+  ItemCustomization,
   Slot,
   itemConfigs,
 } from "@bondage-academy/bondage-academy-model";
@@ -14,8 +15,9 @@ import ItemSelector from "./item-selector";
 import WardrobeSlot from "./wardrobe-slot";
 
 export default function WardrobeView(props: { playerId: number }) {
-  const [selectedSlot, setSelectedSlot] = createSignal<Slot | undefined>(
-    undefined
+  const [selectedSlot, setSelectedSlot] = createSignal<Slot>();
+  const [customizations, setCustomizations] = createSignal<ItemCustomization[]>(
+    []
   );
 
   const allowedItems = createMemo<Item[]>(() => {
@@ -39,6 +41,26 @@ export default function WardrobeView(props: { playerId: number }) {
 
   const wearables = createMemo(() => character()?.wearables ?? {});
 
+  const displayedCharacter = createMemo(() => {
+    const slot = selectedSlot();
+    if (!slot) {
+      return character();
+    }
+    const originalCharacter = character();
+    return originalCharacter
+      ? {
+          ...originalCharacter,
+          wearables: {
+            ...originalCharacter.wearables,
+            [slot]: {
+              ...originalCharacter.wearables[slot],
+              customizations: customizations(),
+            },
+          },
+        }
+      : undefined;
+  });
+
   const slots: Slot[] = [
     Slot.Hair,
     Slot.UpperUndies,
@@ -55,12 +77,32 @@ export default function WardrobeView(props: { playerId: number }) {
     }
     wardrobeService
       .wear(props.playerId, slot, item?.id)
-      .then(() => setSelectedSlot(undefined))
+      .then(() => selectSlot(undefined))
       .catch(console.log);
   }
 
-  function onColorChange(color?: Color) {
-    console.log(color);
+  function selectSlot(slot?: Slot): void {
+    setSelectedSlot(slot);
+    setCustomizations(prepareDefaultCustomizations(slot));
+  }
+
+  function prepareDefaultCustomizations(slot?: Slot): ItemCustomization[] {
+    if (!slot) {
+      return [];
+    }
+    const itemCode = wearables()[slot]?.item?.code;
+    if (!itemCode) {
+      return [];
+    }
+    const itemConfig = itemConfigs[itemCode];
+
+    return ArrayUtils.distinct(
+      itemConfig.fragments.map((fragment) => fragment.name)
+    ).map((fragmentName) => ({
+      fragmentName,
+      color: undefined,
+      texture: undefined,
+    }));
   }
 
   return (
@@ -73,7 +115,7 @@ export default function WardrobeView(props: { playerId: number }) {
                 <WardrobeSlot
                   slot={slot}
                   item={wearables()[slot]?.item}
-                  onItemChange={() => setSelectedSlot(slot)}
+                  onItemChange={() => selectSlot(slot)}
                 ></WardrobeSlot>
               )}
             </For>
@@ -92,7 +134,20 @@ export default function WardrobeView(props: { playerId: number }) {
                 <div class="text-sm font-bold mb-1">
                   {t("common.customize")}
                 </div>
-                <ColorPicker onInput={onColorChange} />
+                <For each={customizations()}>
+                  {(customization, index) => (
+                    <ColorPicker
+                      color={customization.color}
+                      onInput={(color) =>
+                        setCustomizations((customizations) => [
+                          ...customizations.slice(0, index()),
+                          { ...customizations[index()], color },
+                          ...customizations.slice(index() + 1),
+                        ])
+                      }
+                    />
+                  )}
+                </For>
               </div>
               <div class="mb-4">
                 <div class="text-sm font-bold mb-1">
@@ -109,7 +164,7 @@ export default function WardrobeView(props: { playerId: number }) {
                     {t("common.removeCloth")}
                   </Button>
                 </Show>
-                <Button onClick={() => setSelectedSlot(undefined)}>
+                <Button onClick={() => selectSlot(undefined)}>
                   {t("common.back")}
                 </Button>
               </div>
@@ -118,8 +173,10 @@ export default function WardrobeView(props: { playerId: number }) {
         </Show>
       </div>
       <div class="shrink overflow-hidden">
-        <Show when={character()}>
-          {(character) => <CharacterView character={character()} />}
+        <Show when={displayedCharacter()}>
+          {(displayedCharacter) => (
+            <CharacterView character={displayedCharacter()} />
+          )}
         </Show>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { Character } from "@bondage-academy/bondage-academy-model";
 import { trackBounds } from "solid-boundaries";
 import { For } from "solid-js";
 import { characterLayerService } from "../app/services";
+import { ColorUtils } from "../utils/color-utils";
 import { CHARACTER_VIEW_HEIGHT, CHARACTER_VIEW_WIDTH } from "./model/character";
 import { type CharacterLayer } from "./service/character-layer-service";
 
@@ -41,6 +42,13 @@ export default function CharacterView(props: { character: Character }) {
                 height: `${CHARACTER_VIEW_HEIGHT}px`,
                 top: `${layer.offsetY ?? 0}px`,
                 "background-image": `url("${layer.url}")`,
+                ...(layer.color
+                  ? {
+                      "mask-image": `url("${layer.url}")`,
+                      "background-blend-mode": "multiply",
+                      "background-color": ColorUtils.colorToHex(layer.color),
+                    }
+                  : {}),
               }}
             />
           )}

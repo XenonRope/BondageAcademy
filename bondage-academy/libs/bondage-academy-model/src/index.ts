@@ -41,3 +41,4 @@ export * from "./lib/model/server-response";
 export * from "./lib/model/slot";
 export * from "./lib/model/target";
 export * from "./lib/services/character-pose-validator";
+export * from "./lib/utils/array-utils";
