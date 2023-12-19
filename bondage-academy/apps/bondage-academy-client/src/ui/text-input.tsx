@@ -1,5 +1,6 @@
 export default function TextInput(props: {
   value?: string;
+  onChange?: (value: string) => void;
   onInput?: (value: string) => void;
   id?: string;
   type?: "text" | "password";
@@ -18,6 +19,9 @@ export default function TextInput(props: {
         "p-2.5": !props.size || props.size === "medium",
       }}
       value={props.value ?? ""}
+      onChange={(event) => {
+        props.onChange?.(event.currentTarget.value);
+      }}
       onInput={(event) => {
         props.onInput?.(event.currentTarget.value);
       }}

@@ -1,4 +1,5 @@
 import {
+  Color,
   Item,
   ItemCode,
   Slot,
@@ -55,6 +56,10 @@ export default function WardrobeView(props: { playerId: number }) {
       .catch(console.log);
   }
 
+  function onColorChange(color?: Color) {
+    console.log(color);
+  }
+
   return (
     <>
       <Show when={!selectedSlot()}>
@@ -81,7 +86,7 @@ export default function WardrobeView(props: { playerId: number }) {
             </div>
             <div class="mb-4">
               <div class="text-sm font-bold mb-1">{t("common.customize")}</div>
-              <ColorPicker />
+              <ColorPicker onInput={onColorChange} />
             </div>
             <div class="mb-4">
               <div class="text-sm font-bold mb-1">{t("common.chooseItem")}</div>
