@@ -8,6 +8,7 @@ import {
   itemConfigs,
 } from "@bondage-academy/bondage-academy-model";
 import { For, Show, createMemo, createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 import { storeService, t, wardrobeService } from "../app/services";
 import CharacterView from "../character/character-view";
 import Button from "../ui/button";
@@ -17,7 +18,7 @@ import WardrobeSlot from "./wardrobe-slot";
 
 export default function WardrobeView(props: { playerId: number }) {
   const [selectedSlot, setSelectedSlot] = createSignal<Slot>();
-  const [customizations, setCustomizations] = createSignal<ItemCustomization[]>(
+  const [customizations, setCustomizations] = createStore<ItemCustomization[]>(
     []
   );
 
@@ -90,7 +91,7 @@ export default function WardrobeView(props: { playerId: number }) {
     | PartialRecord<Slot, ItemCustomization[]>
     | undefined {
     const slot = selectedSlot();
-    return slot && { [slot]: customizations() };
+    return slot && { [slot]: customizations };
   }
 
   return (
@@ -122,19 +123,18 @@ export default function WardrobeView(props: { playerId: number }) {
                 <div class="text-sm font-bold mb-1">
                   {t("common.customize")}
                 </div>
-                <For each={customizations()}>
-                  {(customization, index) => (
-                    <ColorPicker
-                      color={customization.color}
-                      onInput={(color) =>
-                        setCustomizations((customizations) => [
-                          ...customizations.slice(0, index()),
-                          { ...customizations[index()], color },
-                          ...customizations.slice(index() + 1),
-                        ])
-                      }
-                    />
-                  )}
+                <For each={customizations}>
+                  {(customization, index) => {
+                    console.log(`${index()} has rendered.`);
+                    return (
+                      <ColorPicker
+                        color={customization.color}
+                        onInput={(color) =>
+                          setCustomizations(index(), "color", color)
+                        }
+                      />
+                    );
+                  }}
                 </For>
               </div>
               <div class="mb-4">

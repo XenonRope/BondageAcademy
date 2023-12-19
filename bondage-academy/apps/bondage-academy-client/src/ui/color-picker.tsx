@@ -1,7 +1,7 @@
 import { Color } from "@bondage-academy/bondage-academy-model";
 import Alwan from "alwan";
 import "alwan/dist/css/alwan.min.css";
-import { createEffect, createSignal, on, onMount } from "solid-js";
+import { createEffect, createSignal, on, onCleanup, onMount } from "solid-js";
 import { ColorUtils } from "../utils/color-utils";
 import TextInput from "./text-input";
 
@@ -33,6 +33,10 @@ export default function ColorPicker(props: {
       setColorAsHex(newColor ? ColorUtils.colorToHex(newColor) : "");
       props.onInput?.(newColor);
     });
+  });
+
+  onCleanup(() => {
+    alwan?.destroy();
   });
 
   createEffect(
