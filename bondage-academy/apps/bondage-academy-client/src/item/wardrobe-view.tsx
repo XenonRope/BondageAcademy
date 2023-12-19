@@ -3,6 +3,7 @@ import {
   Item,
   ItemCode,
   ItemCustomization,
+  PartialRecord,
   Slot,
   itemConfigs,
 } from "@bondage-academy/bondage-academy-model";
@@ -40,26 +41,6 @@ export default function WardrobeView(props: { playerId: number }) {
   );
 
   const wearables = createMemo(() => character()?.wearables ?? {});
-
-  const displayedCharacter = createMemo(() => {
-    const slot = selectedSlot();
-    if (!slot) {
-      return character();
-    }
-    const originalCharacter = character();
-    return originalCharacter
-      ? {
-          ...originalCharacter,
-          wearables: {
-            ...originalCharacter.wearables,
-            [slot]: {
-              ...originalCharacter.wearables[slot],
-              customizations: customizations(),
-            },
-          },
-        }
-      : undefined;
-  });
 
   const slots: Slot[] = [
     Slot.Hair,
@@ -103,6 +84,13 @@ export default function WardrobeView(props: { playerId: number }) {
       color: undefined,
       texture: undefined,
     }));
+  }
+
+  function getCustomizationsBySlot():
+    | PartialRecord<Slot, ItemCustomization[]>
+    | undefined {
+    const slot = selectedSlot();
+    return slot && { [slot]: customizations() };
   }
 
   return (
@@ -173,9 +161,12 @@ export default function WardrobeView(props: { playerId: number }) {
         </Show>
       </div>
       <div class="shrink overflow-hidden">
-        <Show when={displayedCharacter()}>
-          {(displayedCharacter) => (
-            <CharacterView character={displayedCharacter()} />
+        <Show when={character()}>
+          {(character) => (
+            <CharacterView
+              character={character()}
+              customizations={getCustomizationsBySlot()}
+            />
           )}
         </Show>
       </div>

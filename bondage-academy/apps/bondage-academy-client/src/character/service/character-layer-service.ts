@@ -17,6 +17,8 @@ export interface CharacterLayer {
   order: number;
   offsetY?: number;
   color?: Color;
+  slot?: Slot;
+  fragmentName?: string;
 }
 
 export class CharacterLayerService {
@@ -107,6 +109,8 @@ export class CharacterLayerService {
           color: equippedItem.customizations?.find(
             (customization) => customization.fragmentName === fragment.name
           )?.color,
+          slot: slot as Slot,
+          fragmentName: fragment.name,
         });
       }
     }

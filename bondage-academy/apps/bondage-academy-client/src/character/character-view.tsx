@@ -1,16 +1,44 @@
-import { Character } from "@bondage-academy/bondage-academy-model";
+import {
+  Character,
+  ItemCustomization,
+  PartialRecord,
+  Slot,
+} from "@bondage-academy/bondage-academy-model";
 import { trackBounds } from "solid-boundaries";
-import { For } from "solid-js";
+import { For, createMemo } from "solid-js";
 import { characterLayerService } from "../app/services";
 import { ColorUtils } from "../utils/color-utils";
 import { CHARACTER_VIEW_HEIGHT, CHARACTER_VIEW_WIDTH } from "./model/character";
 import { type CharacterLayer } from "./service/character-layer-service";
 
-export default function CharacterView(props: { character: Character }) {
+export default function CharacterView(props: {
+  character: Character;
+  customizations?: PartialRecord<Slot, ItemCustomization[]>;
+}) {
   const { ref, bounds } = trackBounds();
+  const characterLayers = createMemo(() =>
+    characterLayerService.getCharacterLayers(props.character)
+  );
 
   function getLayers(): CharacterLayer[] {
-    return characterLayerService.getCharacterLayers(props.character);
+    if (!props.customizations) {
+      return characterLayers();
+    }
+    return characterLayers().map((layer) => {
+      const customization = findCustomization(layer);
+      return customization ? { ...layer, color: customization.color } : layer;
+    });
+  }
+
+  function findCustomization(
+    layer: CharacterLayer
+  ): ItemCustomization | undefined {
+    return (
+      layer.slot &&
+      props.customizations?.[layer.slot]?.find(
+        (customization) => customization.fragmentName === layer.fragmentName
+      )
+    );
   }
 
   function getScale(): number {
