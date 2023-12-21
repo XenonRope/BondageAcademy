@@ -1,4 +1,6 @@
 import {
+  CustomizeItemRequest,
+  ItemCustomization,
   RequestFromClient,
   Slot,
   WearRequest,
@@ -19,5 +21,18 @@ export class WardrobeService {
       itemId,
     };
     await this.socketService.emit(RequestFromClient.Wear, request);
+  }
+
+  async customizeItem(
+    targetPlayerId: number,
+    slot: Slot,
+    customizations: ItemCustomization[]
+  ): Promise<void> {
+    const request: CustomizeItemRequest = {
+      targetPlayerId,
+      slot,
+      customizations,
+    };
+    await this.socketService.emit(RequestFromClient.CustomizeItem, request);
   }
 }

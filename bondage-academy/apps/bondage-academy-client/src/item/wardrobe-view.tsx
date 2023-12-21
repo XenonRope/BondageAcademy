@@ -65,14 +65,19 @@ export default function WardrobeView(props: { playerId: number }) {
 
   function selectSlot(slot?: Slot): void {
     setSelectedSlot(slot);
-    setCustomizations(prepareDefaultCustomizations(slot));
+    setCustomizations(prepareCustomizations(slot));
   }
 
-  function prepareDefaultCustomizations(slot?: Slot): ItemCustomization[] {
+  function prepareCustomizations(slot?: Slot): ItemCustomization[] {
     if (!slot) {
       return [];
     }
-    const itemCode = wearables()[slot]?.item?.code;
+    const equippedItem = wearables()[slot];
+    if (!equippedItem) {
+      return [];
+    }
+    const currentCustomizations = equippedItem.customizations;
+    const itemCode = equippedItem.item?.code;
     if (!itemCode) {
       return [];
     }
@@ -80,11 +85,16 @@ export default function WardrobeView(props: { playerId: number }) {
 
     return ArrayUtils.distinct(
       itemConfig.fragments.map((fragment) => fragment.name)
-    ).map((fragmentName) => ({
-      fragmentName,
-      color: undefined,
-      texture: undefined,
-    }));
+    ).map((fragmentName) => {
+      const currentCustomization = currentCustomizations?.find(
+        (customization) => customization.fragmentName === fragmentName
+      );
+      return {
+        fragmentName,
+        color: currentCustomization?.color,
+        texture: currentCustomization?.texture,
+      };
+    });
   }
 
   function getCustomizationsBySlot():
@@ -92,6 +102,15 @@ export default function WardrobeView(props: { playerId: number }) {
     | undefined {
     const slot = selectedSlot();
     return slot && { [slot]: customizations };
+  }
+
+  function saveCustomizations() {
+    const slot = selectedSlot();
+    if (slot) {
+      wardrobeService
+        .customizeItem(props.playerId, slot, customizations)
+        .catch(console.log);
+    }
   }
 
   return (
@@ -132,6 +151,7 @@ export default function WardrobeView(props: { playerId: number }) {
                         onInput={(color) =>
                           setCustomizations(index(), "color", color)
                         }
+                        onChange={saveCustomizations}
                       />
                     );
                   }}

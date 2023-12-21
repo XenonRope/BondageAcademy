@@ -8,13 +8,14 @@ import TextInput from "./text-input";
 export default function ColorPicker(props: {
   color?: Color;
   onInput?: (color?: Color) => void;
+  onChange?: (color?: Color) => void;
 }) {
   const [color, setColor] = createSignal<Color | undefined>();
   const [colorAsHex, setColorAsHex] = createSignal("");
 
   let colorPicker: HTMLDivElement | undefined;
   let alwan: Alwan | undefined;
-  let alwanChangeIgnored = false;
+  let alwanColorEventIgnored = false;
 
   onMount(() => {
     if (!colorPicker) {
@@ -22,7 +23,7 @@ export default function ColorPicker(props: {
     }
     alwan = new Alwan(colorPicker, { opacity: false });
     alwan.on("color", (event) => {
-      if (alwanChangeIgnored) {
+      if (alwanColorEventIgnored) {
         return;
       }
       const newColor: Color = { r: event.r, g: event.g, b: event.b };
@@ -32,6 +33,9 @@ export default function ColorPicker(props: {
       setColor(newColor);
       setColorAsHex(newColor ? ColorUtils.colorToHex(newColor) : "");
       props.onInput?.(newColor);
+    });
+    alwan.on("close", () => {
+      props.onChange?.(color());
     });
   });
 
@@ -54,9 +58,9 @@ export default function ColorPicker(props: {
   );
 
   function setAlwanColor(newColor?: Color): void {
-    alwanChangeIgnored = true;
+    alwanColorEventIgnored = true;
     alwan?.setColor(newColor ?? "");
-    alwanChangeIgnored = false;
+    alwanColorEventIgnored = false;
   }
 
   return (
@@ -75,6 +79,7 @@ export default function ColorPicker(props: {
             setColor(newColor);
             setAlwanColor(newColor);
             props.onInput?.(newColor);
+            props.onChange?.(newColor);
           }}
           size="small"
           maxLength={7}
