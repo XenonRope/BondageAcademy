@@ -8,7 +8,7 @@ import {
   itemConfigs,
 } from "@bondage-academy/bondage-academy-model";
 import { For, Show, createMemo, createSignal } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createStore, produce } from "solid-js/store";
 import { storeService, t, wardrobeService } from "../app/services";
 import CharacterView from "../character/character-view";
 import Button from "../ui/button";
@@ -149,7 +149,12 @@ export default function WardrobeView(props: { playerId: number }) {
                       <ColorPicker
                         color={customization.color}
                         onInput={(color) =>
-                          setCustomizations(index(), "color", color)
+                          setCustomizations(
+                            produce(
+                              (customizations) =>
+                                (customizations[index()].color = color)
+                            )
+                          )
                         }
                         onChange={saveCustomizations}
                       />
