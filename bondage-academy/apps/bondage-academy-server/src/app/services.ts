@@ -1,5 +1,6 @@
 import {
   CharacterPoseValidator,
+  ItemCustomizationAccessChecker,
   dialogueOptions,
 } from "@bondage-academy/bondage-academy-model";
 import { DIContainer } from "@bondage-academy/rsdi";
@@ -63,6 +64,10 @@ export type ServiceContainer = ReturnType<typeof configureServiceContainer>;
 export const configureServiceContainer = () => {
   return new DIContainer()
     .add("characterPoseValidator", () => new CharacterPoseValidator())
+    .add(
+      "itemCustomizationAccessChecker",
+      () => new ItemCustomizationAccessChecker()
+    )
     .add(
       "dao",
       () => new Dao("mongodb://root:root@localhost:27017/admin?replicaSet=rs0")
@@ -440,10 +445,15 @@ export const configureServiceContainer = () => {
     )
     .add(
       "wardrobeCustomizationService",
-      ({ playerStoreService, playerClientSynchronizationService }) =>
+      ({
+        playerStoreService,
+        playerClientSynchronizationService,
+        itemCustomizationAccessChecker,
+      }) =>
         new WardrobeCustomizationService(
           playerStoreService,
-          playerClientSynchronizationService
+          playerClientSynchronizationService,
+          itemCustomizationAccessChecker
         )
     )
     .add(

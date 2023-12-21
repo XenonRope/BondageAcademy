@@ -1,6 +1,7 @@
 import {
   ItemCode,
   ItemCustomization,
+  ItemCustomizationAccessChecker,
   Slot,
   itemConfigs,
 } from "@bondage-academy/bondage-academy-model";
@@ -10,7 +11,8 @@ import { PlayerStoreService } from "../player/player-store-service";
 export class WardrobeCustomizationService {
   constructor(
     private playerStoreService: PlayerStoreService,
-    private playerClientSynchronizationService: PlayerClientSynchronizationService
+    private playerClientSynchronizationService: PlayerClientSynchronizationService,
+    private itemCustomizationAccessChecker: ItemCustomizationAccessChecker
   ) {}
 
   async customizeItem(params: {
@@ -60,8 +62,11 @@ export class WardrobeCustomizationService {
       throw new Error("No item equipped in slot");
     }
     if (
-      params.actorPlayerId !== params.targetPlayerId &&
-      equippedItem.ownerPlayerId !== params.actorPlayerId
+      !this.itemCustomizationAccessChecker.canCustomizeItem({
+        actorPlayerId: params.actorPlayerId,
+        targetPlayerId: params.targetPlayerId,
+        equippedItem,
+      })
     ) {
       throw new Error("No access to customize item");
     }
