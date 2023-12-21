@@ -18,11 +18,7 @@ export const plDictionary: RawDictionary = {
     chooseItem: "Wybierz przedmiot",
     removeCloth: "Zdejmij",
     customize: "Dostosuj",
-  },
-  roomCreation: {
-    template: "Szablon",
-    name: "Nazwa",
-    description: "Opis",
+    noAccess: "Brak dostępu",
   },
   rooms: {
     introduction: "Wprowadzenie",
@@ -104,5 +100,10 @@ export const plDictionary: RawDictionary = {
   },
   actionSidePanel: {
     action: "Akcja",
+  },
+  roomCreation: {
+    template: "Szablon",
+    name: "Nazwa",
+    description: "Opis",
   },
 };

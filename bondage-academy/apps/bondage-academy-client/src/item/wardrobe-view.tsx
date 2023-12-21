@@ -9,7 +9,13 @@ import {
 } from "@bondage-academy/bondage-academy-model";
 import { For, Show, createMemo, createSignal } from "solid-js";
 import { createStore, produce } from "solid-js/store";
-import { storeService, t, wardrobeService } from "../app/services";
+import {
+  itemCustomizationAccessChecker,
+  store,
+  storeService,
+  t,
+  wardrobeService,
+} from "../app/services";
 import CharacterView from "../character/character-view";
 import Button from "../ui/button";
 import ColorPicker from "../ui/color-picker";
@@ -42,6 +48,24 @@ export default function WardrobeView(props: { playerId: number }) {
   );
 
   const wearables = createMemo(() => character()?.wearables ?? {});
+
+  const getEquippedItem = createMemo(() => {
+    const slot = selectedSlot();
+    return slot && wearables()[slot];
+  });
+
+  const canCustomize = createMemo(() => {
+    const equippedItem = getEquippedItem();
+    return (
+      store.playerId &&
+      equippedItem &&
+      itemCustomizationAccessChecker.canCustomizeItem({
+        actorPlayerId: store.playerId,
+        targetPlayerId: props.playerId,
+        equippedItem,
+      })
+    );
+  });
 
   const slots: Slot[] = [
     Slot.Hair,
@@ -138,30 +162,39 @@ export default function WardrobeView(props: { playerId: number }) {
                   item={wearables()[slot()]?.item}
                 ></WardrobeSlot>
               </div>
-              <div class="mb-4">
-                <div class="text-sm font-bold mb-1">
-                  {t("common.customize")}
+              <Show when={getEquippedItem()}>
+                <div class="mb-4">
+                  <div class="text-sm font-bold mb-1">
+                    {t("common.customize")}
+                  </div>
+                  <Show when={canCustomize()}>
+                    <For each={customizations}>
+                      {(customization, index) => {
+                        console.log(`${index()} has rendered.`);
+                        return (
+                          <ColorPicker
+                            color={customization.color}
+                            onInput={(color) =>
+                              setCustomizations(
+                                produce(
+                                  (customizations) =>
+                                    (customizations[index()].color = color)
+                                )
+                              )
+                            }
+                            onChange={saveCustomizations}
+                          />
+                        );
+                      }}
+                    </For>
+                  </Show>
+                  <Show when={!canCustomize()}>
+                    <div class="text-sm font-medium">
+                      {t("common.noAccess")}
+                    </div>
+                  </Show>
                 </div>
-                <For each={customizations}>
-                  {(customization, index) => {
-                    console.log(`${index()} has rendered.`);
-                    return (
-                      <ColorPicker
-                        color={customization.color}
-                        onInput={(color) =>
-                          setCustomizations(
-                            produce(
-                              (customizations) =>
-                                (customizations[index()].color = color)
-                            )
-                          )
-                        }
-                        onChange={saveCustomizations}
-                      />
-                    );
-                  }}
-                </For>
-              </div>
+              </Show>
               <div class="mb-4">
                 <div class="text-sm font-bold mb-1">
                   {t("common.chooseItem")}

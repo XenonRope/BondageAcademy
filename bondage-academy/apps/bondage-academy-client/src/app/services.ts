@@ -19,4 +19,5 @@ export const {
   characterPoseService,
   characterPoseValidator,
   actionService,
+  itemCustomizationAccessChecker,
 } = configureServiceContainer();

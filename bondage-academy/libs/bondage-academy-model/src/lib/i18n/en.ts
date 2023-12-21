@@ -16,11 +16,7 @@ export const enDictionary = {
     chooseItem: "Choose item",
     removeCloth: "Remove",
     customize: "Customize",
-  },
-  roomCreation: {
-    template: "Template",
-    name: "Name",
-    description: "Description",
+    noAccess: "No access",
   },
   rooms: {
     introduction: "Introduction",
@@ -101,5 +97,10 @@ export const enDictionary = {
   },
   actionSidePanel: {
     action: "Action",
+  },
+  roomCreation: {
+    template: "Template",
+    name: "Name",
+    description: "Description",
   },
 };
