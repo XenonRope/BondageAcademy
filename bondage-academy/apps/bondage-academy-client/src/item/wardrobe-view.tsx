@@ -1,5 +1,6 @@
 import {
   ArrayUtils,
+  DictionaryKey,
   Item,
   ItemCode,
   ItemCustomization,
@@ -168,24 +169,35 @@ export default function WardrobeView(props: { playerId: number }) {
                     {t("common.customize")}
                   </div>
                   <Show when={canCustomize()}>
-                    <For each={customizations}>
-                      {(customization, index) => {
-                        return (
-                          <ColorPicker
-                            color={customization.color}
-                            onInput={(color) =>
-                              setCustomizations(
-                                produce(
-                                  (customizations) =>
-                                    (customizations[index()].color = color)
-                                )
-                              )
-                            }
-                            onChange={saveCustomizations}
-                          />
-                        );
-                      }}
-                    </For>
+                    <div class="flex flex-col gap-1">
+                      <For each={customizations}>
+                        {(customization, index) => {
+                          return (
+                            <div class="flex items-center">
+                              <Show when={customizations.length > 1}>
+                                <div class="w-20 mr-2 font-medium">
+                                  {t(
+                                    customization.fragmentName as DictionaryKey
+                                  )}
+                                </div>
+                              </Show>
+                              <ColorPicker
+                                color={customization.color}
+                                onInput={(color) =>
+                                  setCustomizations(
+                                    produce(
+                                      (customizations) =>
+                                        (customizations[index()].color = color)
+                                    )
+                                  )
+                                }
+                                onChange={saveCustomizations}
+                              />
+                            </div>
+                          );
+                        }}
+                      </For>
+                    </div>
                   </Show>
                   <Show when={!canCustomize()}>
                     <div class="text-sm font-medium">
