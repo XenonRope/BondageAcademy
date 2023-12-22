@@ -18,7 +18,7 @@ export enum ItemFragmentBodyType {
 }
 
 export interface ItemTexture {
-  code: string;
+  name: DictionaryKey;
   filePathSuffix: string;
 }
 
@@ -99,7 +99,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         subOrder: LayerSubOrder.Front,
         textures: [
           {
-            code: "Dots",
+            name: "textures.dots",
             filePathSuffix: "Becca Mesh Bra Dots",
           },
         ],

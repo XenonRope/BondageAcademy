@@ -1,6 +1,5 @@
 import {
   ArrayUtils,
-  DictionaryKey,
   Item,
   ItemCode,
   ItemCustomization,
@@ -9,7 +8,7 @@ import {
   itemConfigs,
 } from "@bondage-academy/bondage-academy-model";
 import { For, Show, createMemo, createSignal } from "solid-js";
-import { createStore, produce } from "solid-js/store";
+import { createStore } from "solid-js/store";
 import {
   itemCustomizationAccessChecker,
   store,
@@ -19,8 +18,8 @@ import {
 } from "../app/services";
 import CharacterView from "../character/character-view";
 import Button from "../ui/button";
-import ColorPicker from "../ui/color-picker";
 import ItemSelector from "./item-selector";
+import WardrobeCustomizations from "./wardrobe-customizations";
 import WardrobeSlot from "./wardrobe-slot";
 
 export default function WardrobeView(props: { playerId: number }) {
@@ -164,47 +163,26 @@ export default function WardrobeView(props: { playerId: number }) {
                 ></WardrobeSlot>
               </div>
               <Show when={getEquippedItem()}>
-                <div class="mb-4">
-                  <div class="text-sm font-bold mb-1">
-                    {t("common.customize")}
+                {(equippedItem) => (
+                  <div class="mb-4">
+                    <div class="text-sm font-bold mb-1">
+                      {t("common.customize")}
+                    </div>
+                    <Show when={canCustomize()}>
+                      <WardrobeCustomizations
+                        customizations={customizations}
+                        setCustomizations={setCustomizations}
+                        itemCode={equippedItem().item.code}
+                        onCustomizationsChange={saveCustomizations}
+                      />
+                    </Show>
+                    <Show when={!canCustomize()}>
+                      <div class="text-sm font-medium">
+                        {t("common.noAccess")}
+                      </div>
+                    </Show>
                   </div>
-                  <Show when={canCustomize()}>
-                    <div class="flex flex-col gap-1">
-                      <For each={customizations}>
-                        {(customization, index) => {
-                          return (
-                            <div class="flex items-center">
-                              <Show when={customizations.length > 1}>
-                                <div class="w-20 mr-2 font-medium">
-                                  {t(
-                                    customization.fragmentName as DictionaryKey
-                                  )}
-                                </div>
-                              </Show>
-                              <ColorPicker
-                                color={customization.color}
-                                onInput={(color) =>
-                                  setCustomizations(
-                                    produce(
-                                      (customizations) =>
-                                        (customizations[index()].color = color)
-                                    )
-                                  )
-                                }
-                                onChange={saveCustomizations}
-                              />
-                            </div>
-                          );
-                        }}
-                      </For>
-                    </div>
-                  </Show>
-                  <Show when={!canCustomize()}>
-                    <div class="text-sm font-medium">
-                      {t("common.noAccess")}
-                    </div>
-                  </Show>
-                </div>
+                )}
               </Show>
               <div class="mb-4">
                 <div class="text-sm font-bold mb-1">

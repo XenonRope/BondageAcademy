@@ -93,11 +93,21 @@ export class CharacterLayerService {
           continue;
         }
 
+        const customization = equippedItem.customizations?.find(
+          (customization) => customization.fragmentName === fragment.name
+        );
+        const filePathSuffix =
+          (customization?.texture &&
+            fragment.textures?.find(
+              (texture) => texture.name === customization.texture
+            )?.filePathSuffix) ??
+          fragment.filePathSuffix;
+
         layers.push({
           url: `character/${characterPrefix} - ${this.getImagePathPartForFragmentPose(
             fragment,
             character
-          )} - ${fragment.filePathSuffix}.png`,
+          )} - ${filePathSuffix}.png`,
           order:
             (fragment.order ?? this.getOrderForPose(pose)) +
             (fragment.subOrder ?? 0),
@@ -106,9 +116,7 @@ export class CharacterLayerService {
             (fragment.bodyType === ItemFragmentBodyType.Head
               ? this.getHeadOffset(character)
               : 0),
-          color: equippedItem.customizations?.find(
-            (customization) => customization.fragmentName === fragment.name
-          )?.color,
+          color: customization?.color,
           slot: slot as Slot,
           fragmentName: fragment.name,
         });

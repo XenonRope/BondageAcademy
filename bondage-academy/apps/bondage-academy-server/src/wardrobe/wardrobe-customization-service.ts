@@ -70,57 +70,55 @@ export class WardrobeCustomizationService {
     ) {
       throw new Error("No access to customize item");
     }
-    if (
-      params.customizations &&
-      this.isAnyCustomizationInvalid(
+    if (params.customizations) {
+      this.assertCustomizationsAreValid(
         equippedItem.item.code,
         params.customizations
-      )
-    ) {
-      throw new Error("Customization is invalid");
+      );
     }
 
     return { equippedItem };
   }
 
-  private isAnyCustomizationInvalid(
+  private assertCustomizationsAreValid(
     itemCode: ItemCode,
     customizations: ItemCustomization[]
-  ) {
-    if (this.isAnyFragmentNameDuplicated(customizations)) {
-      return true;
-    }
+  ): void {
+    this.assertFragmentNamesAreNotDuplicated(customizations);
     const item = itemConfigs[itemCode];
     for (const customization of customizations) {
       const fragments = item.fragments.filter(
         (fragment) => fragment.name === customization.fragmentName
       );
       if (fragments.length === 0) {
-        return true;
+        throw new Error(`No fragment with name ${customization.fragmentName}`);
       }
       for (const fragment of fragments) {
         if (
           customization.texture &&
           !fragment.textures?.find(
-            (texture) => texture.code === customization.texture
+            (texture) => texture.name === customization.texture
           )
         ) {
-          return true;
+          throw new Error(
+            `No texture with name ${customization.texture} in fragment ${fragment.name}`
+          );
         }
       }
     }
-
-    return false;
   }
 
-  private isAnyFragmentNameDuplicated(
+  private assertFragmentNamesAreNotDuplicated(
     customizations: ItemCustomization[]
-  ): boolean {
+  ): void {
     const fragmentNames = customizations.map(
       (customization) => customization.fragmentName
     );
-    return fragmentNames.some(
+    const duplicatedFragmentName = fragmentNames.find(
       (fragmentName, index) => fragmentNames.indexOf(fragmentName) !== index
     );
+    if (duplicatedFragmentName) {
+      throw new Error(`Fragment ${duplicatedFragmentName} is duplicated`);
+    }
   }
 }

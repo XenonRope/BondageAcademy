@@ -76,6 +76,10 @@ export const plDictionary: RawDictionary = {
     platform: "Platform",
     outsole: "Outsole",
   },
+  textures: {
+    default: "Domyślny",
+    dots: "W kropki",
+  },
   minigame: {
     common: {
       cancel: "Przerwij",

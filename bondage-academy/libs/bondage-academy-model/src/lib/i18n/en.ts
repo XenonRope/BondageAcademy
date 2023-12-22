@@ -73,6 +73,10 @@ export const enDictionary = {
     platform: "Platform",
     outsole: "Outsole",
   },
+  textures: {
+    default: "Default",
+    dots: "Dots",
+  },
   minigame: {
     common: {
       cancel: "Cancel",
