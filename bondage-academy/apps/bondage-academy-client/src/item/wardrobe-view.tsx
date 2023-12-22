@@ -170,7 +170,6 @@ export default function WardrobeView(props: { playerId: number }) {
                   <Show when={canCustomize()}>
                     <For each={customizations}>
                       {(customization, index) => {
-                        console.log(`${index()} has rendered.`);
                         return (
                           <ColorPicker
                             color={customization.color}
