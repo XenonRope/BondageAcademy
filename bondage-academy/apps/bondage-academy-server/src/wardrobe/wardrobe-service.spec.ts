@@ -157,6 +157,27 @@ describe("wear", () => {
       LowerBodyPose.WideLegs
     );
   });
+
+  test("Change pose from 'WideOpen' to 'Default' after removing ball gag", async () => {
+    const player = playerWithPose(poseWithHead(HeadPose.WideOpen));
+    player.character.wearables[Slot.Mouth] = equippedItem(ItemCode.BallGag);
+    const actor: PlayerActor = {
+      type: ActorType.Player,
+      playerId: PLAYER_ID,
+    };
+    when(playerService.getPlayer)
+      .calledWith(PLAYER_ID)
+      .mockReturnValue(Promise.resolve(player));
+
+    await wardrobeService.wear({
+      actor,
+      target: actor,
+      slot: Slot.Mouth,
+      item: undefined,
+    });
+
+    expect(player.character.pose.head).toBe(HeadPose.Normal);
+  });
 });
 
 function playerWithPose(pose: CharacterPose): Player {
@@ -188,5 +209,13 @@ function poseWithLowerBody(pose: LowerBodyPose): CharacterPose {
     upperBody: UpperBodyPose.Attention,
     lowerBody: pose,
     head: HeadPose.Normal,
+  };
+}
+
+function poseWithHead(pose: HeadPose): CharacterPose {
+  return {
+    upperBody: UpperBodyPose.Attention,
+    lowerBody: LowerBodyPose.Stand,
+    head: pose,
   };
 }

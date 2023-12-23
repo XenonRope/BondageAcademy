@@ -55,3 +55,20 @@ export const isFullBodyCharacterPose = (
 ): pose is FullBodyCharacterPose => "fullBody" in pose;
 
 export type CharacterPose = StandardCharacterPose | FullBodyCharacterPose;
+
+export const areCharacterPosesEqual = (
+  first: CharacterPose,
+  second: CharacterPose
+): boolean => {
+  if (isStandardCharacterPose(first) && isStandardCharacterPose(second)) {
+    return (
+      first.upperBody === second.upperBody &&
+      first.lowerBody === second.lowerBody &&
+      first.head === second.head
+    );
+  }
+  if (isFullBodyCharacterPose(first) && isFullBodyCharacterPose(second)) {
+    return first.fullBody === second.fullBody && first.head === second.head;
+  }
+  return false;
+};

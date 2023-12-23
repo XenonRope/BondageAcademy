@@ -11,6 +11,7 @@ import {
   PhantomItem,
   Slot,
   UpperBodyPose,
+  areCharacterPosesEqual,
   isItem,
   isPhantomItem,
   isStandardCharacterPose,
@@ -122,7 +123,7 @@ export class WardrobeService {
     };
     const currentPose = character.pose;
     if (this.characterPoseValidator.isPoseValid(newCharacter, currentPose)) {
-      const preferablePose = this.getPreferablePoseWhatWasPreviouslyInvalid(
+      const preferablePose = this.getPreferablePoseThatWasPreviouslyInvalid(
         character,
         newCharacter
       );
@@ -213,40 +214,78 @@ export class WardrobeService {
     return requiredPoses[0];
   }
 
-  private getPreferablePoseWhatWasPreviouslyInvalid(
+  private getPreferablePoseThatWasPreviouslyInvalid(
     oldCharacter: Character,
     newCharacter: Character
   ): CharacterPose | undefined {
-    if (isStandardCharacterPose(newCharacter.pose)) {
-      if (newCharacter.pose.lowerBody === LowerBodyPose.StandHeels) {
-        const preferablePose = {
-          ...newCharacter.pose,
-          lowerBody: LowerBodyPose.Stand,
-        };
-        if (
-          !this.characterPoseValidator.isPoseValid(
-            oldCharacter,
-            preferablePose
-          ) &&
-          this.characterPoseValidator.isPoseValid(newCharacter, preferablePose)
-        ) {
-          return preferablePose;
-        }
-      } else if (newCharacter.pose.lowerBody === LowerBodyPose.WideLegsHeels) {
-        const preferablePose = {
-          ...newCharacter.pose,
-          lowerBody: LowerBodyPose.WideLegs,
-        };
-        if (
-          !this.characterPoseValidator.isPoseValid(
-            oldCharacter,
-            preferablePose
-          ) &&
-          this.characterPoseValidator.isPoseValid(newCharacter, preferablePose)
-        ) {
-          return preferablePose;
-        }
+    let pose = this.getPreferableHeadPoseThatWasPreviouslyInvalid(
+      oldCharacter,
+      newCharacter
+    );
+    pose = this.getPreferableLowerBodyPoseThatWasPreviouslyInvalid(
+      oldCharacter,
+      {
+        ...newCharacter,
+        pose,
+      }
+    );
+
+    return areCharacterPosesEqual(pose, newCharacter.pose) ? undefined : pose;
+  }
+
+  private getPreferableHeadPoseThatWasPreviouslyInvalid(
+    oldCharacter: Character,
+    newCharacter: Character
+  ): CharacterPose {
+    if (newCharacter.pose.head === HeadPose.WideOpen) {
+      const pose = {
+        ...newCharacter.pose,
+        head: HeadPose.Normal,
+      };
+      if (this.wasPoseInvalidAndNowIsValid(pose, oldCharacter, newCharacter)) {
+        return pose;
       }
     }
+    return newCharacter.pose;
+  }
+
+  private getPreferableLowerBodyPoseThatWasPreviouslyInvalid(
+    oldCharacter: Character,
+    newCharacter: Character
+  ): CharacterPose {
+    if (!isStandardCharacterPose(newCharacter.pose)) {
+      return newCharacter.pose;
+    }
+
+    if (newCharacter.pose.lowerBody === LowerBodyPose.StandHeels) {
+      const pose = {
+        ...newCharacter.pose,
+        lowerBody: LowerBodyPose.Stand,
+      };
+      if (this.wasPoseInvalidAndNowIsValid(pose, oldCharacter, newCharacter)) {
+        return pose;
+      }
+    } else if (newCharacter.pose.lowerBody === LowerBodyPose.WideLegsHeels) {
+      const pose = {
+        ...newCharacter.pose,
+        lowerBody: LowerBodyPose.WideLegs,
+      };
+      if (this.wasPoseInvalidAndNowIsValid(pose, oldCharacter, newCharacter)) {
+        return pose;
+      }
+    }
+
+    return newCharacter.pose;
+  }
+
+  private wasPoseInvalidAndNowIsValid(
+    pose: CharacterPose,
+    oldCharacter: Character,
+    newCharacter: Character
+  ): boolean {
+    return (
+      !this.characterPoseValidator.isPoseValid(oldCharacter, pose) &&
+      this.characterPoseValidator.isPoseValid(newCharacter, pose)
+    );
   }
 }
