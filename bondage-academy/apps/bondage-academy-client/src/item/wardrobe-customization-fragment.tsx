@@ -47,11 +47,18 @@ export default function WardrobeCustomizationFragment(props: {
         onChange={props.onColorChange}
       />
       <Show when={getTextures().length > 1}>
-        <Button onClick={() => props.onTextureChange?.(getNextTexture())}>
-          {t(
-            (props.customization.texture ?? "textures.default") as DictionaryKey
-          )}
-        </Button>
+        <div class="ml-2">
+          <Button
+            onClick={() => props.onTextureChange?.(getNextTexture())}
+            size="small"
+            class="w-20"
+          >
+            {t(
+              (props.customization.texture ??
+                "textures.default") as DictionaryKey
+            )}
+          </Button>
+        </div>
       </Show>
     </div>
   );
