@@ -101,7 +101,7 @@ export class HeadmistressScript extends GameScript {
         { code: ItemCode.HalleyHair1 },
         { code: ItemCode.XFashionThong },
         { code: ItemCode.BeccaMeshBra },
-        { code: ItemCode.BeccaMeshBra },
+        { code: ItemCode.BeyondSuitBra },
         { code: ItemCode.CynthiaHighHeels },
         { code: ItemCode.BallGag },
         { code: ItemCode.NipplePiercingSphere },

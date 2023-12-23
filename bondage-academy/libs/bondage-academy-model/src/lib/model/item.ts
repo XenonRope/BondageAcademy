@@ -17,6 +17,7 @@ export enum ItemCode {
 
   // Upper undies
   BeccaMeshBra = "BeccaMeshBra",
+  BeyondSuitBra = "BeyondSuitBra",
 
   // Sleeve
   XFashionSleeve = "XFashionSleeve",

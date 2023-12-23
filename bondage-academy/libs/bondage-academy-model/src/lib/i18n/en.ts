@@ -67,6 +67,7 @@ export const enDictionary = {
     nipplePiercingOrnament: "Piercing ornament",
     nipplePiercingMoon: "Piercing moon",
     beccaMeshBra: "Becca mesh bra",
+    beyondSuitBra: "Beyond suit bra",
     xFashionSleeve: "X fashion sleeve",
     magicChristmasGlove: "Magic christmas glove",
     petSuit: "Pet suit",

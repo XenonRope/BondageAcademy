@@ -202,6 +202,18 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
       },
     ],
   },
+  [ItemCode.BeyondSuitBra]: {
+    code: ItemCode.BeyondSuitBra,
+    name: "items.beyondSuitBra",
+    allowedSlots: [Slot.UpperUndies],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.UpperBody,
+        filePathSuffix: "Beyond Suit Bra",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
+  },
 
   // Sleeve
   [ItemCode.XFashionSleeve]: {
