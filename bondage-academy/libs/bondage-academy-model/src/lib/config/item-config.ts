@@ -276,6 +276,20 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
     ],
   },
 
+  // Body accessory
+  [ItemCode.BeyondSuitBones]: {
+    code: ItemCode.BeyondSuitBones,
+    name: "items.beyondSuitBones",
+    allowedSlots: [Slot.BodyAccessory],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.UpperBody,
+        filePathSuffix: "Beyond Suit Bones",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
+  },
+
   // Body
   [ItemCode.PetSuit]: {
     code: ItemCode.PetSuit,

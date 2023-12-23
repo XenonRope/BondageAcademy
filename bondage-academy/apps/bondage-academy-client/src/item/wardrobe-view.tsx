@@ -77,6 +77,8 @@ export default function WardrobeView(props: { playerId: number }) {
     Slot.UpperOutfit,
     Slot.LeftSleeve,
     Slot.RightSleeve,
+    Slot.BodyAccessory,
+    Slot.Body,
     Slot.LowerUndies,
     Slot.Shoes,
   ];

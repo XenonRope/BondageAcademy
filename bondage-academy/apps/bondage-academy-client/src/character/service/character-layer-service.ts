@@ -10,6 +10,7 @@ import {
   isFullBodyCharacterPose,
   itemConfigs,
   poseConfigs,
+  slotConfigs,
 } from "@bondage-academy/bondage-academy-model";
 
 export interface CharacterLayer {
@@ -74,7 +75,8 @@ export class CharacterLayerService {
   ): CharacterLayer[] {
     const layers: CharacterLayer[] = [];
 
-    for (const [slot, equippedItem] of Object.entries(character.wearables)) {
+    for (const slot of Object.keys(slotConfigs)) {
+      const equippedItem = character.wearables[slot as Slot];
       if (!equippedItem) {
         continue;
       }

@@ -40,6 +40,10 @@ export const slotConfigs: Record<Slot, SlotConfig> = {
     type: SlotType.Item,
     name: "slots.rightSleeve",
   },
+  [Slot.BodyAccessory]: {
+    type: SlotType.Item,
+    name: "slots.bodyAccessory",
+  },
   [Slot.Body]: {
     type: SlotType.Item,
     name: "slots.body",

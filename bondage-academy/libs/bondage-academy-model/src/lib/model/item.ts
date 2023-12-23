@@ -26,6 +26,9 @@ export enum ItemCode {
   XFashionSleeve = "XFashionSleeve",
   MagicChristmasGlove = "MagicChristmasGlove",
 
+  // Body accessory
+  BeyondSuitBones = "BeyondSuitBones",
+
   // Body
   PetSuit = "PetSuit",
 
