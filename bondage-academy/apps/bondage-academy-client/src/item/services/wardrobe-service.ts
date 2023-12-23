@@ -1,6 +1,8 @@
 import {
   CustomizeItemRequest,
   ItemCustomization,
+  ItemReference,
+  PhantomItem,
   RequestFromClient,
   Slot,
   WearRequest,
@@ -13,12 +15,12 @@ export class WardrobeService {
   async wear(
     targetPlayerId: number,
     slot: Slot,
-    itemId?: number
+    item?: ItemReference | PhantomItem
   ): Promise<void> {
     const request: WearRequest = {
       targetPlayerId,
       slot,
-      itemId,
+      item,
     };
     await this.socketService.emit(RequestFromClient.Wear, request);
   }

@@ -50,7 +50,7 @@ describe("wear", () => {
       actor,
       target: actor,
       slot: Slot.Shoes,
-      itemId: ITEM_ID,
+      item: { id: ITEM_ID },
     });
 
     expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
@@ -73,7 +73,7 @@ describe("wear", () => {
       actor,
       target: actor,
       slot: Slot.Shoes,
-      itemId: ITEM_ID,
+      item: { id: ITEM_ID },
     });
 
     expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
@@ -98,7 +98,7 @@ describe("wear", () => {
       actor,
       target: actor,
       slot: Slot.Shoes,
-      itemId: undefined,
+      item: undefined,
     });
 
     expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
@@ -123,7 +123,7 @@ describe("wear", () => {
       actor,
       target: actor,
       slot: Slot.LeftSleeve,
-      itemId: undefined,
+      item: undefined,
     });
 
     expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
@@ -150,7 +150,7 @@ describe("wear", () => {
       actor,
       target: actor,
       slot: Slot.Shoes,
-      itemId: undefined,
+      item: undefined,
     });
 
     expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(

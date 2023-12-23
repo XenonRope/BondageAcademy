@@ -1,12 +1,12 @@
-import { Item, itemConfigs } from "@bondage-academy/bondage-academy-model";
+import { ItemCode, itemConfigs } from "@bondage-academy/bondage-academy-model";
 
 export class ItemPreviewService {
-  getPreviewImageUrl(item: Item): string | undefined {
-    if (!itemConfigs[item.code].preview) {
+  getPreviewImageUrl(itemCode: ItemCode): string | undefined {
+    if (!itemConfigs[itemCode].preview) {
       return undefined;
     }
 
-    return `item/${itemConfigs[item.code].preview}.png`;
+    return `item/${itemConfigs[itemCode].preview}.png`;
   }
 }
 

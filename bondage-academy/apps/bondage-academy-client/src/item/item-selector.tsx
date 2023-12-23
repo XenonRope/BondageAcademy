@@ -10,7 +10,10 @@ export default function ItemSelector(props: {
     <div class="grid grid-cols-4 gap-2 w-fit">
       <For each={props.items}>
         {(item) => (
-          <ItemPreview item={item} onClick={() => props.onSelect?.(item)} />
+          <ItemPreview
+            itemCode={item.code}
+            onClick={() => props.onSelect?.(item)}
+          />
         )}
       </For>
     </div>

@@ -1,4 +1,9 @@
-import { Actor, Slot } from "@bondage-academy/bondage-academy-model";
+import {
+  Actor,
+  ItemReference,
+  PhantomItem,
+  Slot,
+} from "@bondage-academy/bondage-academy-model";
 import { WardrobeMinigameService } from "../minigame/wardrobe-minigame-service";
 import { WardrobeConditionChecker } from "./wardrobe-condition-checker";
 import { WardrobeService } from "./wardrobe-service";
@@ -14,10 +19,15 @@ export class WardrobeChangeService {
     actor: Actor;
     target: Actor;
     slot: Slot;
-    itemId?: number;
+    item?: ItemReference | PhantomItem;
   }): Promise<void> {
     const { actorPlayer, targetPlayer, item } =
-      await this.wardrobeConditionChecker.assertCanWear(params);
+      await this.wardrobeConditionChecker.assertCanWear({
+        actor: params.actor,
+        target: params.target,
+        slot: params.slot,
+        item: params.item,
+      });
     if (actorPlayer.id === targetPlayer.id) {
       await this.wardrobeService.wear(params);
       return;

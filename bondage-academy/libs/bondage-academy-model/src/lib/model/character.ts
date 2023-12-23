@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import type { CharacterPose } from "./character-pose";
 import { Color } from "./color";
-import type { Item } from "./item";
+import type { Item, PhantomItem } from "./item";
 import type { PartialRecord } from "./partial-record";
 import type { Slot } from "./slot";
 
@@ -22,7 +22,7 @@ export const ItemCustomization = t.type({
 export type ItemCustomization = t.TypeOf<typeof ItemCustomization>;
 
 export interface EquippedItem {
-  item: Item;
+  item: Item | PhantomItem;
   ownerPlayerId: number;
   customizations?: ItemCustomization[];
 }

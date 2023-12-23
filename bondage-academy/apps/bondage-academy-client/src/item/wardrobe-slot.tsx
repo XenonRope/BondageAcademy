@@ -1,5 +1,5 @@
 import {
-  Item,
+  ItemCode,
   Slot,
   itemConfigs,
   slotConfigs,
@@ -9,7 +9,7 @@ import ItemPreview from "./item-preview";
 
 export default function WardrobeSlot(props: {
   slot: Slot;
-  item?: Item;
+  itemCode?: ItemCode;
   onItemChange?: () => void;
 }) {
   function getSlotName(): string {
@@ -17,12 +17,12 @@ export default function WardrobeSlot(props: {
   }
 
   function getItemName(): string {
-    return props.item?.code ? t(itemConfigs[props.item?.code].name) : "";
+    return props.itemCode ? t(itemConfigs[props.itemCode].name) : "";
   }
 
   return (
     <div class="flex">
-      <ItemPreview item={props.item} onClick={props.onItemChange} />
+      <ItemPreview itemCode={props.itemCode} onClick={props.onItemChange} />
       <div class="ml-2">
         <div class="font-bold">{getSlotName()}</div>
         <div class="font-semibold">{getItemName()}</div>

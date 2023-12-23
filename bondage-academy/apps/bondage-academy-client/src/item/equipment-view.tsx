@@ -10,7 +10,9 @@ export default function EquipmentView() {
 
   return (
     <div class="grid grid-cols-4 gap-2">
-      <For each={getItems()}>{(item) => <ItemPreview item={item} />}</For>
+      <For each={getItems()}>
+        {(item) => <ItemPreview itemCode={item.code} />}
+      </For>
     </div>
   );
 }

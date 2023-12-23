@@ -1,16 +1,16 @@
-import { Item } from "@bondage-academy/bondage-academy-model";
+import { ItemCode } from "@bondage-academy/bondage-academy-model";
 import { createMemo } from "solid-js";
 import { itemPreviewService } from "./services/item-preview-service";
 
 export default function ItemPreview(props: {
-  item?: Item;
+  itemCode?: ItemCode;
   onClick?: () => void;
 }) {
   const previewIamgeUrlStyle = createMemo(() => {
-    if (!props.item) {
+    if (!props.itemCode) {
       return undefined;
     }
-    const url = itemPreviewService.getPreviewImageUrl(props.item);
+    const url = itemPreviewService.getPreviewImageUrl(props.itemCode);
     if (!url) {
       return undefined;
     }

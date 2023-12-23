@@ -5,6 +5,7 @@ import {
   Item,
   MinigameChallangeType,
   MinigameStakeType,
+  PhantomItem,
   Slot,
   isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
@@ -21,7 +22,7 @@ export class WardrobeMinigameService {
     actor: Actor;
     target: Actor;
     slot: Slot;
-    item?: Item;
+    item?: Item | PhantomItem;
   }): Promise<void> {
     if (!isPlayerActor(params.actor)) {
       throw new Error("Actor is not player");
@@ -42,15 +43,8 @@ export class WardrobeMinigameService {
     const stake: ChangeWardrobeMinigameStake = {
       type: MinigameStakeType.ChangeWardrobe,
       slot: params.slot,
-      item: params.item
-        ? {
-            id: params.item.id,
-            code: params.item.code,
-          }
-        : undefined,
-      currentItem: currentItem
-        ? { id: currentItem.item.id, code: currentItem.item.code }
-        : undefined,
+      item: params.item,
+      currentItem: currentItem?.item,
     };
     await this.minigameService.startMinigame({
       roomId: actorPlayer.roomId,

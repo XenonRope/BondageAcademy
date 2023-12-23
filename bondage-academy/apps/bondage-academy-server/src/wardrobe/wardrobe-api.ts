@@ -24,7 +24,7 @@ export class WardrobeApi {
       throw new Error("User is not logged in");
     }
     this.minigameService.assertPlayerIsNotDuringMinigame(session.playerId);
-    const { targetPlayerId, slot, itemId } = await tPromise.decode(
+    const { targetPlayerId, slot, item } = await tPromise.decode(
       WearRequestSchema,
       request
     );
@@ -40,7 +40,7 @@ export class WardrobeApi {
       actor,
       target,
       slot: parseEnum(slot, Slot),
-      itemId,
+      item,
     });
   }
 

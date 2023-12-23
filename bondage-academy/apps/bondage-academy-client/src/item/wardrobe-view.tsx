@@ -84,7 +84,7 @@ export default function WardrobeView(props: { playerId: number }) {
       return;
     }
     wardrobeService
-      .wear(props.playerId, slot, item?.id)
+      .wear(props.playerId, slot, item ? { id: item.id } : undefined)
       .then(() => selectSlot(undefined))
       .catch(console.log);
   }
@@ -148,7 +148,7 @@ export default function WardrobeView(props: { playerId: number }) {
               {(slot) => (
                 <WardrobeSlot
                   slot={slot}
-                  item={wearables()[slot]?.item}
+                  itemCode={wearables()[slot]?.item.code}
                   onItemChange={() => selectSlot(slot)}
                 ></WardrobeSlot>
               )}
@@ -161,7 +161,7 @@ export default function WardrobeView(props: { playerId: number }) {
               <div class="mb-2">
                 <WardrobeSlot
                   slot={slot()}
-                  item={wearables()[slot()]?.item}
+                  itemCode={wearables()[slot()]?.item.code}
                 ></WardrobeSlot>
               </div>
               <Show when={getEquippedItem()}>

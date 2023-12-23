@@ -6,9 +6,13 @@ import {
   EquippedItem,
   FullBodyPose,
   HeadPose,
+  ItemReference,
   LowerBodyPose,
+  PhantomItem,
   Slot,
   UpperBodyPose,
+  isItem,
+  isPhantomItem,
   isStandardCharacterPose,
 } from "@bondage-academy/bondage-academy-model";
 import { CharacterPoseService } from "../character/character-pose-service";
@@ -29,10 +33,15 @@ export class WardrobeService {
     actor: Actor;
     target: Actor;
     slot: Slot;
-    itemId?: number;
+    item?: ItemReference | PhantomItem;
   }): Promise<void> {
     const { actorPlayer, targetPlayer, item } =
-      await this.wardrobeConditionChecker.assertCanWear(params);
+      await this.wardrobeConditionChecker.assertCanWear({
+        actor: params.actor,
+        target: params.target,
+        slot: params.slot,
+        item: params.item,
+      });
     const oldItem: EquippedItem | undefined =
       targetPlayer.character.wearables[params.slot];
     const oldItemShouldGoToTarget =
@@ -53,15 +62,15 @@ export class WardrobeService {
     }
 
     await this.playerStoreService.update(actorPlayer.id, (player) => {
-      if (oldItem && !oldItemShouldGoToTarget) {
+      if (oldItem && !oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)) {
         player.items.push(oldItem.item);
       }
-      if (params.itemId) {
-        player.items = player.items.filter((item) => item.id !== params.itemId);
+      if (isItem(item)) {
+        player.items = player.items.filter(({ id }) => id !== item.id);
       }
     });
     await this.playerStoreService.update(targetPlayer.id, (player) => {
-      if (oldItemShouldGoToTarget) {
+      if (oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)) {
         player.items.push(oldItem.item);
       }
       player.character.wearables[params.slot] = newEquippedItem;
@@ -70,8 +79,11 @@ export class WardrobeService {
       actorPlayer.id,
       {
         items: {
-          add: oldItem && !oldItemShouldGoToTarget ? [oldItem.item] : [],
-          remove: params.itemId ? [params.itemId] : [],
+          add:
+            oldItem && !oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)
+              ? [oldItem.item]
+              : [],
+          remove: isItem(item) ? [item.id] : [],
         },
       }
     );
@@ -80,7 +92,10 @@ export class WardrobeService {
       {
         pose: targetPlayer.character.pose,
         items: {
-          add: oldItemShouldGoToTarget ? [oldItem.item] : [],
+          add:
+            oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)
+              ? [oldItem.item]
+              : [],
         },
         wearables: [
           {

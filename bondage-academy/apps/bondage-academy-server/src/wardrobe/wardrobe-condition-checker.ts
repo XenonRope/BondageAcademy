@@ -1,9 +1,13 @@
 import {
   Actor,
   Item,
+  ItemCode,
+  ItemReference,
+  PhantomItem,
   Player,
   Slot,
   SlotType,
+  isPhantomItem,
   isPlayerActor,
   itemConfigs,
   slotConfigs,
@@ -17,15 +21,12 @@ export class WardrobeConditionChecker {
     actor: Actor;
     target: Actor;
     slot: Slot;
-    itemId?: number;
+    item?: ItemReference | PhantomItem;
   }): Promise<{
     actorPlayer: Player;
     targetPlayer: Player;
-    item?: Item;
+    item?: Item | PhantomItem;
   }> {
-    if (slotConfigs[params.slot].type !== SlotType.Item) {
-      throw new Error("Incorrect slot type");
-    }
     if (!isPlayerActor(params.actor)) {
       throw new Error("Actor is not player");
     }
@@ -38,6 +39,21 @@ export class WardrobeConditionChecker {
     const targetPlayer = await this.playerStoreService.get(
       params.target.playerId
     );
+
+    if (slotConfigs[params.slot].type === SlotType.Body) {
+      if (params.actor.playerId !== params.target.playerId) {
+        throw new Error("Cannot change body part of another player");
+      }
+      if (params.item && !isPhantomItem(params.item)) {
+        throw new Error("Expected phantom item");
+      }
+      if (params.item) {
+        this.assertCanWearItemInSlot(params.item.code, params.slot);
+      }
+
+      return { actorPlayer, targetPlayer, item: params.item };
+    }
+
     if (actorPlayer.roomId !== targetPlayer.roomId) {
       throw new Error("Players are not in the same room");
     }
@@ -46,11 +62,14 @@ export class WardrobeConditionChecker {
         "Only player can change their own clothes if they are not in a room"
       );
     }
-    const item = params.itemId
-      ? this.findItem(actorPlayer, params.itemId)
+    if (params.item && isPhantomItem(params.item)) {
+      throw new Error("Not expected phantom item");
+    }
+    const item = params.item
+      ? this.findItem(actorPlayer, params.item.id)
       : undefined;
     if (item) {
-      this.assertCanWearItemInSlot(item, params.slot);
+      this.assertCanWearItemInSlot(item.code, params.slot);
     }
 
     return { actorPlayer, targetPlayer, item };
@@ -64,9 +83,9 @@ export class WardrobeConditionChecker {
     return item;
   }
 
-  private assertCanWearItemInSlot(item: Item, slot: Slot) {
-    if (!itemConfigs[item.code].allowedSlots.includes(slot)) {
-      throw new Error(`Item ${item.code} not allowed in slot ${slot}`);
+  private assertCanWearItemInSlot(itemCode: ItemCode, slot: Slot) {
+    if (!itemConfigs[itemCode].allowedSlots.includes(slot)) {
+      throw new Error(`Item ${itemCode} not allowed in slot ${slot}`);
     }
   }
 }
