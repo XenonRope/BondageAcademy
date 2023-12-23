@@ -72,6 +72,7 @@ export const enDictionary = {
     insole: "Insole",
     platform: "Platform",
     outsole: "Outsole",
+    ball: "Ball",
   },
   textures: {
     default: "Default",

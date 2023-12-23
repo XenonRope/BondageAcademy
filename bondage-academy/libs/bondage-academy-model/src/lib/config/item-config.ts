@@ -82,8 +82,22 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
   [ItemCode.BallGag]: {
     code: ItemCode.BallGag,
     name: "items.ballGag",
+    requiredPoses: { head: [HeadPose.WideOpen] },
     allowedSlots: [Slot.Mouth],
-    fragments: [],
+    fragments: [
+      {
+        name: "fragments.ball",
+        bodyType: ItemFragmentBodyType.Head,
+        filePathSuffix: "Ball gag ball",
+        subOrder: LayerSubOrder.Front,
+      },
+      {
+        name: "fragments.strap",
+        bodyType: ItemFragmentBodyType.Head,
+        filePathSuffix: "Ball gag strap",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
   },
 
   // Upper undies

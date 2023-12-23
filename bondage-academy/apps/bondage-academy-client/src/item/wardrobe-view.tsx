@@ -71,6 +71,7 @@ export default function WardrobeView(props: { playerId: number }) {
   });
 
   const slots: Slot[] = [
+    Slot.Mouth,
     Slot.UpperUndies,
     Slot.LeftSleeve,
     Slot.RightSleeve,

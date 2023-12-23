@@ -75,6 +75,7 @@ export const plDictionary: RawDictionary = {
     insole: "Insole",
     platform: "Platform",
     outsole: "Outsole",
+    ball: "Ball",
   },
   textures: {
     default: "Domyślny",
