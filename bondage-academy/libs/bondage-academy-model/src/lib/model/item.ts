@@ -19,6 +19,9 @@ export enum ItemCode {
   BeccaMeshBra = "BeccaMeshBra",
   BeyondSuitBra = "BeyondSuitBra",
 
+  // Upper outfit
+  BeccaMeshTop = "BeccaMeshTop",
+
   // Sleeve
   XFashionSleeve = "XFashionSleeve",
   MagicChristmasGlove = "MagicChristmasGlove",

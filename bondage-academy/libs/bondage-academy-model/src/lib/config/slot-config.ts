@@ -28,6 +28,10 @@ export const slotConfigs: Record<Slot, SlotConfig> = {
     type: SlotType.Item,
     name: "slots.upperUndies",
   },
+  [Slot.UpperOutfit]: {
+    type: SlotType.Item,
+    name: "slots.upperOutfit",
+  },
   [Slot.LeftSleeve]: {
     type: SlotType.Item,
     name: "slots.leftSleeve",

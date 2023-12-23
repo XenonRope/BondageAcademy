@@ -114,6 +114,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         },
         filePathSuffix: "Nipple Piercing Sphere",
         subOrder: LayerSubOrder.Front,
+        hiddenForPoses: [FullBodyPose.PetSuit],
       },
     ],
   },
@@ -130,6 +131,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         },
         filePathSuffix: "Nipple Piercing Spider",
         subOrder: LayerSubOrder.Front,
+        hiddenForPoses: [FullBodyPose.PetSuit],
       },
     ],
   },
@@ -146,6 +148,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         },
         filePathSuffix: "Nipple Piercing C Shape",
         subOrder: LayerSubOrder.Front,
+        hiddenForPoses: [FullBodyPose.PetSuit],
       },
     ],
   },
@@ -162,6 +165,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         },
         filePathSuffix: "Nipple Piercing Ornament",
         subOrder: LayerSubOrder.Front,
+        hiddenForPoses: [FullBodyPose.PetSuit],
       },
     ],
   },
@@ -178,6 +182,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
         },
         filePathSuffix: "Nipple Piercing Moon",
         subOrder: LayerSubOrder.Front,
+        hiddenForPoses: [FullBodyPose.PetSuit],
       },
     ],
   },
@@ -210,6 +215,20 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
       {
         bodyType: ItemFragmentBodyType.UpperBody,
         filePathSuffix: "Beyond Suit Bra",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
+  },
+
+  // Upper outfit
+  [ItemCode.BeccaMeshTop]: {
+    code: ItemCode.BeccaMeshTop,
+    name: "items.beccaMeshTop",
+    allowedSlots: [Slot.UpperOutfit],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.UpperBody,
+        filePathSuffix: "Becca Mesh Top",
         subOrder: LayerSubOrder.Front,
       },
     ],
