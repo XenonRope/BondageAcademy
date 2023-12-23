@@ -65,6 +65,7 @@ export class WardrobeCustomizationService {
       !this.itemCustomizationAccessChecker.canCustomizeItem({
         actorPlayerId: params.actorPlayerId,
         targetPlayerId: params.targetPlayerId,
+        slot: params.slot,
         equippedItem,
       })
     ) {

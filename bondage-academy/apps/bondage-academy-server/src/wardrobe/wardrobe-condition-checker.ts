@@ -3,8 +3,10 @@ import {
   Item,
   Player,
   Slot,
+  SlotType,
   isPlayerActor,
   itemConfigs,
+  slotConfigs,
 } from "@bondage-academy/bondage-academy-model";
 import { PlayerStoreService } from "../player/player-store-service";
 
@@ -21,6 +23,9 @@ export class WardrobeConditionChecker {
     targetPlayer: Player;
     item?: Item;
   }> {
+    if (slotConfigs[params.slot].type !== SlotType.Item) {
+      throw new Error("Incorrect slot type");
+    }
     if (!isPlayerActor(params.actor)) {
       throw new Error("Actor is not player");
     }

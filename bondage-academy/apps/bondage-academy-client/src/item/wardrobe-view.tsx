@@ -55,20 +55,22 @@ export default function WardrobeView(props: { playerId: number }) {
   });
 
   const canCustomize = createMemo(() => {
+    const slot = selectedSlot();
     const equippedItem = getEquippedItem();
     return (
+      slot &&
       store.playerId &&
       equippedItem &&
       itemCustomizationAccessChecker.canCustomizeItem({
         actorPlayerId: store.playerId,
         targetPlayerId: props.playerId,
+        slot,
         equippedItem,
       })
     );
   });
 
   const slots: Slot[] = [
-    Slot.Hair,
     Slot.UpperUndies,
     Slot.LeftSleeve,
     Slot.RightSleeve,
