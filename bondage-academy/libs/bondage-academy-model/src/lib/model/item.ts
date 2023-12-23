@@ -8,6 +8,13 @@ export enum ItemCode {
   // Mouth
   BallGag = "BallGag",
 
+  // Nipples
+  NipplePiercingSphere = "NipplePiercingSphere",
+  NipplePiercingSpider = "NipplePiercingSpider",
+  NipplePiercingCShape = "NipplePiercingCShape",
+  NipplePiercingOrnament = "NipplePiercingOrnament",
+  NipplePiercingMoon = "NipplePiercingMoon",
+
   // Upper undies
   BeccaMeshBra = "BeccaMeshBra",
 

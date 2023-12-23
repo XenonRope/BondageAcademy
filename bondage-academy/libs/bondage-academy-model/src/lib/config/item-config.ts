@@ -100,6 +100,88 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
     ],
   },
 
+  // Nipples
+  [ItemCode.NipplePiercingSphere]: {
+    code: ItemCode.NipplePiercingSphere,
+    name: "items.nipplePiercingSphere",
+    allowedSlots: [Slot.Nipples],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.UpperBody,
+        poseMapping: {
+          [UpperBodyPose.Crossed]: UpperBodyPose.Attention,
+          [UpperBodyPose.HandsUp]: UpperBodyPose.Attention,
+        },
+        filePathSuffix: "Nipple Piercing Sphere",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
+  },
+  [ItemCode.NipplePiercingSpider]: {
+    code: ItemCode.NipplePiercingSpider,
+    name: "items.nipplePiercingSpider",
+    allowedSlots: [Slot.Nipples],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.UpperBody,
+        poseMapping: {
+          [UpperBodyPose.Crossed]: UpperBodyPose.Attention,
+          [UpperBodyPose.HandsUp]: UpperBodyPose.Attention,
+        },
+        filePathSuffix: "Nipple Piercing Spider",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
+  },
+  [ItemCode.NipplePiercingCShape]: {
+    code: ItemCode.NipplePiercingCShape,
+    name: "items.nipplePiercingCShape",
+    allowedSlots: [Slot.Nipples],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.UpperBody,
+        poseMapping: {
+          [UpperBodyPose.Crossed]: UpperBodyPose.Attention,
+          [UpperBodyPose.HandsUp]: UpperBodyPose.Attention,
+        },
+        filePathSuffix: "Nipple Piercing C Shape",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
+  },
+  [ItemCode.NipplePiercingOrnament]: {
+    code: ItemCode.NipplePiercingOrnament,
+    name: "items.nipplePiercingOrnament",
+    allowedSlots: [Slot.Nipples],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.UpperBody,
+        poseMapping: {
+          [UpperBodyPose.Crossed]: UpperBodyPose.Attention,
+          [UpperBodyPose.HandsUp]: UpperBodyPose.Attention,
+        },
+        filePathSuffix: "Nipple Piercing Ornament",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
+  },
+  [ItemCode.NipplePiercingMoon]: {
+    code: ItemCode.NipplePiercingMoon,
+    name: "items.nipplePiercingMoon",
+    allowedSlots: [Slot.Nipples],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.UpperBody,
+        poseMapping: {
+          [UpperBodyPose.Crossed]: UpperBodyPose.Attention,
+          [UpperBodyPose.HandsUp]: UpperBodyPose.Attention,
+        },
+        filePathSuffix: "Nipple Piercing Moon",
+        subOrder: LayerSubOrder.Front,
+      },
+    ],
+  },
+
   // Upper undies
   [ItemCode.BeccaMeshBra]: {
     code: ItemCode.BeccaMeshBra,

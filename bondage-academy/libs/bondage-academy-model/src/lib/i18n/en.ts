@@ -50,6 +50,7 @@ export const enDictionary = {
   slots: {
     hair: "Hair",
     mouth: "Mouth",
+    nipples: "Nipples",
     upperUndies: "Upper undies",
     leftSleeve: "Left sleeve",
     rightSleeve: "Right sleeve",
@@ -60,6 +61,11 @@ export const enDictionary = {
   items: {
     hair1: "Hair 1",
     ballGag: "Ball gag",
+    nipplePiercingSphere: "Piercing sphere",
+    nipplePiercingSpider: "Piercing spider",
+    nipplePiercingCShape: "Piercing C shape",
+    nipplePiercingOrnament: "Piercing ornament",
+    nipplePiercingMoon: "Piercing moon",
     beccaMeshBra: "Becca mesh bra",
     xFashionSleeve: "X fashion sleeve",
     magicChristmasGlove: "Magic christmas glove",

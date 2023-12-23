@@ -104,6 +104,11 @@ export class HeadmistressScript extends GameScript {
         { code: ItemCode.BeccaMeshBra },
         { code: ItemCode.CynthiaHighHeels },
         { code: ItemCode.BallGag },
+        { code: ItemCode.NipplePiercingSphere },
+        { code: ItemCode.NipplePiercingSpider },
+        { code: ItemCode.NipplePiercingCShape },
+        { code: ItemCode.NipplePiercingOrnament },
+        { code: ItemCode.NipplePiercingMoon },
       ]);
     } else {
       this.chatService.sendChatMessage([session], {

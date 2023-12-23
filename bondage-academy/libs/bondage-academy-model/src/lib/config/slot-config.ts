@@ -20,6 +20,10 @@ export const slotConfigs: Record<Slot, SlotConfig> = {
     type: SlotType.Item,
     name: "slots.mouth",
   },
+  [Slot.Nipples]: {
+    type: SlotType.Item,
+    name: "slots.nipples",
+  },
   [Slot.UpperUndies]: {
     type: SlotType.Item,
     name: "slots.upperUndies",
