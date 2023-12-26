@@ -131,6 +131,8 @@ const WEARABLES_NAMES = [
 
   // Body accessory
   "Beyond Suit Bones",
+  "Beyond Suit Bones Top",
+  "Beyond Suit Bones Bottom",
 
   // Body
   "Pet suit",
@@ -447,12 +449,38 @@ const WEARABLES: Wearable[] = [
     ],
     conditions: [
       {
+        bodyPart: "Body",
+        poses: FULL_BODY_POSES,
+      },
+    ],
+  },
+  {
+    name: "Beyond Suit Bones Top",
+    fragments: [
+      {
+        path: "clothes\\special\\Beyond Suit Bones\\Beyond Suit Bones - top.duf",
+        nodes: ["Beyond_SuitG9"],
+      },
+    ],
+    conditions: [
+      {
         bodyPart: "Upper body",
         poses: UPPER_BODY_POSES,
       },
+    ],
+  },
+  {
+    name: "Beyond Suit Bones Bottom",
+    fragments: [
       {
-        bodyPart: "Body",
-        poses: FULL_BODY_POSES,
+        path: "clothes\\special\\Beyond Suit Bones\\Beyond Suit Bones - bottom.duf",
+        nodes: ["Beyond_SuitG9"],
+      },
+    ],
+    conditions: [
+      {
+        bodyPart: "Lower body",
+        poses: ["Stand", "Wide legs", "Simple kneel", "Wide kneel"],
       },
     ],
   },
@@ -598,8 +626,12 @@ renderCharacters({
   characters: CHARACTERS,
   bodyParts: BODY_PARTS,
   poses: POSES,
-  wearables: WEARABLES_NAMES,
-  onlyWearables: false,
+  wearables: [
+    "Beyond Suit Bones",
+    "Beyond Suit Bones Top",
+    "Beyond Suit Bones Bottom",
+  ],
+  onlyWearables: true,
 });
 
 renderItemsPreview();

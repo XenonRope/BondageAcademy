@@ -132,24 +132,37 @@ export class CharacterLayerService {
     fragment: ItemFragment,
     characterPose: CharacterPose
   ): boolean {
-    if (!fragment.hiddenForPoses) {
-      return true;
+    if (
+      fragment.hiddenForPoses &&
+      this.getPosesFromCharacterPose(characterPose).some((pose) =>
+        fragment.hiddenForPoses?.includes(pose)
+      )
+    ) {
+      return false;
     }
 
+    if (
+      fragment.shownForPoses &&
+      !this.getPosesFromCharacterPose(characterPose).some((pose) =>
+        fragment.shownForPoses?.includes(pose)
+      )
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private getPosesFromCharacterPose(characterPose: CharacterPose): AnyPose[] {
     if (isFullBodyCharacterPose(characterPose)) {
-      if (fragment.hiddenForPoses.includes(characterPose.fullBody)) {
-        return false;
-      }
+      return [characterPose.fullBody, characterPose.head];
     } else {
-      if (
-        fragment.hiddenForPoses.includes(characterPose.upperBody) ||
-        fragment.hiddenForPoses.includes(characterPose.lowerBody)
-      ) {
-        return false;
-      }
+      return [
+        characterPose.upperBody,
+        characterPose.lowerBody,
+        characterPose.head,
+      ];
     }
-
-    return !fragment.hiddenForPoses.includes(characterPose.head);
   }
 
   private getPoseForFragment(

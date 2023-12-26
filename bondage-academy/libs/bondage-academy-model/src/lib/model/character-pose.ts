@@ -2,6 +2,8 @@ export enum FullBodyPose {
   PetSuit = "PetSuit",
 }
 
+export const FULL_BODY_POSES = Object.keys(FullBodyPose) as FullBodyPose[];
+
 export const isFullBodyPose = (pose: AnyPose): pose is FullBodyPose =>
   pose in FullBodyPose;
 
@@ -10,6 +12,8 @@ export enum UpperBodyPose {
   Crossed = "Crossed",
   HandsUp = "HandsUp",
 }
+
+export const UPPER_BODY_POSES = Object.keys(UpperBodyPose) as UpperBodyPose[];
 
 export const isUpperBodyPose = (pose: AnyPose): pose is UpperBodyPose =>
   pose in UpperBodyPose;
@@ -22,6 +26,8 @@ export enum LowerBodyPose {
   SimpleKneel = "SimpleKneel",
   WideKneel = "WideKneel",
 }
+
+export const LOWER_BODY_POSES = Object.keys(LowerBodyPose) as LowerBodyPose[];
 
 export const isLowerBodyPose = (pose: AnyPose): pose is LowerBodyPose =>
   pose in LowerBodyPose;

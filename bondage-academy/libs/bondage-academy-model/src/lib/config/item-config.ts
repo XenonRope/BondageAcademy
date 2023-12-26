@@ -1,6 +1,7 @@
 import { DictionaryKey } from "../i18n/dictionary";
 import {
   AnyPose,
+  FULL_BODY_POSES,
   FullBodyPose,
   HeadPose,
   LowerBodyPose,
@@ -30,6 +31,7 @@ export interface ItemFragment {
   filePathSuffix: string;
   order?: LayerOrder;
   subOrder?: LayerSubOrder;
+  shownForPoses?: AnyPose[];
   hiddenForPoses?: AnyPose[];
   textures?: ItemTexture[];
 }
@@ -284,7 +286,24 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
     fragments: [
       {
         bodyType: ItemFragmentBodyType.UpperBody,
+        filePathSuffix: "Beyond Suit Bones Top",
+        hiddenForPoses: FULL_BODY_POSES,
+        subOrder: LayerSubOrder.Front,
+      },
+      {
+        bodyType: ItemFragmentBodyType.LowerBody,
+        poseMapping: {
+          [LowerBodyPose.StandHeels]: LowerBodyPose.Stand,
+          [LowerBodyPose.WideLegsHeels]: LowerBodyPose.WideLegs,
+        },
+        filePathSuffix: "Beyond Suit Bones Bottom",
+        hiddenForPoses: FULL_BODY_POSES,
+        subOrder: LayerSubOrder.Front,
+      },
+      {
+        bodyType: ItemFragmentBodyType.UpperBody,
         filePathSuffix: "Beyond Suit Bones",
+        shownForPoses: FULL_BODY_POSES,
         subOrder: LayerSubOrder.Front,
       },
     ],
