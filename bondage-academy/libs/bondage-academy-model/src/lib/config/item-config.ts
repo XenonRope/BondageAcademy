@@ -47,7 +47,7 @@ export interface ItemConfig {
   code: ItemCode;
   name: DictionaryKey;
   preview?: string;
-  offset?: number;
+  shoesOffset?: number;
   requiredPoses?: RequiredPoses;
   allowedSlots: Slot[];
   fragments: ItemFragment[];
@@ -340,7 +340,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
   [ItemCode.CynthiaHighHeels]: {
     code: ItemCode.CynthiaHighHeels,
     name: "items.cynthiaHighHeels",
-    offset: -18,
+    shoesOffset: -18,
     requiredPoses: {
       lowerBody: [
         LowerBodyPose.StandHeels,

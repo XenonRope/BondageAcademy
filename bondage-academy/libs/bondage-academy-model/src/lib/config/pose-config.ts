@@ -14,6 +14,7 @@ export interface PoseConfig {
   order: number;
   rootOffsetY?: number;
   headOffsetY?: number;
+  standing?: boolean;
 }
 
 export const poseConfigs: Record<AnyPose, PoseConfig> = {
@@ -44,24 +45,28 @@ export const poseConfigs: Record<AnyPose, PoseConfig> = {
     iamgePathPart: "Stand",
     order: LayerOrder.LowerBody,
     rootOffsetY: 39,
+    standing: true,
   },
   [LowerBodyPose.StandHeels]: {
     name: "poses.standHeels",
     iamgePathPart: "Stand heels",
     order: LayerOrder.LowerBody,
     rootOffsetY: 20,
+    standing: true,
   },
   [LowerBodyPose.WideLegs]: {
     name: "poses.wideLegs",
     iamgePathPart: "Wide legs",
     order: LayerOrder.LowerBody,
     rootOffsetY: 45,
+    standing: true,
   },
   [LowerBodyPose.WideLegsHeels]: {
     name: "poses.wideLegsHeels",
     iamgePathPart: "Wide legs heels",
     order: LayerOrder.LowerBody,
     rootOffsetY: 30,
+    standing: true,
   },
   [LowerBodyPose.SimpleKneel]: {
     name: "poses.simpleKneel",

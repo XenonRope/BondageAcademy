@@ -208,10 +208,12 @@ export class CharacterLayerService {
       ? character.pose.fullBody
       : character.pose.lowerBody;
     const wearablesOffset: number = Object.values(character.wearables)
-      .map(
-        (equippedItem) =>
-          (equippedItem && itemConfigs[equippedItem.item.code].offset) ?? 0
-      )
+      .map((equippedItem) => {
+        if (poseConfigs[pose].standing && equippedItem) {
+          return itemConfigs[equippedItem.item.code].shoesOffset ?? 0;
+        }
+        return 0;
+      })
       .reduce((a, b) => a + b, 0);
     return (poseConfigs[pose].rootOffsetY ?? 0) + wearablesOffset - 20;
   }
