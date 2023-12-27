@@ -313,8 +313,20 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
   [ItemCode.PetSuit]: {
     code: ItemCode.PetSuit,
     name: "items.petSuit",
+    requiredPoses: {
+      fullBody: [FullBodyPose.PetSuit],
+      upperBody: [],
+      lowerBody: [],
+    },
     allowedSlots: [Slot.Body],
-    fragments: [],
+    fragments: [
+      {
+        bodyType: ItemFragmentBodyType.UpperBody,
+        filePathSuffix: "Pet suit",
+        subOrder: LayerSubOrder.Front,
+        shownForPoses: [FullBodyPose.PetSuit],
+      },
+    ],
   },
 
   // Lower undies

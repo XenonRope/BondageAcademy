@@ -49,7 +49,8 @@ export interface StandardCharacterPose {
 
 export const isStandardCharacterPose = (
   pose: CharacterPose
-): pose is StandardCharacterPose => "upperBody" in pose;
+): pose is StandardCharacterPose =>
+  "upperBody" in pose && pose.upperBody != null;
 
 export interface FullBodyCharacterPose {
   fullBody: FullBodyPose;
@@ -58,7 +59,7 @@ export interface FullBodyCharacterPose {
 
 export const isFullBodyCharacterPose = (
   pose: CharacterPose
-): pose is FullBodyCharacterPose => "fullBody" in pose;
+): pose is FullBodyCharacterPose => "fullBody" in pose && pose.fullBody != null;
 
 export type CharacterPose = StandardCharacterPose | FullBodyCharacterPose;
 
