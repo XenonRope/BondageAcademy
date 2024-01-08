@@ -50,6 +50,7 @@ export interface ItemConfig {
   shoesOffset?: number;
   requiredPoses?: RequiredPoses;
   allowedSlots: Slot[];
+  blockedSlots?: Slot[];
   fragments: ItemFragment[];
 }
 
@@ -319,6 +320,7 @@ export const itemConfigs: Record<ItemCode, ItemConfig> = {
       lowerBody: [],
     },
     allowedSlots: [Slot.Body],
+    blockedSlots: [Slot.Shoes],
     fragments: [
       {
         bodyType: ItemFragmentBodyType.UpperBody,

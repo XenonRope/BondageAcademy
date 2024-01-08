@@ -1,5 +1,6 @@
 import {
   Actor,
+  Character,
   Item,
   ItemCode,
   ItemReference,
@@ -7,6 +8,7 @@ import {
   Player,
   Slot,
   SlotType,
+  WardrobeValidator,
   isPhantomItem,
   isPlayerActor,
   itemConfigs,
@@ -15,7 +17,10 @@ import {
 import { PlayerStoreService } from "../player/player-store-service";
 
 export class WardrobeConditionChecker {
-  constructor(private playerStoreService: PlayerStoreService) {}
+  constructor(
+    private playerStoreService: PlayerStoreService,
+    private wardrobeValidator: WardrobeValidator
+  ) {}
 
   async assertCanWear(params: {
     actor: Actor;
@@ -70,9 +75,28 @@ export class WardrobeConditionChecker {
       : undefined;
     if (item) {
       this.assertCanWearItemInSlot(item.code, params.slot);
+      if (this.isSlotBlocked(targetPlayer.character, params.slot)) {
+        throw new Error(`Cannot wear ${item?.code} because slot is blocked`);
+      }
+      if (this.isAnyBlockedSlotOccupied(targetPlayer.character, item)) {
+        throw new Error(
+          `Cannot wear ${item?.code} because blocked slot is occupied`
+        );
+      }
     }
 
     return { actorPlayer, targetPlayer, item };
+  }
+
+  private isSlotBlocked(character: Character, slot: Slot): boolean {
+    return this.wardrobeValidator.isSlotBlocked(character, slot);
+  }
+
+  private isAnyBlockedSlotOccupied(character: Character, item: Item): boolean {
+    const blockedSlots = itemConfigs[item.code].blockedSlots;
+    return blockedSlots
+      ? this.wardrobeValidator.isAnySlotOccupied(character, blockedSlots)
+      : false;
   }
 
   private findItem(player: Player, itemId: number): Item {
