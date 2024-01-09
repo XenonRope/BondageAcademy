@@ -9,7 +9,6 @@ export const {
   minigameService,
   wardrobeService,
   sideMenuService,
-  npcCharacterService,
   translator,
   dialogueOptionService,
   accountService,

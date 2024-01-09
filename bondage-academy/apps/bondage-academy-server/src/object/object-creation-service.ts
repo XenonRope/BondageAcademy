@@ -1,4 +1,5 @@
 import {
+  Character,
   NPCCode,
   NPCObject,
   ObjectType,
@@ -28,15 +29,18 @@ export class ObjectCreationService {
   async createNPC({
     position,
     code,
+    character,
   }: {
     position: Position;
     code: NPCCode;
+    character: Character;
   }): Promise<NPCObject> {
     return {
       type: ObjectType.NPC,
       id: await this.objectIdProvider.getNextId(),
       position,
       code,
+      character,
     };
   }
 }

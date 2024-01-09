@@ -1,10 +1,16 @@
 import {
   BlockColor,
   BlockObject,
+  Character,
+  CharacterShape,
+  CharacterSkin,
+  HeadPose,
+  LowerBodyPose,
   NPCCode,
   NPCObject,
   ObjectType,
   RoomCode,
+  UpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
 import { ObjectCreationService } from "../object/object-creation-service";
 import { ObjectIdProvider } from "../object/object-id-provider";
@@ -76,7 +82,16 @@ export class RoomInitializationService {
         await this.createBlock(0, 3),
         await this.createBlock(0, 2),
         await this.createBlock(0, 1),
-        await this.createNPC(8, 8, NPCCode.Headmistress),
+        await this.createNPC(8, 8, NPCCode.Headmistress, {
+          shape: CharacterShape.Shape1,
+          skin: CharacterSkin.Skin1,
+          wearables: {},
+          pose: {
+            upperBody: UpperBodyPose.Crossed,
+            lowerBody: LowerBodyPose.Stand,
+            head: HeadPose.Normal,
+          },
+        }),
       ],
     });
   }
@@ -141,7 +156,8 @@ export class RoomInitializationService {
   private async createNPC(
     x: number,
     y: number,
-    code: NPCCode
+    code: NPCCode,
+    character: Character
   ): Promise<NPCObject> {
     return await this.objectCreationService.createNPC({
       position: {
@@ -149,6 +165,7 @@ export class RoomInitializationService {
         y,
       },
       code,
+      character,
     });
   }
 }

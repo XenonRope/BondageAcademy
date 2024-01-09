@@ -4,7 +4,7 @@ import {
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
 import { Show } from "solid-js";
-import { npcCharacterService, store } from "../app/services";
+import { store } from "../app/services";
 import CharacterGridView from "../character/character-grid-view";
 import ChatView from "../chat/chat-view";
 import MinigameContainerView from "../minigame/minigame-container-view";
@@ -44,10 +44,9 @@ export default function GamePage() {
 
   function getNPCCharacters(): Character[] {
     return (
-      store.room?.objects
-        .flatMap((object) => (isNPCObject(object) ? [object.code] : []))
-        .map((npcCode) => npcCharacterService.getCharacterByNPCCode(npcCode)) ??
-      []
+      store.room?.objects.flatMap((object) =>
+        isNPCObject(object) ? [object.character] : []
+      ) ?? []
     );
   }
 

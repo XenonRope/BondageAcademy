@@ -1,3 +1,4 @@
+import { Character } from "./character";
 import { GameObject, ObjectType } from "./game-object";
 
 export enum NPCCode {
@@ -7,6 +8,7 @@ export enum NPCCode {
 export interface NPCObject extends GameObject {
   type: ObjectType.NPC;
   code: NPCCode;
+  character: Character;
 }
 
 export const isNPCObject = (object?: GameObject): object is NPCObject =>

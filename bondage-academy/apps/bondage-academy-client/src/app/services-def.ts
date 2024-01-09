@@ -18,7 +18,6 @@ import { SideMenuService } from "../game/services/side-menu-service";
 import { WardrobeService } from "../item/services/wardrobe-service";
 import { LocaleService } from "../locale/services/locale-service";
 import { MinigameService } from "../minigame/services/minigame-service";
-import { NPCCharacterService } from "../npc/npc-character-service";
 import { RoomService } from "../room/services/room-service";
 import type { Store } from "../store/model/store";
 import { StoreService } from "../store/store-service";
@@ -39,7 +38,6 @@ export const configureServiceContainer = () => {
       () => new ItemCustomizationAccessChecker()
     )
     .add("characterPoseValidator", () => new CharacterPoseValidator())
-    .add("npcCharacterService", () => new NPCCharacterService())
     .add(
       "storeService",
       ({ store, setStore }) => new StoreService(store, setStore)
