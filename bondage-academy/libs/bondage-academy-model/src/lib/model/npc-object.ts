@@ -3,6 +3,7 @@ import { GameObject, ObjectType } from "./game-object";
 
 export enum NPCCode {
   Headmistress = "Headmistress",
+  PrisonGuard = "PrisonGuard",
 }
 
 export interface NPCObject extends GameObject {

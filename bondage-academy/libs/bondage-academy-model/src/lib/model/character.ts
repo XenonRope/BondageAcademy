@@ -23,7 +23,7 @@ export type ItemCustomization = t.TypeOf<typeof ItemCustomization>;
 
 export interface EquippedItem {
   item: Item | PhantomItem;
-  ownerPlayerId: number;
+  ownerPlayerId?: number;
   customizations?: ItemCustomization[];
 }
 

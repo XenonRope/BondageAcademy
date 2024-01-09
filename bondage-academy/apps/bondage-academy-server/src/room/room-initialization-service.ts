@@ -5,10 +5,12 @@ import {
   CharacterShape,
   CharacterSkin,
   HeadPose,
+  ItemCode,
   LowerBodyPose,
   NPCCode,
   NPCObject,
   ObjectType,
+  PhantomItem,
   RoomCode,
   UpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
@@ -131,6 +133,20 @@ export class RoomInitializationService {
         await this.createBlock(0, 3),
         await this.createBlock(0, 2),
         await this.createBlock(0, 1),
+        await this.createNPC(1, 1, NPCCode.PrisonGuard, {
+          shape: CharacterShape.Shape1,
+          skin: CharacterSkin.Skin1,
+          wearables: {
+            LeftSleeve: { item: { code: ItemCode.XFashionSleeve } },
+            RightSleeve: { item: { code: ItemCode.XFashionSleeve } },
+            LowerUndies: { item: { code: ItemCode.XFashionThong } },
+          },
+          pose: {
+            upperBody: UpperBodyPose.Attention,
+            lowerBody: LowerBodyPose.Stand,
+            head: HeadPose.Normal,
+          },
+        }),
       ],
     });
   }
@@ -167,5 +183,9 @@ export class RoomInitializationService {
       code,
       character,
     });
+  }
+
+  private createPhantomItem(code: ItemCode): PhantomItem {
+    return { code };
   }
 }
