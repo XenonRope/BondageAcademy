@@ -2,15 +2,19 @@ import {
   Actor,
   Character,
   ChatMessage,
-  GameObject,
   Minigame,
+  NPCUtils,
   Player,
   PlayerObject,
   Position,
   Room,
   Slot,
+  SynchronizeGameObjects,
   SynchronizeMinigamesEvent,
   SynchronizePlayersEvent,
+  TranslatableText,
+  areActorsEqual,
+  isNPCObject,
   isPlayerActor,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
@@ -72,25 +76,32 @@ export class StoreService {
       ?.position;
   }
 
-  getSelectedPlayer(): Player | undefined {
-    if (this.store.selectedPlayer && this.store.players) {
-      return this.store.players.find(
-        (player) => player.id === this.store.selectedPlayer
-      );
-    }
-    return undefined;
-  }
-
   getCharacterByActor(actor: Actor): Character | undefined {
     if (isPlayerActor(actor)) {
       return this.getPlayerById(actor.playerId)?.character;
     }
+    if (this.store.room?.id === actor.roomId) {
+      const npcObject = this.store.room.objects.find(
+        (object) => object.id === actor.objectId
+      );
+      if (isNPCObject(npcObject)) {
+        return npcObject.character;
+      }
+    }
     return undefined;
   }
 
-  getNameByActor(actor: Actor): string | undefined {
+  getNameByActor(actor: Actor): TranslatableText | undefined {
     if (isPlayerActor(actor)) {
       return this.getPlayerById(actor.playerId)?.name;
+    }
+    if (this.store.room?.id === actor.roomId) {
+      const npcObject = this.store.room.objects.find(
+        (object) => object.id === actor.objectId
+      );
+      if (isNPCObject(npcObject)) {
+        return { dictionaryKey: NPCUtils.getDictionaryKey(npcObject.code) };
+      }
     }
     return undefined;
   }
@@ -231,17 +242,33 @@ export class StoreService {
     );
   }
 
-  updateObjects({
-    objects,
-    toRemove,
-  }: {
-    objects?: GameObject[];
-    toRemove?: number[];
-  }) {
+  updateObjects({ objects, updateNPCs, toRemove }: SynchronizeGameObjects) {
     this.setStore(
       "room",
       produce((room) => {
         if (room != null) {
+          for (const updatedNPC of updateNPCs ?? []) {
+            const npcObject = room.objects.find(
+              (object) => object.id === updatedNPC.id
+            );
+            if (npcObject && isNPCObject(npcObject)) {
+              if (updatedNPC.pose) {
+                npcObject.character.pose = updatedNPC.pose;
+              }
+              if (updatedNPC.items?.add) {
+                npcObject.items.push(...updatedNPC.items.add);
+              }
+              if (updatedNPC.items?.remove) {
+                npcObject.items = npcObject.items.filter(
+                  (item) => !updatedNPC.items?.remove?.includes(item.id)
+                );
+              }
+              for (const { slot, equippedItem } of updatedNPC.wearables ?? []) {
+                npcObject.character.wearables[slot as Slot] = equippedItem;
+              }
+              break;
+            }
+          }
           for (const newObject of objects ?? []) {
             let replaced = false;
             for (let i = 0; i < room.objects.length; i++) {
@@ -355,10 +382,10 @@ export class StoreService {
     );
   }
 
-  selectPlayer(playerId?: number): void {
-    if (this.store.selectedPlayer !== playerId) {
+  selectActor(actor?: Actor): void {
+    if (!areActorsEqual(this.store.selectedActor, actor)) {
       this.setStore({
-        selectedPlayer: playerId,
+        selectedActor: actor,
         actionMenuView: undefined,
       });
     }

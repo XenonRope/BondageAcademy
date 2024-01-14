@@ -1,4 +1,5 @@
 import {
+  Actor,
   CustomizeItemRequest,
   ItemCustomization,
   ItemReference,
@@ -13,12 +14,12 @@ export class WardrobeService {
   constructor(private socketService: SocketService) {}
 
   async wear(
-    targetPlayerId: number,
+    target: Actor,
     slot: Slot,
     item?: ItemReference | PhantomItem
   ): Promise<void> {
     const request: WearRequest = {
-      targetPlayerId,
+      target,
       slot,
       item,
     };
@@ -26,12 +27,12 @@ export class WardrobeService {
   }
 
   async customizeItem(
-    targetPlayerId: number,
+    target: Actor,
     slot: Slot,
     customizations: ItemCustomization[]
   ): Promise<void> {
     const request: CustomizeItemRequest = {
-      targetPlayerId,
+      target,
       slot,
       customizations,
     };

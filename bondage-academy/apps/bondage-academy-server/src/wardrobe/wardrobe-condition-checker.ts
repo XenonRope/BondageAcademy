@@ -5,7 +5,6 @@ import {
   ItemCode,
   ItemReference,
   PhantomItem,
-  Player,
   Slot,
   SlotType,
   WardrobeValidator,
@@ -14,12 +13,15 @@ import {
   itemConfigs,
   slotConfigs,
 } from "@bondage-academy/bondage-academy-model";
+import { ActorData } from "../actor/actor-data";
+import { ActorService } from "../actor/actor-service";
 import { PlayerStoreService } from "../player/player-store-service";
 
 export class WardrobeConditionChecker {
   constructor(
     private playerStoreService: PlayerStoreService,
-    private wardrobeValidator: WardrobeValidator
+    private wardrobeValidator: WardrobeValidator,
+    private actorService: ActorService
   ) {}
 
   async assertCanWear(params: {
@@ -28,26 +30,29 @@ export class WardrobeConditionChecker {
     slot: Slot;
     item?: ItemReference | PhantomItem;
   }): Promise<{
-    actorPlayer: Player;
-    targetPlayer: Player;
+    actor: ActorData;
+    target: ActorData;
     item?: Item | PhantomItem;
   }> {
-    if (!isPlayerActor(params.actor)) {
-      throw new Error("Actor is not player");
+    const actor = await this.actorService.getActorData(params.actor);
+    const target = await this.actorService.getActorData(params.target);
+
+    if (
+      target.character.wearables[params.slot] == null &&
+      params.item == null
+    ) {
+      throw new Error(
+        `Cannot remove item from slot ${params.slot} because slot is already empty`
+      );
     }
-    if (!isPlayerActor(params.target)) {
-      throw new Error("Target is not player");
-    }
-    const actorPlayer = await this.playerStoreService.get(
-      params.actor.playerId
-    );
-    const targetPlayer = await this.playerStoreService.get(
-      params.target.playerId
-    );
 
     if (slotConfigs[params.slot].type === SlotType.Body) {
-      if (params.actor.playerId !== params.target.playerId) {
-        throw new Error("Cannot change body part of another player");
+      if (
+        !isPlayerActor(params.actor) ||
+        !isPlayerActor(params.target) ||
+        params.actor.playerId !== params.target.playerId
+      ) {
+        throw new Error("Cannot change body part of another player or NPC");
       }
       if (params.item && !isPhantomItem(params.item)) {
         throw new Error("Expected phantom item");
@@ -56,55 +61,75 @@ export class WardrobeConditionChecker {
         this.assertCanWearItemInSlot(params.item.code, params.slot);
       }
 
-      return { actorPlayer, targetPlayer, item: params.item };
+      return { actor, target, item: params.item };
     }
 
-    if (actorPlayer.roomId !== targetPlayer.roomId) {
-      throw new Error("Players are not in the same room");
+    if (actor.roomId !== target.roomId) {
+      throw new Error("Actors are not in the same room");
     }
-    if (!actorPlayer.roomId && actorPlayer.id !== targetPlayer.id) {
+    if (
+      !actor.roomId &&
+      (!isPlayerActor(params.actor) ||
+        !isPlayerActor(params.target) ||
+        params.actor.playerId !== params.target.playerId)
+    ) {
       throw new Error(
         "Only player can change their own clothes if they are not in a room"
       );
     }
-    if (params.item && isPhantomItem(params.item)) {
-      throw new Error("Not expected phantom item");
-    }
     const item = params.item
-      ? this.findItem(actorPlayer, params.item.id)
+      ? await this.findItem(params.actor, params.item)
       : undefined;
     if (item) {
       this.assertCanWearItemInSlot(item.code, params.slot);
-      if (this.isSlotBlocked(targetPlayer.character, params.slot)) {
+      if (this.isSlotBlocked(target.character, params.slot)) {
         throw new Error(`Cannot wear ${item?.code} because slot is blocked`);
       }
-      if (this.isAnyBlockedSlotOccupied(targetPlayer.character, item)) {
+      if (this.isAnyBlockedSlotOccupied(target.character, item.code)) {
         throw new Error(
           `Cannot wear ${item?.code} because blocked slot is occupied`
         );
       }
     }
 
-    return { actorPlayer, targetPlayer, item };
+    return { actor, target, item };
   }
 
   private isSlotBlocked(character: Character, slot: Slot): boolean {
     return this.wardrobeValidator.isSlotBlocked(character, slot);
   }
 
-  private isAnyBlockedSlotOccupied(character: Character, item: Item): boolean {
-    const blockedSlots = itemConfigs[item.code].blockedSlots;
+  private isAnyBlockedSlotOccupied(
+    character: Character,
+    itemCode: ItemCode
+  ): boolean {
+    const blockedSlots = itemConfigs[itemCode].blockedSlots;
     return blockedSlots
       ? this.wardrobeValidator.isAnySlotOccupied(character, blockedSlots)
       : false;
   }
 
-  private findItem(player: Player, itemId: number): Item {
-    const item = player.items.find((item) => item.id === itemId);
-    if (!item) {
-      throw new Error("Item not found");
+  private async findItem(
+    actor: Actor,
+    itemReference: ItemReference | PhantomItem
+  ): Promise<Item | PhantomItem> {
+    if (isPlayerActor(actor)) {
+      if (isPhantomItem(itemReference)) {
+        throw new Error("Using phantom item by player is not supported");
+      }
+      const player = await this.playerStoreService.get(actor.playerId);
+      const playerItem = player.items.find(
+        (item) => item.id === itemReference.id
+      );
+      if (!playerItem) {
+        throw new Error("Item not found");
+      }
+      return playerItem;
     }
-    return item;
+    if (isPhantomItem(itemReference)) {
+      return itemReference;
+    }
+    throw new Error("Expected phantom item if actor is NPC");
   }
 
   private assertCanWearItemInSlot(itemCode: ItemCode, slot: Slot) {

@@ -56,7 +56,7 @@ export class RoomService {
     await this.socketService.emit(RequestFromClient.LeaveRoom, undefined);
     this.storeService.setRoom(undefined);
     this.storeService.clearChatMessages();
-    this.storeService.selectPlayer(undefined);
+    this.storeService.selectActor(undefined);
     this.storeService.setMinigames(undefined);
   }
 

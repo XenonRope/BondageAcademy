@@ -14,20 +14,22 @@ import {
   areCharacterPosesEqual,
   isItem,
   isPhantomItem,
+  isPlayerActor,
   isStandardCharacterPose,
 } from "@bondage-academy/bondage-academy-model";
+import { ActorData } from "../actor/actor-data";
+import { ActorService } from "../actor/actor-service";
 import { CharacterPoseService } from "../character/character-pose-service";
-import { PlayerClientSynchronizationService } from "../player/player-client-synchronization-service";
 import { PlayerStoreService } from "../player/player-store-service";
 import { WardrobeConditionChecker } from "./wardrobe-condition-checker";
 
 export class WardrobeService {
   constructor(
     private playerStoreService: PlayerStoreService,
-    private playerClientSynchronizationService: PlayerClientSynchronizationService,
     private wardrobeConditionChecker: WardrobeConditionChecker,
     private characterPoseValidator: CharacterPoseValidator,
-    private characterPoseService: CharacterPoseService
+    private characterPoseService: CharacterPoseService,
+    private actorService: ActorService
   ) {}
 
   async wear(params: {
@@ -36,7 +38,7 @@ export class WardrobeService {
     slot: Slot;
     item?: ItemReference | PhantomItem;
   }): Promise<void> {
-    const { actorPlayer, targetPlayer, item } =
+    const { actor, target, item } =
       await this.wardrobeConditionChecker.assertCanWear({
         actor: params.actor,
         target: params.target,
@@ -44,16 +46,17 @@ export class WardrobeService {
         item: params.item,
       });
     const oldItem: EquippedItem | undefined =
-      targetPlayer.character.wearables[params.slot];
+      target.character.wearables[params.slot];
     const oldItemShouldGoToTarget =
-      oldItem && oldItem.ownerPlayerId === targetPlayer.id;
+      oldItem &&
+      oldItem.ownerPlayerId &&
+      oldItem.ownerPlayerId === target.playerId;
     const newEquippedItem: EquippedItem | undefined = item
-      ? { item, ownerPlayerId: actorPlayer.id }
+      ? { item, ownerPlayerId: actor.playerId }
       : undefined;
 
     const changePoseResult = await this.changePoseIfNeeded(
-      targetPlayer.id,
-      targetPlayer.character,
+      target,
       params.slot,
       newEquippedItem
     );
@@ -62,73 +65,75 @@ export class WardrobeService {
       return;
     }
 
-    await this.playerStoreService.update(actorPlayer.id, (player) => {
-      if (oldItem && !oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)) {
-        player.items.push(oldItem.item);
-      }
-      if (isItem(item)) {
-        player.items = player.items.filter(({ id }) => id !== item.id);
-      }
-    });
-    await this.playerStoreService.update(targetPlayer.id, (player) => {
-      if (oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)) {
-        player.items.push(oldItem.item);
-      }
-      player.character.wearables[params.slot] = newEquippedItem;
-    });
-    await this.playerClientSynchronizationService.synchronizePlayerByPlayerId(
-      actorPlayer.id,
-      {
-        items: {
-          add:
-            oldItem && !oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)
-              ? [oldItem.item]
-              : [],
-          remove: isItem(item) ? [item.id] : [],
-        },
+    if (isPlayerActor(actor.actor)) {
+      await this.playerStoreService.update(actor.actor.playerId, (player) => {
+        if (
+          oldItem &&
+          !oldItemShouldGoToTarget &&
+          !isPhantomItem(oldItem.item)
+        ) {
+          player.items.push(oldItem.item);
+        }
+        if (isItem(item)) {
+          player.items = player.items.filter(({ id }) => id !== item.id);
+        }
+      });
+    }
+    await this.actorService.updateActor(
+      target.actor,
+      ({ character, items }) => {
+        if (oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)) {
+          items.push(oldItem.item);
+        }
+        character.wearables[params.slot] = newEquippedItem;
       }
     );
-    await this.playerClientSynchronizationService.synchronizePlayerByPlayerId(
-      targetPlayer.id,
-      {
-        pose: targetPlayer.character.pose,
-        items: {
-          add:
-            oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)
-              ? [oldItem.item]
-              : [],
+    await this.actorService.synchronizeActorWithClient(actor.actor, {
+      items: {
+        add:
+          oldItem && !oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)
+            ? [oldItem.item]
+            : [],
+        remove: isItem(item) ? [item.id] : [],
+      },
+    });
+    await this.actorService.synchronizeActorWithClient(target.actor, {
+      pose: target.character.pose,
+      items: {
+        add:
+          oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)
+            ? [oldItem.item]
+            : [],
+      },
+      wearables: [
+        {
+          slot: params.slot,
+          equippedItem: newEquippedItem,
         },
-        wearables: [
-          {
-            slot: params.slot,
-            equippedItem: newEquippedItem,
-          },
-        ],
-      }
-    );
+      ],
+    });
   }
 
   private async changePoseIfNeeded(
-    playerId: number,
-    character: Character,
+    actor: ActorData,
     slot: Slot,
     newEquippedItem: EquippedItem | undefined
   ): Promise<boolean> {
     const newCharacter: Character = {
-      ...character,
+      ...actor.character,
       wearables: {
-        ...character.wearables,
+        ...actor.character.wearables,
         [slot]: newEquippedItem,
       },
     };
-    const currentPose = character.pose;
+    const currentPose = actor.character.pose;
     if (this.characterPoseValidator.isPoseValid(newCharacter, currentPose)) {
       const preferablePose = this.getPreferablePoseThatWasPreviouslyInvalid(
-        character,
+        actor.character,
         newCharacter
       );
       if (preferablePose) {
-        await this.characterPoseService.updatePose(playerId, preferablePose);
+        await this.characterPoseService.updatePose(actor, preferablePose);
       }
       return true;
     }
@@ -136,7 +141,7 @@ export class WardrobeService {
       return false;
     }
     const newPose = this.getNewValidPose(newCharacter);
-    await this.characterPoseService.updatePose(playerId, newPose);
+    await this.characterPoseService.updatePose(actor, newPose);
     return true;
   }
 

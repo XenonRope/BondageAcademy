@@ -24,6 +24,7 @@ export const enDictionary = {
   },
   npc: {
     headmistress: "Headmistress",
+    prisonGuard: "Prison guard",
   },
   dialogue: {
     welcomeInOurAcademy: "Welcome in our academy!",

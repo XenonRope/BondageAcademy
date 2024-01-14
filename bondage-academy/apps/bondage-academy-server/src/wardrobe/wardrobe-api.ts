@@ -4,6 +4,7 @@ import {
   PlayerActor,
   Slot,
   WearRequestSchema,
+  prepareActorByPlayerId,
 } from "@bondage-academy/bondage-academy-model";
 import * as tPromise from "io-ts-promise";
 import { parseEnum } from "../api/utils/parsers";
@@ -24,17 +25,13 @@ export class WardrobeApi {
       throw new Error("User is not logged in");
     }
     this.minigameService.assertPlayerIsNotDuringMinigame(session.playerId);
-    const { targetPlayerId, slot, item } = await tPromise.decode(
+    const { target, slot, item } = await tPromise.decode(
       WearRequestSchema,
       request
     );
     const actor: PlayerActor = {
       type: ActorType.Player,
       playerId: session.playerId,
-    };
-    const target: PlayerActor = {
-      type: ActorType.Player,
-      playerId: targetPlayerId,
     };
     await this.wardrobeChangeService.wear({
       actor,
@@ -49,13 +46,13 @@ export class WardrobeApi {
       throw new Error("User is not logged in");
     }
     this.minigameService.assertPlayerIsNotDuringMinigame(session.playerId);
-    const { targetPlayerId, slot, customizations } = await tPromise.decode(
+    const { target, slot, customizations } = await tPromise.decode(
       CustomizeItemRequest,
       request
     );
     await this.wardroveCustomizationService.customizeItem({
-      actorPlayerId: session.playerId,
-      targetPlayerId,
+      actor: prepareActorByPlayerId(session.playerId),
+      target,
       slot,
       customizations,
     });

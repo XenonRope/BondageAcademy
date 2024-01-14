@@ -1,70 +1,72 @@
 import {
+  Actor,
   ItemCode,
   ItemCustomization,
   ItemCustomizationAccessChecker,
   Slot,
+  isPlayerActor,
   itemConfigs,
 } from "@bondage-academy/bondage-academy-model";
-import { PlayerClientSynchronizationService } from "../player/player-client-synchronization-service";
-import { PlayerStoreService } from "../player/player-store-service";
+import { ActorService } from "../actor/actor-service";
 
 export class WardrobeCustomizationService {
   constructor(
-    private playerStoreService: PlayerStoreService,
-    private playerClientSynchronizationService: PlayerClientSynchronizationService,
-    private itemCustomizationAccessChecker: ItemCustomizationAccessChecker
+    private itemCustomizationAccessChecker: ItemCustomizationAccessChecker,
+    private actorService: ActorService
   ) {}
 
   async customizeItem(params: {
-    actorPlayerId: number;
-    targetPlayerId: number;
+    actor: Actor;
+    target: Actor;
     slot: Slot;
     customizations?: ItemCustomization[];
   }): Promise<void> {
     const { equippedItem } = await this.assertCanCustomizeItem(params);
     equippedItem.customizations = params.customizations;
-    await this.playerStoreService.update(params.targetPlayerId, (player) => {
-      player.character.wearables[params.slot] = equippedItem;
+    await this.actorService.updateActor(params.target, ({ character }) => {
+      character.wearables[params.slot] = equippedItem;
     });
-    await this.playerClientSynchronizationService.synchronizePlayerByPlayerId(
-      params.targetPlayerId,
-      {
-        wearables: [
-          {
-            slot: params.slot,
-            equippedItem,
-          },
-        ],
-      }
-    );
+    await this.actorService.synchronizeActorWithClient(params.target, {
+      wearables: [
+        {
+          slot: params.slot,
+          equippedItem,
+        },
+      ],
+    });
   }
 
   private async assertCanCustomizeItem(params: {
-    actorPlayerId: number;
-    targetPlayerId: number;
+    actor: Actor;
+    target: Actor;
     slot: Slot;
     customizations?: ItemCustomization[];
   }) {
-    const actorPlayer = await this.playerStoreService.get(params.actorPlayerId);
-    const targetPlayer = await this.playerStoreService.get(
-      params.targetPlayerId
-    );
-    if (actorPlayer.roomId !== targetPlayer.roomId) {
-      throw new Error("Players are not in the same room");
+    const actor = await this.actorService.getActorData(params.actor);
+    const target = await this.actorService.getActorData(params.target);
+    if (actor.roomId !== target.roomId) {
+      throw new Error("Actors are not in the same room");
     }
-    if (!actorPlayer.roomId && actorPlayer.id !== targetPlayer.id) {
+    if (
+      !actor.roomId &&
+      !(
+        isPlayerActor(params.actor) &&
+        isPlayerActor(params.target) &&
+        params.actor.playerId === params.target.playerId
+      )
+    ) {
       throw new Error(
         "Only player can change their own clothes if they are not in a room"
       );
     }
-    const equippedItem = targetPlayer.character.wearables[params.slot];
+    const equippedItem = target.character.wearables[params.slot];
     if (!equippedItem) {
       throw new Error("No item equipped in slot");
     }
     if (
       !this.itemCustomizationAccessChecker.canCustomizeItem({
-        actorPlayerId: params.actorPlayerId,
-        targetPlayerId: params.targetPlayerId,
+        actor: params.actor,
+        target: params.target,
         slot: params.slot,
         equippedItem,
       })

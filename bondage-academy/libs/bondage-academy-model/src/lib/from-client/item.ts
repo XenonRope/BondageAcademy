@@ -1,11 +1,12 @@
 import * as t from "io-ts";
+import { Actor } from "../model/actor";
 import { ItemCustomization } from "../model/character";
 import { ItemReference, PhantomItem } from "../model/item";
 import { Slot } from "../model/slot";
 import { TypeUtils } from "../utils/type-utils";
 
 export const WearRequestSchema = t.type({
-  targetPlayerId: t.number,
+  target: Actor,
   slot: TypeUtils.fromEnum(Slot),
   item: t.union([ItemReference, PhantomItem, t.undefined]),
 });
@@ -13,7 +14,7 @@ export const WearRequestSchema = t.type({
 export type WearRequest = t.TypeOf<typeof WearRequestSchema>;
 
 export const CustomizeItemRequest = t.type({
-  targetPlayerId: t.number,
+  target: Actor,
   slot: TypeUtils.fromEnum(Slot),
   customizations: t.array(ItemCustomization),
 });

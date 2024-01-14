@@ -32,7 +32,8 @@ export const configureApiContainer = (serviceContainer: ServiceContainer) => {
       () =>
         new CharacterPoseApi(
           serviceContainer.characterPoseService,
-          serviceContainer.minigameService
+          serviceContainer.minigameService,
+          serviceContainer.actorService
         )
     )
     .add(

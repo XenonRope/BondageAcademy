@@ -1,3 +1,4 @@
+import { prepareActorByPlayerId } from "@bondage-academy/bondage-academy-model";
 import type { JSX } from "solid-js/jsx-runtime";
 import ActionView from "../action/action-view";
 import { sideMenuService, store, t } from "../app/services";
@@ -16,7 +17,11 @@ export default function SideMenuPanel() {
         return <CharacterPoseController />;
       }
       case SideMenuView.Wardrobe:
-        return store.playerId && <WardrobeView playerId={store.playerId} />;
+        return (
+          store.playerId && (
+            <WardrobeView actor={prepareActorByPlayerId(store.playerId)} />
+          )
+        );
       case SideMenuView.Equipment:
         return <EquipmentView />;
       default:

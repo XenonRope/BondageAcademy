@@ -5,6 +5,7 @@ import {
   LowerBodyPose,
   UpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
+import { ActorService } from "../actor/actor-service";
 import { parseEnum, parseOptionalEnum } from "../api/utils/parsers";
 import { MinigameService } from "../minigame/minigame-service";
 import { Session } from "../session/model/session";
@@ -17,7 +18,8 @@ export interface ChangePoseRequest {
 export class CharacterPoseApi {
   constructor(
     private characterPoseService: CharacterPoseService,
-    private minigameService: MinigameService
+    private minigameService: MinigameService,
+    private actorService: ActorService
   ) {}
 
   async changePose(
@@ -29,8 +31,11 @@ export class CharacterPoseApi {
       throw new Error("User is not logged in");
     }
     this.minigameService.assertPlayerIsNotDuringMinigame(session.playerId);
+    const actor = await this.actorService.getActorDataByPlayerId(
+      session.playerId
+    );
 
-    await this.characterPoseService.changePose(session.playerId, pose);
+    await this.characterPoseService.changePose(actor, pose);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -11,6 +11,7 @@ import { LoginService } from "../account/login-service";
 import { LogoutService } from "../account/logout-service";
 import { ActionService } from "../action/action-service";
 import { SmileActionHandler } from "../action/handler/smile-action-handler";
+import { ActorService } from "../actor/actor-service";
 import { CharacterPoseService } from "../character/character-pose-service";
 import { ChatService } from "../chat/chat-service";
 import { ChatSpeakService } from "../chat/chat-speak-service";
@@ -119,6 +120,23 @@ export const configureServiceContainer = () => {
           sessionService
         )
     )
+    .add(
+      "actorService",
+      ({
+        playerStoreService,
+        roomStoreService,
+        playerClientSynchronizationService,
+        objectClientSynchronizationService,
+        roomSessionService,
+      }) =>
+        new ActorService(
+          playerStoreService,
+          roomStoreService,
+          playerClientSynchronizationService,
+          objectClientSynchronizationService,
+          roomSessionService
+        )
+    )
     .add("accountService", ({ dao }) => new AccountService(dao))
     .add("logoutService", () => new LogoutService())
     .add(
@@ -173,41 +191,33 @@ export const configureServiceContainer = () => {
     )
     .add(
       "wardrobeConditionChecker",
-      ({ playerStoreService, wardrobeValidator }) =>
-        new WardrobeConditionChecker(playerStoreService, wardrobeValidator)
+      ({ playerStoreService, wardrobeValidator, actorService }) =>
+        new WardrobeConditionChecker(
+          playerStoreService,
+          wardrobeValidator,
+          actorService
+        )
     )
     .add(
       "characterPoseService",
-      ({
-        playerStoreService,
-        roomSessionService,
-        sessionService,
-        playerClientSynchronizationService,
-        characterPoseValidator,
-      }) =>
-        new CharacterPoseService(
-          playerStoreService,
-          roomSessionService,
-          sessionService,
-          playerClientSynchronizationService,
-          characterPoseValidator
-        )
+      ({ characterPoseValidator, actorService }) =>
+        new CharacterPoseService(characterPoseValidator, actorService)
     )
     .add(
       "wardrobeService",
       ({
         playerStoreService,
-        playerClientSynchronizationService,
         wardrobeConditionChecker,
         characterPoseValidator,
         characterPoseService,
+        actorService,
       }) =>
         new WardrobeService(
           playerStoreService,
-          playerClientSynchronizationService,
           wardrobeConditionChecker,
           characterPoseValidator,
-          characterPoseService
+          characterPoseService,
+          actorService
         )
     )
     .add(
@@ -418,8 +428,7 @@ export const configureServiceContainer = () => {
     )
     .add(
       "wardrobeMinigameService",
-      ({ minigameService, playerStoreService }) =>
-        new WardrobeMinigameService(minigameService, playerStoreService)
+      ({ minigameService }) => new WardrobeMinigameService(minigameService)
     )
     .add(
       "wardrobeChangeService",
@@ -447,15 +456,10 @@ export const configureServiceContainer = () => {
     )
     .add(
       "wardrobeCustomizationService",
-      ({
-        playerStoreService,
-        playerClientSynchronizationService,
-        itemCustomizationAccessChecker,
-      }) =>
+      ({ itemCustomizationAccessChecker, actorService }) =>
         new WardrobeCustomizationService(
-          playerStoreService,
-          playerClientSynchronizationService,
-          itemCustomizationAccessChecker
+          itemCustomizationAccessChecker,
+          actorService
         )
     )
     .add(

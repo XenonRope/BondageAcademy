@@ -9,9 +9,7 @@ export default function ActionMenuPanel() {
     switch (store.actionMenuView) {
       case ActionMenuView.Wardrobe:
         return (
-          store.selectedPlayer && (
-            <WardrobeView playerId={store.selectedPlayer} />
-          )
+          store.selectedActor && <WardrobeView actor={store.selectedActor} />
         );
       default:
         return <></>;

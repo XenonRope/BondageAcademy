@@ -1,8 +1,8 @@
 import {
   ChatMessageEvent,
   EventFromServer,
-  GameObject,
   Position,
+  SynchronizeGameObjects,
   SynchronizeMinigamesEvent,
   SynchronizePlayersEvent,
 } from "@bondage-academy/bondage-academy-model";
@@ -25,7 +25,7 @@ export default function App() {
       storeService.setSocket(socket);
       socket.on(
         EventFromServer.SynchronizeObjects,
-        (msg: { objects?: GameObject[]; toRemove?: number[] }) => {
+        (msg: SynchronizeGameObjects) => {
           storeService.updateObjects(msg);
         }
       );

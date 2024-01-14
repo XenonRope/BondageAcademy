@@ -7,7 +7,7 @@ import {
   itemConfigs,
 } from "@bondage-academy/bondage-academy-model";
 import { JSX } from "solid-js/jsx-runtime";
-import { store, storeService, t } from "../app/services";
+import { store, storeService, t, translator } from "../app/services";
 
 export default function MinigameView(props: { minigame: Minigame }) {
   function render(): JSX.Element {
@@ -77,11 +77,11 @@ export default function MinigameView(props: { minigame: Minigame }) {
 
   function getNameByActor(actor: Actor): JSX.Element {
     const name = storeService.getNameByActor(actor);
-    return name ? <span class="font-bold">{name}</span> : <></>;
+    return name ? <span class="font-bold">{translator(name)}</span> : <></>;
   }
 
   function getItemNameByItemCode(code: ItemCode): JSX.Element {
-    return <span class="font-bold">{t(itemConfigs[code].name) as string}</span>;
+    return <span class="font-bold">{t(itemConfigs[code].name)}</span>;
   }
 
   return <>{render()}</>;

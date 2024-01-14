@@ -1,19 +1,13 @@
 import {
   EventFromServer,
-  GameObject,
+  SynchronizeGameObjects as SynchronizeObjects,
 } from "@bondage-academy/bondage-academy-model";
 import { type Session } from "../session/model/session";
 
 export class ObjectClientSynchronizationService {
-  synchronizeObjects(
-    params: { objects?: GameObject[]; toRemove?: number[] },
-    sessions: Session[]
-  ): void {
+  synchronizeObjects(event: SynchronizeObjects, sessions: Session[]): void {
     for (const session of sessions) {
-      session.socket.emit(EventFromServer.SynchronizeObjects, {
-        objects: params.objects,
-        toRemove: params.toRemove,
-      });
+      session.socket.emit(EventFromServer.SynchronizeObjects, event);
     }
   }
 }

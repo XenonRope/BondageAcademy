@@ -1,4 +1,5 @@
 import {
+  Actor,
   ChatMessage,
   Minigame,
   PartialRecord,
@@ -26,6 +27,6 @@ export interface Store {
   sideMenuView?: SideMenuView;
   actionMenuView?: ActionMenuView;
   chatMessages?: ChatMessage[];
-  selectedPlayer?: number;
+  selectedActor?: Actor;
   minigames?: Minigame[];
 }

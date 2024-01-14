@@ -1,4 +1,5 @@
 import {
+  Actor,
   ArrayUtils,
   Item,
   ItemCode,
@@ -6,6 +7,7 @@ import {
   PartialRecord,
   Slot,
   itemConfigs,
+  prepareActorByPlayerId,
 } from "@bondage-academy/bondage-academy-model";
 import { For, Show, createMemo, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
@@ -22,7 +24,7 @@ import ItemSelector from "./item-selector";
 import WardrobeCustomizations from "./wardrobe-customizations";
 import WardrobeSlot from "./wardrobe-slot";
 
-export default function WardrobeView(props: { playerId: number }) {
+export default function WardrobeView(props: { actor: Actor }) {
   const [selectedSlot, setSelectedSlot] = createSignal<Slot>();
   const [customizations, setCustomizations] = createStore<ItemCustomization[]>(
     []
@@ -43,8 +45,8 @@ export default function WardrobeView(props: { playerId: number }) {
     );
   });
 
-  const character = createMemo(
-    () => storeService.getPlayerById(props.playerId)?.character
+  const character = createMemo(() =>
+    storeService.getCharacterByActor(props.actor)
   );
 
   const wearables = createMemo(() => character()?.wearables ?? {});
@@ -62,8 +64,8 @@ export default function WardrobeView(props: { playerId: number }) {
       store.playerId &&
       equippedItem &&
       itemCustomizationAccessChecker.canCustomizeItem({
-        actorPlayerId: store.playerId,
-        targetPlayerId: props.playerId,
+        actor: prepareActorByPlayerId(store.playerId),
+        target: props.actor,
         slot,
         equippedItem,
       })
@@ -89,7 +91,7 @@ export default function WardrobeView(props: { playerId: number }) {
       return;
     }
     wardrobeService
-      .wear(props.playerId, slot, item ? { id: item.id } : undefined)
+      .wear(props.actor, slot, item ? { id: item.id } : undefined)
       .then(() => selectSlot(undefined))
       .catch(console.log);
   }
@@ -139,7 +141,7 @@ export default function WardrobeView(props: { playerId: number }) {
     const slot = selectedSlot();
     if (slot) {
       wardrobeService
-        .customizeItem(props.playerId, slot, customizations)
+        .customizeItem(props.actor, slot, customizations)
         .catch(console.log);
     }
   }

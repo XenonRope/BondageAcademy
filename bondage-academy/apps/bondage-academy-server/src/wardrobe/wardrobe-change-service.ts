@@ -3,6 +3,7 @@ import {
   ItemReference,
   PhantomItem,
   Slot,
+  isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
 import { WardrobeMinigameService } from "../minigame/wardrobe-minigame-service";
 import { WardrobeConditionChecker } from "./wardrobe-condition-checker";
@@ -21,20 +22,24 @@ export class WardrobeChangeService {
     slot: Slot;
     item?: ItemReference | PhantomItem;
   }): Promise<void> {
-    const { actorPlayer, targetPlayer, item } =
+    const { actor, target, item } =
       await this.wardrobeConditionChecker.assertCanWear({
         actor: params.actor,
         target: params.target,
         slot: params.slot,
         item: params.item,
       });
-    if (actorPlayer.id === targetPlayer.id) {
+    if (
+      isPlayerActor(params.actor) &&
+      isPlayerActor(params.target) &&
+      params.actor.playerId === params.target.playerId
+    ) {
       await this.wardrobeService.wear(params);
       return;
     }
     await this.wardrobeMinigameService.startChangeWardrobeMinigame({
-      actor: params.actor,
-      target: params.target,
+      actor,
+      target,
       slot: params.slot,
       item,
     });

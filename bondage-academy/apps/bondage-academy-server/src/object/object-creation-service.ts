@@ -41,6 +41,7 @@ export class ObjectCreationService {
       position,
       code,
       character,
+      items: [],
     };
   }
 }

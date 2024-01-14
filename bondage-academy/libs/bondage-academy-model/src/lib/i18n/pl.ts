@@ -26,6 +26,7 @@ export const plDictionary: RawDictionary = {
   },
   npc: {
     headmistress: "Dyrektorka",
+    prisonGuard: "Strażniczka więzienna",
   },
   dialogue: {
     welcomeInOurAcademy: "Witaj w naszej akademii!",

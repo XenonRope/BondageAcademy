@@ -1,3 +1,4 @@
+import { isPlayerActor } from "@bondage-academy/bondage-academy-model";
 import { Show } from "solid-js";
 import { sideMenuService, store } from "../app/services";
 import { clothIcon } from "../ui/icons";
@@ -20,7 +21,11 @@ export default function ActionMenuBar() {
       }}
     >
       <Show
-        when={store.selectedPlayer && store.selectedPlayer !== store.playerId}
+        when={
+          store.selectedActor &&
+          (!isPlayerActor(store.selectedActor) ||
+            store.selectedActor.playerId !== store.playerId)
+        }
       >
         <div
           onClick={() => toggleActionMenu(ActionMenuView.Wardrobe)}

@@ -9,12 +9,15 @@ export interface SynchronizePlayersEvent {
   updatePlayers?: UpdatePlayer[];
 }
 
-export interface UpdatePlayer {
-  id: number;
+export interface UpdateActor {
   pose?: CharacterPose;
   items?: {
     add?: Item[];
     remove?: number[];
   };
   wearables?: Array<{ slot: Slot; equippedItem?: EquippedItem }>;
+}
+
+export interface UpdatePlayer extends UpdateActor {
+  id: number;
 }

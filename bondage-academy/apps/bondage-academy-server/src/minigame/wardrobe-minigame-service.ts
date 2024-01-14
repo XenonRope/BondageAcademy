@@ -1,5 +1,4 @@
 import {
-  Actor,
   ChangeWardrobeMinigameStake,
   ClickMinigameChallange,
   Item,
@@ -7,36 +6,20 @@ import {
   MinigameStakeType,
   PhantomItem,
   Slot,
-  isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
-import { PlayerStoreService } from "../player/player-store-service";
+import { ActorData } from "../actor/actor-data";
 import { MinigameService } from "./minigame-service";
 
 export class WardrobeMinigameService {
-  constructor(
-    private minigameService: MinigameService,
-    private playerStoreService: PlayerStoreService
-  ) {}
+  constructor(private minigameService: MinigameService) {}
 
   async startChangeWardrobeMinigame(params: {
-    actor: Actor;
-    target: Actor;
+    actor: ActorData;
+    target: ActorData;
     slot: Slot;
     item?: Item | PhantomItem;
   }): Promise<void> {
-    if (!isPlayerActor(params.actor)) {
-      throw new Error("Actor is not player");
-    }
-    if (!isPlayerActor(params.target)) {
-      throw new Error("Target is not player");
-    }
-    const actorPlayer = await this.playerStoreService.get(
-      params.actor.playerId
-    );
-    const targetPlayer = await this.playerStoreService.get(
-      params.target.playerId
-    );
-    const currentItem = targetPlayer.character.wearables[params.slot];
+    const currentItem = params.target.character.wearables[params.slot];
     const challange: ClickMinigameChallange = {
       type: MinigameChallangeType.Click,
     };
@@ -47,9 +30,9 @@ export class WardrobeMinigameService {
       currentItem: currentItem?.item,
     };
     await this.minigameService.startMinigame({
-      roomId: actorPlayer.roomId,
-      actor: params.actor,
-      target: params.target,
+      roomId: params.actor.roomId,
+      actor: params.actor.actor,
+      target: params.target.actor,
       challange,
       stake,
       durationInMs: 5000,
