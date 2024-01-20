@@ -16,6 +16,7 @@ import {
 } from "@bondage-academy/bondage-academy-model";
 import { ObjectCreationService } from "../object/object-creation-service";
 import { ObjectIdProvider } from "../object/object-id-provider";
+import { gardenData } from "./data/garden";
 import { RoomCreationService } from "./room-creation-service";
 import { RoomService } from "./room-service";
 
@@ -245,7 +246,12 @@ export class RoomInitializationService {
           image: RoomBackgroundElementImage.Grass,
         },
       ],
-      objects: [],
+      objects: await Promise.all(
+        gardenData.objects.map(async (object) => ({
+          ...object,
+          id: await this.objectIdProvider.getNextId(),
+        }))
+      ),
     });
   }
 
