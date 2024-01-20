@@ -1,6 +1,7 @@
 import {
   GameObject,
   Room,
+  RoomBackgroundElement,
   RoomRestrictions,
   RoomTemplateSettings,
   RoomTransitArea,
@@ -24,6 +25,7 @@ export interface CreateTemplateRoomParams {
   height: number;
   templateSettings: RoomTemplateSettings;
   transitAreas: RoomTransitArea[];
+  backgroundElements: RoomBackgroundElement[];
   objects: GameObject[];
 }
 
@@ -53,6 +55,7 @@ export class RoomCreationService {
       height: templateRoom.height,
       transitAreas: structuredClone(templateRoom.transitAreas),
       restrictions: params.restrictions,
+      backgroundElements: structuredClone(templateRoom.backgroundElements),
       objects: structuredClone(templateRoom.objects),
     };
     await this.roomService.insertRoom(room);
@@ -70,6 +73,7 @@ export class RoomCreationService {
       width: params.width,
       height: params.height,
       transitAreas: params.transitAreas,
+      backgroundElements: params.backgroundElements,
       objects: params.objects,
     };
     await this.roomService.insertRoom(room);

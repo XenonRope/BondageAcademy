@@ -12,7 +12,7 @@ import type { Motion } from "./model/motion";
 import type { MotionStorage } from "./motion-storage";
 import { MovementConditionChecker } from "./movement-condition-checker";
 
-const PLAYER_MOVE_DURATION = 500;
+const PLAYER_MOVE_DURATION = 350;
 
 export class MovementService {
   constructor(

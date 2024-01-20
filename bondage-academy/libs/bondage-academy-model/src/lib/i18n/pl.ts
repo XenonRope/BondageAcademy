@@ -23,6 +23,7 @@ export const plDictionary: RawDictionary = {
   rooms: {
     introduction: "Wprowadzenie",
     prisonCell: "Cela więzienna",
+    garden: "Ogród",
   },
   npc: {
     headmistress: "Dyrektorka",

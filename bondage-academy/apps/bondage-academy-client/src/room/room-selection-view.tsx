@@ -41,6 +41,9 @@ export default function RoomSelectionView() {
               <Button onClick={() => createPrivateRoom(RoomCode.PrisonCell)}>
                 {t("rooms.prisonCell")}
               </Button>
+              <Button onClick={() => createPrivateRoom(RoomCode.Garden)}>
+                {t("rooms.garden")}
+              </Button>
             </div>
           </div>
           <div class="flex flex-col min-h-0">

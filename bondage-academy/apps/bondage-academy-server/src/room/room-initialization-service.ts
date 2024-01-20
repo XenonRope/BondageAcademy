@@ -10,7 +10,7 @@ import {
   NPCCode,
   NPCObject,
   ObjectType,
-  PhantomItem,
+  RoomBackgroundElementImage,
   RoomCode,
   UpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
@@ -30,6 +30,7 @@ export class RoomInitializationService {
   async initializeRooms(): Promise<void> {
     await this.initializeTurotialRoom();
     await this.initializePrisonCellRoom();
+    await this.initializeGarden();
   }
 
   private async initializeTurotialRoom(): Promise<void> {
@@ -47,6 +48,15 @@ export class RoomInitializationService {
         singleplayer: true,
       },
       transitAreas: [{ x: 2, y: 1, width: 1, height: 1 }],
+      backgroundElements: [
+        {
+          x: 0,
+          y: 0,
+          width: 10,
+          height: 10,
+          image: RoomBackgroundElementImage.Grass,
+        },
+      ],
       objects: [
         await this.createBlock(0, 0),
         await this.createBlock(1, 0),
@@ -114,6 +124,15 @@ export class RoomInitializationService {
         { x: 5, y: 2, width: 1, height: 1 },
         { x: 4, y: 2, width: 1, height: 1 },
       ],
+      backgroundElements: [
+        {
+          x: 0,
+          y: 0,
+          width: 6,
+          height: 5,
+          image: RoomBackgroundElementImage.Grass,
+        },
+      ],
       objects: [
         await this.createBlock(0, 0),
         await this.createBlock(1, 0),
@@ -151,6 +170,85 @@ export class RoomInitializationService {
     });
   }
 
+  private async initializeGarden(): Promise<void> {
+    const room = await this.roomService.getRoomByCode(RoomCode.Garden);
+    if (room != null) {
+      return;
+    }
+
+    await this.roomCreationService.createTemplateRoom({
+      code: RoomCode.Garden,
+      name: "rooms.garden",
+      width: 30,
+      height: 30,
+      templateSettings: {},
+      transitAreas: [
+        {
+          x: 0,
+          y: 13,
+          width: 1,
+          height: 1,
+        },
+        {
+          x: 0,
+          y: 12,
+          width: 1,
+          height: 1,
+        },
+        {
+          x: 0,
+          y: 14,
+          width: 1,
+          height: 1,
+        },
+        {
+          x: 1,
+          y: 12,
+          width: 2,
+          height: 3,
+        },
+      ],
+      backgroundElements: [
+        {
+          x: 0,
+          y: 0,
+          width: 30,
+          height: 30,
+          image: RoomBackgroundElementImage.Grass,
+        },
+        {
+          x: 0,
+          y: 12,
+          width: 30,
+          height: 3,
+          image: RoomBackgroundElementImage.Road,
+        },
+        {
+          x: 18,
+          y: 3,
+          width: 3,
+          height: 30,
+          image: RoomBackgroundElementImage.Road,
+        },
+        {
+          x: 12,
+          y: 6,
+          width: 15,
+          height: 15,
+          image: RoomBackgroundElementImage.Road,
+        },
+        {
+          x: 15,
+          y: 9,
+          width: 9,
+          height: 9,
+          image: RoomBackgroundElementImage.Grass,
+        },
+      ],
+      objects: [],
+    });
+  }
+
   private async createBlock(x: number, y: number): Promise<BlockObject> {
     return {
       id: await this.objectIdProvider.getNextId(),
@@ -183,9 +281,5 @@ export class RoomInitializationService {
       code,
       character,
     });
-  }
-
-  private createPhantomItem(code: ItemCode): PhantomItem {
-    return { code };
   }
 }

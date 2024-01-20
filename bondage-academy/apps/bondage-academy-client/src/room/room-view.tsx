@@ -3,6 +3,7 @@ import { For, createMemo } from "solid-js";
 import { socketService, store, storeService } from "../app/services";
 import { ROOM_TILE_SIZE } from "./model/room";
 import ObjectView from "./object/object-view";
+import RoomBackgroundElementView from "./room-background-element-view";
 
 export default function RoomView() {
   const { ref, bounds } = trackBounds();
@@ -68,13 +69,20 @@ export default function RoomView() {
       {store.room && (
         <div ref={ref} onClick={move} class="w-full h-full overflow-hidden">
           <div
-            class="relative bg-green-100"
+            class="relative"
             style={{
               width: `${store.room.width * ROOM_TILE_SIZE}px`,
               height: `${store.room.height * ROOM_TILE_SIZE}px`,
               transform: `translate(${offset().x}px, ${offset().y}px)`,
             }}
           >
+            <For each={store.room.backgroundElements}>
+              {(backgroundElement) => (
+                <RoomBackgroundElementView
+                  backgroundElement={backgroundElement}
+                />
+              )}
+            </For>
             <For each={Object.values(store.room.objects)}>
               {(object) => object != null && <ObjectView object={object} />}
             </For>

@@ -21,6 +21,7 @@ export const enDictionary = {
   rooms: {
     introduction: "Introduction",
     prisonCell: "Prison cell",
+    garden: "Garden",
   },
   npc: {
     headmistress: "Headmistress",
