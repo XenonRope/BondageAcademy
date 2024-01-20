@@ -19,8 +19,9 @@ export default function RoomBackgroundElementView(props: {
       style={{
         width: `${props.backgroundElement.width * ROOM_TILE_SIZE}px`,
         height: `${props.backgroundElement.height * ROOM_TILE_SIZE}px`,
-        left: `${props.backgroundElement.x * ROOM_TILE_SIZE}px`,
-        top: `${props.backgroundElement.y * ROOM_TILE_SIZE}px`,
+        transform: `translate(${
+          props.backgroundElement.x * ROOM_TILE_SIZE
+        }px, ${props.backgroundElement.y * ROOM_TILE_SIZE}px)`,
       }}
     ></div>
   );

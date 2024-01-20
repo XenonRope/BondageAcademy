@@ -20,8 +20,9 @@ export default function BlockView(props: { object: BlockObject }) {
       style={{
         width: `${ROOM_TILE_SIZE}px`,
         height: `${ROOM_TILE_SIZE}px`,
-        left: `${props.object.position.x * ROOM_TILE_SIZE}px`,
-        top: `${props.object.position.y * ROOM_TILE_SIZE}px`,
+        transform: `translate(${props.object.position.x * ROOM_TILE_SIZE}px, ${
+          props.object.position.y * ROOM_TILE_SIZE
+        }px)`,
       }}
     />
   );

@@ -61,7 +61,7 @@ export default function RoomView() {
       y = 0;
     }
 
-    return { x, y };
+    return { x: Math.round(x), y: Math.round(y) };
   });
 
   return (

@@ -41,8 +41,9 @@ export default function PlayerView(props: { object: PlayerObject }) {
         style={{
           width: `${ROOM_TILE_SIZE}px`,
           height: `${ROOM_TILE_SIZE}px`,
-          left: `${position.x * ROOM_TILE_SIZE}px`,
-          top: `${position.y * ROOM_TILE_SIZE}px`,
+          transform: `translate(${position.x * ROOM_TILE_SIZE}px, ${
+            position.y * ROOM_TILE_SIZE
+          }px)`,
         }}
       />
     );
