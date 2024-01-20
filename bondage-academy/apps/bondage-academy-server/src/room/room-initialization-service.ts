@@ -226,7 +226,7 @@ export class RoomInitializationService {
         },
         {
           x: 18,
-          y: 3,
+          y: 0,
           width: 3,
           height: 30,
           image: RoomBackgroundElementImage.Road,
