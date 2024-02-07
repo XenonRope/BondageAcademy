@@ -20,6 +20,7 @@ export class SmileActionHandler implements ActionHandler<SmileAction> {
   canHandle(action: Action): action is SmileAction {
     return action.type === ActionType.Smile;
   }
+
   async handle(actor: Actor, _action: SmileAction): Promise<void> {
     if (!isPlayerActor(actor)) {
       return;

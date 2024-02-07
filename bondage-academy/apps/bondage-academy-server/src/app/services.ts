@@ -444,15 +444,18 @@ export const configureServiceContainer = () => {
         )
     )
     .add(
-      "actionExecutorService",
+      "smileActionHandler",
       ({ roomSessionService, chatService, playerStoreService }) =>
-        new ActionExecutorService([
-          new SmileActionHandler(
-            roomSessionService,
-            chatService,
-            playerStoreService
-          ),
-        ])
+        new SmileActionHandler(
+          roomSessionService,
+          chatService,
+          playerStoreService
+        )
+    )
+    .add(
+      "actionExecutorService",
+      ({ smileActionHandler }) =>
+        new ActionExecutorService([smileActionHandler])
     )
     .add(
       "wardrobeCustomizationService",

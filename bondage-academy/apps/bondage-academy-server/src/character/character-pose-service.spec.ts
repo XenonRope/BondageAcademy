@@ -1,4 +1,6 @@
 import {
+  ActorType,
+  Character,
   CharacterPose,
   CharacterShape,
   CharacterSkin,
@@ -14,6 +16,7 @@ import {
 } from "@bondage-academy/bondage-academy-model";
 import { when } from "jest-when";
 import { Mock, mock } from "ts-jest-mocker";
+import { ActorData } from "../actor/actor-data";
 import { PlayerService } from "../player/player-service";
 import { PlayerStoreService } from "../player/player-store-service";
 import { configureMockServiceContainer } from "../test/mock-container";
@@ -37,46 +40,52 @@ beforeEach(() => {
 
 describe("changePose", () => {
   test("Return false and do not update player if new pose is invalid", async () => {
-    const player = playerWithWearables({
+    const actor: ActorData = actorDataWithWearables({
       Shoes: equippedItem(ItemCode.CynthiaHighHeels),
     });
     const characterPose = poseWithLowerBody(LowerBodyPose.WideLegs);
-    when(playerService.getPlayer)
-      .calledWith(PLAYER_ID)
-      .mockReturnValue(Promise.resolve(player));
     jest.spyOn(playerStoreService, "update");
 
-    const result = await characterPoseService.changePose(
-      PLAYER_ID,
-      characterPose
-    );
+    const result = await characterPoseService.changePose(actor, characterPose);
 
     expect(result).toBe(false);
     expect(playerStoreService.update).toHaveBeenCalledTimes(0);
   });
 
   test("Return true and update player if new pose is valid", async () => {
-    const player = playerWithWearables({
+    const wearables = {
       Shoes: equippedItem(ItemCode.CynthiaHighHeels),
-    });
+    };
+    const actor: ActorData = actorDataWithWearables(wearables);
     const characterPose = poseWithLowerBody(LowerBodyPose.WideLegsHeels);
     when(playerService.getPlayer)
       .calledWith(PLAYER_ID)
-      .mockReturnValue(Promise.resolve(player));
+      .mockReturnValue(Promise.resolve(playerWithWearables(wearables)));
     jest.spyOn(playerStoreService, "update");
 
-    const result = await characterPoseService.changePose(
-      PLAYER_ID,
-      characterPose
-    );
+    const result = await characterPoseService.changePose(actor, characterPose);
 
     expect(result).toBe(true);
     expect(playerStoreService.update).toHaveBeenCalledTimes(1);
-    expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
-      LowerBodyPose.WideLegsHeels
-    );
+    const updatedPlayer = await playerStoreService.get(PLAYER_ID);
+    const updatedPlayerPose = updatedPlayer.character
+      .pose as StandardCharacterPose;
+    expect(updatedPlayerPose.lowerBody).toBe(LowerBodyPose.WideLegsHeels);
   });
 });
+
+function actorDataWithWearables(
+  wearables: PartialRecord<Slot, EquippedItem>
+): ActorData {
+  return {
+    actor: {
+      type: ActorType.Player,
+      playerId: PLAYER_ID,
+    },
+    character: characterWithWearables(wearables),
+    playerId: PLAYER_ID,
+  };
+}
 
 function playerWithWearables(
   wearables: PartialRecord<Slot, EquippedItem>
@@ -84,17 +93,23 @@ function playerWithWearables(
   return {
     id: PLAYER_ID,
     name: "Alice",
-    character: {
-      shape: CharacterShape.Shape1,
-      skin: CharacterSkin.Skin1,
-      wearables,
-      pose: {
-        upperBody: UpperBodyPose.Attention,
-        lowerBody: LowerBodyPose.StandHeels,
-        head: HeadPose.Normal,
-      },
-    },
+    character: characterWithWearables(wearables),
     items: [],
+  };
+}
+
+function characterWithWearables(
+  wearables: PartialRecord<Slot, EquippedItem>
+): Character {
+  return {
+    shape: CharacterShape.Shape1,
+    skin: CharacterSkin.Skin1,
+    wearables,
+    pose: {
+      upperBody: UpperBodyPose.Attention,
+      lowerBody: LowerBodyPose.StandHeels,
+      head: HeadPose.Normal,
+    },
   };
 }
 
