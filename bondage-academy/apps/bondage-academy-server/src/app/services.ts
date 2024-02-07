@@ -9,7 +9,7 @@ import { AccountRegistrationService } from "../account/account-registration-serv
 import { AccountService } from "../account/account-service";
 import { LoginService } from "../account/login-service";
 import { LogoutService } from "../account/logout-service";
-import { ActionService } from "../action/action-service";
+import { ActionExecutorService } from "../action/action-executor-service";
 import { SmileActionHandler } from "../action/handler/smile-action-handler";
 import { ActorService } from "../actor/actor-service";
 import { CharacterPoseService } from "../character/character-pose-service";
@@ -444,9 +444,9 @@ export const configureServiceContainer = () => {
         )
     )
     .add(
-      "actionService",
+      "actionExecutorService",
       ({ roomSessionService, chatService, playerStoreService }) =>
-        new ActionService([
+        new ActionExecutorService([
           new SmileActionHandler(
             roomSessionService,
             chatService,

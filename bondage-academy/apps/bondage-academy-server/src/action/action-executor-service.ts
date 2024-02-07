@@ -1,7 +1,7 @@
 import { Action, Actor } from "@bondage-academy/bondage-academy-model";
 import { ActionHandler } from "./handler/action-handler";
 
-export class ActionService {
+export class ActionExecutorService {
   constructor(private handlers: ActionHandler<Action>[]) {}
 
   async executeAction(actor: Actor, action: Action): Promise<void> {

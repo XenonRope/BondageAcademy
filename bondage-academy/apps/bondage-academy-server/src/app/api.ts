@@ -106,7 +106,7 @@ export const configureApiContainer = (serviceContainer: ServiceContainer) => {
       "actionApi",
       () =>
         new ActionApi(
-          serviceContainer.actionService,
+          serviceContainer.actionExecutorService,
           serviceContainer.minigameService
         )
     );

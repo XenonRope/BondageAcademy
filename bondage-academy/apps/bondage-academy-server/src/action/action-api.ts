@@ -6,11 +6,11 @@ import {
 import * as tPromise from "io-ts-promise";
 import { MinigameService } from "../minigame/minigame-service";
 import { Session } from "../session/model/session";
-import { ActionService } from "./action-service";
+import { ActionExecutorService } from "./action-executor-service";
 
 export class ActionApi {
   constructor(
-    private actionService: ActionService,
+    private actionExecutorService: ActionExecutorService,
     private minigameService: MinigameService
   ) {}
 
@@ -24,6 +24,6 @@ export class ActionApi {
       type: ActorType.Player,
       playerId: session.playerId,
     };
-    await this.actionService.executeAction(actor, action);
+    await this.actionExecutorService.executeAction(actor, action);
   }
 }
