@@ -1,11 +1,11 @@
 import { Action, ActionType } from "@bondage-academy/bondage-academy-model";
-import { configureMockServiceContainer } from "../../test/mock-container";
+import { configureServiceContainer } from "../../app/services";
 import { SmileActionHandler } from "./smile-action-handler";
 
 let smileActionHandler: SmileActionHandler;
 
 beforeEach(() => {
-  const container = configureMockServiceContainer();
+  const container = configureServiceContainer();
   smileActionHandler = container.smileActionHandler;
 });
 

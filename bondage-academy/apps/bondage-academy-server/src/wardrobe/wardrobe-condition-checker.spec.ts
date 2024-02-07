@@ -15,8 +15,8 @@ import {
 } from "@bondage-academy/bondage-academy-model";
 import { when } from "jest-when";
 import { mock } from "ts-jest-mocker";
+import { configureServiceContainer } from "../app/services";
 import { PlayerStoreService } from "../player/player-store-service";
-import { configureMockServiceContainer } from "../test/mock-container";
 import { WardrobeConditionChecker } from "./wardrobe-condition-checker";
 
 const PLAYER_ID = 1;
@@ -27,7 +27,7 @@ let playerStoreService: PlayerStoreService;
 
 beforeEach(() => {
   playerStoreService = mock(PlayerStoreService);
-  const container = configureMockServiceContainer().update(
+  const container = configureServiceContainer().update(
     "playerStoreService",
     () => playerStoreService
   );

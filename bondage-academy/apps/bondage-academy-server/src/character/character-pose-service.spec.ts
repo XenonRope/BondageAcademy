@@ -17,9 +17,9 @@ import {
 import { when } from "jest-when";
 import { Mock, mock } from "ts-jest-mocker";
 import { ActorData } from "../actor/actor-data";
+import { configureServiceContainer } from "../app/services";
 import { PlayerService } from "../player/player-service";
 import { PlayerStoreService } from "../player/player-store-service";
-import { configureMockServiceContainer } from "../test/mock-container";
 import { CharacterPoseService } from "./character-pose-service";
 
 const PLAYER_ID = 1;
@@ -30,7 +30,7 @@ let playerStoreService: PlayerStoreService;
 
 beforeEach(() => {
   playerService = mock(PlayerService);
-  const container = configureMockServiceContainer().update(
+  const container = configureServiceContainer().update(
     "playerService",
     () => playerService
   );
