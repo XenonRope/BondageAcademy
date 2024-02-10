@@ -64,6 +64,18 @@ export default function RoomView() {
     return { x: Math.round(x), y: Math.round(y) };
   });
 
+  const getSortedObjects = createMemo(() => {
+    return store.room?.objects.toSorted((firstObject, secondObject) => {
+      if (firstObject.position.y > secondObject.position.y) {
+        return 1;
+      } else if (firstObject.position.y < secondObject.position.y) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  });
+
   return (
     <>
       {store.room && (
@@ -83,7 +95,7 @@ export default function RoomView() {
                 />
               )}
             </For>
-            <For each={Object.values(store.room.objects)}>
+            <For each={getSortedObjects()}>
               {(object) => object != null && <ObjectView object={object} />}
             </For>
           </div>

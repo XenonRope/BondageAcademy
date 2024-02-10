@@ -2,12 +2,20 @@ import {
   ActorType,
   PlayerObject,
   isPlayerActor,
+  prepareActorByPlayerId,
 } from "@bondage-academy/bondage-academy-model";
-import { JSX, createMemo } from "solid-js";
+import { JSX, Show, createMemo } from "solid-js";
 import { store, storeService } from "../../app/services";
-import { ROOM_TILE_SIZE } from "../model/room";
+import CharacterView from "../../character/character-view";
+import { ROOM_CHARACTER_WDITH, ROOM_TILE_SIZE } from "../model/room";
 
 export default function PlayerView(props: { object: PlayerObject }) {
+  const getCharacter = createMemo(() =>
+    storeService.getCharacterByActor(
+      prepareActorByPlayerId(props.object.playerId)
+    )
+  );
+
   const selected = createMemo(
     () =>
       isPlayerActor(store.selectedActor) &&
@@ -36,8 +44,7 @@ export default function PlayerView(props: { object: PlayerObject }) {
       <div
         onClick={(event) => event.stopPropagation()}
         onMouseDown={selectPlayer}
-        class="absolute rounded-[50%] bg-red-400"
-        classList={{ "border-[3px] border-red-800": selected() }}
+        class="absolute"
         style={{
           width: `${ROOM_TILE_SIZE}px`,
           height: `${ROOM_TILE_SIZE}px`,
@@ -45,7 +52,18 @@ export default function PlayerView(props: { object: PlayerObject }) {
             position.y * ROOM_TILE_SIZE
           }px)`,
         }}
-      />
+      >
+        <Show when={getCharacter()}>
+          {(character) => (
+            <div
+              class="absolute left-[50%] translate-x-[-50%] bottom-0"
+              style={{ width: `${ROOM_CHARACTER_WDITH}px` }}
+            >
+              <CharacterView character={character()}></CharacterView>
+            </div>
+          )}
+        </Show>
+      </div>
     );
   }
 
