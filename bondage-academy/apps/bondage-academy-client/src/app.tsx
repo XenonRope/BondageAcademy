@@ -34,7 +34,7 @@ export default function App() {
         navigationService.navigate(View.Home);
       });
       socket.on(
-        "move_player",
+        EventFromServer.MovePlayer,
         (msg: { objectId: number; position: Position; duration: number }) => {
           storeService.setPlayerMotion(msg);
           requestAnimationFrame(() => {

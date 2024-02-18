@@ -1,4 +1,5 @@
 import {
+  EventFromServer,
   Position,
   Room,
   arePositionsEqual,
@@ -110,7 +111,7 @@ export class MovementService {
 
     const sessions = await this.roomSessionService.getSessionsInRoom(roomId);
     for (const session of sessions) {
-      session.socket.emit("move_player", {
+      session.socket.emit(EventFromServer.MovePlayer, {
         objectId,
         position: newPosition,
         duration: PLAYER_MOVE_DURATION,
