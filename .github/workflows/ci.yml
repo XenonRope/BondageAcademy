@@ -35,6 +35,8 @@ jobs:
           key: node_modules-${{ hashFiles('bondage-academy/pnpm-lock.yaml') }}
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
+        with:
+          main-branch-name: master
       - name: Build, test and lint
         working-directory: ./bondage-academy
         run: pnpm nx affected -t build test lint --parallel=3
