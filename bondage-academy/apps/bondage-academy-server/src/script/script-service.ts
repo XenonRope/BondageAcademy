@@ -17,13 +17,13 @@ export class ScriptService {
 
   async onPlayerJoinRoom(event: PlayerJoinRoomEvent): Promise<void> {
     await Promise.all(
-      this.eventEmitters.onPlayerJoinRoom.map((handler) => handler(event))
+      this.eventEmitters.onPlayerJoinRoom.map((handler) => handler(event)),
     );
   }
 
   async onDialogueOptionUse(event: DialogueOptionUseEvent): Promise<void> {
     await Promise.all(
-      this.eventEmitters.onDialogueOptionUse.map((handler) => handler(event))
+      this.eventEmitters.onDialogueOptionUse.map((handler) => handler(event)),
     );
   }
 }

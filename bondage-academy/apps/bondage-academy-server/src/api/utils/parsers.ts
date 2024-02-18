@@ -1,7 +1,7 @@
 export const parseOptionalEnum = <T>(
   value: unknown,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  enumType: any
+  enumType: any,
 ): T | undefined => {
   if (value === undefined || value === null) {
     return undefined;
@@ -17,7 +17,7 @@ export const parseEnum = <T>(value: unknown, enumType: any): T => {
   }
   if (!Object.values(enumType).includes(value)) {
     throw new Error(
-      `Value "${value}" is not valid value for enum '${enumType}'`
+      `Value "${value}" is not valid value for enum '${enumType}'`,
     );
   }
 

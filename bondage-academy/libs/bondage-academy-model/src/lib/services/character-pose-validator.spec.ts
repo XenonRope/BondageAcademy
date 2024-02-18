@@ -41,7 +41,7 @@ describe("isPoseValid", () => {
     character.pose = poseWithLowerBody(LowerBodyPose.Stand);
 
     expect(characterPoseValidator.isPoseValid(character, character.pose)).toBe(
-      false
+      false,
     );
   });
 
@@ -50,7 +50,7 @@ describe("isPoseValid", () => {
     character.pose = poseWithLowerBody(LowerBodyPose.StandHeels);
 
     expect(characterPoseValidator.isPoseValid(character, character.pose)).toBe(
-      true
+      true,
     );
   });
 });

@@ -11,7 +11,10 @@ import { RoomStoreService } from "./room-store-service";
 export class RoomSearchService {
   private collection!: Collection<Room>;
 
-  constructor(dao: Dao, private roomStoreService: RoomStoreService) {
+  constructor(
+    dao: Dao,
+    private roomStoreService: RoomStoreService,
+  ) {
     this.collection = dao.getCollection(CollectionName.ROOMS);
   }
 

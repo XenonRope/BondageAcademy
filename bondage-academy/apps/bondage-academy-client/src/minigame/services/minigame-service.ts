@@ -9,7 +9,7 @@ export class MinigameService {
 
   async changeProgess(
     minigameId: number,
-    progressChange: number
+    progressChange: number,
   ): Promise<void> {
     const request: MinigameProgessRequest = {
       minigameId,

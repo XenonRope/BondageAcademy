@@ -5,6 +5,6 @@ export interface Position {
 
 export const arePositionsEqual = (
   firstPosition: Position,
-  secondPosition: Position
+  secondPosition: Position,
 ) =>
   firstPosition.x === secondPosition.x && firstPosition.y === secondPosition.y;

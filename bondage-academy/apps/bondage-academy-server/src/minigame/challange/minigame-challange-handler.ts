@@ -11,7 +11,7 @@ export interface MinigameChallangeHandler<T extends MinigameChallange> {
   onProgressChange(
     minigame: Minigame,
     challange: T,
-    progressChange: MinigameProgressChange
+    progressChange: MinigameProgressChange,
   ): Promise<MinigameResult | undefined>;
 
   onTimeEnd(minigame: Minigame, challange: T): Promise<MinigameResult>;

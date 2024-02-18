@@ -10,7 +10,7 @@ export class ChatSpeakService {
     private playerStoreService: PlayerStoreService,
     private sessionService: SessionService,
     private roomSessionService: RoomSessionService,
-    private chatService: ChatService
+    private chatService: ChatService,
   ) {}
 
   async speak(playerId: number, content: string): Promise<void> {

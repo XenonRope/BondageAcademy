@@ -19,14 +19,14 @@ export class MigrationService {
       await this.createIndex(
         CollectionName.ACCOUNTS,
         { username: 1 },
-        { unique: true }
+        { unique: true },
       );
     });
     await this.executeMigration("002_players_name_index", async () => {
       await this.createIndex(
         CollectionName.PLAYERS,
         { name: 1 },
-        { unique: true }
+        { unique: true },
       );
     });
   }
@@ -34,7 +34,7 @@ export class MigrationService {
   private async createIndex(
     collectionName: CollectionName,
     indexSpec: IndexSpecification,
-    options?: CreateIndexesOptions
+    options?: CreateIndexesOptions,
   ): Promise<void> {
     await this.dao
       .getCollection(collectionName)
@@ -43,7 +43,7 @@ export class MigrationService {
 
   private async executeMigration(
     migrationId: string,
-    migration: () => Promise<void>
+    migration: () => Promise<void>,
   ): Promise<void> {
     if (await this.migrationLogs.findOne({ migrationId })) {
       console.log(`Migration ${migrationId}: Skipped`);

@@ -29,7 +29,7 @@ beforeEach(() => {
   playerStoreService = mock(PlayerStoreService);
   const container = configureServiceContainer().update(
     "playerStoreService",
-    () => playerStoreService
+    () => playerStoreService,
   );
   wardrobeConditionChecker = container.wardrobeConditionChecker;
 });
@@ -48,7 +48,7 @@ describe("assertCanWear", () => {
         target: getPlayerActor(),
         slot: Slot.Shoes,
         item: { id: ITEM_ID },
-      })
+      }),
     ).resolves.not.toThrow();
   });
 
@@ -66,7 +66,7 @@ describe("assertCanWear", () => {
         target: getPlayerActor(),
         slot: Slot.Shoes,
         item: { id: ITEM_ID },
-      })
+      }),
     ).rejects.toThrow("Cannot wear CynthiaHighHeels because slot is blocked");
   });
 
@@ -83,14 +83,14 @@ describe("assertCanWear", () => {
         target: getPlayerActor(),
         slot: Slot.Body,
         item: { id: ITEM_ID },
-      })
+      }),
     ).resolves.not.toThrow();
   });
 
   test("Pet Suit cannot be worn when Shoes are worn", async () => {
     const player = getPlayer();
     player.character.wearables[Slot.Shoes] = getEquippedItem(
-      ItemCode.CynthiaHighHeels
+      ItemCode.CynthiaHighHeels,
     );
     player.items.push(getItem(ITEM_ID, ItemCode.PetSuit));
     when(playerStoreService.get)
@@ -103,7 +103,7 @@ describe("assertCanWear", () => {
         target: getPlayerActor(),
         slot: Slot.Body,
         item: { id: ITEM_ID },
-      })
+      }),
     ).rejects.toThrow("Cannot wear PetSuit because blocked slot is occupied");
   });
 

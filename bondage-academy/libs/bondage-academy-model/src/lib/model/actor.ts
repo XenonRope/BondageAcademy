@@ -32,7 +32,7 @@ export const isNPCActor = (actor?: Actor): actor is NPCActor =>
 
 export const areActorsEqual = (
   firstActor?: Actor,
-  secondActor?: Actor
+  secondActor?: Actor,
 ): boolean => {
   if (firstActor == null && secondActor == null) {
     return true;

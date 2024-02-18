@@ -23,8 +23,8 @@ export default function WardrobeCustomizations(props: {
             onColorInput={(color) =>
               props.setCustomizations(
                 produce(
-                  (customizations) => (customizations[index()].color = color)
-                )
+                  (customizations) => (customizations[index()].color = color),
+                ),
               )
             }
             onColorChange={props.onCustomizationsChange}
@@ -32,8 +32,8 @@ export default function WardrobeCustomizations(props: {
               props.setCustomizations(
                 produce(
                   (customizations) =>
-                    (customizations[index()].texture = texture)
-                )
+                    (customizations[index()].texture = texture),
+                ),
               );
               props.onCustomizationsChange?.();
             }}

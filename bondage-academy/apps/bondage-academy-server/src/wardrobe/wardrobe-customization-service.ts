@@ -12,7 +12,7 @@ import { ActorService } from "../actor/actor-service";
 export class WardrobeCustomizationService {
   constructor(
     private itemCustomizationAccessChecker: ItemCustomizationAccessChecker,
-    private actorService: ActorService
+    private actorService: ActorService,
   ) {}
 
   async customizeItem(params: {
@@ -56,7 +56,7 @@ export class WardrobeCustomizationService {
       )
     ) {
       throw new Error(
-        "Only player can change their own clothes if they are not in a room"
+        "Only player can change their own clothes if they are not in a room",
       );
     }
     const equippedItem = target.character.wearables[params.slot];
@@ -76,7 +76,7 @@ export class WardrobeCustomizationService {
     if (params.customizations) {
       this.assertCustomizationsAreValid(
         equippedItem.item.code,
-        params.customizations
+        params.customizations,
       );
     }
 
@@ -85,13 +85,13 @@ export class WardrobeCustomizationService {
 
   private assertCustomizationsAreValid(
     itemCode: ItemCode,
-    customizations: ItemCustomization[]
+    customizations: ItemCustomization[],
   ): void {
     this.assertFragmentNamesAreNotDuplicated(customizations);
     const item = itemConfigs[itemCode];
     for (const customization of customizations) {
       const fragments = item.fragments.filter(
-        (fragment) => fragment.name === customization.fragmentName
+        (fragment) => fragment.name === customization.fragmentName,
       );
       if (fragments.length === 0) {
         throw new Error(`No fragment with name ${customization.fragmentName}`);
@@ -100,11 +100,11 @@ export class WardrobeCustomizationService {
         if (
           customization.texture &&
           !fragment.textures?.find(
-            (texture) => texture.name === customization.texture
+            (texture) => texture.name === customization.texture,
           )
         ) {
           throw new Error(
-            `No texture with name ${customization.texture} in fragment ${fragment.name}`
+            `No texture with name ${customization.texture} in fragment ${fragment.name}`,
           );
         }
       }
@@ -112,13 +112,13 @@ export class WardrobeCustomizationService {
   }
 
   private assertFragmentNamesAreNotDuplicated(
-    customizations: ItemCustomization[]
+    customizations: ItemCustomization[],
   ): void {
     const fragmentNames = customizations.map(
-      (customization) => customization.fragmentName
+      (customization) => customization.fragmentName,
     );
     const duplicatedFragmentName = fragmentNames.find(
-      (fragmentName, index) => fragmentNames.indexOf(fragmentName) !== index
+      (fragmentName, index) => fragmentNames.indexOf(fragmentName) !== index,
     );
     if (duplicatedFragmentName) {
       throw new Error(`Fragment ${duplicatedFragmentName} is duplicated`);

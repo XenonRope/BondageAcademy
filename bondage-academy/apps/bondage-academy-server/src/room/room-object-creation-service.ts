@@ -14,17 +14,17 @@ export class RoomObjectCreationService {
     private roomSessionService: RoomSessionService,
     private objectClientSynchronizationService: ObjectClientSynchronizationService,
     private playerStoreService: PlayerStoreService,
-    private playerClientSynchronizationService: PlayerClientSynchronizationService
+    private playerClientSynchronizationService: PlayerClientSynchronizationService,
   ) {}
 
   async createObject(roomId: number, object: GameObject): Promise<void> {
     await this.roomStoreService.update(roomId, (room) =>
-      room.objects.push(object)
+      room.objects.push(object),
     );
     const sessions = await this.roomSessionService.getSessionsInRoom(roomId);
     this.objectClientSynchronizationService.synchronizeObjects(
       { objects: [object] },
-      sessions
+      sessions,
     );
     if (isPlayerObject(object)) {
       const player = await this.playerStoreService.get(object.playerId);

@@ -8,7 +8,7 @@ import { Session } from "../session/model/session";
 export class ChatService {
   sendChatMessage(
     sessions: Session[],
-    message: Omit<ChatMessage, "time">
+    message: Omit<ChatMessage, "time">,
   ): void {
     const event: ChatMessageEvent = {
       message: {

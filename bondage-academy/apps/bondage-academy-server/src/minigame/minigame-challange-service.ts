@@ -8,18 +8,18 @@ import { MinigameResult } from "./model/minigame-result";
 
 export class MinigameChallangeService {
   constructor(
-    private handlers: MinigameChallangeHandler<MinigameChallange>[]
+    private handlers: MinigameChallangeHandler<MinigameChallange>[],
   ) {}
 
   async changeProgress(
     minigame: Minigame,
-    progressChange: MinigameProgressChange
+    progressChange: MinigameProgressChange,
   ): Promise<MinigameResult | undefined> {
     const handler = this.findHandler(minigame);
     return await handler.onProgressChange(
       minigame,
       minigame.challange,
-      progressChange
+      progressChange,
     );
   }
 
@@ -29,14 +29,14 @@ export class MinigameChallangeService {
   }
 
   private findHandler(
-    minigame: Minigame
+    minigame: Minigame,
   ): MinigameChallangeHandler<MinigameChallange> {
     const handler = this.handlers.find((handler) =>
-      handler.canHandleChallange(minigame.challange)
+      handler.canHandleChallange(minigame.challange),
     );
     if (!handler) {
       throw new Error(
-        "No handler found for challange " + minigame.challange.type
+        "No handler found for challange " + minigame.challange.type,
       );
     }
     return handler;

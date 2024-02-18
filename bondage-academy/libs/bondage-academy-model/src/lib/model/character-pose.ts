@@ -48,7 +48,7 @@ export interface StandardCharacterPose {
 }
 
 export const isStandardCharacterPose = (
-  pose: CharacterPose
+  pose: CharacterPose,
 ): pose is StandardCharacterPose =>
   "upperBody" in pose && pose.upperBody != null;
 
@@ -58,14 +58,14 @@ export interface FullBodyCharacterPose {
 }
 
 export const isFullBodyCharacterPose = (
-  pose: CharacterPose
+  pose: CharacterPose,
 ): pose is FullBodyCharacterPose => "fullBody" in pose && pose.fullBody != null;
 
 export type CharacterPose = StandardCharacterPose | FullBodyCharacterPose;
 
 export const areCharacterPosesEqual = (
   first: CharacterPose,
-  second: CharacterPose
+  second: CharacterPose,
 ): boolean => {
   if (isStandardCharacterPose(first) && isStandardCharacterPose(second)) {
     return (

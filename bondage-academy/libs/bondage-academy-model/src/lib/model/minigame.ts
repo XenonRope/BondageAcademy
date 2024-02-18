@@ -15,7 +15,7 @@ export interface ClickMinigameChallange {
 }
 
 export const isClickMinigameChallange = (
-  challange: MinigameChallange
+  challange: MinigameChallange,
 ): challange is ClickMinigameChallange =>
   challange.type === MinigameChallangeType.Click;
 
@@ -35,7 +35,7 @@ export interface ChangeWardrobeMinigameStake extends MinigameStake {
 }
 
 export const isChangeWardrobeMinigameStake = (
-  stake: MinigameStake
+  stake: MinigameStake,
 ): stake is ChangeWardrobeMinigameStake =>
   stake.type === MinigameStakeType.ChangeWardrobe;
 

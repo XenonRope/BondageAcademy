@@ -27,7 +27,7 @@ export default function App() {
         EventFromServer.SynchronizeObjects,
         (msg: SynchronizeGameObjects) => {
           storeService.updateObjects(msg);
-        }
+        },
       );
       socket.on("logout", () => {
         storeService.logout();
@@ -40,7 +40,7 @@ export default function App() {
           requestAnimationFrame(() => {
             movePlayer(msg.objectId);
           });
-        }
+        },
       );
       socket.on(EventFromServer.ChatMessage, (msg: ChatMessageEvent) => {
         storeService.addChatMessage(msg.message);
@@ -49,13 +49,13 @@ export default function App() {
         EventFromServer.SynchronizePlayers,
         (event: SynchronizePlayersEvent) => {
           storeService.synchronizePlayers(event);
-        }
+        },
       );
       socket.on(
         EventFromServer.SynchronizeMinigames,
         (event: SynchronizeMinigamesEvent) => {
           storeService.synchronizeMinigames(event);
-        }
+        },
       );
     }
   });

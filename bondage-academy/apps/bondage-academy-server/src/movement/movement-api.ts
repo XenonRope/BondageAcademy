@@ -7,12 +7,12 @@ import { type MovementService } from "./movement-service";
 export class MovementApi {
   constructor(
     private movementService: MovementService,
-    private minigameService: MinigameService
+    private minigameService: MinigameService,
   ) {}
 
   async setPlayerTargetPosition(
     targetPosition: Position,
-    session: Session
+    session: Session,
   ): Promise<void> {
     requiredPosition(targetPosition);
     if (!session.playerId) {

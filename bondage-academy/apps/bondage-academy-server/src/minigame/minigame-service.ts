@@ -18,7 +18,7 @@ export class MinigameService {
   constructor(
     private minigameClientSynchronizationService: MinigameClientSynchronizationService,
     private minigameChallangeService: MinigameChallangeService,
-    private minigameStakeService: MinigameStakeService
+    private minigameStakeService: MinigameStakeService,
   ) {}
 
   assertPlayerIsNotDuringMinigame(playerId: number) {
@@ -49,7 +49,7 @@ export class MinigameService {
           (isPlayerActor(minigame.actor) &&
             minigame.actor.playerId === playerId) ||
           (isPlayerActor(minigame.target) &&
-            minigame.target.playerId === playerId)
+            minigame.target.playerId === playerId),
       );
   }
 
@@ -80,17 +80,17 @@ export class MinigameService {
     };
     this.minigamesWithStates.set(minigameId, serverMinigame);
     await this.minigameClientSynchronizationService.synchronizeMinigame(
-      serverMinigame.minigame
+      serverMinigame.minigame,
     );
   }
 
   async changeProgess(
     minigame: Minigame,
-    progressChange: MinigameProgressChange
+    progressChange: MinigameProgressChange,
   ): Promise<void> {
     const result = await this.minigameChallangeService.changeProgress(
       minigame,
-      progressChange
+      progressChange,
     );
     if (!result) {
       return;
@@ -118,9 +118,8 @@ export class MinigameService {
       return;
     }
     const { minigame } = minigameWithState;
-    const result = await this.minigameChallangeService.getResultAfterTimeEnd(
-      minigame
-    );
+    const result =
+      await this.minigameChallangeService.getResultAfterTimeEnd(minigame);
     try {
       await this.minigameStakeService.executeStake(minigame, result);
     } finally {

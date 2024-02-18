@@ -21,7 +21,7 @@ export class WardrobeConditionChecker {
   constructor(
     private playerStoreService: PlayerStoreService,
     private wardrobeValidator: WardrobeValidator,
-    private actorService: ActorService
+    private actorService: ActorService,
   ) {}
 
   async assertCanWear(params: {
@@ -42,7 +42,7 @@ export class WardrobeConditionChecker {
       params.item == null
     ) {
       throw new Error(
-        `Cannot remove item from slot ${params.slot} because slot is already empty`
+        `Cannot remove item from slot ${params.slot} because slot is already empty`,
       );
     }
 
@@ -74,7 +74,7 @@ export class WardrobeConditionChecker {
         params.actor.playerId !== params.target.playerId)
     ) {
       throw new Error(
-        "Only player can change their own clothes if they are not in a room"
+        "Only player can change their own clothes if they are not in a room",
       );
     }
     const item = params.item
@@ -87,7 +87,7 @@ export class WardrobeConditionChecker {
       }
       if (this.isAnyBlockedSlotOccupied(target.character, item.code)) {
         throw new Error(
-          `Cannot wear ${item?.code} because blocked slot is occupied`
+          `Cannot wear ${item?.code} because blocked slot is occupied`,
         );
       }
     }
@@ -101,7 +101,7 @@ export class WardrobeConditionChecker {
 
   private isAnyBlockedSlotOccupied(
     character: Character,
-    itemCode: ItemCode
+    itemCode: ItemCode,
   ): boolean {
     const blockedSlots = itemConfigs[itemCode].blockedSlots;
     return blockedSlots
@@ -111,7 +111,7 @@ export class WardrobeConditionChecker {
 
   private async findItem(
     actor: Actor,
-    itemReference: ItemReference | PhantomItem
+    itemReference: ItemReference | PhantomItem,
   ): Promise<Item | PhantomItem> {
     if (isPlayerActor(actor)) {
       if (isPhantomItem(itemReference)) {
@@ -119,7 +119,7 @@ export class WardrobeConditionChecker {
       }
       const player = await this.playerStoreService.get(actor.playerId);
       const playerItem = player.items.find(
-        (item) => item.id === itemReference.id
+        (item) => item.id === itemReference.id,
       );
       if (!playerItem) {
         throw new Error("Item not found");

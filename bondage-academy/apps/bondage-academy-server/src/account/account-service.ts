@@ -12,7 +12,7 @@ export class AccountService {
 
   async insertAccount(
     account: Account,
-    session?: ClientSession
+    session?: ClientSession,
   ): Promise<void> {
     await this.collection.insertOne(account, { session });
   }
@@ -23,7 +23,7 @@ export class AccountService {
 
   async getAccountByUsernameAndPassword(
     username: string,
-    password: string
+    password: string,
   ): Promise<Account | null> {
     return await this.collection.findOne({ username, password });
   }

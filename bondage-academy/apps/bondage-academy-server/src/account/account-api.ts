@@ -15,7 +15,7 @@ export class AccountApi {
     private accountRegistrationService: AccountRegistrationService,
     private loginService: LoginService,
     private playerStoreService: PlayerStoreService,
-    private roomUtilsService: RoomUtilsService
+    private roomUtilsService: RoomUtilsService,
   ) {}
 
   async registerAccount({
@@ -36,7 +36,7 @@ export class AccountApi {
 
   async login(
     { username, password }: LoginRequest,
-    session: Session
+    session: Session,
   ): Promise<LoginResponse> {
     requiredString(username, 3, 30, "invalidUsername");
     requiredString(password, 12, 100, "invalidPassword");
@@ -44,7 +44,7 @@ export class AccountApi {
     const { playerId } = await this.loginService.login(
       session,
       username,
-      password
+      password,
     );
 
     const player = await this.playerStoreService.get(playerId);

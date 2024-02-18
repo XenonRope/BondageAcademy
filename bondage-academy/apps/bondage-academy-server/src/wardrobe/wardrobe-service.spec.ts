@@ -29,7 +29,7 @@ beforeEach(() => {
   playerService = mock(PlayerService);
   const container = configureServiceContainer().update(
     "playerService",
-    () => playerService
+    () => playerService,
   );
   wardrobeService = container.wardrobeService;
 });
@@ -54,7 +54,7 @@ describe("wear", () => {
     });
 
     expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
-      LowerBodyPose.StandHeels
+      LowerBodyPose.StandHeels,
     );
   });
 
@@ -77,14 +77,14 @@ describe("wear", () => {
     });
 
     expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
-      LowerBodyPose.WideLegsHeels
+      LowerBodyPose.WideLegsHeels,
     );
   });
 
   test("Change pose from 'StandHeels' to 'Stand' after removing heels", async () => {
     const player = playerWithPose(poseWithLowerBody(LowerBodyPose.StandHeels));
     player.character.wearables[Slot.Shoes] = equippedItem(
-      ItemCode.CynthiaHighHeels
+      ItemCode.CynthiaHighHeels,
     );
     const actor: PlayerActor = {
       type: ActorType.Player,
@@ -102,14 +102,14 @@ describe("wear", () => {
     });
 
     expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
-      LowerBodyPose.Stand
+      LowerBodyPose.Stand,
     );
   });
 
   test("Do not change pose from 'StandHeels' to 'Stand' after removing sleeves", async () => {
     const player = playerWithPose(poseWithLowerBody(LowerBodyPose.StandHeels));
     player.character.wearables[Slot.LeftSleeve] = equippedItem(
-      ItemCode.XFashionSleeve
+      ItemCode.XFashionSleeve,
     );
     const actor: PlayerActor = {
       type: ActorType.Player,
@@ -127,16 +127,16 @@ describe("wear", () => {
     });
 
     expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
-      LowerBodyPose.StandHeels
+      LowerBodyPose.StandHeels,
     );
   });
 
   test("Change pose from 'WideLegsHeels' to 'WideLegs' after removing heels", async () => {
     const player = playerWithPose(
-      poseWithLowerBody(LowerBodyPose.WideLegsHeels)
+      poseWithLowerBody(LowerBodyPose.WideLegsHeels),
     );
     player.character.wearables[Slot.Shoes] = equippedItem(
-      ItemCode.CynthiaHighHeels
+      ItemCode.CynthiaHighHeels,
     );
     const actor: PlayerActor = {
       type: ActorType.Player,
@@ -154,7 +154,7 @@ describe("wear", () => {
     });
 
     expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
-      LowerBodyPose.WideLegs
+      LowerBodyPose.WideLegs,
     );
   });
 

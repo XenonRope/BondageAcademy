@@ -21,8 +21,8 @@ export default function MinigameContainerView() {
       let newMinigames = minigames.filter(
         (minigame) =>
           !displayedMinigames.find(
-            (displayedMinigame) => displayedMinigame?.id === minigame.id
-          )
+            (displayedMinigame) => displayedMinigame?.id === minigame.id,
+          ),
       );
       for (let i = 0; i < maxMinigames; i++) {
         const displayedMinigame = displayedMinigames[i];

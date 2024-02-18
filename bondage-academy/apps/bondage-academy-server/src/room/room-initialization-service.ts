@@ -25,7 +25,7 @@ export class RoomInitializationService {
     private roomService: RoomService,
     private roomCreationService: RoomCreationService,
     private objectIdProvider: ObjectIdProvider,
-    private objectCreationService: ObjectCreationService
+    private objectCreationService: ObjectCreationService,
   ) {}
 
   async initializeRooms(): Promise<void> {
@@ -250,7 +250,7 @@ export class RoomInitializationService {
         gardenData.objects.map(async (object) => ({
           ...object,
           id: await this.objectIdProvider.getNextId(),
-        }))
+        })),
       ),
     });
   }
@@ -277,7 +277,7 @@ export class RoomInitializationService {
     x: number,
     y: number,
     code: NPCCode,
-    character: Character
+    character: Character,
   ): Promise<NPCObject> {
     return await this.objectCreationService.createNPC({
       position: {

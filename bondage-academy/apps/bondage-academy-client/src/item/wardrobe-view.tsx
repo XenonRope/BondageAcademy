@@ -27,7 +27,7 @@ import WardrobeSlot from "./wardrobe-slot";
 export default function WardrobeView(props: { actor: Actor }) {
   const [selectedSlot, setSelectedSlot] = createSignal<Slot>();
   const [customizations, setCustomizations] = createStore<ItemCustomization[]>(
-    []
+    [],
   );
 
   const allowedItems = createMemo<Item[]>(() => {
@@ -36,7 +36,7 @@ export default function WardrobeView(props: { actor: Actor }) {
       return [];
     }
     const allowedItemCodes: ItemCode[] = Object.values(itemConfigs).flatMap(
-      (config) => (config.allowedSlots.includes(slot) ? [config.code] : [])
+      (config) => (config.allowedSlots.includes(slot) ? [config.code] : []),
     );
     return (
       storeService
@@ -46,7 +46,7 @@ export default function WardrobeView(props: { actor: Actor }) {
   });
 
   const character = createMemo(() =>
-    storeService.getCharacterByActor(props.actor)
+    storeService.getCharacterByActor(props.actor),
   );
 
   const wearables = createMemo(() => character()?.wearables ?? {});
@@ -117,10 +117,10 @@ export default function WardrobeView(props: { actor: Actor }) {
     const itemConfig = itemConfigs[itemCode];
 
     return ArrayUtils.distinct(
-      itemConfig.fragments.map((fragment) => fragment.name)
+      itemConfig.fragments.map((fragment) => fragment.name),
     ).map((fragmentName) => {
       const currentCustomization = currentCustomizations?.find(
-        (customization) => customization.fragmentName === fragmentName
+        (customization) => customization.fragmentName === fragmentName,
       );
       return {
         fragmentName,

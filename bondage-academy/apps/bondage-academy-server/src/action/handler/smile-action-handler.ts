@@ -14,7 +14,7 @@ export class SmileActionHandler implements ActionHandler<SmileAction> {
   constructor(
     private roomSessionService: RoomSessionService,
     private chatService: ChatService,
-    private playerStoreService: PlayerStoreService
+    private playerStoreService: PlayerStoreService,
   ) {}
 
   canHandle(action: Action): action is SmileAction {
@@ -27,7 +27,7 @@ export class SmileActionHandler implements ActionHandler<SmileAction> {
     }
 
     const sessions = await this.roomSessionService.getSessionsInRoomOfPlayer(
-      actor.playerId
+      actor.playerId,
     );
     this.chatService.sendChatMessage(sessions, {
       action: true,

@@ -12,7 +12,7 @@ export class ClickMinigameChallangeHandler
   implements MinigameChallangeHandler<ClickMinigameChallange>
 {
   canHandleChallange(
-    challange: MinigameChallange
+    challange: MinigameChallange,
   ): challange is ClickMinigameChallange {
     return isClickMinigameChallange(challange);
   }
@@ -20,7 +20,7 @@ export class ClickMinigameChallangeHandler
   onProgressChange(
     _minigame: Minigame,
     _challange: ClickMinigameChallange,
-    _progressChange: MinigameProgressChange
+    _progressChange: MinigameProgressChange,
   ): Promise<MinigameResult | undefined> {
     return Promise.resolve({
       winner: MinigameWinner.Target,
@@ -29,7 +29,7 @@ export class ClickMinigameChallangeHandler
 
   onTimeEnd(
     _minigame: Minigame,
-    _challange: ClickMinigameChallange
+    _challange: ClickMinigameChallange,
   ): Promise<MinigameResult> {
     return Promise.resolve({
       winner: MinigameWinner.Agent,

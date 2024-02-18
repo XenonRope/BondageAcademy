@@ -13,7 +13,7 @@ export class SocketService {
   async emit<T>(event: string, data: unknown): Promise<T> {
     const response: ServerResponse<T> = await this.store.socket!.emitWithAck(
       event,
-      data
+      data,
     );
     if (response.error != null) {
       throw new Error(response.error);

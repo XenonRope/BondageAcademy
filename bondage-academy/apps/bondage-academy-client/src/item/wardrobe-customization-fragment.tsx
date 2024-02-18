@@ -55,7 +55,7 @@ export default function WardrobeCustomizationFragment(props: {
           >
             {t(
               (props.customization.texture ??
-                "textures.default") as DictionaryKey
+                "textures.default") as DictionaryKey,
             )}
           </Button>
         </div>

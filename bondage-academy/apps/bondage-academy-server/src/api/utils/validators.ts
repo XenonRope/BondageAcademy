@@ -4,7 +4,7 @@ export const requiredString = (
   value: unknown,
   minLength: number,
   maxLenght: number,
-  errorMessage: string
+  errorMessage: string,
 ): void => {
   if (
     typeof value !== "string" ||

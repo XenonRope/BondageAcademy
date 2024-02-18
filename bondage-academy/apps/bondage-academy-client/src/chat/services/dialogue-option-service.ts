@@ -11,7 +11,10 @@ import { SocketService } from "../../common/socket-service";
 import { Store } from "../../store/model/store";
 
 export class DialogueOptionService {
-  constructor(private store: Store, private socketService: SocketService) {}
+  constructor(
+    private store: Store,
+    private socketService: SocketService,
+  ) {}
 
   getAvailableDialogueOptions(): DialogueOption[] {
     if (!this.store.room) {
@@ -26,7 +29,8 @@ export class DialogueOptionService {
     };
 
     return dialogueOptions.filter(
-      (option) => npcCodes.includes(option.npcCode) && option.condition(context)
+      (option) =>
+        npcCodes.includes(option.npcCode) && option.condition(context),
     );
   }
 

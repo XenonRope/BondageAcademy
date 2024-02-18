@@ -24,8 +24,8 @@ export const configureApiContainer = (serviceContainer: ServiceContainer) => {
           serviceContainer.accountRegistrationService,
           serviceContainer.loginService,
           serviceContainer.playerStoreService,
-          serviceContainer.roomUtilsService
-        )
+          serviceContainer.roomUtilsService,
+        ),
     )
     .add(
       "characterPoseApi",
@@ -33,24 +33,24 @@ export const configureApiContainer = (serviceContainer: ServiceContainer) => {
         new CharacterPoseApi(
           serviceContainer.characterPoseService,
           serviceContainer.minigameService,
-          serviceContainer.actorService
-        )
+          serviceContainer.actorService,
+        ),
     )
     .add(
       "movementApi",
       () =>
         new MovementApi(
           serviceContainer.movementService,
-          serviceContainer.minigameService
-        )
+          serviceContainer.minigameService,
+        ),
     )
     .add(
       "roomJoinApi",
       () =>
         new RoomJoinApi(
           serviceContainer.roomJoinService,
-          serviceContainer.roomUtilsService
-        )
+          serviceContainer.roomUtilsService,
+        ),
     )
     .add(
       "roomCreationApi",
@@ -61,36 +61,36 @@ export const configureApiContainer = (serviceContainer: ServiceContainer) => {
           serviceContainer.roomCreationService,
           serviceContainer.roomJoinService,
           serviceContainer.roomUtilsService,
-          serviceContainer.playerStoreService
-        )
+          serviceContainer.playerStoreService,
+        ),
     )
     .add(
       "roomLeaveApi",
       () =>
         new RoomLeaveApi(
           serviceContainer.roomLeaveService,
-          serviceContainer.minigameService
-        )
+          serviceContainer.minigameService,
+        ),
     )
     .add(
       "roomSearchApi",
-      () => new RoomSearchApi(serviceContainer.roomSearchService)
+      () => new RoomSearchApi(serviceContainer.roomSearchService),
     )
     .add(
       "chatSpeakApi",
       () =>
         new ChatSpeakApi(
           serviceContainer.chatSpeakService,
-          serviceContainer.minigameService
-        )
+          serviceContainer.minigameService,
+        ),
     )
     .add(
       "dialogueOptionApi",
       () =>
         new DialogueOptionApi(
           serviceContainer.dialogueOptionService,
-          serviceContainer.minigameService
-        )
+          serviceContainer.minigameService,
+        ),
     )
     .add(
       "wardrobeApi",
@@ -98,8 +98,8 @@ export const configureApiContainer = (serviceContainer: ServiceContainer) => {
         new WardrobeApi(
           serviceContainer.wardrobeChangeService,
           serviceContainer.minigameService,
-          serviceContainer.wardrobeCustomizationService
-        )
+          serviceContainer.wardrobeCustomizationService,
+        ),
     )
     .add("minigameApi", () => new MinigameApi(serviceContainer.minigameService))
     .add(
@@ -107,7 +107,7 @@ export const configureApiContainer = (serviceContainer: ServiceContainer) => {
       () =>
         new ActionApi(
           serviceContainer.actionExecutorService,
-          serviceContainer.minigameService
-        )
+          serviceContainer.minigameService,
+        ),
     );
 };

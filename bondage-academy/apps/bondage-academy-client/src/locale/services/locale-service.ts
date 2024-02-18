@@ -21,14 +21,14 @@ export class LocaleService {
   private createInternalTranslator(): i18n.NullableTranslator<Dictionary> {
     const [dictionary] = createResource(
       () => this.store.locale,
-      async (locale) => await this.fetchDictionary(locale)
+      async (locale) => await this.fetchDictionary(locale),
     );
     return i18n.translator(dictionary);
   }
 
   private translate(
     translatableText: TranslatableText,
-    internalTranslator: i18n.NullableTranslator<Dictionary>
+    internalTranslator: i18n.NullableTranslator<Dictionary>,
   ): string {
     if (typeof translatableText === "string") {
       return translatableText;
@@ -42,7 +42,7 @@ export class LocaleService {
     }
     return internalTranslator(
       translatableText.dictionaryKey,
-      templateArgs
+      templateArgs,
     ) as string;
   }
 

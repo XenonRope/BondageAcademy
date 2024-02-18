@@ -28,13 +28,13 @@ import { Locale, Store } from "./model/store";
 export class StoreService {
   constructor(
     private store: Store,
-    private setStore: SetStoreFunction<Store>
+    private setStore: SetStoreFunction<Store>,
   ) {}
 
   getPlayerPosition(): Position | undefined {
     const playerObject = this.store.room?.objects?.find(
       (object) =>
-        isPlayerObject(object) && object.playerId === this.store.playerId
+        isPlayerObject(object) && object.playerId === this.store.playerId,
     );
     return playerObject?.id
       ? this.getPositionByObjectId(playerObject.id)
@@ -53,7 +53,7 @@ export class StoreService {
   getPlayer(): Player | undefined {
     if (this.store.playerId && this.store.players) {
       return this.store.players.find(
-        (player) => player.id === this.store.playerId
+        (player) => player.id === this.store.playerId,
       );
     }
     return undefined;
@@ -82,7 +82,7 @@ export class StoreService {
     }
     if (this.store.room?.id === actor.roomId) {
       const npcObject = this.store.room.objects.find(
-        (object) => object.id === actor.objectId
+        (object) => object.id === actor.objectId,
       );
       if (isNPCObject(npcObject)) {
         return npcObject.character;
@@ -97,7 +97,7 @@ export class StoreService {
     }
     if (this.store.room?.id === actor.roomId) {
       const npcObject = this.store.room.objects.find(
-        (object) => object.id === actor.objectId
+        (object) => object.id === actor.objectId,
       );
       if (isNPCObject(npcObject)) {
         return { dictionaryKey: NPCUtils.getDictionaryKey(npcObject.code) };
@@ -113,7 +113,7 @@ export class StoreService {
           (isPlayerActor(minigame.actor) &&
             minigame.actor.playerId === this.store.playerId) ||
           (isPlayerActor(minigame.target) &&
-            minigame.target.playerId === this.store.playerId)
+            minigame.target.playerId === this.store.playerId),
       );
     }
     return [];
@@ -187,7 +187,7 @@ export class StoreService {
               }
               if (updatedPlayer.items && updatedPlayer.items.remove) {
                 player.items = player.items.filter(
-                  (item) => !updatedPlayer.items?.remove?.includes(item.id)
+                  (item) => !updatedPlayer.items?.remove?.includes(item.id),
                 );
               }
               for (const { slot, equippedItem } of updatedPlayer.wearables ??
@@ -198,7 +198,7 @@ export class StoreService {
             }
           }
         }
-      })
+      }),
     );
   }
 
@@ -235,10 +235,10 @@ export class StoreService {
         if (event.removeMinigames) {
           const removeMinigames = event.removeMinigames;
           store.minigames = store.minigames.filter(
-            (minigame) => !removeMinigames.includes(minigame.id)
+            (minigame) => !removeMinigames.includes(minigame.id),
           );
         }
-      })
+      }),
     );
   }
 
@@ -249,7 +249,7 @@ export class StoreService {
         if (room != null) {
           for (const updatedNPC of updateNPCs ?? []) {
             const npcObject = room.objects.find(
-              (object) => object.id === updatedNPC.id
+              (object) => object.id === updatedNPC.id,
             );
             if (npcObject && isNPCObject(npcObject)) {
               if (updatedNPC.pose) {
@@ -260,7 +260,7 @@ export class StoreService {
               }
               if (updatedNPC.items?.remove) {
                 npcObject.items = npcObject.items.filter(
-                  (item) => !updatedNPC.items?.remove?.includes(item.id)
+                  (item) => !updatedNPC.items?.remove?.includes(item.id),
                 );
               }
               for (const { slot, equippedItem } of updatedNPC.wearables ?? []) {
@@ -284,11 +284,11 @@ export class StoreService {
           }
           if (toRemove) {
             room.objects = room.objects.filter(
-              (object) => !toRemove.includes(object.id)
+              (object) => !toRemove.includes(object.id),
             );
           }
         }
-      })
+      }),
     );
   }
 
@@ -331,7 +331,7 @@ export class StoreService {
             endTime: new Date(now.getTime() + duration),
           };
         }
-      })
+      }),
     );
   }
 
@@ -359,7 +359,7 @@ export class StoreService {
             motion.startPosition.y +
             (motion.endPosition.y - motion.startPosition.y) * timeFraction,
         };
-      })
+      }),
     );
   }
 
@@ -376,9 +376,9 @@ export class StoreService {
         store.chatMessages.push(message);
         store.chatMessages.sort(
           (firstMessage, secondMessage) =>
-            firstMessage.time - secondMessage.time
+            firstMessage.time - secondMessage.time,
         );
-      })
+      }),
     );
   }
 

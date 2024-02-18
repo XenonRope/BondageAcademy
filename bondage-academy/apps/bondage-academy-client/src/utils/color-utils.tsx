@@ -30,7 +30,7 @@ export class ColorUtils {
 
   static areColorsEqual(
     first: Color | undefined,
-    second: Color | undefined
+    second: Color | undefined,
   ): boolean {
     if (first === second) {
       return true;

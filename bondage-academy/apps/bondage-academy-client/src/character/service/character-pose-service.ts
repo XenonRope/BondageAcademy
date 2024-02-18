@@ -16,7 +16,7 @@ import { SocketService } from "../../common/socket-service";
 export class CharacterPoseService {
   constructor(
     private socketService: SocketService,
-    private characterPoseValidator: CharacterPoseValidator
+    private characterPoseValidator: CharacterPoseValidator,
   ) {}
 
   setAnyPose(character: Character, pose: AnyPose): CharacterPose {

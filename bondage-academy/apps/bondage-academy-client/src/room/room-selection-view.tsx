@@ -11,7 +11,7 @@ export default function RoomSelectionView() {
   const [name, setName] = createSignal("");
   const [creatingRoom, setCreatingRoom] = createSignal(false);
   const [searchResult] = createResource(name, (name) =>
-    roomService.searchRooms({ name, skip: 0, limit: 20 })
+    roomService.searchRooms({ name, skip: 0, limit: 20 }),
   );
 
   function createPrivateRoom(roomCode: RoomCode) {

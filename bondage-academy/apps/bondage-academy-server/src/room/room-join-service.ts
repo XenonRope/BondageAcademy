@@ -14,7 +14,7 @@ export class RoomJoinService {
     private objectCreationService: ObjectCreationService,
     private playerStoreService: PlayerStoreService,
     private roomObjectCreationService: RoomObjectCreationService,
-    private scriptService: ScriptService
+    private scriptService: ScriptService,
   ) {}
 
   async joinRoom(playerId: number, roomId: number): Promise<void> {
@@ -33,7 +33,7 @@ export class RoomJoinService {
 
     await this.playerStoreService.update(
       playerId,
-      (player) => (player.roomId = roomId)
+      (player) => (player.roomId = roomId),
     );
     const playerObject = await this.objectCreationService.createPlayerObject({
       position,

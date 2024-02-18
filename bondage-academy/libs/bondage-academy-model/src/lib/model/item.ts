@@ -61,13 +61,13 @@ export const isItem = (item?: Item | PhantomItem): item is Item => {
 };
 
 export const isPhantomItem = (
-  item?: Item | PhantomItem | ItemReference
+  item?: Item | PhantomItem | ItemReference,
 ): item is PhantomItem => {
   return item ? (item as Item).id === undefined : false;
 };
 
 export const isItemReference = (
-  item?: PhantomItem | ItemReference
+  item?: PhantomItem | ItemReference,
 ): item is ItemReference => {
   return item ? (item as ItemReference).id !== undefined : false;
 };

@@ -20,12 +20,12 @@ export class RoomCreationApi {
     private roomCreationService: RoomCreationService,
     private roomJoinService: RoomJoinService,
     private roomUtilsService: RoomUtilsService,
-    private playerStoreService: PlayerStoreService
+    private playerStoreService: PlayerStoreService,
   ) {}
 
   async createRoom(
     request: unknown,
-    session: Session
+    session: Session,
   ): Promise<CreateRoomResponse> {
     if (!session.playerId) {
       throw new Error("User is not logged in");
@@ -36,16 +36,16 @@ export class RoomCreationApi {
     }
     const { roomCode, name, description, publicRoom } = await tPromise.decode(
       CreateRoomRequestSchema,
-      request
+      request,
     );
     if (name && name.length > ROOM_NAME_MAX_LENGHT) {
       throw new Error(
-        `Room name has length ${name.length} but max length is ${ROOM_NAME_MAX_LENGHT}`
+        `Room name has length ${name.length} but max length is ${ROOM_NAME_MAX_LENGHT}`,
       );
     }
     if (description && description.length > ROOM_DESCRIPTION_MAX_LENGHT) {
       throw new Error(
-        `Room description has length ${description.length} but max length is ${ROOM_DESCRIPTION_MAX_LENGHT}`
+        `Room description has length ${description.length} but max length is ${ROOM_DESCRIPTION_MAX_LENGHT}`,
       );
     }
     const templateRoomId = await this.roomService.getRoomIdByCode(roomCode);

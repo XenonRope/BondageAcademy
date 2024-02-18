@@ -11,7 +11,7 @@ export class RoomUtilsService {
   constructor(
     private roomStoreService: RoomStoreService,
     private playerStoreService: PlayerStoreService,
-    private minigameService: MinigameService
+    private minigameService: MinigameService,
   ) {}
 
   async getRoomState(roomId: number): Promise<RoomState> {
@@ -25,7 +25,7 @@ export class RoomUtilsService {
   async getPlayersInRoom(roomId: number): Promise<Player[]> {
     const room = await this.roomStoreService.get(roomId);
     const playersIds = room.objects.flatMap((object) =>
-      isPlayerObject(object) ? [object.playerId] : []
+      isPlayerObject(object) ? [object.playerId] : [],
     );
     return await this.playerStoreService.getAll(playersIds);
   }

@@ -4,7 +4,7 @@ import { RoomStoreService } from "./room-store-service";
 export class RoomDatabaseSynchronizationService {
   constructor(
     private roomStoreService: RoomStoreService,
-    private roomService: RoomService
+    private roomService: RoomService,
   ) {}
 
   async synchronize(): Promise<void> {

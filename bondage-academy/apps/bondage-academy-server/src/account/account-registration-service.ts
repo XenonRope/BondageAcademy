@@ -19,7 +19,7 @@ export class AccountRegistrationService {
     private sequences: Sequences,
     private playerCreationService: PlayerCreationService,
     private dao: Dao,
-    private playerService: PlayerService
+    private playerService: PlayerService,
   ) {}
 
   async registerAccount(params: AccountRegisterParams): Promise<Account> {
@@ -35,7 +35,7 @@ export class AccountRegistrationService {
         {
           name: params.nick,
         },
-        session
+        session,
       );
       const id = await this.sequences.getNext(SequenceName.ACCOUNT);
       const account: Account = {

@@ -12,7 +12,7 @@ export class RoomLeaveService {
   constructor(
     private roomObjectRemovalService: RoomObjectRemovalService,
     private playerStoreService: PlayerStoreService,
-    private roomStoreService: RoomStoreService
+    private roomStoreService: RoomStoreService,
   ) {}
 
   async leaveRoom(playerId: number): Promise<void> {
@@ -22,11 +22,11 @@ export class RoomLeaveService {
     }
     const room = await this.roomStoreService.get(player.roomId);
     const playerObject = room.objects.find(
-      (object) => isPlayerObject(object) && object.playerId === playerId
+      (object) => isPlayerObject(object) && object.playerId === playerId,
     );
     if (!playerObject) {
       throw new Error(
-        `Player ${player.id} does not have player object in room ${player.roomId}`
+        `Player ${player.id} does not have player object in room ${player.roomId}`,
       );
     }
     if (!this.isObjectInTransitArea(playerObject, room)) {

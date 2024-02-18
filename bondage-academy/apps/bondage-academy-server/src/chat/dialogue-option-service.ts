@@ -18,24 +18,24 @@ export class DialogueOptionService {
     private roomStoreServie: RoomStoreService,
     private scriptService: ScriptService,
     private chatService: ChatService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
   ) {}
 
   async useDialogueOption(
     playerId: number,
     npcCode: NPCCode,
-    content: DictionaryKey
+    content: DictionaryKey,
   ): Promise<void> {
     const player = await this.playerStoreService.get(playerId);
     if (!player.roomId) {
       throw new Error("Cannot use dialogue option while not in a room");
     }
     const dialogueOption = this.dialogueOptions.find(
-      (option) => option.npcCode === npcCode && option.content === content
+      (option) => option.npcCode === npcCode && option.content === content,
     );
     if (!dialogueOption) {
       throw new Error(
-        `Dialogue option with npcCode ${npcCode} and content ${content} not found`
+        `Dialogue option with npcCode ${npcCode} and content ${content} not found`,
       );
     }
     const room = await this.roomStoreServie.get(player.roomId);
@@ -44,7 +44,7 @@ export class DialogueOptionService {
       .map((npcObject) => npcObject.code);
     if (!npcCodes.includes(npcCode)) {
       throw new Error(
-        `Cannot use dialogue option with content ${content} becuse NPC ${npcCode} is not in the room`
+        `Cannot use dialogue option with content ${content} becuse NPC ${npcCode} is not in the room`,
       );
     }
     const context: DialogueOptionContext = {
@@ -52,7 +52,7 @@ export class DialogueOptionService {
     };
     if (!dialogueOption.condition(context)) {
       throw new Error(
-        `Condition of dialogue option with npcCode ${npcCode} and content ${content} not satisfied`
+        `Condition of dialogue option with npcCode ${npcCode} and content ${content} not satisfied`,
       );
     }
     const session = this.sessionService.getSessionByPlayerId(playerId);

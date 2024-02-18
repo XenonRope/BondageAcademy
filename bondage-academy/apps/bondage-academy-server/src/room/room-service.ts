@@ -23,8 +23,8 @@ export class RoomService {
             replacement: room,
           },
         }),
-        { ordered: false }
-      )
+        { ordered: false },
+      ),
     );
   }
 
@@ -44,7 +44,7 @@ export class RoomService {
   async getRoomIdByCode(code: string): Promise<number> {
     const room = await this.collection.findOne(
       { code },
-      { projection: { _id: 0, id: 1 } }
+      { projection: { _id: 0, id: 1 } },
     );
     if (room == null) {
       throw new Error(`Cannot find room with code ${code}`);

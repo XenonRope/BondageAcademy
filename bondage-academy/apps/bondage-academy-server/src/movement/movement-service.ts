@@ -21,12 +21,12 @@ export class MovementService {
     private playerStoreService: PlayerStoreService,
     private roomFieldService: RoomFieldService,
     private roomSessionService: RoomSessionService,
-    private movementConditionChecker: MovementConditionChecker
+    private movementConditionChecker: MovementConditionChecker,
   ) {}
 
   async setPlayerTargetPosition(
     playerId: number,
-    targetPosition: Position
+    targetPosition: Position,
   ): Promise<void> {
     const player = await this.playerStoreService.get(playerId);
     if (!player.roomId) {
@@ -35,22 +35,22 @@ export class MovementService {
     const room = await this.roomStoreService.get(player.roomId);
     this.assertPositionIsInRoomBounds(targetPosition, room);
     const playerObject = room.objects.find(
-      (object) => isPlayerObject(object) && object.playerId === playerId
+      (object) => isPlayerObject(object) && object.playerId === playerId,
     );
     if (!playerObject) {
       throw new Error(
-        `Player ${player.id} does not have player object in room ${player.roomId}`
+        `Player ${player.id} does not have player object in room ${player.roomId}`,
       );
     }
     const motion = this.motionStorage.getOrCreateMotionByObjectId(
-      playerObject.id
+      playerObject.id,
     );
     motion.targetPosition = targetPosition;
     if (motion.motionEndEvent == null) {
       await this.movePlayerTowardsTargetPosition(
         room.id,
         playerObject.id,
-        motion
+        motion,
       );
     }
   }
@@ -69,7 +69,7 @@ export class MovementService {
   private async movePlayerTowardsTargetPosition(
     roomId: number,
     objectId: number,
-    motion: Motion
+    motion: Motion,
   ): Promise<void> {
     if (motion.targetPosition == null) {
       this.motionStorage.stopMotion(objectId);
@@ -88,7 +88,7 @@ export class MovementService {
     const newPosition = this.moveTowards(
       room,
       object.position,
-      motion.targetPosition
+      motion.targetPosition,
     );
     if (arePositionsEqual(object.position, newPosition)) {
       this.motionStorage.stopMotion(objectId);
@@ -104,7 +104,7 @@ export class MovementService {
 
     motion.motionEndEvent = setTimeout(() => {
       this.movePlayerTowardsTargetPosition(roomId, objectId, motion).catch(
-        console.log
+        console.log,
       );
     }, PLAYER_MOVE_DURATION);
 

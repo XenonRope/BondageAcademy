@@ -5,7 +5,7 @@ import { RoomLeaveService } from "./room-leave-service";
 export class RoomLeaveApi {
   constructor(
     private roomLeaveService: RoomLeaveService,
-    private minigameService: MinigameService
+    private minigameService: MinigameService,
   ) {}
 
   async leaveRoom(session: Session): Promise<void> {

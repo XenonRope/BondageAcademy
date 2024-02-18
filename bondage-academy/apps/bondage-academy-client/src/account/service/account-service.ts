@@ -9,7 +9,7 @@ import type { StoreService } from "../../store/store-service";
 export class AccountService {
   constructor(
     private socketService: SocketService,
-    private storeService: StoreService
+    private storeService: StoreService,
   ) {}
 
   async registerAccount(request: AccountRegisterRequest): Promise<void> {
@@ -19,7 +19,7 @@ export class AccountService {
   async login(request: LoginRequest): Promise<void> {
     const response: LoginResponse = await this.socketService.emit(
       "login",
-      request
+      request,
     );
     this.storeService.setPlayerId(response.playerId);
     this.storeService.setRoom(response.room);

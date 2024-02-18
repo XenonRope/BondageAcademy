@@ -30,7 +30,7 @@ export class CharacterLayerService {
     if (isFullBodyCharacterPose(character.pose)) {
       layers.push({
         url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
-          character.pose.fullBody
+          character.pose.fullBody,
         )} - Body.png`,
         order: this.getOrderForPose(character.pose.fullBody),
         offsetY: rootOffset,
@@ -38,14 +38,14 @@ export class CharacterLayerService {
     } else {
       layers.push({
         url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
-          character.pose.upperBody
+          character.pose.upperBody,
         )} - Upper body.png`,
         order: this.getOrderForPose(character.pose.upperBody),
         offsetY: rootOffset,
       });
       layers.push({
         url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
-          character.pose.lowerBody
+          character.pose.lowerBody,
         )} - Lower body.png`,
         order: this.getOrderForPose(character.pose.lowerBody),
         offsetY: rootOffset,
@@ -53,14 +53,14 @@ export class CharacterLayerService {
     }
     layers.push({
       url: `character/${characterPrefix} - ${this.getImagePathPartForPose(
-        character.pose.head
+        character.pose.head,
       )} - Head.png`,
       order: this.getOrderForPose(character.pose.head),
       offsetY: rootOffset + this.getHeadOffset(character),
     });
 
     layers.push(
-      ...this.getWearableLayers(character, characterPrefix, rootOffset)
+      ...this.getWearableLayers(character, characterPrefix, rootOffset),
     );
 
     layers.sort((a, b) => a.order - b.order);
@@ -71,7 +71,7 @@ export class CharacterLayerService {
   private getWearableLayers(
     character: Character,
     characterPrefix: string,
-    rootOffset: number
+    rootOffset: number,
   ): CharacterLayer[] {
     const layers: CharacterLayer[] = [];
 
@@ -96,19 +96,19 @@ export class CharacterLayerService {
         }
 
         const customization = equippedItem.customizations?.find(
-          (customization) => customization.fragmentName === fragment.name
+          (customization) => customization.fragmentName === fragment.name,
         );
         const filePathSuffix =
           (customization?.texture &&
             fragment.textures?.find(
-              (texture) => texture.name === customization.texture
+              (texture) => texture.name === customization.texture,
             )?.filePathSuffix) ??
           fragment.filePathSuffix;
 
         layers.push({
           url: `character/${characterPrefix} - ${this.getImagePathPartForFragmentPose(
             fragment,
-            character
+            character,
           )} - ${filePathSuffix}.png`,
           order:
             (fragment.order ?? this.getOrderForPose(pose)) +
@@ -130,12 +130,12 @@ export class CharacterLayerService {
 
   private shouldShowFragmentForPose(
     fragment: ItemFragment,
-    characterPose: CharacterPose
+    characterPose: CharacterPose,
   ): boolean {
     if (
       fragment.hiddenForPoses &&
       this.getPosesFromCharacterPose(characterPose).some((pose) =>
-        fragment.hiddenForPoses?.includes(pose)
+        fragment.hiddenForPoses?.includes(pose),
       )
     ) {
       return false;
@@ -144,7 +144,7 @@ export class CharacterLayerService {
     if (
       fragment.shownForPoses &&
       !this.getPosesFromCharacterPose(characterPose).some((pose) =>
-        fragment.shownForPoses?.includes(pose)
+        fragment.shownForPoses?.includes(pose),
       )
     ) {
       return false;
@@ -167,7 +167,7 @@ export class CharacterLayerService {
 
   private getPoseForFragment(
     fragment: ItemFragment,
-    character: Character
+    character: Character,
   ): AnyPose {
     switch (fragment.bodyType) {
       case ItemFragmentBodyType.UpperBody:
@@ -185,7 +185,7 @@ export class CharacterLayerService {
 
   private getImagePathPartForFragmentPose(
     fragment: ItemFragment,
-    character: Character
+    character: Character,
   ): string {
     let pose = this.getPoseForFragment(fragment, character);
     if (!pose) {

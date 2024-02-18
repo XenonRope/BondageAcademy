@@ -69,23 +69,23 @@ export const configureServiceContainer = () => {
     .add("wardrobeValidator", () => new WardrobeValidator())
     .add(
       "itemCustomizationAccessChecker",
-      () => new ItemCustomizationAccessChecker()
+      () => new ItemCustomizationAccessChecker(),
     )
     .add(
       "dao",
-      () => new Dao("mongodb://root:root@localhost:27017/admin?replicaSet=rs0")
+      () => new Dao("mongodb://root:root@localhost:27017/admin?replicaSet=rs0"),
     )
     .add("sequences", ({ dao }) => new Sequences(dao))
     .add("objectIdProvider", ({ sequences }) => new ObjectIdProvider(sequences))
     .add("playerService", ({ dao }) => new PlayerService(dao))
     .add(
       "playerStoreService",
-      ({ playerService }) => new PlayerStoreService(playerService)
+      ({ playerService }) => new PlayerStoreService(playerService),
     )
     .add("scriptService", () => new ScriptService())
     .add(
       "objectClientSynchronizationService",
-      () => new ObjectClientSynchronizationService()
+      () => new ObjectClientSynchronizationService(),
     )
     .add("motionStorage", () => new MotionStorage())
     .add("sessionService", () => new SessionService())
@@ -95,12 +95,12 @@ export const configureServiceContainer = () => {
       ({ playerStoreService, playerService }) =>
         new PlayerDatabaseSynchronizationService(
           playerStoreService,
-          playerService
-        )
+          playerService,
+        ),
     )
     .add(
       "roomStoreService",
-      ({ roomService }) => new RoomStoreService(roomService)
+      ({ roomService }) => new RoomStoreService(roomService),
     )
     .add(
       "roomSessionService",
@@ -108,8 +108,8 @@ export const configureServiceContainer = () => {
         new RoomSessionService(
           sessionService,
           roomStoreService,
-          playerStoreService
-        )
+          playerStoreService,
+        ),
     )
     .add(
       "playerClientSynchronizationService",
@@ -117,8 +117,8 @@ export const configureServiceContainer = () => {
         new PlayerClientSynchronizationService(
           playerStoreService,
           roomSessionService,
-          sessionService
-        )
+          sessionService,
+        ),
     )
     .add(
       "actorService",
@@ -134,15 +134,15 @@ export const configureServiceContainer = () => {
           roomStoreService,
           playerClientSynchronizationService,
           objectClientSynchronizationService,
-          roomSessionService
-        )
+          roomSessionService,
+        ),
     )
     .add("accountService", ({ dao }) => new AccountService(dao))
     .add("logoutService", () => new LogoutService())
     .add(
       "roomSearchService",
       ({ dao, roomStoreService }) =>
-        new RoomSearchService(dao, roomStoreService)
+        new RoomSearchService(dao, roomStoreService),
     )
     .add(
       "roomObjectRemovalService",
@@ -154,8 +154,8 @@ export const configureServiceContainer = () => {
         new RoomObjectRemovalService(
           roomStoreService,
           objectClientSynchronizationService,
-          roomSessionService
-        )
+          roomSessionService,
+        ),
     )
     .add(
       "roomLeaveService",
@@ -163,13 +163,13 @@ export const configureServiceContainer = () => {
         new RoomLeaveService(
           roomObjectRemovalService,
           playerStoreService,
-          roomStoreService
-        )
+          roomStoreService,
+        ),
     )
     .add(
       "roomCreationService",
       ({ roomService, sequences, roomStoreService }) =>
-        new RoomCreationService(roomService, sequences, roomStoreService)
+        new RoomCreationService(roomService, sequences, roomStoreService),
     )
     .add("roomFieldService", () => new RoomFieldService())
     .add(
@@ -177,17 +177,17 @@ export const configureServiceContainer = () => {
       ({ roomSessionService, sessionService }) =>
         new MinigameClientSynchronizationService(
           roomSessionService,
-          sessionService
-        )
+          sessionService,
+        ),
     )
     .add(
       "clickMinigameChallangeHandler",
-      () => new ClickMinigameChallangeHandler()
+      () => new ClickMinigameChallangeHandler(),
     )
     .add(
       "minigameChallangeService",
       ({ clickMinigameChallangeHandler }) =>
-        new MinigameChallangeService([clickMinigameChallangeHandler])
+        new MinigameChallangeService([clickMinigameChallangeHandler]),
     )
     .add(
       "wardrobeConditionChecker",
@@ -195,13 +195,13 @@ export const configureServiceContainer = () => {
         new WardrobeConditionChecker(
           playerStoreService,
           wardrobeValidator,
-          actorService
-        )
+          actorService,
+        ),
     )
     .add(
       "characterPoseService",
       ({ characterPoseValidator, actorService }) =>
-        new CharacterPoseService(characterPoseValidator, actorService)
+        new CharacterPoseService(characterPoseValidator, actorService),
     )
     .add(
       "wardrobeService",
@@ -217,18 +217,18 @@ export const configureServiceContainer = () => {
           wardrobeConditionChecker,
           characterPoseValidator,
           characterPoseService,
-          actorService
-        )
+          actorService,
+        ),
     )
     .add(
       "changeWardrobeMinigameStakeHandler",
       ({ wardrobeService }) =>
-        new ChangeWardrobeMinigameStakeHandler(wardrobeService)
+        new ChangeWardrobeMinigameStakeHandler(wardrobeService),
     )
     .add(
       "minigameStakeService",
       ({ changeWardrobeMinigameStakeHandler }) =>
-        new MinigameStakeService([changeWardrobeMinigameStakeHandler])
+        new MinigameStakeService([changeWardrobeMinigameStakeHandler]),
     )
     .add(
       "minigameService",
@@ -240,8 +240,8 @@ export const configureServiceContainer = () => {
         new MinigameService(
           minigameClientSynchronizationService,
           minigameChallangeService,
-          minigameStakeService
-        )
+          minigameStakeService,
+        ),
     )
     .add(
       "roomUtilsService",
@@ -249,12 +249,12 @@ export const configureServiceContainer = () => {
         new RoomUtilsService(
           roomStoreService,
           playerStoreService,
-          minigameService
-        )
+          minigameService,
+        ),
     )
     .add(
       "objectCreationService",
-      ({ objectIdProvider }) => new ObjectCreationService(objectIdProvider)
+      ({ objectIdProvider }) => new ObjectCreationService(objectIdProvider),
     )
     .add(
       "roomObjectCreationService",
@@ -270,8 +270,8 @@ export const configureServiceContainer = () => {
           roomSessionService,
           objectClientSynchronizationService,
           playerStoreService,
-          playerClientSynchronizationService
-        )
+          playerClientSynchronizationService,
+        ),
     )
     .add(
       "roomJoinService",
@@ -289,18 +289,18 @@ export const configureServiceContainer = () => {
           objectCreationService,
           playerStoreService,
           roomObjectCreationService,
-          scriptService
-        )
+          scriptService,
+        ),
     )
     .add(
       "loginService",
       ({ accountService, sessionService, logoutService }) =>
-        new LoginService(accountService, sessionService, logoutService)
+        new LoginService(accountService, sessionService, logoutService),
     )
     .add(
       "playerCreationService",
       ({ playerService, sequences }) =>
-        new PlayerCreationService(playerService, sequences)
+        new PlayerCreationService(playerService, sequences),
     )
     .add(
       "accountRegistrationService",
@@ -316,13 +316,13 @@ export const configureServiceContainer = () => {
           sequences,
           playerCreationService,
           dao,
-          playerService
-        )
+          playerService,
+        ),
     )
     .add("migrationService", ({ dao }) => new MigrationService(dao))
     .add(
       "movementConditionChecker",
-      ({ minigameService }) => new MovementConditionChecker(minigameService)
+      ({ minigameService }) => new MovementConditionChecker(minigameService),
     )
     .add(
       "movementService",
@@ -340,8 +340,8 @@ export const configureServiceContainer = () => {
           playerStoreService,
           roomFieldService,
           roomSessionService,
-          movementConditionChecker
-        )
+          movementConditionChecker,
+        ),
     )
     .add("chatService", () => new ChatService())
     .add(
@@ -356,8 +356,8 @@ export const configureServiceContainer = () => {
           playerStoreService,
           sessionService,
           roomSessionService,
-          chatService
-        )
+          chatService,
+        ),
     )
     .add(
       "dialogueOptionService",
@@ -374,8 +374,8 @@ export const configureServiceContainer = () => {
           roomStoreService,
           scriptService,
           chatService,
-          sessionService
-        )
+          sessionService,
+        ),
     )
     .add(
       "roomInitializationService",
@@ -389,13 +389,13 @@ export const configureServiceContainer = () => {
           roomService,
           roomCreationService,
           objectIdProvider,
-          objectCreationService
-        )
+          objectCreationService,
+        ),
     )
     .add(
       "roomDatabaseSynchronizationService",
       ({ roomStoreService, roomService }) =>
-        new RoomDatabaseSynchronizationService(roomStoreService, roomService)
+        new RoomDatabaseSynchronizationService(roomStoreService, roomService),
     )
     .add(
       "databaseSynchronizationService",
@@ -405,8 +405,8 @@ export const configureServiceContainer = () => {
       }) =>
         new DatabaseSynchronizationService(
           playerDatabaseSynchronizationService,
-          roomDatabaseSynchronizationService
-        )
+          roomDatabaseSynchronizationService,
+        ),
     )
     .add("itemIdProvider", ({ sequences }) => new ItemIdProvider(sequences))
     .add(
@@ -423,12 +423,12 @@ export const configureServiceContainer = () => {
           playerStoreService,
           roomSessionService,
           playerClientSynchronizationService,
-          itemIdProvider
-        )
+          itemIdProvider,
+        ),
     )
     .add(
       "wardrobeMinigameService",
-      ({ minigameService }) => new WardrobeMinigameService(minigameService)
+      ({ minigameService }) => new WardrobeMinigameService(minigameService),
     )
     .add(
       "wardrobeChangeService",
@@ -440,8 +440,8 @@ export const configureServiceContainer = () => {
         new WardrobeChangeService(
           wardrobeService,
           wardrobeConditionChecker,
-          wardrobeMinigameService
-        )
+          wardrobeMinigameService,
+        ),
     )
     .add(
       "smileActionHandler",
@@ -449,21 +449,21 @@ export const configureServiceContainer = () => {
         new SmileActionHandler(
           roomSessionService,
           chatService,
-          playerStoreService
-        )
+          playerStoreService,
+        ),
     )
     .add(
       "actionExecutorService",
       ({ smileActionHandler }) =>
-        new ActionExecutorService([smileActionHandler])
+        new ActionExecutorService([smileActionHandler]),
     )
     .add(
       "wardrobeCustomizationService",
       ({ itemCustomizationAccessChecker, actorService }) =>
         new WardrobeCustomizationService(
           itemCustomizationAccessChecker,
-          actorService
-        )
+          actorService,
+        ),
     )
     .add(
       "headmistressScript",
@@ -479,8 +479,8 @@ export const configureServiceContainer = () => {
           sessionService,
           chatService,
           playerStoreService,
-          itemService
-        )
+          itemService,
+        ),
     )
     .add("scripts", ({ headmistressScript }) => [headmistressScript]);
 };

@@ -13,7 +13,7 @@ import { StoreService } from "../../store/store-service";
 export class RoomService {
   constructor(
     private socketService: SocketService,
-    private storeService: StoreService
+    private storeService: StoreService,
   ) {}
 
   async joinRoom(roomId: number): Promise<void> {
@@ -23,7 +23,7 @@ export class RoomService {
     };
     const response = await this.socketService.emit<JoinRoomResponse>(
       RequestFromClient.JoinRoom,
-      request
+      request,
     );
     this.storeService.setRoom(response.state.room);
     this.storeService.setPlayers(response.state.players);
@@ -45,7 +45,7 @@ export class RoomService {
     };
     const response = await this.socketService.emit<CreateRoomResponse>(
       RequestFromClient.CreateRoom,
-      request
+      request,
     );
     this.storeService.setRoom(response.state.room);
     this.storeService.setPlayers(response.state.players);

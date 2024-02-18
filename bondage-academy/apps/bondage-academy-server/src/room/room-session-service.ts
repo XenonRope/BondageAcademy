@@ -8,7 +8,7 @@ export class RoomSessionService {
   constructor(
     private sessionService: SessionService,
     private roomStoreService: RoomStoreService,
-    private playerStoreService: PlayerStoreService
+    private playerStoreService: PlayerStoreService,
   ) {}
 
   async getSessionsInRoomOfPlayer(playerId: number): Promise<Session[]> {
@@ -25,7 +25,7 @@ export class RoomSessionService {
     return room.objects
       .filter(isPlayerObject)
       .map((playerObject) =>
-        this.sessionService.getSessionByPlayerId(playerObject.playerId)
+        this.sessionService.getSessionByPlayerId(playerObject.playerId),
       )
       .flatMap((session) => (session ? [session] : []));
   }

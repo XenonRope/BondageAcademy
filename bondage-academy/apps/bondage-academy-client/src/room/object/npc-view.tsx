@@ -13,7 +13,7 @@ export default function NPCView(props: { object: NPCObject }) {
     () =>
       isNPCActor(store.selectedActor) &&
       store.selectedActor.objectId === props.object.id &&
-      store.selectedActor.roomId === store.room?.id
+      store.selectedActor.roomId === store.room?.id,
   );
 
   function selectNPC(event: MouseEvent) {

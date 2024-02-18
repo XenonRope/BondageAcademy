@@ -12,12 +12,12 @@ export class PlayerClientSynchronizationService {
   constructor(
     private playerStoreService: PlayerStoreService,
     private roomSessionService: RoomSessionService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
   ) {}
 
   async synchronizePlayerByPlayerId(
     playerId: number,
-    updatePlayer: Omit<UpdatePlayer, "id">
+    updatePlayer: Omit<UpdatePlayer, "id">,
   ): Promise<void> {
     const event: SynchronizePlayersEvent = {
       updatePlayers: [{ ...updatePlayer, id: playerId }],
@@ -31,14 +31,14 @@ export class PlayerClientSynchronizationService {
       return;
     }
     const sessions = await this.roomSessionService.getSessionsInRoom(
-      player.roomId
+      player.roomId,
     );
     this.synchronizePlayers(sessions, event);
   }
 
   synchronizePlayers(
     sessions: Session[],
-    event: SynchronizePlayersEvent
+    event: SynchronizePlayersEvent,
   ): void {
     for (const session of sessions) {
       session.socket.emit(EventFromServer.SynchronizePlayers, event);

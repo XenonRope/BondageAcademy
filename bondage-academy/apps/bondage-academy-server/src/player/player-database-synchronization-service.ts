@@ -4,7 +4,7 @@ import { PlayerStoreService } from "./player-store-service";
 export class PlayerDatabaseSynchronizationService {
   constructor(
     private playerStoreService: PlayerStoreService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
   ) {}
 
   async synchronize(): Promise<void> {

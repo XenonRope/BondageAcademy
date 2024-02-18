@@ -22,7 +22,7 @@ export default function GamePage() {
     }
 
     const player = store.players?.find(
-      (player) => player.id === store.playerId
+      (player) => player.id === store.playerId,
     );
     if (player) {
       return [player.character];
@@ -36,7 +36,7 @@ export default function GamePage() {
       store.room?.objects
         .flatMap((object) => (isPlayerObject(object) ? [object.playerId] : []))
         .map((playerId) =>
-          store.players?.find((player) => player.id === playerId)
+          store.players?.find((player) => player.id === playerId),
         )
         .flatMap((player) => (player ? [player.character] : [])) ?? []
     );
@@ -45,7 +45,7 @@ export default function GamePage() {
   function getNPCCharacters(): Character[] {
     return (
       store.room?.objects.flatMap((object) =>
-        isNPCObject(object) ? [object.character] : []
+        isNPCObject(object) ? [object.character] : [],
       ) ?? []
     );
   }

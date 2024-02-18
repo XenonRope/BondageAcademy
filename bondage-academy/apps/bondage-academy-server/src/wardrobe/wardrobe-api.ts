@@ -17,7 +17,7 @@ export class WardrobeApi {
   constructor(
     private wardrobeChangeService: WardrobeChangeService,
     private minigameService: MinigameService,
-    private wardroveCustomizationService: WardrobeCustomizationService
+    private wardroveCustomizationService: WardrobeCustomizationService,
   ) {}
 
   async wear(request: unknown, session: Session): Promise<void> {
@@ -27,7 +27,7 @@ export class WardrobeApi {
     this.minigameService.assertPlayerIsNotDuringMinigame(session.playerId);
     const { target, slot, item } = await tPromise.decode(
       WearRequestSchema,
-      request
+      request,
     );
     const actor: PlayerActor = {
       type: ActorType.Player,
@@ -48,7 +48,7 @@ export class WardrobeApi {
     this.minigameService.assertPlayerIsNotDuringMinigame(session.playerId);
     const { target, slot, customizations } = await tPromise.decode(
       CustomizeItemRequest,
-      request
+      request,
     );
     await this.wardroveCustomizationService.customizeItem({
       actor: prepareActorByPlayerId(session.playerId),

@@ -13,7 +13,7 @@ export class WardrobeChangeService {
   constructor(
     private wardrobeService: WardrobeService,
     private wardrobeConditionChecker: WardrobeConditionChecker,
-    private wardrobeMinigameService: WardrobeMinigameService
+    private wardrobeMinigameService: WardrobeMinigameService,
   ) {}
 
   async wear(params: {

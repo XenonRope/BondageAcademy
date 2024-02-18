@@ -61,7 +61,7 @@ export class CharacterPoseValidator {
 
   private mergeRequiredPoses(
     first: RequiredPoses,
-    second: RequiredPoses
+    second: RequiredPoses,
   ): RequiredPoses {
     return {
       fullBody: this.intersection(first.fullBody, second.fullBody),
@@ -73,7 +73,7 @@ export class CharacterPoseValidator {
 
   private intersection<T>(
     firstArray: T[] | undefined,
-    secondArray: T[] | undefined
+    secondArray: T[] | undefined,
   ): T[] | undefined {
     if (firstArray !== undefined && secondArray !== undefined) {
       return firstArray.filter((value) => secondArray.includes(value));

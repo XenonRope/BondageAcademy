@@ -35,62 +35,62 @@ export const configureServiceContainer = () => {
     .add("setStore", () => setStore)
     .add(
       "itemCustomizationAccessChecker",
-      () => new ItemCustomizationAccessChecker()
+      () => new ItemCustomizationAccessChecker(),
     )
     .add("characterPoseValidator", () => new CharacterPoseValidator())
     .add(
       "storeService",
-      ({ store, setStore }) => new StoreService(store, setStore)
+      ({ store, setStore }) => new StoreService(store, setStore),
     )
     .add("socketService", ({ store }) => new SocketService(store))
     .add(
       "accountService",
       ({ socketService, storeService }) =>
-        new AccountService(socketService, storeService)
+        new AccountService(socketService, storeService),
     )
     .add("characterLayerService", () => new CharacterLayerService())
     .add(
       "characterPoseService",
       ({ socketService, characterPoseValidator }) =>
-        new CharacterPoseService(socketService, characterPoseValidator)
+        new CharacterPoseService(socketService, characterPoseValidator),
     )
     .add(
       "navigationService",
-      ({ storeService }) => new NavigationService(storeService)
+      ({ storeService }) => new NavigationService(storeService),
     )
     .add(
       "sideMenuService",
-      ({ storeService }) => new SideMenuService(storeService)
+      ({ storeService }) => new SideMenuService(storeService),
     )
     .add(
       "roomService",
       ({ socketService, storeService }) =>
-        new RoomService(socketService, storeService)
+        new RoomService(socketService, storeService),
     )
     .add("chatService", ({ socketService }) => new ChatService(socketService))
     .add("localeService", ({ store }) => new LocaleService(store))
     .add(
       "dialogueOptionService",
       ({ store, socketService }) =>
-        new DialogueOptionService(store, socketService)
+        new DialogueOptionService(store, socketService),
     )
     .add(
       "wardrobeService",
-      ({ socketService }) => new WardrobeService(socketService)
+      ({ socketService }) => new WardrobeService(socketService),
     )
     .add(
       "actionService",
-      ({ socketService }) => new ActionService(socketService)
+      ({ socketService }) => new ActionService(socketService),
     )
     .add(
       "minigameService",
-      ({ socketService }) => new MinigameService(socketService)
+      ({ socketService }) => new MinigameService(socketService),
     )
     .add("translator", ({ localeService }) => localeService.createTranslator())
     .add(
       "t",
       ({ translator }) =>
         (dictionaryKey: DictionaryKey): string =>
-          translator({ dictionaryKey })
+          translator({ dictionaryKey }),
     );
 };

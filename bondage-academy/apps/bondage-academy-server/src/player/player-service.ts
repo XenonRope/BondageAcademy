@@ -23,8 +23,8 @@ export class PlayerService {
             replacement: player,
           },
         }),
-        { ordered: false }
-      )
+        { ordered: false },
+      ),
     );
   }
 

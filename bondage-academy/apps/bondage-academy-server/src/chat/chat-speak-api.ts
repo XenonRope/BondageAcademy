@@ -7,7 +7,7 @@ import { ChatSpeakService } from "./chat-speak-service";
 export class ChatSpeakApi {
   constructor(
     private chatSpeakService: ChatSpeakService,
-    private minigameService: MinigameService
+    private minigameService: MinigameService,
   ) {}
 
   async speak(request: unknown, session: Session): Promise<void> {

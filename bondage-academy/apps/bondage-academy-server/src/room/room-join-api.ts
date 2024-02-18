@@ -10,11 +10,11 @@ import { RoomUtilsService } from "./room-utils-service";
 export class RoomJoinApi {
   constructor(
     private roomJoinService: RoomJoinService,
-    private roomUtilsService: RoomUtilsService
+    private roomUtilsService: RoomUtilsService,
   ) {}
   async joinRoom(
     request: unknown,
-    session: Session
+    session: Session,
   ): Promise<JoinRoomResponse> {
     if (!session.playerId) {
       throw new Error("User is not logged in");

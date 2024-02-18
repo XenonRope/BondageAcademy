@@ -6,7 +6,7 @@ export class RoomUtils {
     const npcObject = room.objects.find((object) => object.id === objectId);
     if (!npcObject) {
       throw new Error(
-        `Object with id ${objectId} not found in room ${room.id}`
+        `Object with id ${objectId} not found in room ${room.id}`,
       );
     }
     if (!isNPCObject(npcObject)) {

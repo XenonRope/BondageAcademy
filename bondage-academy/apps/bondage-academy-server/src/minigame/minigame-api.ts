@@ -17,7 +17,7 @@ export class MinigameApi {
     }
     const { minigameId, progressChange } = await tPromise.decode(
       MinigameProgessRequestSchema,
-      request
+      request,
     );
     const minigame = this.minigameService.getMinigame(minigameId);
     await this.minigameService.changeProgess(minigame, {
@@ -28,7 +28,7 @@ export class MinigameApi {
 
   private getProgressChangeSource(
     minigame: Minigame,
-    playerId: number
+    playerId: number,
   ): MinigameProgressChangeSource {
     if (isPlayerActor(minigame.actor) && minigame.actor.playerId === playerId) {
       return MinigameProgressChangeSource.Actor;
@@ -40,7 +40,7 @@ export class MinigameApi {
       return MinigameProgressChangeSource.Target;
     }
     throw new Error(
-      `Minigame with id ${minigame.id} does not contain player ${playerId}`
+      `Minigame with id ${minigame.id} does not contain player ${playerId}`,
     );
   }
 }

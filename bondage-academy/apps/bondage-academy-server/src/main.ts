@@ -41,7 +41,7 @@ const io = new Server(server);
 
 const handleRequest = (
   handler: () => Promise<unknown>,
-  callback: (response: ServerResponse<unknown>) => void
+  callback: (response: ServerResponse<unknown>) => void,
 ): void => {
   handler()
     .then((data) => {
@@ -53,7 +53,7 @@ const handleRequest = (
         callback({ error: error.message });
       } else {
         console.log(
-          "Unexpected error: " + (error instanceof Error ? error.stack : error)
+          "Unexpected error: " + (error instanceof Error ? error.stack : error),
         );
         callback({ error: "unexpectedError" });
       }
@@ -83,7 +83,7 @@ async function start(): Promise<void> {
     socket.on("set_player_target_position", (msg, callback) => {
       handleRequest(
         () => movementApi.setPlayerTargetPosition(msg, session),
-        callback
+        callback,
       );
     });
     socket.on("change_pose", (msg, callback) => {
@@ -107,7 +107,7 @@ async function start(): Promise<void> {
     socket.on(RequestFromClient.UseDialogueOption, (msg: unknown, callback) => {
       handleRequest(
         () => dialogueOptionApi.useDialogueOption(msg, session),
-        callback
+        callback,
       );
     });
     socket.on(RequestFromClient.Wear, (msg: unknown, callback) => {

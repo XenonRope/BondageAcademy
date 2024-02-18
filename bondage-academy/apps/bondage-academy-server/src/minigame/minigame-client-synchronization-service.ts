@@ -11,7 +11,7 @@ import { SessionService } from "../session/session-service";
 export class MinigameClientSynchronizationService {
   constructor(
     private roomSessionService: RoomSessionService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
   ) {}
 
   async synchronizeMinigame(minigame: Minigame): Promise<void> {
@@ -30,7 +30,7 @@ export class MinigameClientSynchronizationService {
 
   synchronizeMinigames(
     sessions: Session[],
-    event: SynchronizeMinigamesEvent
+    event: SynchronizeMinigamesEvent,
   ): void {
     for (const session of sessions) {
       session.socket.emit(EventFromServer.SynchronizeMinigames, event);

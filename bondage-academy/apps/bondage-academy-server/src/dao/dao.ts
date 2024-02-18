@@ -8,13 +8,13 @@ export class Dao {
   constructor(private connectionString: string) {}
 
   getCollection<T extends Document>(
-    collectionName: CollectionName
+    collectionName: CollectionName,
   ): Collection<T> {
     return this.database.collection<T>(collectionName);
   }
 
   async withTransaction<T>(
-    action: (session: ClientSession) => Promise<T>
+    action: (session: ClientSession) => Promise<T>,
   ): Promise<T> {
     const session = this.client.startSession();
     return await session.withTransaction(async () => {

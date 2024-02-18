@@ -16,7 +16,7 @@ export class WardrobeService {
   async wear(
     target: Actor,
     slot: Slot,
-    item?: ItemReference | PhantomItem
+    item?: ItemReference | PhantomItem,
   ): Promise<void> {
     const request: WearRequest = {
       target,
@@ -29,7 +29,7 @@ export class WardrobeService {
   async customizeItem(
     target: Actor,
     slot: Slot,
-    customizations: ItemCustomization[]
+    customizations: ItemCustomization[],
   ): Promise<void> {
     const request: CustomizeItemRequest = {
       target,

@@ -10,7 +10,7 @@ export class WardrobeValidator {
 
   getOccupiedSlots(character: Character): Slot[] {
     return Object.entries(character.wearables).flatMap(([slot, wearable]) =>
-      wearable != null ? [slot as Slot] : []
+      wearable != null ? [slot as Slot] : [],
     );
   }
 
@@ -22,7 +22,7 @@ export class WardrobeValidator {
     return Object.values(character.wearables)
       .filter((wearable) => wearable != null)
       .flatMap(
-        (wearable) => itemConfigs[wearable.item.code].blockedSlots ?? []
+        (wearable) => itemConfigs[wearable.item.code].blockedSlots ?? [],
       );
   }
 }

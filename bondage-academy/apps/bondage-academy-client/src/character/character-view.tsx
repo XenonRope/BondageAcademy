@@ -17,7 +17,7 @@ export default function CharacterView(props: {
 }) {
   const { ref, bounds } = trackBounds();
   const characterLayers = createMemo(() =>
-    characterLayerService.getCharacterLayers(props.character)
+    characterLayerService.getCharacterLayers(props.character),
   );
 
   function getLayers(): CharacterLayer[] {
@@ -31,12 +31,12 @@ export default function CharacterView(props: {
   }
 
   function findCustomization(
-    layer: CharacterLayer
+    layer: CharacterLayer,
   ): ItemCustomization | undefined {
     return (
       layer.slot &&
       props.customizations?.[layer.slot]?.find(
-        (customization) => customization.fragmentName === layer.fragmentName
+        (customization) => customization.fragmentName === layer.fragmentName,
       )
     );
   }

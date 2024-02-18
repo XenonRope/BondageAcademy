@@ -11,7 +11,7 @@ import { DialogueOptionService } from "./dialogue-option-service";
 export class DialogueOptionApi {
   constructor(
     private dialogueOptionService: DialogueOptionService,
-    private minigameService: MinigameService
+    private minigameService: MinigameService,
   ) {}
 
   async useDialogueOption(request: unknown, session: Session) {
@@ -22,12 +22,12 @@ export class DialogueOptionApi {
 
     const { npcCode, content } = await tPromise.decode(
       UseDialogueOptionRequestSchema,
-      request
+      request,
     );
     await this.dialogueOptionService.useDialogueOption(
       session.playerId,
       npcCode as NPCCode,
-      content as DictionaryKey
+      content as DictionaryKey,
     );
   }
 }

@@ -53,8 +53,8 @@ export default function ColorPicker(props: {
         setColor(newColor);
         setColorAsHex(newColor ? ColorUtils.colorToHex(newColor) : "");
         setAlwanColor(newColor);
-      }
-    )
+      },
+    ),
   );
 
   function setAlwanColor(newColor?: Color): void {

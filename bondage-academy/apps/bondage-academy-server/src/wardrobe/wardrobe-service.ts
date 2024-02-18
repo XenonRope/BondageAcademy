@@ -29,7 +29,7 @@ export class WardrobeService {
     private wardrobeConditionChecker: WardrobeConditionChecker,
     private characterPoseValidator: CharacterPoseValidator,
     private characterPoseService: CharacterPoseService,
-    private actorService: ActorService
+    private actorService: ActorService,
   ) {}
 
   async wear(params: {
@@ -58,7 +58,7 @@ export class WardrobeService {
     const changePoseResult = await this.changePoseIfNeeded(
       target,
       params.slot,
-      newEquippedItem
+      newEquippedItem,
     );
     if (!changePoseResult) {
       console.error("Cannot change pose so item won't be equipped");
@@ -86,7 +86,7 @@ export class WardrobeService {
           items.push(oldItem.item);
         }
         character.wearables[params.slot] = newEquippedItem;
-      }
+      },
     );
     await this.actorService.synchronizeActorWithClient(actor.actor, {
       items: {
@@ -117,7 +117,7 @@ export class WardrobeService {
   private async changePoseIfNeeded(
     actor: ActorData,
     slot: Slot,
-    newEquippedItem: EquippedItem | undefined
+    newEquippedItem: EquippedItem | undefined,
   ): Promise<boolean> {
     const newCharacter: Character = {
       ...actor.character,
@@ -130,7 +130,7 @@ export class WardrobeService {
     if (this.characterPoseValidator.isPoseValid(newCharacter, currentPose)) {
       const preferablePose = this.getPreferablePoseThatWasPreviouslyInvalid(
         actor.character,
-        newCharacter
+        newCharacter,
       );
       if (preferablePose) {
         await this.characterPoseService.updatePose(actor, preferablePose);
@@ -167,7 +167,7 @@ export class WardrobeService {
               : requiredPoses.upperBody[0],
           lowerBody: this.getNewValidLowerBodyPose(
             currentPose.lowerBody,
-            requiredPoses.lowerBody
+            requiredPoses.lowerBody,
           ),
           head: newHeadPose,
         };
@@ -199,7 +199,7 @@ export class WardrobeService {
 
   private getNewValidLowerBodyPose(
     currentPose: LowerBodyPose,
-    requiredPoses?: LowerBodyPose[]
+    requiredPoses?: LowerBodyPose[],
   ): LowerBodyPose {
     if (requiredPoses === undefined || requiredPoses.includes(currentPose)) {
       return currentPose;
@@ -221,18 +221,18 @@ export class WardrobeService {
 
   private getPreferablePoseThatWasPreviouslyInvalid(
     oldCharacter: Character,
-    newCharacter: Character
+    newCharacter: Character,
   ): CharacterPose | undefined {
     let pose = this.getPreferableHeadPoseThatWasPreviouslyInvalid(
       oldCharacter,
-      newCharacter
+      newCharacter,
     );
     pose = this.getPreferableLowerBodyPoseThatWasPreviouslyInvalid(
       oldCharacter,
       {
         ...newCharacter,
         pose,
-      }
+      },
     );
 
     return areCharacterPosesEqual(pose, newCharacter.pose) ? undefined : pose;
@@ -240,7 +240,7 @@ export class WardrobeService {
 
   private getPreferableHeadPoseThatWasPreviouslyInvalid(
     oldCharacter: Character,
-    newCharacter: Character
+    newCharacter: Character,
   ): CharacterPose {
     if (newCharacter.pose.head === HeadPose.WideOpen) {
       const pose = {
@@ -256,7 +256,7 @@ export class WardrobeService {
 
   private getPreferableLowerBodyPoseThatWasPreviouslyInvalid(
     oldCharacter: Character,
-    newCharacter: Character
+    newCharacter: Character,
   ): CharacterPose {
     if (!isStandardCharacterPose(newCharacter.pose)) {
       return newCharacter.pose;
@@ -286,7 +286,7 @@ export class WardrobeService {
   private wasPoseInvalidAndNowIsValid(
     pose: CharacterPose,
     oldCharacter: Character,
-    newCharacter: Character
+    newCharacter: Character,
   ): boolean {
     return (
       !this.characterPoseValidator.isPoseValid(oldCharacter, pose) &&

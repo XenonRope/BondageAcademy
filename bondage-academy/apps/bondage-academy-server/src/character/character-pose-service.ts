@@ -8,7 +8,7 @@ import { ActorService } from "../actor/actor-service";
 export class CharacterPoseService {
   constructor(
     private characterPoseValidator: CharacterPoseValidator,
-    private actorService: ActorService
+    private actorService: ActorService,
   ) {}
 
   async changePose(actor: ActorData, pose: CharacterPose): Promise<boolean> {

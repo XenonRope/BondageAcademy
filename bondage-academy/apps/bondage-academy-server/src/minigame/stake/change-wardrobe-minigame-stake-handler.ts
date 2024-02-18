@@ -20,7 +20,7 @@ export class ChangeWardrobeMinigameStakeHandler
   async handle(
     minigame: Minigame,
     stake: ChangeWardrobeMinigameStake,
-    result: MinigameResult
+    result: MinigameResult,
   ): Promise<void> {
     if (result.winner !== MinigameWinner.Agent) {
       return;

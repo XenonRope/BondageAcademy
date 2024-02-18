@@ -32,7 +32,7 @@ beforeEach(() => {
   playerService = mock(PlayerService);
   const container = configureServiceContainer().update(
     "playerService",
-    () => playerService
+    () => playerService,
   );
   characterPoseService = container.characterPoseService;
   playerStoreService = container.playerStoreService;
@@ -75,7 +75,7 @@ describe("changePose", () => {
 });
 
 function actorDataWithWearables(
-  wearables: PartialRecord<Slot, EquippedItem>
+  wearables: PartialRecord<Slot, EquippedItem>,
 ): ActorData {
   return {
     actor: {
@@ -88,7 +88,7 @@ function actorDataWithWearables(
 }
 
 function playerWithWearables(
-  wearables: PartialRecord<Slot, EquippedItem>
+  wearables: PartialRecord<Slot, EquippedItem>,
 ): Player {
   return {
     id: PLAYER_ID,
@@ -99,7 +99,7 @@ function playerWithWearables(
 }
 
 function characterWithWearables(
-  wearables: PartialRecord<Slot, EquippedItem>
+  wearables: PartialRecord<Slot, EquippedItem>,
 ): Character {
   return {
     shape: CharacterShape.Shape1,

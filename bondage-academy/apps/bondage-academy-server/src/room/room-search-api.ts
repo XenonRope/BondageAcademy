@@ -11,7 +11,7 @@ export class RoomSearchApi {
   async searchRooms(request: unknown): Promise<SearchRoomResponse> {
     const searchRoomsRequest = await tPromise.decode(
       SearchRoomRequestSchema,
-      request
+      request,
     );
     return await this.roomSearchService.searchRooms(searchRoomsRequest);
   }

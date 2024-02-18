@@ -8,24 +8,24 @@ export class LoginService {
   constructor(
     private accountService: AccountService,
     private sessionService: SessionService,
-    private logoutService: LogoutService
+    private logoutService: LogoutService,
   ) {}
 
   async login(
     session: Session,
     username: string,
-    password: string
+    password: string,
   ): Promise<{ playerId: number }> {
     const account = await this.accountService.getAccountByUsernameAndPassword(
       username,
-      password
+      password,
     );
     if (account == null) {
       throw new BusinessError("incorrectUsernameOrPassword");
     }
 
     const otherSessionForSamePlayer = this.sessionService.getSessionByPlayerId(
-      account.playerId
+      account.playerId,
     );
     if (otherSessionForSamePlayer != null) {
       this.logoutService.logout(otherSessionForSamePlayer);

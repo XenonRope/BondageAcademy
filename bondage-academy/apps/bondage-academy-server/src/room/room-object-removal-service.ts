@@ -6,7 +6,7 @@ export class RoomObjectRemovalService {
   constructor(
     private roomStoreService: RoomStoreService,
     private objectClientSynchronizationService: ObjectClientSynchronizationService,
-    private roomSessionService: RoomSessionService
+    private roomSessionService: RoomSessionService,
   ) {}
 
   async removeObject(roomId: number, objectId: number): Promise<void> {
@@ -18,7 +18,7 @@ export class RoomObjectRemovalService {
       {
         toRemove: [objectId],
       },
-      sessions
+      sessions,
     );
   }
 }

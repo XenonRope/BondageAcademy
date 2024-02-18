@@ -14,12 +14,12 @@ export class ItemService {
     private playerStoreService: PlayerStoreService,
     private roomSessionService: RoomSessionService,
     private playerClientSynchronizationService: PlayerClientSynchronizationService,
-    private itemIdProvider: ItemIdProvider
+    private itemIdProvider: ItemIdProvider,
   ) {}
 
   async addItemsToPlayer(
     playerId: number,
-    itemsToAdd: Omit<Item, "id">[]
+    itemsToAdd: Omit<Item, "id">[],
   ): Promise<void> {
     const items: Item[] = [];
     for (const item of itemsToAdd) {
@@ -29,7 +29,7 @@ export class ItemService {
       });
     }
     await this.playerStoreService.update(playerId, (player) =>
-      player.items.push(...items)
+      player.items.push(...items),
     );
     const event: SynchronizePlayersEvent = {
       updatePlayers: [
@@ -47,13 +47,13 @@ export class ItemService {
       if (session) {
         this.playerClientSynchronizationService.synchronizePlayers(
           [session],
-          event
+          event,
         );
       }
       return;
     }
     const sessions = await this.roomSessionService.getSessionsInRoom(
-      player.roomId
+      player.roomId,
     );
     this.playerClientSynchronizationService.synchronizePlayers(sessions, event);
   }

@@ -10,7 +10,7 @@ export class MinigameStakeService {
 
   async executeStake(
     minigame: Minigame,
-    result: MinigameResult
+    result: MinigameResult,
   ): Promise<void> {
     const stake = this.findHandler(minigame);
     await stake.handle(minigame, minigame.stake, result);
@@ -18,7 +18,7 @@ export class MinigameStakeService {
 
   private findHandler(minigame: Minigame): MinigameStakeHandler<MinigameStake> {
     const handler = this.handlers.find((handler) =>
-      handler.canHandleStake(minigame.stake)
+      handler.canHandleStake(minigame.stake),
     );
     if (!handler) {
       throw new Error("No handler found for stake " + minigame.stake.type);

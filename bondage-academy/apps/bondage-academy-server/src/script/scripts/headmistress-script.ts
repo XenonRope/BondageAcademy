@@ -23,7 +23,7 @@ export class HeadmistressScript extends GameScript {
     private sessionService: SessionService,
     private chatService: ChatService,
     private playerStoreService: PlayerStoreService,
-    private itemService: ItemService
+    private itemService: ItemService,
   ) {
     super();
   }
@@ -88,7 +88,7 @@ export class HeadmistressScript extends GameScript {
     if (
       lowerBodyPose &&
       [LowerBodyPose.SimpleKneel, LowerBodyPose.WideKneel].includes(
-        lowerBodyPose
+        lowerBodyPose,
       )
     ) {
       this.chatService.sendChatMessage([session], {

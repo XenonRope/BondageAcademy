@@ -4,7 +4,7 @@ import { RoomDatabaseSynchronizationService } from "../room/room-database-synchr
 export class DatabaseSynchronizationService {
   constructor(
     private playerDatabaseSynchronizationService: PlayerDatabaseSynchronizationService,
-    private roomDatabaseSynchronizationService: RoomDatabaseSynchronizationService
+    private roomDatabaseSynchronizationService: RoomDatabaseSynchronizationService,
   ) {}
 
   startSynchronizationLoop(): void {

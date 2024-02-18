@@ -18,12 +18,12 @@ export interface PlayerCreateParams {
 export class PlayerCreationService {
   constructor(
     private playerService: PlayerService,
-    private sequences: Sequences
+    private sequences: Sequences,
   ) {}
 
   async createPlayer(
     params: PlayerCreateParams,
-    session?: ClientSession
+    session?: ClientSession,
   ): Promise<Player> {
     const player: Player = {
       id: await this.sequences.getNext(SequenceName.PLAYER),

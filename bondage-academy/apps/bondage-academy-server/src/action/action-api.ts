@@ -11,7 +11,7 @@ import { ActionExecutorService } from "./action-executor-service";
 export class ActionApi {
   constructor(
     private actionExecutorService: ActionExecutorService,
-    private minigameService: MinigameService
+    private minigameService: MinigameService,
   ) {}
 
   async executeAction(request: unknown, session: Session): Promise<void> {

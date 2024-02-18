@@ -12,14 +12,14 @@ import { ROOM_CHARACTER_WDITH, ROOM_TILE_SIZE } from "../model/room";
 export default function PlayerView(props: { object: PlayerObject }) {
   const getCharacter = createMemo(() =>
     storeService.getCharacterByActor(
-      prepareActorByPlayerId(props.object.playerId)
-    )
+      prepareActorByPlayerId(props.object.playerId),
+    ),
   );
 
   const selected = createMemo(
     () =>
       isPlayerActor(store.selectedActor) &&
-      store.selectedActor.playerId === props.object.playerId
+      store.selectedActor.playerId === props.object.playerId,
   );
 
   function selectPlayer(event: MouseEvent) {

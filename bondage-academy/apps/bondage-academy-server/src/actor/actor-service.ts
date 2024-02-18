@@ -21,7 +21,7 @@ export class ActorService {
     private roomStoreService: RoomStoreService,
     private playerClientSynchronizationService: PlayerClientSynchronizationService,
     private objectClientSynchronizationService: ObjectClientSynchronizationService,
-    private roomSessionService: RoomSessionService
+    private roomSessionService: RoomSessionService,
   ) {}
 
   async getActorDataByPlayerId(playerId: number): Promise<ActorData> {
@@ -50,7 +50,7 @@ export class ActorService {
 
   async updateActor(
     actor: Actor,
-    updateFn: (value: { character: Character; items: Item[] }) => void
+    updateFn: (value: { character: Character; items: Item[] }) => void,
   ): Promise<void> {
     if (isPlayerActor(actor)) {
       await this.playerStoreService.update(actor.playerId, (player) => {
@@ -66,23 +66,23 @@ export class ActorService {
 
   async synchronizeActorWithClient(
     actor: Actor,
-    updateActor: UpdateActor
+    updateActor: UpdateActor,
   ): Promise<void> {
     if (isPlayerActor(actor)) {
       await this.playerClientSynchronizationService.synchronizePlayerByPlayerId(
         actor.playerId,
-        updateActor
+        updateActor,
       );
       return;
     }
     const sessions = await this.roomSessionService.getSessionsInRoom(
-      actor.roomId
+      actor.roomId,
     );
     this.objectClientSynchronizationService.synchronizeObjects(
       {
         updateNPCs: [{ ...updateActor, id: actor.objectId }],
       },
-      sessions
+      sessions,
     );
   }
 }

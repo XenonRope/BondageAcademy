@@ -33,11 +33,11 @@ export class RoomCreationService {
   constructor(
     private roomService: RoomService,
     private sequences: Sequences,
-    private roomStoreService: RoomStoreService
+    private roomStoreService: RoomStoreService,
   ) {}
 
   async createRoomFromTemplate(
-    params: CreateRoomFromTemplateParams
+    params: CreateRoomFromTemplateParams,
   ): Promise<Room> {
     const templateRoom = await this.roomStoreService.get(params.templateRoomId);
     if (!templateRoom.template) {

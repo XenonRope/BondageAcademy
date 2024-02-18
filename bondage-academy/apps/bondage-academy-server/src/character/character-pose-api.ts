@@ -19,12 +19,12 @@ export class CharacterPoseApi {
   constructor(
     private characterPoseService: CharacterPoseService,
     private minigameService: MinigameService,
-    private actorService: ActorService
+    private actorService: ActorService,
   ) {}
 
   async changePose(
     request: ChangePoseRequest,
-    session: Session
+    session: Session,
   ): Promise<void> {
     const pose = this.parseCharacterPose(request.pose);
     if (!session.playerId) {
@@ -32,7 +32,7 @@ export class CharacterPoseApi {
     }
     this.minigameService.assertPlayerIsNotDuringMinigame(session.playerId);
     const actor = await this.actorService.getActorDataByPlayerId(
-      session.playerId
+      session.playerId,
     );
 
     await this.characterPoseService.changePose(actor, pose);
@@ -47,15 +47,15 @@ export class CharacterPoseApi {
     const head: HeadPose = parseEnum(value.head, HeadPose);
     const fullBody: FullBodyPose | undefined = parseOptionalEnum(
       value.fullBody,
-      FullBodyPose
+      FullBodyPose,
     );
     const upperBody: UpperBodyPose | undefined = parseOptionalEnum(
       value.upperBody,
-      UpperBodyPose
+      UpperBodyPose,
     );
     const lowerBody: LowerBodyPose | undefined = parseOptionalEnum(
       value.lowerBody,
-      LowerBodyPose
+      LowerBodyPose,
     );
     if (fullBody != null) {
       return { head, fullBody };
@@ -65,7 +65,7 @@ export class CharacterPoseApi {
     }
 
     throw new Error(
-      "FullBodyPose or UpperBodyPose and LowerBodyPose are required"
+      "FullBodyPose or UpperBodyPose and LowerBodyPose are required",
     );
   }
 }
