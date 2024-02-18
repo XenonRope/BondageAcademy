@@ -4,6 +4,7 @@ import solidPlugin from "vite-plugin-solid";
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 
 export default defineConfig({
+  root: __dirname,
   cacheDir: "../../node_modules/.vite/bondage-academy-client",
   server: {
     port: 5173,
@@ -15,10 +16,18 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: "../../dist/apps/bondage-academy-client",
+    reportCompressedSize: true,
+    commonjsOptions: { transformMixedEsModules: true },
     target: "esnext",
   },
   plugins: [nxViteTsPaths(), solidPlugin()],
   test: {
+    reporters: ["default"],
+    coverage: {
+      reportsDirectory: "../../coverage/apps/bondage-academy-client",
+      provider: "v8",
+    },
     globals: true,
     cache: {
       dir: "../../node_modules/.vitest",
