@@ -29,7 +29,7 @@ export default function App() {
           storeService.updateObjects(msg);
         },
       );
-      socket.on("logout", () => {
+      socket.on(EventFromServer.Logout, () => {
         storeService.logout();
         navigationService.navigate(View.Home);
       });
