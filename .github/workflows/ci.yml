@@ -23,14 +23,14 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          path: bondage-academy/node_modules
+          path: ./bondage-academy/node_modules
           key: node_modules-${{ hashFiles('bondage-academy/pnpm-lock.yaml') }}
       - name: Cache Nx
         uses: actions/cache@v4
         with:
-          path: ./nx
-          key: nx-${{ hashFiles('yarn.lock') }}-${{ matrix.target }}-${{ matrix.jobIndex }}-${{ github.sha }}
-          restore-keys: nx-${{ hashFiles('yarn.lock') }}-${{ matrix.target }}-${{ matrix.jobIndex }}-
+          path: ./bondage-academy/nx
+          key: nx-${{ hashFiles('yarn.lock') }}-${{github.ref_name}}-${{ github.sha }}
+          restore-keys: nx-${{ hashFiles('yarn.lock') }}-${{github.ref_name}}-
       - name: Install dependencies
         working-directory: ./bondage-academy
         run: pnpm install --frozen-lockfile
