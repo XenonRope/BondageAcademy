@@ -1,8 +1,7 @@
 /// <reference types="vitest" />
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
-
-import viteTsConfigPaths from "vite-tsconfig-paths";
+import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 
 export default defineConfig({
   cacheDir: "../../node_modules/.vite/bondage-academy-client",
@@ -18,12 +17,7 @@ export default defineConfig({
   build: {
     target: "esnext",
   },
-  plugins: [
-    viteTsConfigPaths({
-      root: "../../",
-    }),
-    solidPlugin(),
-  ],
+  plugins: [nxViteTsPaths(), solidPlugin()],
   test: {
     globals: true,
     cache: {
