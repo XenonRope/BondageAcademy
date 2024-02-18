@@ -35,8 +35,6 @@ jobs:
           key: node_modules-${{ hashFiles('bondage-academy/pnpm-lock.yaml') }}
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
-      # This line is needed for nx affected to work when CI is running on a PR
-      - run: git branch --track master origin/master
       - name: Build, test and lint
         working-directory: ./bondage-academy
         run: pnpm nx affected -t build test lint --parallel=3
