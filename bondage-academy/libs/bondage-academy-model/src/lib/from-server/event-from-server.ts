@@ -1,4 +1,5 @@
 export enum EventFromServer {
+  Logout = "logout",
   MovePlayer = "move_player",
   SynchronizeObjects = "synchronize_objects",
   SynchronizePlayers = "synchronize_players",
