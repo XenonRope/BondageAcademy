@@ -1,3 +1,4 @@
+import { EventFromServer } from "@bondage-academy/bondage-academy-model";
 import { type Session } from "../session/model/session";
 
 export class LogoutService {
@@ -5,6 +6,6 @@ export class LogoutService {
     session.accountId = undefined;
     session.playerId = undefined;
 
-    session.socket.emit("logout");
+    session.socket.emit(EventFromServer.Logout);
   }
 }
