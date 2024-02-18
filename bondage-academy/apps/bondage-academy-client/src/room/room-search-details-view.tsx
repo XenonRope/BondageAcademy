@@ -14,7 +14,7 @@ export default function RoomSearchDetailsView(props: {
       return props.room.customName;
     }
     if (props.room.name) {
-      return t(props.room.name as DictionaryKey) as string;
+      return t(props.room.name as DictionaryKey);
     }
     return "";
   }

@@ -15,9 +15,10 @@ export class Sequences {
     const result = await this.collection.findOneAndUpdate(
       { id: sequence },
       { $inc: { value: 1 } },
-      { upsert: true, returnDocument: "after" }
+      { upsert: true, returnDocument: "after" },
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return result!.value;
   }
 }
