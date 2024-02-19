@@ -8,6 +8,7 @@ FROM docker.io/node:lts-alpine
 
 ENV HOST=0.0.0.0
 ENV PORT=3000
+ENV MONGODB_CONNECTION_STRING=mongodb://root:root@mongodb:27017/admin?replicaSet=rs0
 
 WORKDIR /app
 

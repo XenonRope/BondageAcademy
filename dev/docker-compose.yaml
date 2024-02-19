@@ -1,6 +1,14 @@
 version: "3.1"
 
 services:
+  bondage-academy-server:
+    image: bondage-academy-server:latest
+    container_name: bondage-academy-server
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_CONNECTION_STRING: mongodb://root:root@mongodb:27017/admin?replicaSet=rs0
+
   mongodb:
     image: bitnami/mongodb:latest
     container_name: mongodb
@@ -12,7 +20,7 @@ services:
       MONGODB_REPLICA_SET_MODE: primary
       MONGODB_REPLICA_SET_NAME: rs0
       MONGODB_REPLICA_SET_KEY: replicaSetKey
-      MONGODB_ADVERTISED_HOSTNAME: localhost
+      MONGODB_ADVERTISED_HOSTNAME: mongodb
     volumes:
       - "mongodb_data:/bitnami/mongodb"
 

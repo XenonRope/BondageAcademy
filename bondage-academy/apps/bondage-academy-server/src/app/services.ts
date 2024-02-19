@@ -73,7 +73,11 @@ export const configureServiceContainer = () => {
     )
     .add(
       "dao",
-      () => new Dao("mongodb://root:root@localhost:27017/admin?replicaSet=rs0"),
+      () =>
+        new Dao(
+          process.env.MONGODB_CONNECTION_STRING ??
+            "mongodb://root:root@localhost:27017/admin?replicaSet=rs0",
+        ),
     )
     .add("sequences", ({ dao }) => new Sequences(dao))
     .add("objectIdProvider", ({ sequences }) => new ObjectIdProvider(sequences))
