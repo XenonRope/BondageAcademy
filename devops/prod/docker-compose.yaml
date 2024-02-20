@@ -1,18 +1,26 @@
 version: "3.1"
 
 services:
-  bondage-academy-server:
-    image: registry.digitalocean.com/bondage-academy/bondage-academy-server:latest
-    container_name: bondage-academy-server
+  caddy:
+    image: ghcr.io/xenonrope/bondage-academy-caddy:latest
+    container_name: caddy
     ports:
-      - "3000:3000"
+      - 80:80
+      - 443:443
+    volumes:
+      - "caddy_data:/data"
+      - "caddy_config:/config"
+
+  bondage-academy-server:
+    image: ghcr.io/xenonrope/bondage-academy-server:latest
+    container_name: bondage-academy-server
     environment:
       MONGODB_CONNECTION_STRING: mongodb://root:root@mongodb:27017/admin?replicaSet=rs0
     depends_on:
       - mongodb
 
   mongodb:
-    image: bitnami/mongodb:latest
+    image: bitnami/mongodb:7.0
     container_name: mongodb
     environment:
       MONGODB_ROOT_USER: root
@@ -26,4 +34,8 @@ services:
 
 volumes:
   mongodb_data:
+    driver: local
+  caddy_data:
+    driver: local
+  caddy_config:
     driver: local
