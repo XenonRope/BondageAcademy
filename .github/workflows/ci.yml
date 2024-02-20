@@ -9,13 +9,10 @@ jobs:
   main:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      actions: read
+      packages: write
     steps:
       - name: Fetch repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
@@ -30,14 +27,32 @@ jobs:
         with:
           path: ./bondage-academy/.nx
           key: nx-${{ hashFiles('bondage-academy/pnpm-lock.yaml') }}-${{github.ref_name}}-${{ github.sha }}
-          restore-keys: nx-${{ hashFiles('bondage-academy/pnpm-lock.yaml') }}-${{github.ref_name}}-
+          restore-keys: |
+            nx-${{ hashFiles('bondage-academy/pnpm-lock.yaml') }}-${{github.ref_name}}-
+            nx-${{ hashFiles('bondage-academy/pnpm-lock.yaml') }}-
       - name: Install dependencies
         working-directory: ./bondage-academy
         run: pnpm install --frozen-lockfile
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
-        with:
-          main-branch-name: master
       - name: Build, test and lint
         working-directory: ./bondage-academy
-        run: pnpm nx affected -t build test lint --parallel=3
+        run: pnpm nx run-many -t build test lint --parallel=3
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push bondage-academy-client Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./bondage-academy
+          file: ./bondage-academy/apps/bondage-academy-client/Dockerfile
+          push: true
+          tags: ghcr.io/xenonrope/bondage-academy-client
+      - name: Build and push bondage-academy-server Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./bondage-academy
+          file: ./bondage-academy/apps/bondage-academy-server/Dockerfile
+          push: true
+          tags: ghcr.io/xenonrope/bondage-academy-server

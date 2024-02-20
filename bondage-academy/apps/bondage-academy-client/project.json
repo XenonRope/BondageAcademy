@@ -64,10 +64,6 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
-    },
-    "docker-build": {
-      "dependsOn": ["build"],
-      "command": "docker build -f apps/bondage-academy-client/Dockerfile . -t bondage-academy-client"
     }
   }
 }

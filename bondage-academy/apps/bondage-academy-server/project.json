@@ -64,10 +64,6 @@
       "options": {
         "jestConfig": "apps/bondage-academy-server/jest.config.ts"
       }
-    },
-    "docker-build": {
-      "dependsOn": ["build"],
-      "command": "docker build -f apps/bondage-academy-server/Dockerfile . -t bondage-academy-server"
     }
   },
   "tags": []
