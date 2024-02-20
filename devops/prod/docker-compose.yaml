@@ -2,8 +2,8 @@ version: "3.1"
 
 services:
   caddy:
-    image: ghcr.io/xenonrope/bondage-academy-caddy:latest
-    container_name: caddy
+    image: ghcr.io/xenonrope/bondage-academy-client:latest
+    container_name: bondage-academy-client
     ports:
       - 80:80
       - 443:443

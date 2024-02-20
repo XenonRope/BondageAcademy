@@ -7,7 +7,7 @@ export class SocketService {
   constructor(private store: Store) {}
 
   connect(): Socket {
-    return io("http://localhost:5173");
+    return io();
   }
 
   async emit<T>(event: string, data: unknown): Promise<T> {

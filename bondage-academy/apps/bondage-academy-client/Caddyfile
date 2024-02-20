@@ -1,0 +1,9 @@
+bondage-academy.com {
+
+	reverse_proxy /socket.io/* bondage-academy-server:3000
+
+  root * /usr/share/caddy
+  file_server
+}
+
+
