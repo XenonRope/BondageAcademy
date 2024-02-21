@@ -35,7 +35,7 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build, test and lint
         working-directory: ./bondage-academy
-        run: pnpm nx run-many -t build test lint --parallel=3
+        run: NX_REJECT_UNKNOWN_LOCAL_CACHE=0 pnpm nx run-many -t build test lint --parallel=3
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
