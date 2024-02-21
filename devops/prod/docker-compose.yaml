@@ -4,6 +4,7 @@ services:
   caddy:
     image: ghcr.io/xenonrope/bondage-academy-client:latest
     container_name: bondage-academy-client
+    restart: unless-stopped
     ports:
       - 80:80
       - 443:443
@@ -14,6 +15,7 @@ services:
   bondage-academy-server:
     image: ghcr.io/xenonrope/bondage-academy-server:latest
     container_name: bondage-academy-server
+    restart: unless-stopped
     environment:
       MONGODB_CONNECTION_STRING: mongodb://root:root@mongodb:27017/admin?replicaSet=rs0
     depends_on:
@@ -22,6 +24,7 @@ services:
   mongodb:
     image: bitnami/mongodb:7.0
     container_name: mongodb
+    restart: unless-stopped
     environment:
       MONGODB_ROOT_USER: root
       MONGODB_ROOT_PASSWORD: root
