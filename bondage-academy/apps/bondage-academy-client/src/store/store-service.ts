@@ -26,6 +26,7 @@ import { SideMenuView } from "../game/model/side-menu-view";
 import { Locale, Store } from "./model/store";
 
 export class StoreService {
+  static inject = ["store", "setStore"] as const;
   constructor(
     private store: Store,
     private setStore: SetStoreFunction<Store>,

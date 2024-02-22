@@ -11,6 +11,7 @@ import { SocketService } from "../../common/socket-service";
 import { StoreService } from "../../store/store-service";
 
 export class RoomService {
+  static inject = ["socketService", "storeService"] as const;
   constructor(
     private socketService: SocketService,
     private storeService: StoreService,

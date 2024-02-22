@@ -11,6 +11,7 @@ import {
 import { SocketService } from "../../common/socket-service";
 
 export class WardrobeService {
+  static inject = ["socketService"] as const;
   constructor(private socketService: SocketService) {}
 
   async wear(

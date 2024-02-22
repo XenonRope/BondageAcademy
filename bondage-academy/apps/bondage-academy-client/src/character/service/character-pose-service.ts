@@ -14,6 +14,7 @@ import {
 import { SocketService } from "../../common/socket-service";
 
 export class CharacterPoseService {
+  static inject = ["socketService", "characterPoseValidator"] as const;
   constructor(
     private socketService: SocketService,
     private characterPoseValidator: CharacterPoseValidator,
