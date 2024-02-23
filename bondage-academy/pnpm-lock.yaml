@@ -50,9 +50,6 @@ dependencies:
   tslib:
     specifier: ^2.6.2
     version: 2.6.2
-  typed-inject:
-    specifier: ^4.0.0
-    version: 4.0.0
 
 devDependencies:
   '@nx/esbuild':
@@ -9435,11 +9432,6 @@ packages:
     dependencies:
       media-typer: 0.3.0
       mime-types: 2.1.35
-    dev: false
-
-  /typed-inject@4.0.0:
-    resolution: {integrity: sha512-OuBL3G8CJlS/kjbGV/cN8Ni32+ktyyi6ADDZpKvksbX0fYBV5WcukhRCYa7WqLce7dY/Br2dwtmJ9diiadLFpg==}
-    engines: {node: '>=16'}
     dev: false
 
   /typescript@5.3.3:

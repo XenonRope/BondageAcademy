@@ -9,7 +9,6 @@ import type { Locale, Store } from "../../store/model/store";
 import { Translator } from "../model/translator";
 
 export class LocaleService {
-  static inject = ["store"] as const;
   constructor(private store: Store) {}
 
   createTranslator(): Translator {

@@ -4,7 +4,6 @@ import io from "socket.io-client";
 import type { Store } from "../store/model/store";
 
 export class SocketService {
-  static inject = ["store"] as const;
   constructor(private store: Store) {}
 
   connect(): Socket {

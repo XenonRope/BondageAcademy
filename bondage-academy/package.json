@@ -19,8 +19,7 @@
     "socket.io-client": "^4.7.4",
     "solid-boundaries": "^2.1.0",
     "solid-js": "^1.8.15",
-    "tslib": "^2.6.2",
-    "typed-inject": "^4.0.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@nx/esbuild": "18.0.4",

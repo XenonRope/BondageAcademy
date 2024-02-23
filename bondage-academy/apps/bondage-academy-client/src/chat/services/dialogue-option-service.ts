@@ -11,7 +11,6 @@ import { SocketService } from "../../common/socket-service";
 import { Store } from "../../store/model/store";
 
 export class DialogueOptionService {
-  static inject = ["store", "socketService"] as const;
   constructor(
     private store: Store,
     private socketService: SocketService,

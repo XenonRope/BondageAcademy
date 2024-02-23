@@ -3,7 +3,6 @@ import { ActionMenuView } from "../model/action-menu-view";
 import type { SideMenuView } from "../model/side-menu-view";
 
 export class SideMenuService {
-  static inject = ["storeService"] as const;
   constructor(private storeService: StoreService) {}
 
   showSideMenu(view: SideMenuView) {

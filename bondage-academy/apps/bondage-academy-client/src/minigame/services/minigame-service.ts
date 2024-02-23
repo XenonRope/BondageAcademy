@@ -5,7 +5,6 @@ import {
 import { SocketService } from "../../common/socket-service";
 
 export class MinigameService {
-  static inject = ["socketService"] as const;
   constructor(private socketService: SocketService) {}
 
   async changeProgess(

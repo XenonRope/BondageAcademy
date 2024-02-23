@@ -7,7 +7,6 @@ import { type SocketService } from "../../common/socket-service";
 import type { StoreService } from "../../store/store-service";
 
 export class AccountService {
-  static inject = ["socketService", "storeService"] as const;
   constructor(
     private socketService: SocketService,
     private storeService: StoreService,
