@@ -2,12 +2,16 @@ import {
   CharacterPose,
   CharacterPoseValidator,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { ActorData } from "../actor/actor-data";
 import { ActorService } from "../actor/actor-service";
 
+@singleton()
 export class CharacterPoseService {
   constructor(
+    @inject(CharacterPoseValidator)
     private characterPoseValidator: CharacterPoseValidator,
+    @inject(ActorService)
     private actorService: ActorService,
   ) {}
 

@@ -1,13 +1,18 @@
 import { isPlayerObject } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { PlayerStoreService } from "../player/player-store-service";
 import { Session } from "../session/model/session";
 import { SessionService } from "../session/session-service";
 import { RoomStoreService } from "./room-store-service";
 
+@singleton()
 export class RoomSessionService {
   constructor(
+    @inject(SessionService)
     private sessionService: SessionService,
+    @inject(RoomStoreService)
     private roomStoreService: RoomStoreService,
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
   ) {}
 

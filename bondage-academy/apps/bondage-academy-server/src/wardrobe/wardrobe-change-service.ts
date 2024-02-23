@@ -5,14 +5,19 @@ import {
   Slot,
   isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { WardrobeMinigameService } from "../minigame/wardrobe-minigame-service";
 import { WardrobeConditionChecker } from "./wardrobe-condition-checker";
 import { WardrobeService } from "./wardrobe-service";
 
+@singleton()
 export class WardrobeChangeService {
   constructor(
+    @inject(WardrobeService)
     private wardrobeService: WardrobeService,
+    @inject(WardrobeConditionChecker)
     private wardrobeConditionChecker: WardrobeConditionChecker,
+    @inject(WardrobeMinigameService)
     private wardrobeMinigameService: WardrobeMinigameService,
   ) {}
 

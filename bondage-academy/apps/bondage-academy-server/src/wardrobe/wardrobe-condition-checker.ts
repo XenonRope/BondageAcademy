@@ -13,14 +13,19 @@ import {
   itemConfigs,
   slotConfigs,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { ActorData } from "../actor/actor-data";
 import { ActorService } from "../actor/actor-service";
 import { PlayerStoreService } from "../player/player-store-service";
 
+@singleton()
 export class WardrobeConditionChecker {
   constructor(
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
+    @inject(WardrobeValidator)
     private wardrobeValidator: WardrobeValidator,
+    @inject(ActorService)
     private actorService: ActorService,
   ) {}
 

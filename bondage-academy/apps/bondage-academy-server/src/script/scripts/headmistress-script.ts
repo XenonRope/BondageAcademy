@@ -5,6 +5,7 @@ import {
   RoomCode,
   isStandardCharacterPose,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { ChatService } from "../../chat/chat-service";
 import { ItemService } from "../../item/item-service";
 import { PlayerStoreService } from "../../player/player-store-service";
@@ -17,12 +18,18 @@ import {
 } from "../model/script-event";
 import { GameScript } from "./game-script";
 
+@singleton()
 export class HeadmistressScript extends GameScript {
   constructor(
+    @inject(RoomStoreService)
     private roomStoreService: RoomStoreService,
+    @inject(SessionService)
     private sessionService: SessionService,
+    @inject(ChatService)
     private chatService: ChatService,
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
+    @inject(ItemService)
     private itemService: ItemService,
   ) {
     super();

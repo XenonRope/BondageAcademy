@@ -14,17 +14,23 @@ import {
   RoomCode,
   UpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { ObjectCreationService } from "../object/object-creation-service";
 import { ObjectIdProvider } from "../object/object-id-provider";
 import { gardenData } from "./data/garden";
 import { RoomCreationService } from "./room-creation-service";
 import { RoomService } from "./room-service";
 
+@singleton()
 export class RoomInitializationService {
   constructor(
+    @inject(RoomService)
     private roomService: RoomService,
+    @inject(RoomCreationService)
     private roomCreationService: RoomCreationService,
+    @inject(ObjectIdProvider)
     private objectIdProvider: ObjectIdProvider,
+    @inject(ObjectCreationService)
     private objectCreationService: ObjectCreationService,
   ) {}
 

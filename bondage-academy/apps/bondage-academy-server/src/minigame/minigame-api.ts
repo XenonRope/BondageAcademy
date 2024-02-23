@@ -4,12 +4,16 @@ import {
   isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
 import * as tPromise from "io-ts-promise";
+import { inject, singleton } from "tsyringe";
 import { Session } from "../session/model/session";
 import { MinigameService } from "./minigame-service";
 import { MinigameProgressChangeSource } from "./model/minigame-progress-change";
 
+@singleton()
 export class MinigameApi {
-  constructor(private minigameService: MinigameService) {}
+  constructor(
+    @inject(MinigameService) private minigameService: MinigameService,
+  ) {}
 
   async changeProgress(request: unknown, session: Session): Promise<void> {
     if (!session.playerId) {

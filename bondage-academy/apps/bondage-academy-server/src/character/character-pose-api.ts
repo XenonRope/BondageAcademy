@@ -5,6 +5,7 @@ import {
   LowerBodyPose,
   UpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { ActorService } from "../actor/actor-service";
 import { parseEnum, parseOptionalEnum } from "../api/utils/parsers";
 import { MinigameService } from "../minigame/minigame-service";
@@ -15,10 +16,14 @@ export interface ChangePoseRequest {
   pose: CharacterPose;
 }
 
+@singleton()
 export class CharacterPoseApi {
   constructor(
+    @inject(CharacterPoseService)
     private characterPoseService: CharacterPoseService,
+    @inject(MinigameService)
     private minigameService: MinigameService,
+    @inject(ActorService)
     private actorService: ActorService,
   ) {}
 

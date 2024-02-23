@@ -1,3 +1,4 @@
+import { singleton } from "tsyringe";
 import {
   DialogueOptionUseEvent,
   PlayerJoinRoomEvent,
@@ -5,6 +6,7 @@ import {
 } from "./model/script-event";
 import { GameScript } from "./scripts/game-script";
 
+@singleton()
 export class ScriptService {
   private eventEmitters: ScriptEventEmitters = {
     onPlayerJoinRoom: [],

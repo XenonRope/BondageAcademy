@@ -3,14 +3,19 @@ import {
   RoomState,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { MinigameService } from "../minigame/minigame-service";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomStoreService } from "./room-store-service";
 
+@singleton()
 export class RoomUtilsService {
   constructor(
+    @inject(RoomStoreService)
     private roomStoreService: RoomStoreService,
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
+    @inject(MinigameService)
     private minigameService: MinigameService,
   ) {}
 

@@ -3,15 +3,20 @@ import {
   Room,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { BusinessError } from "../api/model/business-error";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomObjectRemovalService } from "./room-object-removal-service";
 import { RoomStoreService } from "./room-store-service";
 
+@singleton()
 export class RoomLeaveService {
   constructor(
+    @inject(RoomObjectRemovalService)
     private roomObjectRemovalService: RoomObjectRemovalService,
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
+    @inject(RoomStoreService)
     private roomStoreService: RoomStoreService,
   ) {}
 

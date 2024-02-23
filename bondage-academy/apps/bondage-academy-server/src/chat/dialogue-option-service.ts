@@ -3,21 +3,36 @@ import {
   DialogueOptionContext,
   DictionaryKey,
   NPCCode,
+  dialogueOptions,
   isNPCObject,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, registry, singleton } from "tsyringe";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomStoreService } from "../room/room-store-service";
 import { ScriptService } from "../script/script-service";
 import { SessionService } from "../session/session-service";
 import { ChatService } from "./chat-service";
 
+@registry([
+  {
+    token: "dialogueOptions",
+    useValue: dialogueOptions,
+  },
+])
+@singleton()
 export class DialogueOptionService {
   constructor(
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
+    @inject("dialogueOptions")
     private dialogueOptions: DialogueOption[],
+    @inject(RoomStoreService)
     private roomStoreServie: RoomStoreService,
+    @inject(ScriptService)
     private scriptService: ScriptService,
+    @inject(ChatService)
     private chatService: ChatService,
+    @inject(SessionService)
     private sessionService: SessionService,
   ) {}
 

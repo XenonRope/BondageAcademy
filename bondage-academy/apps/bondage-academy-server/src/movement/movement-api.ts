@@ -1,12 +1,16 @@
 import { Position } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { requiredPosition } from "../api/utils/validators";
 import { MinigameService } from "../minigame/minigame-service";
 import { type Session } from "../session/model/session";
-import { type MovementService } from "./movement-service";
+import { MovementService } from "./movement-service";
 
+@singleton()
 export class MovementApi {
   constructor(
+    @inject(MovementService)
     private movementService: MovementService,
+    @inject(MinigameService)
     private minigameService: MinigameService,
   ) {}
 

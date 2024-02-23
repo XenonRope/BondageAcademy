@@ -3,14 +3,16 @@ import {
   type CreateIndexesOptions,
   type IndexSpecification,
 } from "mongodb";
+import { inject, singleton } from "tsyringe";
 import { Dao } from "../dao/dao";
 import { CollectionName } from "../dao/model/collection-name";
 import { type MigrationLog } from "./model/migration-log";
 
+@singleton()
 export class MigrationService {
   private migrationLogs: Collection<MigrationLog>;
 
-  constructor(private dao: Dao) {
+  constructor(@inject(Dao) private dao: Dao) {
     this.migrationLogs = dao.getCollection(CollectionName.MIGRATION_LOGS);
   }
 

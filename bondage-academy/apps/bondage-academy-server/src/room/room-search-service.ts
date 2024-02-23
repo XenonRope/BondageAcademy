@@ -4,16 +4,18 @@ import {
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
 import { Collection, Filter } from "mongodb";
+import { inject, singleton } from "tsyringe";
 import { Dao } from "../dao/dao";
 import { CollectionName } from "../dao/model/collection-name";
 import { RoomStoreService } from "./room-store-service";
 
+@singleton()
 export class RoomSearchService {
   private collection!: Collection<Room>;
 
   constructor(
-    dao: Dao,
-    private roomStoreService: RoomStoreService,
+    @inject(Dao) dao: Dao,
+    @inject(RoomStoreService) private roomStoreService: RoomStoreService,
   ) {
     this.collection = dao.getCollection(CollectionName.ROOMS);
   }

@@ -4,13 +4,17 @@ import {
   UseDialogueOptionRequestSchema,
 } from "@bondage-academy/bondage-academy-model";
 import * as tPromise from "io-ts-promise";
+import { inject, singleton } from "tsyringe";
 import { MinigameService } from "../minigame/minigame-service";
 import { Session } from "../session/model/session";
 import { DialogueOptionService } from "./dialogue-option-service";
 
+@singleton()
 export class DialogueOptionApi {
   constructor(
+    @inject(DialogueOptionService)
     private dialogueOptionService: DialogueOptionService,
+    @inject(MinigameService)
     private minigameService: MinigameService,
   ) {}
 

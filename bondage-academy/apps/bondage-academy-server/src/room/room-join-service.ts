@@ -1,4 +1,5 @@
 import { Room } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { BusinessError } from "../api/model/business-error";
 import { ObjectCreationService } from "../object/object-creation-service";
 import { PlayerStoreService } from "../player/player-store-service";
@@ -7,13 +8,20 @@ import { RoomFieldService } from "./room-field-service";
 import { RoomObjectCreationService } from "./room-object-creation-service";
 import { RoomStoreService } from "./room-store-service";
 
+@singleton()
 export class RoomJoinService {
   constructor(
+    @inject(RoomStoreService)
     private roomStoreService: RoomStoreService,
+    @inject(RoomFieldService)
     private roomFieldService: RoomFieldService,
+    @inject(ObjectCreationService)
     private objectCreationService: ObjectCreationService,
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
+    @inject(RoomObjectCreationService)
     private roomObjectCreationService: RoomObjectCreationService,
+    @inject(ScriptService)
     private scriptService: ScriptService,
   ) {}
 

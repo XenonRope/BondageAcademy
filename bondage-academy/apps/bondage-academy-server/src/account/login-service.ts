@@ -1,13 +1,18 @@
+import { inject, singleton } from "tsyringe";
 import { BusinessError } from "../api/model/business-error";
 import type { Session } from "../session/model/session";
-import type { SessionService } from "../session/session-service";
-import { type AccountService } from "./account-service";
-import { type LogoutService } from "./logout-service";
+import { SessionService } from "../session/session-service";
+import { AccountService } from "./account-service";
+import { LogoutService } from "./logout-service";
 
+@singleton()
 export class LoginService {
   constructor(
+    @inject(AccountService)
     private accountService: AccountService,
+    @inject(SessionService)
     private sessionService: SessionService,
+    @inject(LogoutService)
     private logoutService: LogoutService,
   ) {}
 

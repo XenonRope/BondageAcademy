@@ -1,11 +1,16 @@
+import { inject, singleton } from "tsyringe";
 import { ObjectClientSynchronizationService } from "../object/object-client-synchronization-service";
 import { RoomSessionService } from "./room-session-service";
 import { RoomStoreService } from "./room-store-service";
 
+@singleton()
 export class RoomObjectRemovalService {
   constructor(
+    @inject(RoomStoreService)
     private roomStoreService: RoomStoreService,
+    @inject(ObjectClientSynchronizationService)
     private objectClientSynchronizationService: ObjectClientSynchronizationService,
+    @inject(RoomSessionService)
     private roomSessionService: RoomSessionService,
   ) {}
 

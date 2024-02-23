@@ -3,6 +3,7 @@ import {
   LoginRequest,
   LoginResponse,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { requiredString } from "../api/utils/validators";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomUtilsService } from "../room/room-utils-service";
@@ -10,11 +11,16 @@ import { Session } from "../session/model/session";
 import { AccountRegistrationService } from "./account-registration-service";
 import { LoginService } from "./login-service";
 
+@singleton()
 export class AccountApi {
   constructor(
+    @inject(AccountRegistrationService)
     private accountRegistrationService: AccountRegistrationService,
+    @inject(LoginService)
     private loginService: LoginService,
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
+    @inject(RoomUtilsService)
     private roomUtilsService: RoomUtilsService,
   ) {}
 

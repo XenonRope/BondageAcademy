@@ -1,10 +1,11 @@
+import { inject, singleton } from "tsyringe";
 import { BusinessError } from "../api/model/business-error";
 import { Dao } from "../dao/dao";
 import { SequenceName } from "../dao/model/sequence-name";
 import { Sequences } from "../dao/sequences";
-import { type PlayerCreationService } from "../player/player-creation-service";
-import { type PlayerService } from "../player/player-service";
-import { type AccountService } from "./account-service";
+import { PlayerCreationService } from "../player/player-creation-service";
+import { PlayerService } from "../player/player-service";
+import { AccountService } from "./account-service";
 import type { Account } from "./model/account";
 
 export interface AccountRegisterParams {
@@ -13,12 +14,18 @@ export interface AccountRegisterParams {
   nick: string;
 }
 
+@singleton()
 export class AccountRegistrationService {
   constructor(
+    @inject(AccountService)
     private accountService: AccountService,
+    @inject(Sequences)
     private sequences: Sequences,
+    @inject(PlayerCreationService)
     private playerCreationService: PlayerCreationService,
+    @inject(Dao)
     private dao: Dao,
+    @inject(PlayerService)
     private playerService: PlayerService,
   ) {}
 

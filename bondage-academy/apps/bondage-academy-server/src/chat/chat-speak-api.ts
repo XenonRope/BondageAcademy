@@ -1,12 +1,16 @@
 import { SpeakRequestSchema } from "@bondage-academy/bondage-academy-model";
 import * as tPromise from "io-ts-promise";
+import { inject, singleton } from "tsyringe";
 import { MinigameService } from "../minigame/minigame-service";
 import { Session } from "../session/model/session";
 import { ChatSpeakService } from "./chat-speak-service";
 
+@singleton()
 export class ChatSpeakApi {
   constructor(
+    @inject(ChatSpeakService)
     private chatSpeakService: ChatSpeakService,
+    @inject(MinigameService)
     private minigameService: MinigameService,
   ) {}
 

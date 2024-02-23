@@ -1,9 +1,13 @@
+import { inject, singleton } from "tsyringe";
 import { RoomService } from "./room-service";
 import { RoomStoreService } from "./room-store-service";
 
+@singleton()
 export class RoomDatabaseSynchronizationService {
   constructor(
+    @inject(RoomStoreService)
     private roomStoreService: RoomStoreService,
+    @inject(RoomService)
     private roomService: RoomService,
   ) {}
 

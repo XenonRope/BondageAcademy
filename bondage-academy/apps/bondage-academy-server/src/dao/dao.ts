@@ -1,11 +1,23 @@
 import { ClientSession, Collection, Db, Document, MongoClient } from "mongodb";
+import { inject, registry, singleton } from "tsyringe";
 import { CollectionName } from "./model/collection-name";
 
+@registry([
+  {
+    token: "mongodbConnectionString",
+    useValue:
+      process.env.MONGODB_CONNECTION_STRING ??
+      "mongodb://root:root@localhost:27017/admin?replicaSet=rs0",
+  },
+])
+@singleton()
 export class Dao {
   private _client?: MongoClient;
   private _database?: Db;
 
-  constructor(private connectionString: string) {}
+  constructor(
+    @inject("mongodbConnectionString") private mongodbConnectionString: string,
+  ) {}
 
   getCollection<T extends Document>(
     collectionName: CollectionName,
@@ -24,7 +36,7 @@ export class Dao {
 
   private get client(): MongoClient {
     if (!this._client) {
-      this._client = new MongoClient(this.connectionString);
+      this._client = new MongoClient(this.mongodbConnectionString);
     }
     return this._client;
   }

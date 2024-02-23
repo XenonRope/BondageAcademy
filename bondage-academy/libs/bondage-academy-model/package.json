@@ -4,7 +4,8 @@
   "dependencies": {
     "io-ts": "^2.2.20",
     "tslib": "^2.3.0",
-    "@solid-primitives/i18n": "^2.0.1"
+    "@solid-primitives/i18n": "^2.0.1",
+    "tsyringe": "^4.8.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",

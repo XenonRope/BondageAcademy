@@ -6,10 +6,14 @@ import {
   PlayerObject,
   Position,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { ObjectIdProvider } from "./object-id-provider";
 
+@singleton()
 export class ObjectCreationService {
-  constructor(private objectIdProvider: ObjectIdProvider) {}
+  constructor(
+    @inject(ObjectIdProvider) private objectIdProvider: ObjectIdProvider,
+  ) {}
 
   async createPlayerObject({
     position,

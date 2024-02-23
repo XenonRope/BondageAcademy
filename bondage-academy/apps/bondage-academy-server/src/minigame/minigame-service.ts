@@ -5,19 +5,24 @@ import {
   MinigameStake,
   isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { MinigameChallangeService } from "./minigame-challange-service";
 import { MinigameClientSynchronizationService } from "./minigame-client-synchronization-service";
 import { MinigameStakeService } from "./minigame-stake-service";
 import { MinigameProgressChange } from "./model/minigame-progress-change";
 import { MinigameWithState } from "./model/minigame-with-state";
 
+@singleton()
 export class MinigameService {
   private minigamesWithStates = new Map<number, MinigameWithState>();
   private nextMinigameId = 1;
 
   constructor(
+    @inject(MinigameClientSynchronizationService)
     private minigameClientSynchronizationService: MinigameClientSynchronizationService,
+    @inject(MinigameChallangeService)
     private minigameChallangeService: MinigameChallangeService,
+    @inject(MinigameStakeService)
     private minigameStakeService: MinigameStakeService,
   ) {}
 

@@ -1,12 +1,14 @@
 import { Room } from "@bondage-academy/bondage-academy-model";
 import { Collection } from "mongodb";
+import { inject, singleton } from "tsyringe";
 import { Dao } from "../dao/dao";
 import { CollectionName } from "../dao/model/collection-name";
 
+@singleton()
 export class RoomService {
   private collection!: Collection<Room>;
 
-  constructor(dao: Dao) {
+  constructor(@inject(Dao) dao: Dao) {
     this.collection = dao.getCollection(CollectionName.ROOMS);
   }
 

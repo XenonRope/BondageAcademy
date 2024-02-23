@@ -5,23 +5,31 @@ import {
   arePositionsEqual,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomFieldService } from "../room/room-field-service";
 import { RoomSessionService } from "../room/room-session-service";
 import { RoomStoreService } from "../room/room-store-service";
 import type { Motion } from "./model/motion";
-import type { MotionStorage } from "./motion-storage";
+import { MotionStorage } from "./motion-storage";
 import { MovementConditionChecker } from "./movement-condition-checker";
 
 const PLAYER_MOVE_DURATION = 350;
 
+@singleton()
 export class MovementService {
   constructor(
+    @inject(MotionStorage)
     private motionStorage: MotionStorage,
+    @inject(RoomStoreService)
     private roomStoreService: RoomStoreService,
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
+    @inject(RoomFieldService)
     private roomFieldService: RoomFieldService,
+    @inject(RoomSessionService)
     private roomSessionService: RoomSessionService,
+    @inject(MovementConditionChecker)
     private movementConditionChecker: MovementConditionChecker,
   ) {}
 

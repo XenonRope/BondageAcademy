@@ -1,6 +1,8 @@
 import type { Socket } from "socket.io";
+import { singleton } from "tsyringe";
 import type { Session } from "./model/session";
 
+@singleton()
 export class SessionService {
   private sessionsBySocketsIds = new Map<string, Session>();
 

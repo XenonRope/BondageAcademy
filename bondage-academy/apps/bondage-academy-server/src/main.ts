@@ -1,3 +1,5 @@
+import "@abraham/reflection";
+
 import {
   RequestFromClient,
   ServerResponse,
@@ -5,35 +7,49 @@ import {
 import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
+import { container } from "tsyringe";
+import { AccountApi } from "./account/account-api";
+import { LogoutService } from "./account/logout-service";
+import { ActionApi } from "./action/action-api";
 import { BusinessError } from "./api/model/business-error";
-import { configureApiContainer } from "./app/api";
-import { configureServiceContainer } from "./app/services";
+import { CharacterPoseApi } from "./character/character-pose-api";
+import { ChatSpeakApi } from "./chat/chat-speak-api";
+import { DialogueOptionApi } from "./chat/dialogue-option-api";
+import { MigrationService } from "./migration/migration-service";
+import { MinigameApi } from "./minigame/minigame-api";
+import { MovementApi } from "./movement/movement-api";
+import { RoomCreationApi } from "./room/room-creation-api";
+import { RoomInitializationService } from "./room/room-initialization-service";
+import { RoomJoinApi } from "./room/room-join-api";
+import { RoomLeaveApi } from "./room/room-leave-api";
+import { RoomSearchApi } from "./room/room-search-api";
+import { ScriptService } from "./script/script-service";
+import { HeadmistressScript } from "./script/scripts/headmistress-script";
+import { SessionService } from "./session/session-service";
+import { DatabaseSynchronizationService } from "./synchronization/database-synchronization-service";
+import { WardrobeApi } from "./wardrobe/wardrobe-api";
 
-const serviceContainer = configureServiceContainer();
-const apiContainer = configureApiContainer(serviceContainer);
-const {
-  databaseSynchronizationService,
-  logoutService,
-  migrationService,
-  roomInitializationService,
-  scriptService,
-  scripts,
-  sessionService,
-} = serviceContainer;
-const {
-  accountApi,
-  actionApi,
-  characterPoseApi,
-  chatSpeakApi,
-  dialogueOptionApi,
-  minigameApi,
-  movementApi,
-  roomCreationApi,
-  roomJoinApi,
-  roomLeaveApi,
-  roomSearchApi,
-  wardrobeApi,
-} = apiContainer;
+const databaseSynchronizationService = container.resolve(
+  DatabaseSynchronizationService,
+);
+const logoutService = container.resolve(LogoutService);
+const migrationService = container.resolve(MigrationService);
+const roomInitializationService = container.resolve(RoomInitializationService);
+const scriptService = container.resolve(ScriptService);
+const scripts = [container.resolve(HeadmistressScript)];
+const sessionService = container.resolve(SessionService);
+const accountApi = container.resolve(AccountApi);
+const actionApi = container.resolve(ActionApi);
+const characterPoseApi = container.resolve(CharacterPoseApi);
+const chatSpeakApi = container.resolve(ChatSpeakApi);
+const dialogueOptionApi = container.resolve(DialogueOptionApi);
+const minigameApi = container.resolve(MinigameApi);
+const movementApi = container.resolve(MovementApi);
+const roomCreationApi = container.resolve(RoomCreationApi);
+const roomJoinApi = container.resolve(RoomJoinApi);
+const roomLeaveApi = container.resolve(RoomLeaveApi);
+const roomSearchApi = container.resolve(RoomSearchApi);
+const wardrobeApi = container.resolve(WardrobeApi);
 
 const app = express();
 const server = createServer(app);

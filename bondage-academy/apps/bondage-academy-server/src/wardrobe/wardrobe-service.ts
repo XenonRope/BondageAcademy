@@ -17,18 +17,25 @@ import {
   isPlayerActor,
   isStandardCharacterPose,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { ActorData } from "../actor/actor-data";
 import { ActorService } from "../actor/actor-service";
 import { CharacterPoseService } from "../character/character-pose-service";
 import { PlayerStoreService } from "../player/player-store-service";
 import { WardrobeConditionChecker } from "./wardrobe-condition-checker";
 
+@singleton()
 export class WardrobeService {
   constructor(
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
+    @inject(WardrobeConditionChecker)
     private wardrobeConditionChecker: WardrobeConditionChecker,
+    @inject(CharacterPoseValidator)
     private characterPoseValidator: CharacterPoseValidator,
+    @inject(CharacterPoseService)
     private characterPoseService: CharacterPoseService,
+    @inject(ActorService)
     private actorService: ActorService,
   ) {}
 

@@ -7,6 +7,7 @@ import {
   UpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
 import { ClientSession } from "mongodb";
+import { inject, singleton } from "tsyringe";
 import { SequenceName } from "../dao/model/sequence-name";
 import { Sequences } from "../dao/sequences";
 import { PlayerService } from "./player-service";
@@ -15,9 +16,12 @@ export interface PlayerCreateParams {
   name: string;
 }
 
+@singleton()
 export class PlayerCreationService {
   constructor(
+    @inject(PlayerService)
     private playerService: PlayerService,
+    @inject(Sequences)
     private sequences: Sequences,
   ) {}
 

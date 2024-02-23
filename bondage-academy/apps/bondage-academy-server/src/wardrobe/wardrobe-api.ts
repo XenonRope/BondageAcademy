@@ -7,16 +7,21 @@ import {
   prepareActorByPlayerId,
 } from "@bondage-academy/bondage-academy-model";
 import * as tPromise from "io-ts-promise";
+import { inject, singleton } from "tsyringe";
 import { parseEnum } from "../api/utils/parsers";
 import { MinigameService } from "../minigame/minigame-service";
 import { Session } from "../session/model/session";
 import { WardrobeChangeService } from "./wardrobe-change-service";
 import { WardrobeCustomizationService } from "./wardrobe-customization-service";
 
+@singleton()
 export class WardrobeApi {
   constructor(
+    @inject(WardrobeChangeService)
     private wardrobeChangeService: WardrobeChangeService,
+    @inject(MinigameService)
     private minigameService: MinigameService,
+    @inject(WardrobeCustomizationService)
     private wardroveCustomizationService: WardrobeCustomizationService,
   ) {}
 

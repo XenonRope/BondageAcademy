@@ -1,13 +1,15 @@
 import { Collection } from "mongodb";
+import { inject, singleton } from "tsyringe";
 import { Dao } from "./dao";
 import { CollectionName } from "./model/collection-name";
 import { Sequence } from "./model/sequence";
 import { SequenceName } from "./model/sequence-name";
 
+@singleton()
 export class Sequences {
   private collection: Collection<Sequence>;
 
-  constructor(dao: Dao) {
+  constructor(@inject(Dao) dao: Dao) {
     this.collection = dao.getCollection(CollectionName.SEQUENCES);
   }
 

@@ -5,15 +5,20 @@ import {
   SmileAction,
   isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { ChatService } from "../../chat/chat-service";
 import { PlayerStoreService } from "../../player/player-store-service";
 import { RoomSessionService } from "../../room/room-session-service";
 import { ActionHandler } from "./action-handler";
 
+@singleton()
 export class SmileActionHandler implements ActionHandler<SmileAction> {
   constructor(
+    @inject(RoomSessionService)
     private roomSessionService: RoomSessionService,
+    @inject(ChatService)
     private chatService: ChatService,
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
   ) {}
 

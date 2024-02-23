@@ -2,13 +2,25 @@ import {
   Minigame,
   MinigameChallange,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, instanceCachingFactory, registry, singleton } from "tsyringe";
+import { ClickMinigameChallangeHandler } from "./challange/click-minigame-challange-handler";
 import { MinigameChallangeHandler } from "./challange/minigame-challange-handler";
 import { MinigameProgressChange } from "./model/minigame-progress-change";
 import { MinigameResult } from "./model/minigame-result";
 
+@singleton()
+@registry([
+  {
+    token: "minigameChallangeHandlers",
+    useFactory: instanceCachingFactory((container) => {
+      [container.resolve(ClickMinigameChallangeHandler)];
+    }),
+  },
+])
 export class MinigameChallangeService {
   constructor(
-    private handlers: MinigameChallangeHandler<MinigameChallange>[],
+    @inject("minigameChallangeHandlers")
+    private minigameChallangeHandlers: MinigameChallangeHandler<MinigameChallange>[],
   ) {}
 
   async changeProgress(
@@ -31,7 +43,7 @@ export class MinigameChallangeService {
   private findHandler(
     minigame: Minigame,
   ): MinigameChallangeHandler<MinigameChallange> {
-    const handler = this.handlers.find((handler) =>
+    const handler = this.minigameChallangeHandlers.find((handler) =>
       handler.canHandleChallange(minigame.challange),
     );
     if (!handler) {

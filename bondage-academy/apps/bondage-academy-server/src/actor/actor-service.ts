@@ -8,6 +8,7 @@ import {
   UpdateActor,
   isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { ObjectClientSynchronizationService } from "../object/object-client-synchronization-service";
 import { PlayerClientSynchronizationService } from "../player/player-client-synchronization-service";
 import { PlayerStoreService } from "../player/player-store-service";
@@ -15,12 +16,18 @@ import { RoomSessionService } from "../room/room-session-service";
 import { RoomStoreService } from "../room/room-store-service";
 import { ActorData } from "./actor-data";
 
+@singleton()
 export class ActorService {
   constructor(
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
+    @inject(RoomStoreService)
     private roomStoreService: RoomStoreService,
+    @inject(PlayerClientSynchronizationService)
     private playerClientSynchronizationService: PlayerClientSynchronizationService,
+    @inject(ObjectClientSynchronizationService)
     private objectClientSynchronizationService: ObjectClientSynchronizationService,
+    @inject(RoomSessionService)
     private roomSessionService: RoomSessionService,
   ) {}
 

@@ -7,11 +7,15 @@ import {
   isPlayerActor,
   itemConfigs,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { ActorService } from "../actor/actor-service";
 
+@singleton()
 export class WardrobeCustomizationService {
   constructor(
+    @inject(ItemCustomizationAccessChecker)
     private itemCustomizationAccessChecker: ItemCustomizationAccessChecker,
+    @inject(ActorService)
     private actorService: ActorService,
   ) {}
 

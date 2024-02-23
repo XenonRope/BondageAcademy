@@ -5,6 +5,7 @@ import {
   ROOM_NAME_MAX_LENGHT,
 } from "@bondage-academy/bondage-academy-model";
 import * as tPromise from "io-ts-promise";
+import { inject, singleton } from "tsyringe";
 import { PlayerStoreService } from "../player/player-store-service";
 import { Session } from "../session/model/session";
 import { RoomCreationService } from "./room-creation-service";
@@ -13,13 +14,20 @@ import { RoomService } from "./room-service";
 import { RoomStoreService } from "./room-store-service";
 import { RoomUtilsService } from "./room-utils-service";
 
+@singleton()
 export class RoomCreationApi {
   constructor(
+    @inject(RoomStoreService)
     private roomStoreService: RoomStoreService,
+    @inject(RoomService)
     private roomService: RoomService,
+    @inject(RoomCreationService)
     private roomCreationService: RoomCreationService,
+    @inject(RoomJoinService)
     private roomJoinService: RoomJoinService,
+    @inject(RoomUtilsService)
     private roomUtilsService: RoomUtilsService,
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
   ) {}
 

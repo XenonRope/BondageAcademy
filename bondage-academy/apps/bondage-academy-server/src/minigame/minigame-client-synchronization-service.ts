@@ -4,13 +4,17 @@ import {
   SynchronizeMinigamesEvent,
   isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { RoomSessionService } from "../room/room-session-service";
 import { Session } from "../session/model/session";
 import { SessionService } from "../session/session-service";
 
+@singleton()
 export class MinigameClientSynchronizationService {
   constructor(
+    @inject(RoomSessionService)
     private roomSessionService: RoomSessionService,
+    @inject(SessionService)
     private sessionService: SessionService,
   ) {}
 

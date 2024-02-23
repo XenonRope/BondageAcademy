@@ -7,11 +7,15 @@ import {
   PhantomItem,
   Slot,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { ActorData } from "../actor/actor-data";
 import { MinigameService } from "./minigame-service";
 
+@singleton()
 export class WardrobeMinigameService {
-  constructor(private minigameService: MinigameService) {}
+  constructor(
+    @inject(MinigameService) private minigameService: MinigameService,
+  ) {}
 
   async startChangeWardrobeMinigame(params: {
     actor: ActorData;

@@ -4,14 +4,18 @@ import {
   MinigameStake,
   isChangeWardrobeMinigameStake,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { WardrobeService } from "../../wardrobe/wardrobe-service";
 import { MinigameResult, MinigameWinner } from "../model/minigame-result";
 import { MinigameStakeHandler } from "./minigame-stake-handler";
 
+@singleton()
 export class ChangeWardrobeMinigameStakeHandler
   implements MinigameStakeHandler<ChangeWardrobeMinigameStake>
 {
-  constructor(private wardrobeService: WardrobeService) {}
+  constructor(
+    @inject(WardrobeService) private wardrobeService: WardrobeService,
+  ) {}
 
   canHandleStake(stake: MinigameStake): stake is ChangeWardrobeMinigameStake {
     return isChangeWardrobeMinigameStake(stake);

@@ -2,18 +2,25 @@ import {
   Item,
   SynchronizePlayersEvent,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { PlayerClientSynchronizationService } from "../player/player-client-synchronization-service";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomSessionService } from "../room/room-session-service";
-import type { SessionService } from "../session/session-service";
+import { SessionService } from "../session/session-service";
 import { ItemIdProvider } from "./item-id-provider";
 
+@singleton()
 export class ItemService {
   constructor(
+    @inject(SessionService)
     private sessionService: SessionService,
+    @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
+    @inject(RoomSessionService)
     private roomSessionService: RoomSessionService,
+    @inject(PlayerClientSynchronizationService)
     private playerClientSynchronizationService: PlayerClientSynchronizationService,
+    @inject(ItemIdProvider)
     private itemIdProvider: ItemIdProvider,
   ) {}
 

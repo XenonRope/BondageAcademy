@@ -1,12 +1,14 @@
 import type { ClientSession, Collection } from "mongodb";
+import { inject, singleton } from "tsyringe";
 import { Dao } from "../dao/dao";
 import { CollectionName } from "../dao/model/collection-name";
 import type { Account } from "./model/account";
 
+@singleton()
 export class AccountService {
   private collection!: Collection<Account>;
 
-  constructor(dao: Dao) {
+  constructor(@inject(Dao) dao: Dao) {
     this.collection = dao.getCollection(CollectionName.ACCOUNTS);
   }
 

@@ -2,11 +2,13 @@ import { Player } from "@bondage-academy/bondage-academy-model";
 import { ClientSession, Collection } from "mongodb";
 import { Dao } from "../dao/dao";
 import { CollectionName } from "../dao/model/collection-name";
+import { inject, singleton } from "tsyringe";
 
+@singleton()
 export class PlayerService {
   private collection!: Collection<Player>;
 
-  constructor(dao: Dao) {
+  constructor(@inject(Dao) dao: Dao) {
     this.collection = dao.getCollection(CollectionName.PLAYERS);
   }
 

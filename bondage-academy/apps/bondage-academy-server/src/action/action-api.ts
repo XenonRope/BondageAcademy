@@ -4,13 +4,17 @@ import {
   PlayerActor,
 } from "@bondage-academy/bondage-academy-model";
 import * as tPromise from "io-ts-promise";
+import { inject, singleton } from "tsyringe";
 import { MinigameService } from "../minigame/minigame-service";
 import { Session } from "../session/model/session";
 import { ActionExecutorService } from "./action-executor-service";
 
+@singleton()
 export class ActionApi {
   constructor(
+    @inject(ActionExecutorService)
     private actionExecutorService: ActionExecutorService,
+    @inject(MinigameService)
     private minigameService: MinigameService,
   ) {}
 

@@ -4,7 +4,9 @@ import {
   CharacterPose,
   isStandardCharacterPose,
 } from "../model/character-pose";
+import { singleton } from "tsyringe";
 
+@singleton()
 export class CharacterPoseValidator {
   isPoseValid(character: Character, pose: CharacterPose): boolean {
     const requiredPoses = this.getRequiredPoses(character);

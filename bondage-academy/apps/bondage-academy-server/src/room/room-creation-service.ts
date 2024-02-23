@@ -6,6 +6,7 @@ import {
   RoomTemplateSettings,
   RoomTransitArea,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { SequenceName } from "../dao/model/sequence-name";
 import { Sequences } from "../dao/sequences";
 import { RoomService } from "./room-service";
@@ -29,10 +30,14 @@ export interface CreateTemplateRoomParams {
   objects: GameObject[];
 }
 
+@singleton()
 export class RoomCreationService {
   constructor(
+    @inject(RoomService)
     private roomService: RoomService,
+    @inject(Sequences)
     private sequences: Sequences,
+    @inject(RoomStoreService)
     private roomStoreService: RoomStoreService,
   ) {}
 

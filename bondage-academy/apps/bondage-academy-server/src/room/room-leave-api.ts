@@ -1,10 +1,14 @@
+import { inject, singleton } from "tsyringe";
 import { MinigameService } from "../minigame/minigame-service";
 import { Session } from "../session/model/session";
 import { RoomLeaveService } from "./room-leave-service";
 
+@singleton()
 export class RoomLeaveApi {
   constructor(
+    @inject(RoomLeaveService)
     private roomLeaveService: RoomLeaveService,
+    @inject(MinigameService)
     private minigameService: MinigameService,
   ) {}
 
