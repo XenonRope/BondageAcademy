@@ -54,7 +54,7 @@
     "@nx/web:application": {
       "style": "scss",
       "linter": "eslint",
-      "unitTestRunner": "vitest",
+      "unitTestRunner": "jest",
       "e2eTestRunner": "none"
     }
   }
