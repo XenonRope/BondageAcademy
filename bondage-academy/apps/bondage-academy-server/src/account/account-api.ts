@@ -53,8 +53,10 @@ export class AccountApi {
       password,
     );
 
-    const player = await this.playerStoreService.get(playerId);
-    if (!player.roomId) {
+    const playerRoomId =
+      await this.playerStoreService.getPlayerRoomId(playerId);
+    if (!playerRoomId) {
+      const player = await this.playerStoreService.get(playerId);
       return {
         playerId,
         players: [player],
@@ -63,7 +65,7 @@ export class AccountApi {
     }
 
     const { room, players, minigames } =
-      await this.roomUtilsService.getRoomState(player.roomId);
+      await this.roomUtilsService.getRoomState(playerRoomId);
     return {
       playerId,
       room,

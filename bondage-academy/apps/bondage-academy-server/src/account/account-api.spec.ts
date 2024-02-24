@@ -1,10 +1,16 @@
-import { Player, RoomState } from "@bondage-academy/bondage-academy-model";
+import {
+  GameObject,
+  ObjectType,
+  Player,
+  PlayerObject,
+  Room,
+} from "@bondage-academy/bondage-academy-model";
 import { when } from "jest-when";
 import { Socket } from "socket.io";
 import { mock } from "ts-jest-mocker";
 import { container } from "tsyringe";
-import { PlayerStoreService } from "../player/player-store-service";
-import { RoomUtilsService } from "../room/room-utils-service";
+import { PlayerService } from "../player/player-service";
+import { RoomService } from "../room/room-service";
 import { Session } from "../session/model/session";
 import { AccountApi } from "./account-api";
 import { AccountService } from "./account-service";
@@ -17,19 +23,19 @@ const PASSWORD = "password123!";
 
 let accountApi: AccountApi;
 let accountService: AccountService;
-let playerStoreService: PlayerStoreService;
-let roomUtilsService: RoomUtilsService;
+let playerService: PlayerService;
+let roomService: RoomService;
 let socket: Socket;
 
 beforeEach(() => {
   container.clearInstances();
 
   accountService = mock(AccountService);
-  playerStoreService = mock(PlayerStoreService);
-  roomUtilsService = mock(RoomUtilsService);
+  playerService = mock(PlayerService);
+  roomService = mock(RoomService);
   container.registerInstance(AccountService, accountService);
-  container.registerInstance(PlayerStoreService, playerStoreService);
-  container.registerInstance(RoomUtilsService, roomUtilsService);
+  container.registerInstance(PlayerService, playerService);
+  container.registerInstance(RoomService, roomService);
   accountApi = container.resolve(AccountApi);
   socket = mock(Socket);
 });
@@ -47,7 +53,7 @@ describe("login", () => {
           password: PASSWORD,
         }),
       );
-    when(playerStoreService.get)
+    when(playerService.getPlayer)
       .calledWith(PLAYER_ID)
       .mockReturnValue(Promise.resolve({ id: PLAYER_ID } as Player));
 
@@ -71,7 +77,7 @@ describe("login", () => {
           password: PASSWORD,
         }),
       );
-    when(playerStoreService.get)
+    when(playerService.getPlayer)
       .calledWith(PLAYER_ID)
       .mockReturnValue(Promise.resolve({ id: PLAYER_ID } as Player));
 
@@ -95,14 +101,19 @@ describe("login", () => {
           password: PASSWORD,
         }),
       );
-    when(playerStoreService.get)
+    when(playerService.getPlayer)
       .calledWith(PLAYER_ID)
       .mockReturnValue(
         Promise.resolve({ id: PLAYER_ID, roomId: ROOM_ID } as Player),
       );
-    when(roomUtilsService.getRoomState)
+    when(roomService.getRoomById)
       .calledWith(ROOM_ID)
-      .mockResolvedValue({ room: { id: ROOM_ID } } as RoomState);
+      .mockResolvedValue({
+        id: ROOM_ID,
+        objects: [
+          { type: ObjectType.Player, playerId: PLAYER_ID } as PlayerObject,
+        ] as GameObject[],
+      } as Room);
 
     const response = await accountApi.login(
       { username: USERNAME, password: PASSWORD },
