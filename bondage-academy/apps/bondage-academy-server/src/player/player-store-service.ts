@@ -15,6 +15,11 @@ export class PlayerStoreService extends Store<number, Player> {
     super(logger);
   }
 
+  async getPlayerRoomId(playerId: number): Promise<number | undefined> {
+    const player = await this.get(playerId);
+    return player.roomId;
+  }
+
   protected override fetch(key: number): Promise<Player> {
     return this.playerService.getPlayer(key);
   }
