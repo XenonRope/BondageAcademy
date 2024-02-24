@@ -2,6 +2,7 @@ import { ClientSession, Collection, Db, Document, MongoClient } from "mongodb";
 import { inject, instanceCachingFactory, registry, singleton } from "tsyringe";
 import { token } from "../app/token";
 import { CollectionName } from "./model/collection-name";
+import { Logger } from "../log/logger";
 
 const MONGODB_CONNECTION_STRING = token<string>("mongodbConnectionString");
 
@@ -21,7 +22,10 @@ export class Dao {
   private _database?: Db;
 
   constructor(
-    @inject(MONGODB_CONNECTION_STRING) private mongodbConnectionString: string,
+    @inject(MONGODB_CONNECTION_STRING)
+    private mongodbConnectionString: string,
+    @inject(Logger)
+    private logger: Logger,
   ) {}
 
   getCollection<T extends Document>(
@@ -41,7 +45,9 @@ export class Dao {
 
   private get client(): MongoClient {
     if (!this._client) {
+      this.logger.info("Connecting to MongoDB...");
       this._client = new MongoClient(this.mongodbConnectionString);
+      this._client.once("open", () => this.logger.info("Connected to MongoDB"));
     }
     return this._client;
   }

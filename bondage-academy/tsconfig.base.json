@@ -19,7 +19,12 @@
       "@bondage-academy/bondage-academy-model": [
         "libs/bondage-academy-model/src/index.ts"
       ]
-    }
+    },
+    "plugins": [
+      {
+        "name": "ts-plugin-sort-import-suggestions"
+      }
+    ]
   },
   "exclude": ["node_modules", "tmp"]
 }
