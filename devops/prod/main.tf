@@ -17,7 +17,7 @@ provider "digitalocean" {
   token = var.do_token
 }
 
-data "digitalocean_ssh_key" "OpenTofu" {
+data "digitalocean_ssh_key" "OpenTofu-ssh-key" {
   name = "OpenTofu"
 }
 
@@ -28,7 +28,7 @@ resource "digitalocean_droplet" "bondage-academy-dev-1" {
   size       = "s-1vcpu-512mb-10gb"
   monitoring = true
   ssh_keys   = [
-    data.digitalocean_ssh_key.OpenTofu.id
+    data.digitalocean_ssh_key.OpenTofu-ssh-key.id,
   ]
 
   connection {
