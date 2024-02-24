@@ -16,7 +16,7 @@ import { ChatService } from "./chat-service";
 @registry([
   {
     token: "dialogueOptions",
-    useValue: instanceCachingFactory(() => dialogueOptions),
+    useFactory: instanceCachingFactory(() => dialogueOptions),
   },
 ])
 @singleton()
