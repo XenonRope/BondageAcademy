@@ -12,10 +12,13 @@ import { RoomStoreService } from "../room/room-store-service";
 import { ScriptService } from "../script/script-service";
 import { SessionService } from "../session/session-service";
 import { ChatService } from "./chat-service";
+import { token } from "../app/token";
+
+const DIALOGUE_OPTIONS = token<DialogueOption[]>("dialogueOptions");
 
 @registry([
   {
-    token: "dialogueOptions",
+    token: DIALOGUE_OPTIONS,
     useFactory: instanceCachingFactory(() => dialogueOptions),
   },
 ])
@@ -24,7 +27,7 @@ export class DialogueOptionService {
   constructor(
     @inject(PlayerStoreService)
     private playerStoreService: PlayerStoreService,
-    @inject("dialogueOptions")
+    @inject(DIALOGUE_OPTIONS)
     private dialogueOptions: DialogueOption[],
     @inject(RoomStoreService)
     private roomStoreServie: RoomStoreService,

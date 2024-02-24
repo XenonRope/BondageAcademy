@@ -6,19 +6,24 @@ import { inject, instanceCachingFactory, registry, singleton } from "tsyringe";
 import { MinigameResult } from "./model/minigame-result";
 import { ChangeWardrobeMinigameStakeHandler } from "./stake/change-wardrobe-minigame-stake-handler";
 import { MinigameStakeHandler } from "./stake/minigame-stake-handler";
+import { token } from "../app/token";
+
+const MINIGAME_STAKE_HANDLERS = token<MinigameStakeHandler<MinigameStake>[]>(
+  "minigameStakeHandlers",
+);
 
 @registry([
   {
-    token: "minigameStakeHandlers",
-    useFactory: instanceCachingFactory((container) => {
-      [container.resolve(ChangeWardrobeMinigameStakeHandler)];
-    }),
+    token: MINIGAME_STAKE_HANDLERS,
+    useFactory: instanceCachingFactory<MinigameStakeHandler<MinigameStake>[]>(
+      (container) => [container.resolve(ChangeWardrobeMinigameStakeHandler)],
+    ),
   },
 ])
 @singleton()
 export class MinigameStakeService {
   constructor(
-    @inject("minigameStakeHandlers")
+    @inject(MINIGAME_STAKE_HANDLERS)
     private minigameStakeHandlers: MinigameStakeHandler<MinigameStake>[],
   ) {}
 

@@ -2,10 +2,13 @@ import { Action, Actor } from "@bondage-academy/bondage-academy-model";
 import { inject, instanceCachingFactory, registry, singleton } from "tsyringe";
 import { ActionHandler } from "./handler/action-handler";
 import { SmileActionHandler } from "./handler/smile-action-handler";
+import { token } from "../app/token";
+
+const ACTION_HANDLERS = token<ActionHandler<Action>[]>("actionHandlers");
 
 @registry([
   {
-    token: "actionHandlers",
+    token: ACTION_HANDLERS,
     useFactory: instanceCachingFactory((container) => [
       container.resolve(SmileActionHandler),
     ]),
@@ -14,7 +17,7 @@ import { SmileActionHandler } from "./handler/smile-action-handler";
 @singleton()
 export class ActionExecutorService {
   constructor(
-    @inject("actionHandlers") private actionHandlers: ActionHandler<Action>[],
+    @inject(ACTION_HANDLERS) private actionHandlers: ActionHandler<Action>[],
   ) {}
 
   async executeAction(actor: Actor, action: Action): Promise<void> {

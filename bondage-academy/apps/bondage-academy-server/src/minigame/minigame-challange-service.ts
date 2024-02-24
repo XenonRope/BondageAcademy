@@ -7,19 +7,24 @@ import { ClickMinigameChallangeHandler } from "./challange/click-minigame-challa
 import { MinigameChallangeHandler } from "./challange/minigame-challange-handler";
 import { MinigameProgressChange } from "./model/minigame-progress-change";
 import { MinigameResult } from "./model/minigame-result";
+import { token } from "../app/token";
+
+const MINIGAME_CHALLANGE_HANDLERS = token<
+  MinigameChallangeHandler<MinigameChallange>[]
+>("minigameChallangeHandlers");
 
 @singleton()
 @registry([
   {
-    token: "minigameChallangeHandlers",
-    useFactory: instanceCachingFactory((container) => {
-      [container.resolve(ClickMinigameChallangeHandler)];
-    }),
+    token: MINIGAME_CHALLANGE_HANDLERS,
+    useFactory: instanceCachingFactory((container) => [
+      container.resolve(ClickMinigameChallangeHandler),
+    ]),
   },
 ])
 export class MinigameChallangeService {
   constructor(
-    @inject("minigameChallangeHandlers")
+    @inject(MINIGAME_CHALLANGE_HANDLERS)
     private minigameChallangeHandlers: MinigameChallangeHandler<MinigameChallange>[],
   ) {}
 
