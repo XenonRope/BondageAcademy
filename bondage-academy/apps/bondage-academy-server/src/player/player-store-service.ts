@@ -15,6 +15,11 @@ export class PlayerStoreService extends Store<number, Player> {
     super(logger);
   }
 
+  async getPlayerName(playerId: number): Promise<string> {
+    const player = await this.get(playerId);
+    return player.name;
+  }
+
   async getPlayerRoomId(playerId: number): Promise<number | undefined> {
     const player = await this.get(playerId);
     return player.roomId;

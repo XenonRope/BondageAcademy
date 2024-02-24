@@ -39,7 +39,7 @@ export class SmileActionHandler implements ActionHandler<SmileAction> {
       content: {
         dictionaryKey: "action.smile.smiles",
         params: {
-          actor: (await this.playerStoreService.get(actor.playerId)).name,
+          actor: await this.playerStoreService.getPlayerName(actor.playerId),
         },
       },
     });

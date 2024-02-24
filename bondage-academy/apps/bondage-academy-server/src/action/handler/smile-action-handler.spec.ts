@@ -21,6 +21,7 @@ import { SessionService } from "../../session/session-service";
 import { SmileActionHandler } from "./smile-action-handler";
 
 const PLAYER_ID = 1;
+const PLAYER_NAME = "Alice";
 const ROOM_ID = 10;
 
 let smileActionHandler: SmileActionHandler;
@@ -71,7 +72,7 @@ describe("handle", () => {
     };
     when(playerService.getPlayer)
       .calledWith(PLAYER_ID)
-      .mockResolvedValue({ roomId: ROOM_ID } as Player);
+      .mockResolvedValue({ name: PLAYER_NAME, roomId: ROOM_ID } as Player);
     when(roomService.getRoomById)
       .calledWith(ROOM_ID)
       .mockResolvedValue({
@@ -90,9 +91,12 @@ describe("handle", () => {
       expect.objectContaining({
         message: expect.objectContaining({
           action: true,
-          content: expect.objectContaining({
+          content: {
             dictionaryKey: "action.smile.smiles",
-          }),
+            params: {
+              actor: PLAYER_NAME,
+            },
+          },
         }),
       }),
     );
