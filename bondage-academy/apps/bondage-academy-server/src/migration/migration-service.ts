@@ -6,13 +6,19 @@ import {
 import { inject, singleton } from "tsyringe";
 import { Dao } from "../dao/dao";
 import { CollectionName } from "../dao/model/collection-name";
+import { Logger } from "../log/logger";
 import { type MigrationLog } from "./model/migration-log";
 
 @singleton()
 export class MigrationService {
   private migrationLogs: Collection<MigrationLog>;
 
-  constructor(@inject(Dao) private dao: Dao) {
+  constructor(
+    @inject(Dao)
+    private dao: Dao,
+    @inject(Logger)
+    private logger: Logger,
+  ) {
     this.migrationLogs = dao.getCollection(CollectionName.MIGRATION_LOGS);
   }
 
@@ -48,16 +54,16 @@ export class MigrationService {
     migration: () => Promise<void>,
   ): Promise<void> {
     if (await this.migrationLogs.findOne({ migrationId })) {
-      console.log(`Migration ${migrationId}: Skipped`);
+      this.logger.info(`Migration ${migrationId}: Skipped`);
       return;
     }
-    console.log(`Migration ${migrationId}: Started`);
+    this.logger.info(`Migration ${migrationId}: Started`);
     const migrationLog: MigrationLog = {
       migrationId,
       timestamp: new Date(),
     };
     await migration();
     await this.migrationLogs.insertOne(migrationLog);
-    console.log(`Migration ${migrationId}: Finished`);
+    this.logger.info(`Migration ${migrationId}: Finished`);
   }
 }

@@ -21,6 +21,7 @@ import { inject, singleton } from "tsyringe";
 import { ActorData } from "../actor/actor-data";
 import { ActorService } from "../actor/actor-service";
 import { CharacterPoseService } from "../character/character-pose-service";
+import { Logger } from "../log/logger";
 import { PlayerStoreService } from "../player/player-store-service";
 import { WardrobeConditionChecker } from "./wardrobe-condition-checker";
 
@@ -37,6 +38,8 @@ export class WardrobeService {
     private characterPoseService: CharacterPoseService,
     @inject(ActorService)
     private actorService: ActorService,
+    @inject(Logger)
+    private logger: Logger,
   ) {}
 
   async wear(params: {
@@ -68,7 +71,7 @@ export class WardrobeService {
       newEquippedItem,
     );
     if (!changePoseResult) {
-      console.error("Cannot change pose so item won't be equipped");
+      this.logger.error("Cannot change pose so item won't be equipped");
       return;
     }
 

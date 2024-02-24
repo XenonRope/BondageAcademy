@@ -5,6 +5,7 @@ import {
 import { inject, singleton } from "tsyringe";
 import { ActorData } from "../actor/actor-data";
 import { ActorService } from "../actor/actor-service";
+import { Logger } from "../log/logger";
 
 @singleton()
 export class CharacterPoseService {
@@ -13,11 +14,13 @@ export class CharacterPoseService {
     private characterPoseValidator: CharacterPoseValidator,
     @inject(ActorService)
     private actorService: ActorService,
+    @inject(Logger)
+    private logger: Logger,
   ) {}
 
   async changePose(actor: ActorData, pose: CharacterPose): Promise<boolean> {
     if (!this.characterPoseValidator.isPoseValid(actor.character, pose)) {
-      console.error(`Cannot change pose`);
+      this.logger.warn(`Cannot change pose`);
       return false;
     }
 

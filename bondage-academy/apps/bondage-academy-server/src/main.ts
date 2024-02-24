@@ -15,6 +15,7 @@ import { BusinessError } from "./api/model/business-error";
 import { CharacterPoseApi } from "./character/character-pose-api";
 import { ChatSpeakApi } from "./chat/chat-speak-api";
 import { DialogueOptionApi } from "./chat/dialogue-option-api";
+import { Logger } from "./log/logger";
 import { MigrationService } from "./migration/migration-service";
 import { MinigameApi } from "./minigame/minigame-api";
 import { MovementApi } from "./movement/movement-api";
@@ -38,6 +39,7 @@ const roomInitializationService = container.resolve(RoomInitializationService);
 const scriptService = container.resolve(ScriptService);
 const scripts = [container.resolve(HeadmistressScript)];
 const sessionService = container.resolve(SessionService);
+const logger = container.resolve(Logger);
 const accountApi = container.resolve(AccountApi);
 const actionApi = container.resolve(ActionApi);
 const characterPoseApi = container.resolve(CharacterPoseApi);
@@ -65,10 +67,10 @@ const handleRequest = (
     })
     .catch((error) => {
       if (error instanceof BusinessError) {
-        console.log("BusinessError: " + error.message);
+        logger.warn("BusinessError: " + error.message);
         callback({ error: error.message });
       } else {
-        console.log(
+        logger.error(
           "Unexpected error: " + (error instanceof Error ? error.stack : error),
         );
         callback({ error: "unexpectedError" });
@@ -83,10 +85,10 @@ async function start(): Promise<void> {
   scriptService.addScripts(scripts);
 
   io.on("connection", (socket) => {
-    console.log("User connected");
+    logger.info("User connected");
     const session = sessionService.getSessionBySocket(socket);
     socket.on("disconnect", () => {
-      console.log("User disconnected");
+      logger.info("User disconnected");
       logoutService.logout(session);
       sessionService.removeSessionWithSocket(socket);
     });
@@ -141,8 +143,8 @@ async function start(): Promise<void> {
   });
 
   server.listen(3000, () => {
-    console.log("server running at http://localhost:3000");
+    logger.info("server running at http://localhost:3000");
   });
 }
 
-start().catch(console.log);
+start().catch(logger.error.bind(logger));

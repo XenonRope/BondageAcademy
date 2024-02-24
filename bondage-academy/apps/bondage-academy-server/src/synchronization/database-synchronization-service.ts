@@ -1,4 +1,5 @@
 import { inject, singleton } from "tsyringe";
+import { Logger } from "../log/logger";
 import { PlayerDatabaseSynchronizationService } from "../player/player-database-synchronization-service";
 import { RoomDatabaseSynchronizationService } from "../room/room-database-synchronization-service";
 
@@ -9,6 +10,8 @@ export class DatabaseSynchronizationService {
     private playerDatabaseSynchronizationService: PlayerDatabaseSynchronizationService,
     @inject(RoomDatabaseSynchronizationService)
     private roomDatabaseSynchronizationService: RoomDatabaseSynchronizationService,
+    @inject(Logger)
+    private logger: Logger,
   ) {}
 
   startSynchronizationLoop(): void {
@@ -17,16 +20,16 @@ export class DatabaseSynchronizationService {
 
   private synchronize(): void {
     setTimeout(() => {
-      console.log("Start synchronizing");
+      this.logger.info("Start synchronizing");
       Promise.all([
         this.playerDatabaseSynchronizationService.synchronize(),
         this.roomDatabaseSynchronizationService.synchronize(),
       ])
         .then(() => {
-          console.log("Synchronizeation ended");
+          this.logger.info("Synchronizeation ended");
         })
         .catch((error) => {
-          console.log(`Error while synchronizing: ${error}`);
+          this.logger.error(`Error while synchronizing: ${error}`);
         })
         .finally(() => {
           this.synchronize();

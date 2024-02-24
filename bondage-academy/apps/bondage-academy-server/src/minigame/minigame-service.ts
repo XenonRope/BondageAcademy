@@ -6,6 +6,7 @@ import {
   isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
+import { Logger } from "../log/logger";
 import { MinigameChallangeService } from "./minigame-challange-service";
 import { MinigameClientSynchronizationService } from "./minigame-client-synchronization-service";
 import { MinigameStakeService } from "./minigame-stake-service";
@@ -24,6 +25,8 @@ export class MinigameService {
     private minigameChallangeService: MinigameChallangeService,
     @inject(MinigameStakeService)
     private minigameStakeService: MinigameStakeService,
+    @inject(Logger)
+    private logger: Logger,
   ) {}
 
   assertPlayerIsNotDuringMinigame(playerId: number) {
@@ -68,7 +71,7 @@ export class MinigameService {
   }): Promise<void> {
     const minigameId = this.nextMinigameId++;
     const endTimeEvent = setTimeout(() => {
-      this.handleTimeEnd(minigameId).catch(console.log);
+      this.handleTimeEnd(minigameId).catch(this.logger.error.bind(this.logger));
     }, params.durationInMs);
     const serverMinigame: MinigameWithState = {
       minigame: {

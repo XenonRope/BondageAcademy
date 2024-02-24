@@ -13,6 +13,7 @@ import { RoomStoreService } from "../room/room-store-service";
 import type { Motion } from "./model/motion";
 import { MotionStorage } from "./motion-storage";
 import { MovementConditionChecker } from "./movement-condition-checker";
+import { Logger } from "../log/logger";
 
 const PLAYER_MOVE_DURATION = 350;
 
@@ -31,6 +32,8 @@ export class MovementService {
     private roomSessionService: RoomSessionService,
     @inject(MovementConditionChecker)
     private movementConditionChecker: MovementConditionChecker,
+    @inject(Logger)
+    private logger: Logger,
   ) {}
 
   async setPlayerTargetPosition(
@@ -113,7 +116,7 @@ export class MovementService {
 
     motion.motionEndEvent = setTimeout(() => {
       this.movePlayerTowardsTargetPosition(roomId, objectId, motion).catch(
-        console.log,
+        this.logger.error.bind(this.logger),
       );
     }, PLAYER_MOVE_DURATION);
 

@@ -1,3 +1,5 @@
+import { Logger } from "../log/logger";
+
 export interface StoreEntry<T> {
   value?: T;
   promise: Promise<T>;
@@ -7,6 +9,8 @@ export interface StoreEntry<T> {
 }
 
 export abstract class Store<K, V> {
+  constructor(protected logger: Logger) {}
+
   private entries = new Map<K, StoreEntry<V>>();
 
   async get(key: K): Promise<V> {
@@ -80,7 +84,7 @@ export abstract class Store<K, V> {
       })
       .catch((error) => {
         this.entries.delete(key);
-        console.log(`Error fetching store entry: ${error}`);
+        this.logger.info(`Error fetching store entry: ${error}`);
       });
 
     return newEntry;
