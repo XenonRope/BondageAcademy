@@ -3,12 +3,16 @@ import {
   LoginRequest,
   LoginResponse,
 } from "@bondage-academy/bondage-academy-model";
-import { type SocketService } from "../../common/socket-service";
-import type { StoreService } from "../../store/store-service";
+import { inject, singleton } from "tsyringe";
+import { SocketService } from "../../common/socket-service";
+import { StoreService } from "../../store/store-service";
 
+@singleton()
 export class AccountService {
   constructor(
+    @inject(SocketService)
     private socketService: SocketService,
+    @inject(StoreService)
     private storeService: StoreService,
   ) {}
 

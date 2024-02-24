@@ -1,4 +1,6 @@
 /* @refresh reload */
+import "@abraham/reflection";
+
 import { render } from "solid-js/web";
 import App from "./app";
 import "./index.css";

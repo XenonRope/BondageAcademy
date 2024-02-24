@@ -1,15 +1,38 @@
 import {
   Dictionary,
+  DictionaryKey,
   RawDictionary,
   TranslatableText,
 } from "@bondage-academy/bondage-academy-model";
 import * as i18n from "@solid-primitives/i18n";
 import { createResource } from "solid-js";
+import { inject, instanceCachingFactory, registry, singleton } from "tsyringe";
+import { token } from "../../app/token";
 import type { Locale, Store } from "../../store/model/store";
-import { Translator } from "../model/translator";
+import { STORE } from "../../store/store-service";
+import { SimpleTranslator, Translator } from "../model/translator";
 
+export const TRANSLATOR = token<Translator>("translator");
+export const SIMPLE_TRANSLATOR = token<SimpleTranslator>("simpleTranslator");
+
+@registry([
+  {
+    token: TRANSLATOR,
+    useFactory: instanceCachingFactory((container) =>
+      container.resolve(LocaleService).createTranslator(),
+    ),
+  },
+  {
+    token: SIMPLE_TRANSLATOR,
+    useFactory: instanceCachingFactory((container): SimpleTranslator => {
+      const translator = container.resolve(TRANSLATOR);
+      return (dictionaryKey: DictionaryKey) => translator({ dictionaryKey });
+    }),
+  },
+])
+@singleton()
 export class LocaleService {
-  constructor(private store: Store) {}
+  constructor(@inject(STORE) private store: Store) {}
 
   createTranslator(): Translator {
     const internalTranslator = this.createInternalTranslator();

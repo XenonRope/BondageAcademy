@@ -7,13 +7,16 @@ import {
   dialogueOptions,
   isNPCObject,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { SocketService } from "../../common/socket-service";
-import { Store } from "../../store/model/store";
+import type { Store } from "../../store/model/store";
+import { STORE } from "../../store/store-service";
 
+@singleton()
 export class DialogueOptionService {
   constructor(
-    private store: Store,
-    private socketService: SocketService,
+    @inject(STORE) private store: Store,
+    @inject(SocketService) private socketService: SocketService,
   ) {}
 
   getAvailableDialogueOptions(): DialogueOption[] {

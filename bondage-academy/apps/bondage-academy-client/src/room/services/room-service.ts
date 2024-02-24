@@ -7,12 +7,16 @@ import {
   SearchRoomRequest,
   SearchRoomResponse,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { SocketService } from "../../common/socket-service";
 import { StoreService } from "../../store/store-service";
 
+@singleton()
 export class RoomService {
   constructor(
+    @inject(SocketService)
     private socketService: SocketService,
+    @inject(StoreService)
     private storeService: StoreService,
   ) {}
 

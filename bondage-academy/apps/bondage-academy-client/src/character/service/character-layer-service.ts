@@ -12,6 +12,7 @@ import {
   poseConfigs,
   slotConfigs,
 } from "@bondage-academy/bondage-academy-model";
+import { singleton } from "tsyringe";
 
 export interface CharacterLayer {
   url: string;
@@ -22,6 +23,7 @@ export interface CharacterLayer {
   fragmentName?: string;
 }
 
+@singleton()
 export class CharacterLayerService {
   getCharacterLayers(character: Character): CharacterLayer[] {
     const characterPrefix = "Kiri";

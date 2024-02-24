@@ -2,10 +2,12 @@ import {
   RequestFromClient,
   SpeakRequest,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { SocketService } from "../../common/socket-service";
 
+@singleton()
 export class ChatService {
-  constructor(private socketService: SocketService) {}
+  constructor(@inject(SocketService) private socketService: SocketService) {}
 
   async speak(content: string): Promise<void> {
     const request: SpeakRequest = {

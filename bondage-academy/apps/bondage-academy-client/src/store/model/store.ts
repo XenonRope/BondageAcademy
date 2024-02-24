@@ -8,6 +8,7 @@ import {
   Room,
 } from "@bondage-academy/bondage-academy-model";
 import type { Socket } from "socket.io-client";
+import { SetStoreFunction } from "solid-js/store";
 import type { View } from "../../common/model/view";
 import { ActionMenuView } from "../../game/model/action-menu-view";
 import type { SideMenuView } from "../../game/model/side-menu-view";
@@ -30,3 +31,5 @@ export interface Store {
   selectedActor?: Actor;
   minigames?: Minigame[];
 }
+
+export type SetStore = SetStoreFunction<Store>;

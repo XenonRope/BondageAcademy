@@ -1,9 +1,11 @@
-import { type StoreService } from "../../store/store-service";
+import { inject, singleton } from "tsyringe";
+import { StoreService } from "../../store/store-service";
 import { ActionMenuView } from "../model/action-menu-view";
 import type { SideMenuView } from "../model/side-menu-view";
 
+@singleton()
 export class SideMenuService {
-  constructor(private storeService: StoreService) {}
+  constructor(@inject(StoreService) private storeService: StoreService) {}
 
   showSideMenu(view: SideMenuView) {
     this.storeService.setSideMenuView(view);

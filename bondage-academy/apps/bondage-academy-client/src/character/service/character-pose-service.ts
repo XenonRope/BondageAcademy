@@ -11,11 +11,15 @@ import {
   isLowerBodyPose,
   isUpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
 import { SocketService } from "../../common/socket-service";
 
+@singleton()
 export class CharacterPoseService {
   constructor(
+    @inject(SocketService)
     private socketService: SocketService,
+    @inject(CharacterPoseValidator)
     private characterPoseValidator: CharacterPoseValidator,
   ) {}
 

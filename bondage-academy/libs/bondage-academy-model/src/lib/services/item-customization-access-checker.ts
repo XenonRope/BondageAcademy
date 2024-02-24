@@ -1,8 +1,10 @@
+import { singleton } from "tsyringe";
 import { SlotType, slotConfigs } from "../config/slot-config";
 import { Actor, isPlayerActor } from "../model/actor";
 import { EquippedItem } from "../model/character";
 import { Slot } from "../model/slot";
 
+@singleton()
 export class ItemCustomizationAccessChecker {
   canCustomizeItem(params: {
     actor: Actor;

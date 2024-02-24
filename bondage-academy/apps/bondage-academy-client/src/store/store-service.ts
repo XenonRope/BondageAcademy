@@ -19,16 +19,48 @@ import {
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
 import { Socket } from "socket.io-client";
-import { SetStoreFunction, produce } from "solid-js/store";
+import { createStore, produce } from "solid-js/store";
+import { inject, instanceCachingFactory, registry, singleton } from "tsyringe";
+import { token } from "../app/token";
 import { View } from "../common/model/view";
 import { ActionMenuView } from "../game/model/action-menu-view";
 import { SideMenuView } from "../game/model/side-menu-view";
-import { Locale, Store } from "./model/store";
+import type { Locale, SetStore, Store } from "./model/store";
 
+const STORE_AND_SET_STORE = token<[Store, SetStore]>("storeAndSetStore");
+export const STORE = token<Store>("store");
+export const SET_STORE = token<SetStore>("setStore");
+
+@registry([
+  {
+    token: STORE_AND_SET_STORE,
+    useFactory: instanceCachingFactory(() => {
+      return createStore<Store>({
+        locale: "en",
+        view: View.Home,
+      });
+    }),
+  },
+  {
+    token: STORE,
+    useFactory: instanceCachingFactory((container) => {
+      return container.resolve(STORE_AND_SET_STORE)[0];
+    }),
+  },
+  {
+    token: SET_STORE,
+    useFactory: instanceCachingFactory((container) => {
+      return container.resolve(STORE_AND_SET_STORE)[1];
+    }),
+  },
+])
+@singleton()
 export class StoreService {
   constructor(
+    @inject(STORE)
     private store: Store,
-    private setStore: SetStoreFunction<Store>,
+    @inject(SET_STORE)
+    private setStore: SetStore,
   ) {}
 
   getPlayerPosition(): Position | undefined {
