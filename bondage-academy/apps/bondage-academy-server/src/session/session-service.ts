@@ -12,10 +12,10 @@ export class SessionService {
       return existingConnection;
     }
 
-    const newConnection = { socket };
-    this.sessionsBySocketsIds.set(socket.id, newConnection);
+    const newSession = { socket };
+    this.sessionsBySocketsIds.set(socket.id, newSession);
 
-    return newConnection;
+    return newSession;
   }
 
   getSessionByPlayerId(playerId: number): Session | undefined {

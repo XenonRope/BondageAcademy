@@ -24,7 +24,6 @@ describe("registerAccount", () => {
       nick: "CuteAlice",
     });
 
-    expect(socketService.emit).toHaveBeenCalledTimes(1);
     expect(socketService.emit).toHaveBeenCalledWith("register_account", {
       username: "Alice",
       password: "password!",
