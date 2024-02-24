@@ -1,13 +1,18 @@
 import { ClientSession, Collection, Db, Document, MongoClient } from "mongodb";
-import { inject, registry, singleton } from "tsyringe";
+import { inject, instanceCachingFactory, registry, singleton } from "tsyringe";
+import { token } from "../app/token";
 import { CollectionName } from "./model/collection-name";
+
+const MONGODB_CONNECTION_STRING = token<string>("mongodbConnectionString");
 
 @registry([
   {
-    token: "mongodbConnectionString",
-    useValue:
-      process.env.MONGODB_CONNECTION_STRING ??
-      "mongodb://root:root@localhost:27017/admin?replicaSet=rs0",
+    token: MONGODB_CONNECTION_STRING,
+    useFactory: instanceCachingFactory(
+      () =>
+        process.env.MONGODB_CONNECTION_STRING ??
+        "mongodb://root:root@localhost:27017/admin?replicaSet=rs0",
+    ),
   },
 ])
 @singleton()
@@ -16,7 +21,7 @@ export class Dao {
   private _database?: Db;
 
   constructor(
-    @inject("mongodbConnectionString") private mongodbConnectionString: string,
+    @inject(MONGODB_CONNECTION_STRING) private mongodbConnectionString: string,
   ) {}
 
   getCollection<T extends Document>(

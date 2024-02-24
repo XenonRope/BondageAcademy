@@ -8,4 +8,5 @@ export default {
   },
   moduleFileExtensions: ["ts", "js", "html"],
   coverageDirectory: "../../coverage/apps/bondage-academy-server",
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 };

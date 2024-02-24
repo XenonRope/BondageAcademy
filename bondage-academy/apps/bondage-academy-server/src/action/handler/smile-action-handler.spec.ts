@@ -3,14 +3,15 @@ import {
   ActionType,
   TargetType,
 } from "@bondage-academy/bondage-academy-model";
-import { configureServiceContainer } from "../../app/services";
 import { SmileActionHandler } from "./smile-action-handler";
+import { container } from "tsyringe";
 
 let smileActionHandler: SmileActionHandler;
 
 beforeEach(() => {
-  const container = configureServiceContainer();
-  smileActionHandler = container.smileActionHandler;
+  container.clearInstances();
+
+  smileActionHandler = container.resolve(SmileActionHandler);
 });
 
 describe("canHandle", () => {

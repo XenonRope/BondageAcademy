@@ -6,7 +6,7 @@ import {
   dialogueOptions,
   isNPCObject,
 } from "@bondage-academy/bondage-academy-model";
-import { inject, registry, singleton } from "tsyringe";
+import { inject, instanceCachingFactory, registry, singleton } from "tsyringe";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomStoreService } from "../room/room-store-service";
 import { ScriptService } from "../script/script-service";
@@ -16,7 +16,7 @@ import { ChatService } from "./chat-service";
 @registry([
   {
     token: "dialogueOptions",
-    useValue: dialogueOptions,
+    useValue: instanceCachingFactory(() => dialogueOptions),
   },
 ])
 @singleton()

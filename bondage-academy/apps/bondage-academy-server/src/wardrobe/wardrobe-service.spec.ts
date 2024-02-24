@@ -15,7 +15,7 @@ import {
 } from "@bondage-academy/bondage-academy-model";
 import { when } from "jest-when";
 import { mock } from "ts-jest-mocker";
-import { configureServiceContainer } from "../app/services";
+import { container } from "tsyringe";
 import { PlayerService } from "../player/player-service";
 import { WardrobeService } from "./wardrobe-service";
 
@@ -26,12 +26,11 @@ let wardrobeService: WardrobeService;
 let playerService: PlayerService;
 
 beforeEach(() => {
+  container.clearInstances();
+
   playerService = mock(PlayerService);
-  const container = configureServiceContainer().update(
-    "playerService",
-    () => playerService,
-  );
-  wardrobeService = container.wardrobeService;
+  container.registerInstance(PlayerService, playerService);
+  wardrobeService = container.resolve(WardrobeService);
 });
 
 describe("wear", () => {

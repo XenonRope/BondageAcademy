@@ -17,10 +17,10 @@ import {
 import { when } from "jest-when";
 import { Mock, mock } from "ts-jest-mocker";
 import { ActorData } from "../actor/actor-data";
-import { configureServiceContainer } from "../app/services";
 import { PlayerService } from "../player/player-service";
 import { PlayerStoreService } from "../player/player-store-service";
 import { CharacterPoseService } from "./character-pose-service";
+import { container } from "tsyringe";
 
 const PLAYER_ID = 1;
 
@@ -29,13 +29,12 @@ let playerService: Mock<PlayerService>;
 let playerStoreService: PlayerStoreService;
 
 beforeEach(() => {
+  container.clearInstances();
+
   playerService = mock(PlayerService);
-  const container = configureServiceContainer().update(
-    "playerService",
-    () => playerService,
-  );
-  characterPoseService = container.characterPoseService;
-  playerStoreService = container.playerStoreService;
+  container.registerInstance(PlayerService, playerService);
+  characterPoseService = container.resolve(CharacterPoseService);
+  playerStoreService = container.resolve(PlayerStoreService);
 });
 
 describe("changePose", () => {
