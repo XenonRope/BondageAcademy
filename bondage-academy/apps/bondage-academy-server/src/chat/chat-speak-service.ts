@@ -1,4 +1,3 @@
-import { Player } from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomSessionService } from "../room/room-session-service";
@@ -23,19 +22,21 @@ export class ChatSpeakService {
     if (content === "") {
       throw new Error("Speak content cannot be empty");
     }
-    const player = await this.playerStoreService.get(playerId);
-    const sessions = await this.getSessions(player);
+
+    const sessions = await this.getSessions(playerId);
+    const playerName = await this.playerStoreService.getPlayerName(playerId);
     this.chatService.sendChatMessage(sessions, {
-      speaker: player.name,
+      speaker: playerName,
       content,
     });
   }
 
-  private async getSessions(player: Player): Promise<Session[]> {
-    if (!player.roomId) {
-      const session = this.sessionService.getSessionByPlayerId(player.id);
+  private async getSessions(playerId: number): Promise<Session[]> {
+    const roomId = await this.playerStoreService.getPlayerRoomId(playerId);
+    if (!roomId) {
+      const session = this.sessionService.getSessionByPlayerId(playerId);
       return session ? [session] : [];
     }
-    return await this.roomSessionService.getSessionsInRoom(player.roomId);
+    return await this.roomSessionService.getSessionsInRoom(roomId);
   }
 }
