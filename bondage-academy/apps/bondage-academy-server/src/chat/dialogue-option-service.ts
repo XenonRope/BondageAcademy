@@ -7,12 +7,12 @@ import {
   isNPCObject,
 } from "@bondage-academy/bondage-academy-model";
 import { inject, instanceCachingFactory, registry, singleton } from "tsyringe";
+import { token } from "../app/token";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomStoreService } from "../room/room-store-service";
 import { ScriptService } from "../script/script-service";
 import { SessionService } from "../session/session-service";
 import { ChatService } from "./chat-service";
-import { token } from "../app/token";
 
 const DIALOGUE_OPTIONS = token<DialogueOption[]>("dialogueOptions");
 
@@ -44,8 +44,8 @@ export class DialogueOptionService {
     npcCode: NPCCode,
     content: DictionaryKey,
   ): Promise<void> {
-    const player = await this.playerStoreService.get(playerId);
-    if (!player.roomId) {
+    const roomId = await this.playerStoreService.getPlayerRoomId(playerId);
+    if (!roomId) {
       throw new Error("Cannot use dialogue option while not in a room");
     }
     const dialogueOption = this.dialogueOptions.find(
@@ -56,7 +56,7 @@ export class DialogueOptionService {
         `Dialogue option with npcCode ${npcCode} and content ${content} not found`,
       );
     }
-    const room = await this.roomStoreServie.get(player.roomId);
+    const room = await this.roomStoreServie.get(roomId);
     const npcCodes = room.objects
       .filter(isNPCObject)
       .map((npcObject) => npcObject.code);
@@ -75,14 +75,15 @@ export class DialogueOptionService {
     }
     const session = this.sessionService.getSessionByPlayerId(playerId);
     if (session) {
+      const playerName = await this.playerStoreService.getPlayerName(playerId);
       this.chatService.sendChatMessage([session], {
-        speaker: player.name,
+        speaker: playerName,
         content: { dictionaryKey: content },
       });
     }
     await this.scriptService.onDialogueOptionUse({
       playerId,
-      roomId: player.roomId,
+      roomId,
       npcCode,
       content,
     });
