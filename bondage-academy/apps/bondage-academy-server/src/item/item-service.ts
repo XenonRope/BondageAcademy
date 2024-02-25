@@ -35,9 +35,7 @@ export class ItemService {
         id: await this.itemIdProvider.getNext(),
       });
     }
-    await this.playerStoreService.update(playerId, (player) =>
-      player.items.push(...items),
-    );
+    await this.playerStoreService.addItems(playerId, items);
     const event: SynchronizePlayersEvent = {
       updatePlayers: [
         {
@@ -48,8 +46,8 @@ export class ItemService {
         },
       ],
     };
-    const player = await this.playerStoreService.get(playerId);
-    if (!player.roomId) {
+    const roomId = await this.playerStoreService.getPlayerRoomId(playerId);
+    if (!roomId) {
       const session = this.sessionService.getSessionByPlayerId(playerId);
       if (session) {
         this.playerClientSynchronizationService.synchronizePlayers(
@@ -59,9 +57,7 @@ export class ItemService {
       }
       return;
     }
-    const sessions = await this.roomSessionService.getSessionsInRoom(
-      player.roomId,
-    );
+    const sessions = await this.roomSessionService.getSessionsInRoom(roomId);
     this.playerClientSynchronizationService.synchronizePlayers(sessions, event);
   }
 }
