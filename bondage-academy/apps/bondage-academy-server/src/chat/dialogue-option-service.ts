@@ -4,7 +4,6 @@ import {
   DictionaryKey,
   NPCCode,
   dialogueOptions,
-  isNPCObject,
 } from "@bondage-academy/bondage-academy-model";
 import { inject, instanceCachingFactory, registry, singleton } from "tsyringe";
 import { token } from "../app/token";
@@ -56,17 +55,13 @@ export class DialogueOptionService {
         `Dialogue option with npcCode ${npcCode} and content ${content} not found`,
       );
     }
-    const room = await this.roomStoreServie.get(roomId);
-    const npcCodes = room.objects
-      .filter(isNPCObject)
-      .map((npcObject) => npcObject.code);
-    if (!npcCodes.includes(npcCode)) {
+    if (!(await this.roomStoreServie.isNpcInRoom(roomId, npcCode))) {
       throw new Error(
         `Cannot use dialogue option with content ${content} becuse NPC ${npcCode} is not in the room`,
       );
     }
     const context: DialogueOptionContext = {
-      room,
+      roomId,
     };
     if (!dialogueOption.condition(context)) {
       throw new Error(

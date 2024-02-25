@@ -1,9 +1,8 @@
 import { DictionaryKey } from "../i18n/dictionary";
 import { NPCCode } from "./npc-object";
-import { Room } from "./room";
 
 export interface DialogueOptionContext {
-  room: Room;
+  roomId: number;
 }
 
 export interface DialogueOption {
