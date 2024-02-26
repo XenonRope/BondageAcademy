@@ -1,4 +1,4 @@
-import { Room } from "@bondage-academy/bondage-academy-model";
+import { Position } from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
 import { BusinessError } from "../api/model/business-error";
 import { ObjectCreationService } from "../object/object-creation-service";
@@ -37,7 +37,7 @@ export class RoomJoinService {
     ) {
       throw new BusinessError("youAreNotAllowedToJoinThisRoom");
     }
-    const position = this.findFreeFieldInTransitArea(room);
+    const position = await this.findFreeFieldInTransitArea(roomId);
 
     await this.playerStoreService.update(
       playerId,
@@ -51,8 +51,9 @@ export class RoomJoinService {
     await this.scriptService.onPlayerJoinRoom({ playerId, roomId });
   }
 
-  private findFreeFieldInTransitArea(room: Room) {
-    const position = this.roomFieldService.findFreeFieldInTransitArea(room);
+  private async findFreeFieldInTransitArea(roomId: number): Promise<Position> {
+    const position =
+      await this.roomFieldService.findFreeFieldInTransitArea(roomId);
     if (position == null) {
       throw new BusinessError("noFreePositionInTransitArea");
     }

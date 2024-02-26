@@ -1,11 +1,10 @@
 import {
   EventFromServer,
   Position,
-  Room,
   arePositionsEqual,
-  isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
+import { Logger } from "../log/logger";
 import { PlayerStoreService } from "../player/player-store-service";
 import { RoomFieldService } from "../room/room-field-service";
 import { RoomSessionService } from "../room/room-session-service";
@@ -13,7 +12,6 @@ import { RoomStoreService } from "../room/room-store-service";
 import type { Motion } from "./model/motion";
 import { MotionStorage } from "./motion-storage";
 import { MovementConditionChecker } from "./movement-condition-checker";
-import { Logger } from "../log/logger";
 
 const PLAYER_MOVE_DURATION = 350;
 
@@ -44,10 +42,10 @@ export class MovementService {
     if (!roomId) {
       throw new Error(`Player ${playerId} is not in a room`);
     }
-    const room = await this.roomStoreService.get(roomId);
-    this.assertPositionIsInRoomBounds(targetPosition, room);
-    const playerObject = room.objects.find(
-      (object) => isPlayerObject(object) && object.playerId === playerId,
+    await this.assertPositionIsInRoomBounds(targetPosition, roomId);
+    const playerObject = await this.roomStoreService.getPlayerObjectByPlayerId(
+      roomId,
+      playerId,
     );
     if (!playerObject) {
       throw new Error(
@@ -60,19 +58,23 @@ export class MovementService {
     motion.targetPosition = targetPosition;
     if (motion.motionEndEvent == null) {
       await this.movePlayerTowardsTargetPosition(
-        room.id,
+        roomId,
         playerObject.id,
         motion,
       );
     }
   }
 
-  private assertPositionIsInRoomBounds(position: Position, room: Room) {
+  private async assertPositionIsInRoomBounds(
+    position: Position,
+    roomId: number,
+  ) {
+    const { width, height } = await this.roomStoreService.getRoomSize(roomId);
     if (
       position.x < 0 ||
       position.y < 0 ||
-      position.x >= room.width ||
-      position.y >= room.height
+      position.x >= width ||
+      position.y >= height
     ) {
       throw new Error("Position is out of bounds");
     }
@@ -87,8 +89,7 @@ export class MovementService {
       this.motionStorage.stopMotion(objectId);
       return;
     }
-    const room = await this.roomStoreService.get(roomId);
-    const object = room.objects.find((object) => object.id === objectId);
+    const object = await this.roomStoreService.getObjectById(roomId, objectId);
     if (!object) {
       this.motionStorage.stopMotion(objectId);
       return;
@@ -97,8 +98,8 @@ export class MovementService {
       this.motionStorage.stopMotion(objectId);
       return;
     }
-    const newPosition = this.moveTowards(
-      room,
+    const newPosition = await this.moveTowards(
+      roomId,
       object.position,
       motion.targetPosition,
     );
@@ -130,22 +131,26 @@ export class MovementService {
     }
   }
 
-  private moveTowards(room: Room, start: Position, end: Position): Position {
+  private async moveTowards(
+    roomId: number,
+    start: Position,
+    end: Position,
+  ): Promise<Position> {
     let deltaX = Math.min(1, Math.max(-1, end.x - start.x));
     if (
-      !this.roomFieldService.isFieldFree(room, {
+      !(await this.roomFieldService.isFieldFree(roomId, {
         x: start.x + deltaX,
         y: start.y,
-      })
+      }))
     ) {
       deltaX = 0;
     }
     let deltaY = Math.min(1, Math.max(-1, end.y - start.y));
     if (
-      !this.roomFieldService.isFieldFree(room, {
+      !(await this.roomFieldService.isFieldFree(roomId, {
         x: start.x,
         y: start.y + deltaY,
-      })
+      }))
     ) {
       deltaY = 0;
     }
@@ -154,7 +159,7 @@ export class MovementService {
     if (
       deltaX !== 0 &&
       deltaY !== 0 &&
-      !this.roomFieldService.isFieldFree(room, newPosition)
+      !(await this.roomFieldService.isFieldFree(roomId, newPosition))
     ) {
       if (Math.abs(end.x - start.x) > Math.abs(end.y - start.y)) {
         return { x: start.x + deltaX, y: start.y };

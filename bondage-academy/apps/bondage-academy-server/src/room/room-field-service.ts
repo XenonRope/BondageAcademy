@@ -1,19 +1,25 @@
-import {
-  Position,
-  Room,
-  arePositionsEqual,
-} from "@bondage-academy/bondage-academy-model";
+import { Position } from "@bondage-academy/bondage-academy-model";
+import { inject, singleton } from "tsyringe";
+import { RoomStoreService } from "./room-store-service";
 
+@singleton()
 export class RoomFieldService {
-  findFreeFieldInTransitArea(room: Room): Position | undefined {
-    for (const transitArea of room.transitAreas) {
+  constructor(
+    @inject(RoomStoreService) private roomStoreService: RoomStoreService,
+  ) {}
+
+  async findFreeFieldInTransitArea(
+    roomId: number,
+  ): Promise<Position | undefined> {
+    const transitAreas = await this.roomStoreService.getTransitAreas(roomId);
+    for (const transitArea of transitAreas) {
       for (let x = transitArea.x; x < transitArea.x + transitArea.width; x++) {
         for (
           let y = transitArea.y;
           y < transitArea.y + transitArea.height;
           y++
         ) {
-          if (this.isFieldFree(room, { x, y })) {
+          if (await this.isFieldFree(roomId, { x, y })) {
             return { x, y };
           }
         }
@@ -23,13 +29,7 @@ export class RoomFieldService {
     return undefined;
   }
 
-  isFieldFree(room: Room, position: Position): boolean {
-    for (const object of room.objects) {
-      if (arePositionsEqual(object.position, position)) {
-        return false;
-      }
-    }
-
-    return true;
+  async isFieldFree(roomId: number, position: Position): Promise<boolean> {
+    return await this.roomStoreService.isFieldFree(roomId, position);
   }
 }
