@@ -70,6 +70,11 @@ export class RoomStoreService extends Store<number, Room> {
     return room.objects.find((object) => object.id === objectId)?.position;
   }
 
+  async getPlayersIdsInRoom(roomId: number): Promise<number[]> {
+    const room = await this.get(roomId);
+    return room.objects.filter(isPlayerObject).map((object) => object.playerId);
+  }
+
   async isFieldFree(roomId: number, position: Position): Promise<boolean> {
     const room = await this.get(roomId);
     for (const object of room.objects) {

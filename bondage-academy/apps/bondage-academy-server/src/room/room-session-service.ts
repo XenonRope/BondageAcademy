@@ -1,4 +1,3 @@
-import { isPlayerObject } from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
 import { PlayerStoreService } from "../player/player-store-service";
 import { Session } from "../session/model/session";
@@ -26,12 +25,8 @@ export class RoomSessionService {
   }
 
   async getSessionsInRoom(roomId: number): Promise<Session[]> {
-    const room = await this.roomStoreService.get(roomId);
-    return room.objects
-      .filter(isPlayerObject)
-      .map((playerObject) =>
-        this.sessionService.getSessionByPlayerId(playerObject.playerId),
-      )
+    return (await this.roomStoreService.getPlayersIdsInRoom(roomId))
+      .map((playerId) => this.sessionService.getSessionByPlayerId(playerId))
       .flatMap((session) => (session ? [session] : []));
   }
 }
