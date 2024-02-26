@@ -40,18 +40,18 @@ export class MovementService {
     playerId: number,
     targetPosition: Position,
   ): Promise<void> {
-    const player = await this.playerStoreService.get(playerId);
-    if (!player.roomId) {
-      throw new Error(`Player ${player.id} is not in a room`);
+    const roomId = await this.playerStoreService.getPlayerRoomId(playerId);
+    if (!roomId) {
+      throw new Error(`Player ${playerId} is not in a room`);
     }
-    const room = await this.roomStoreService.get(player.roomId);
+    const room = await this.roomStoreService.get(roomId);
     this.assertPositionIsInRoomBounds(targetPosition, room);
     const playerObject = room.objects.find(
       (object) => isPlayerObject(object) && object.playerId === playerId,
     );
     if (!playerObject) {
       throw new Error(
-        `Player ${player.id} does not have player object in room ${player.roomId}`,
+        `Player ${playerId} does not have player object in room ${roomId}`,
       );
     }
     const motion = this.motionStorage.getOrCreateMotionByObjectId(

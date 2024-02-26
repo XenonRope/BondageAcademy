@@ -1,5 +1,7 @@
+import { singleton } from "tsyringe";
 import type { Motion } from "./model/motion";
 
+@singleton()
 export class MotionStorage {
   private motionByObjectId = new Map<number, Motion>();
 
