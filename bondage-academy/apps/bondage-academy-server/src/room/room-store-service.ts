@@ -61,6 +61,24 @@ export class RoomStoreService extends Store<number, Room> {
     return room.objects.find((object) => object.id === objectId);
   }
 
+  async getPlayerIdByObjectId(
+    roomId: number,
+    objectId: number,
+  ): Promise<number | undefined> {
+    const room = await this.get(roomId);
+    return room.objects
+      .filter(isPlayerObject)
+      .find((object) => object.id === objectId)?.playerId;
+  }
+
+  async getPositionByObjectId(
+    roomId: number,
+    objectId: number,
+  ): Promise<Position | undefined> {
+    const room = await this.get(roomId);
+    return room.objects.find((object) => object.id === objectId)?.position;
+  }
+
   async isFieldFree(roomId: number, position: Position): Promise<boolean> {
     const room = await this.get(roomId);
     for (const object of room.objects) {

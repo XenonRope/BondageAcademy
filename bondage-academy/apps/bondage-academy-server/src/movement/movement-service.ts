@@ -88,21 +88,26 @@ export class MovementService {
       this.motionStorage.stopMotion(objectId);
       return;
     }
-    const object = await this.roomStoreService.getObjectById(roomId, objectId);
-    if (!object) {
+    if (
+      !(await this.movementConditionChecker.canObjectMove(roomId, objectId))
+    ) {
       this.motionStorage.stopMotion(objectId);
       return;
     }
-    if (!this.movementConditionChecker.canObjectMove(object)) {
+    const currentPosition = await this.roomStoreService.getPositionByObjectId(
+      roomId,
+      objectId,
+    );
+    if (!currentPosition) {
       this.motionStorage.stopMotion(objectId);
       return;
     }
     const newPosition = await this.moveTowards(
       roomId,
-      object.position,
+      currentPosition,
       motion.targetPosition,
     );
-    if (arePositionsEqual(object.position, newPosition)) {
+    if (arePositionsEqual(currentPosition, newPosition)) {
       this.motionStorage.stopMotion(objectId);
       return;
     }

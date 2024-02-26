@@ -1,21 +1,22 @@
-import {
-  GameObject,
-  isPlayerObject,
-} from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
 import { MinigameService } from "../minigame/minigame-service";
+import { RoomStoreService } from "../room/room-store-service";
 
 @singleton()
 export class MovementConditionChecker {
   constructor(
-    @inject(MinigameService) private minigameService: MinigameService,
+    @inject(MinigameService)
+    private minigameService: MinigameService,
+    @inject(RoomStoreService)
+    private roomStoreService: RoomStoreService,
   ) {}
 
-  canObjectMove(object: GameObject): boolean {
-    if (!isPlayerObject(object)) {
-      return false;
-    }
-    return this.canPlayerMove(object.playerId);
+  async canObjectMove(roomId: number, objectId: number): Promise<boolean> {
+    const playerId = await this.roomStoreService.getPlayerIdByObjectId(
+      roomId,
+      objectId,
+    );
+    return !!playerId && this.canPlayerMove(playerId);
   }
 
   private canPlayerMove(playerId: number): boolean {
