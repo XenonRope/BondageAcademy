@@ -16,12 +16,12 @@ export class RoomSessionService {
   ) {}
 
   async getSessionsInRoomOfPlayer(playerId: number): Promise<Session[]> {
-    const player = await this.playerStoreService.get(playerId);
-    if (!player.roomId) {
+    const roomId = await this.playerStoreService.getPlayerRoomId(playerId);
+    if (!roomId) {
       const session = this.sessionService.getSessionByPlayerId(playerId);
       return session ? [session] : [];
     }
-    return await this.getSessionsInRoom(player.roomId);
+    return await this.getSessionsInRoom(roomId);
   }
 
   async getSessionsInRoom(roomId: number): Promise<Session[]> {
