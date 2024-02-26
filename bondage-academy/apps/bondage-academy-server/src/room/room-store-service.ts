@@ -81,6 +81,19 @@ export class RoomStoreService extends Store<number, Room> {
     return true;
   }
 
+  async updateObjectPostion(
+    roomId: number,
+    objectId: number,
+    position: Position,
+  ): Promise<void> {
+    await this.update(roomId, (room) => {
+      const object = room.objects.find((object) => object.id === objectId);
+      if (object) {
+        object.position = position;
+      }
+    });
+  }
+
   protected override fetch(roomId: number): Promise<Room> {
     return this.roomService.getRoomById(roomId);
   }

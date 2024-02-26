@@ -112,12 +112,11 @@ export class MovementService {
       return;
     }
 
-    await this.roomStoreService.update(roomId, (room) => {
-      const object = room.objects.find((object) => object.id === objectId);
-      if (object) {
-        object.position = newPosition;
-      }
-    });
+    await this.roomStoreService.updateObjectPostion(
+      roomId,
+      objectId,
+      newPosition,
+    );
 
     motion.motionEndEvent = setTimeout(() => {
       this.movePlayerTowardsTargetPosition(roomId, objectId, motion).catch(
