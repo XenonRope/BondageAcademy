@@ -26,8 +26,9 @@ export class RoomJoinService {
   ) {}
 
   async joinRoom(playerId: number, roomId: number): Promise<void> {
-    const player = await this.playerStoreService.get(playerId);
-    if (player.roomId) {
+    const currentRoomId =
+      await this.playerStoreService.getPlayerRoomId(playerId);
+    if (currentRoomId) {
       throw new Error("Player is already in a room");
     }
     const room = await this.roomStoreService.get(roomId);

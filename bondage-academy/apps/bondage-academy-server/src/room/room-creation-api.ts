@@ -38,8 +38,10 @@ export class RoomCreationApi {
     if (!session.playerId) {
       throw new Error("User is not logged in");
     }
-    const player = await this.playerStoreService.get(session.playerId);
-    if (player.roomId) {
+    const roomId = await this.playerStoreService.getPlayerRoomId(
+      session.playerId,
+    );
+    if (roomId) {
       throw new Error("Cannot create room while in a room");
     }
     const { roomCode, name, description, publicRoom } = await tPromise.decode(
