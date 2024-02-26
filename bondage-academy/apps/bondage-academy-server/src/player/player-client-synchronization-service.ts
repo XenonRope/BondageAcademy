@@ -27,17 +27,15 @@ export class PlayerClientSynchronizationService {
     const event: SynchronizePlayersEvent = {
       updatePlayers: [{ ...updatePlayer, id: playerId }],
     };
-    const player = await this.playerStoreService.get(playerId);
-    if (!player.roomId) {
+    const roomId = await this.playerStoreService.getPlayerRoomId(playerId);
+    if (!roomId) {
       const session = this.sessionService.getSessionByPlayerId(playerId);
       if (session) {
         this.synchronizePlayers([session], event);
       }
       return;
     }
-    const sessions = await this.roomSessionService.getSessionsInRoom(
-      player.roomId,
-    );
+    const sessions = await this.roomSessionService.getSessionsInRoom(roomId);
     this.synchronizePlayers(sessions, event);
   }
 
