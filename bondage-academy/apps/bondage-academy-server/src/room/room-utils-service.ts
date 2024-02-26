@@ -28,10 +28,7 @@ export class RoomUtilsService {
   }
 
   async getPlayersInRoom(roomId: number): Promise<Player[]> {
-    const room = await this.roomStoreService.get(roomId);
-    const playersIds = room.objects.flatMap((object) =>
-      isPlayerObject(object) ? [object.playerId] : [],
-    );
+    const playersIds = await this.roomStoreService.getPlayersIdsInRoom(roomId);
     return await this.playerStoreService.getAll(playersIds);
   }
 }
