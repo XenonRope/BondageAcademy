@@ -1,5 +1,4 @@
 import {
-  GameObject,
   NPCCode,
   Position,
   Room,
@@ -51,14 +50,6 @@ export class RoomStoreService extends Store<number, Room> {
     return room.objects
       .filter(isPlayerObject)
       .find((object) => object.playerId === playerId)?.id;
-  }
-
-  async getObjectById(
-    roomId: number,
-    objectId: number,
-  ): Promise<GameObject | undefined> {
-    const room = await this.get(roomId);
-    return room.objects.find((object) => object.id === objectId);
   }
 
   async getPlayerIdByObjectId(
