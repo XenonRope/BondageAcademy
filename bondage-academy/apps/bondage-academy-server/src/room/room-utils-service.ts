@@ -1,7 +1,6 @@
 import {
   Player,
-  RoomState,
-  isPlayerObject,
+  RoomState
 } from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
 import { MinigameService } from "../minigame/minigame-service";
