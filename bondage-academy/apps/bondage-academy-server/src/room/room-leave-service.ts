@@ -1,8 +1,3 @@
-import {
-  GameObject,
-  Room,
-  isPlayerObject,
-} from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
 import { BusinessError } from "../api/model/business-error";
 import { PlayerStoreService } from "../player/player-store-service";
@@ -25,31 +20,44 @@ export class RoomLeaveService {
     if (!roomId) {
       throw new Error(`Player ${playerId} is not in a room`);
     }
-    const room = await this.roomStoreService.get(roomId);
-    const playerObject = room.objects.find(
-      (object) => isPlayerObject(object) && object.playerId === playerId,
+    const playerObjectId = await this.roomStoreService.getObjectIdByPlayerId(
+      roomId,
+      playerId,
     );
-    if (!playerObject) {
+    if (!playerObjectId) {
       throw new Error(
         `Player ${playerId} does not have player object in room ${roomId}`,
       );
     }
-    if (!this.isObjectInTransitArea(playerObject, room)) {
+    if (!(await this.isObjectInTransitArea(playerObjectId, roomId))) {
       throw new BusinessError(`playerIsNotInTransitArea`);
     }
-    await this.roomObjectRemovalService.removeObject(room.id, playerObject.id);
+    await this.roomObjectRemovalService.removeObject(roomId, playerObjectId);
     await this.playerStoreService.update(playerId, (player) => {
       player.roomId = undefined;
     });
   }
 
-  private isObjectInTransitArea(object: GameObject, room: Room): boolean {
-    for (const transitArea of room.transitAreas) {
+  private async isObjectInTransitArea(
+    objectId: number,
+    roomId: number,
+  ): Promise<boolean> {
+    const transitAreas = await this.roomStoreService.getTransitAreas(roomId);
+    const position = await this.roomStoreService.getPositionByObjectId(
+      roomId,
+      objectId,
+    );
+    if (!position) {
+      throw new Error(
+        `Cannot find position for object ${objectId} in room ${roomId}`,
+      );
+    }
+    for (const transitArea of transitAreas) {
       if (
-        object.position.x >= transitArea.x &&
-        object.position.x < transitArea.x + transitArea.width &&
-        object.position.y >= transitArea.y &&
-        object.position.y < transitArea.y + transitArea.height
+        position.x >= transitArea.x &&
+        position.x < transitArea.x + transitArea.width &&
+        position.y >= transitArea.y &&
+        position.y < transitArea.y + transitArea.height
       ) {
         return true;
       }
