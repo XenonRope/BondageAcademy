@@ -15,9 +15,7 @@ export class RoomObjectRemovalService {
   ) {}
 
   async removeObject(roomId: number, objectId: number): Promise<void> {
-    await this.roomStoreService.update(roomId, (room) => {
-      room.objects = room.objects.filter((object) => object.id !== objectId);
-    });
+    await this.roomStoreService.removeObjectById(roomId, objectId);
     const sessions = await this.roomSessionService.getSessionsInRoom(roomId);
     this.objectClientSynchronizationService.synchronizeObjects(
       {

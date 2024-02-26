@@ -99,6 +99,12 @@ export class RoomStoreService extends Store<number, Room> {
     });
   }
 
+  async removeObjectById(roomId: number, objectId: number): Promise<void> {
+    await this.update(roomId, (room) => {
+      room.objects = room.objects.filter((object) => object.id !== objectId);
+    });
+  }
+
   protected override fetch(roomId: number): Promise<Room> {
     return this.roomService.getRoomById(roomId);
   }
