@@ -64,7 +64,7 @@ export class StoreService {
   ) {}
 
   getPlayerPosition(): Position | undefined {
-    const playerObject = this.store.room?.objects?.find(
+    const playerObject = this.store.objects?.find(
       (object) =>
         isPlayerObject(object) && object.playerId === this.store.playerId,
     );
@@ -74,7 +74,7 @@ export class StoreService {
   }
 
   getPlayerObject(): PlayerObject | undefined {
-    for (const object of this.store.room?.objects ?? []) {
+    for (const object of this.store.objects ?? []) {
       if (isPlayerObject(object) && object.playerId === this.store.playerId) {
         return object;
       }
@@ -104,7 +104,7 @@ export class StoreService {
       return motion.currentPosition;
     }
 
-    return this.store.room?.objects.find((object) => object.id === objectId)
+    return this.store.objects?.find((object) => object.id === objectId)
       ?.position;
   }
 
@@ -113,7 +113,7 @@ export class StoreService {
       return this.getPlayerById(actor.playerId)?.character;
     }
     if (this.store.room?.id === actor.roomId) {
-      const npcObject = this.store.room.objects.find(
+      const npcObject = this.store.objects?.find(
         (object) => object.id === actor.objectId,
       );
       if (isNPCObject(npcObject)) {
@@ -128,7 +128,7 @@ export class StoreService {
       return this.getPlayerById(actor.playerId)?.name;
     }
     if (this.store.room?.id === actor.roomId) {
-      const npcObject = this.store.room.objects.find(
+      const npcObject = this.store.objects?.find(
         (object) => object.id === actor.objectId,
       );
       if (isNPCObject(npcObject)) {
@@ -176,7 +176,10 @@ export class StoreService {
   }
 
   setRoom(room?: Room) {
-    this.setStore({ room });
+    this.setStore({
+      room: room ? { ...room, objects: [] } : undefined,
+      objects: room?.objects,
+    });
   }
 
   setPlayers(players: Player[]) {
@@ -276,49 +279,49 @@ export class StoreService {
 
   updateObjects({ objects, updateNPCs, toRemove }: SynchronizeGameObjects) {
     this.setStore(
-      "room",
-      produce((room) => {
-        if (room != null) {
-          for (const updatedNPC of updateNPCs ?? []) {
-            const npcObject = room.objects.find(
-              (object) => object.id === updatedNPC.id,
-            );
-            if (npcObject && isNPCObject(npcObject)) {
-              if (updatedNPC.pose) {
-                npcObject.character.pose = updatedNPC.pose;
-              }
-              if (updatedNPC.items?.add) {
-                npcObject.items.push(...updatedNPC.items.add);
-              }
-              if (updatedNPC.items?.remove) {
-                npcObject.items = npcObject.items.filter(
-                  (item) => !updatedNPC.items?.remove?.includes(item.id),
-                );
-              }
-              for (const { slot, equippedItem } of updatedNPC.wearables ?? []) {
-                npcObject.character.wearables[slot as Slot] = equippedItem;
-              }
+      produce((store) => {
+        if (!store.objects) {
+          store.objects = [];
+        }
+        for (const updatedNPC of updateNPCs ?? []) {
+          const npcObject = store.objects.find(
+            (object) => object.id === updatedNPC.id,
+          );
+          if (npcObject && isNPCObject(npcObject)) {
+            if (updatedNPC.pose) {
+              npcObject.character.pose = updatedNPC.pose;
+            }
+            if (updatedNPC.items?.add) {
+              npcObject.items.push(...updatedNPC.items.add);
+            }
+            if (updatedNPC.items?.remove) {
+              npcObject.items = npcObject.items.filter(
+                (item) => !updatedNPC.items?.remove?.includes(item.id),
+              );
+            }
+            for (const { slot, equippedItem } of updatedNPC.wearables ?? []) {
+              npcObject.character.wearables[slot as Slot] = equippedItem;
+            }
+            break;
+          }
+        }
+        for (const newObject of objects ?? []) {
+          let replaced = false;
+          for (let i = 0; i < store.objects.length; i++) {
+            if (store.objects[i].id === newObject.id) {
+              store.objects[i] = newObject;
+              replaced = true;
               break;
             }
           }
-          for (const newObject of objects ?? []) {
-            let replaced = false;
-            for (let i = 0; i < room.objects.length; i++) {
-              if (room.objects[i].id === newObject.id) {
-                room.objects[i] = newObject;
-                replaced = true;
-                break;
-              }
-            }
-            if (!replaced) {
-              room.objects.push(newObject);
-            }
+          if (!replaced) {
+            store.objects.push(newObject);
           }
-          if (toRemove) {
-            room.objects = room.objects.filter(
-              (object) => !toRemove.includes(object.id),
-            );
-          }
+        }
+        if (toRemove) {
+          store.objects = store.objects.filter(
+            (object) => !toRemove.includes(object.id),
+          );
         }
       }),
     );
@@ -328,6 +331,7 @@ export class StoreService {
     this.setStore({
       playerId: undefined,
       room: undefined,
+      objects: undefined,
       players: undefined,
       motions: undefined,
       sideMenuView: undefined,
@@ -346,7 +350,7 @@ export class StoreService {
   }) {
     this.setStore(
       produce((store) => {
-        const object = store.room?.objects?.find((obj) => obj.id === objectId);
+        const object = store.objects?.find((obj) => obj.id === objectId);
         if (isPlayerObject(object)) {
           const startPosition = object.position;
           const now = new Date();
@@ -369,8 +373,8 @@ export class StoreService {
 
   executePlayerMotion(objectId: number) {
     this.setStore(
-      produce(({ room, motions }) => {
-        const object = room?.objects.find((obj) => obj.id === objectId);
+      produce(({ objects, motions }) => {
+        const object = objects?.find((obj) => obj.id === objectId);
         const motion = motions?.[objectId];
         if (!isPlayerObject(object) || motions == null || motion == null) {
           return;

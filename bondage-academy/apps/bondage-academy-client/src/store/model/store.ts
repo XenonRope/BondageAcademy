@@ -1,6 +1,7 @@
 import {
   Actor,
   ChatMessage,
+  GameObject,
   Minigame,
   PartialRecord,
   Player,
@@ -23,6 +24,7 @@ export interface Store {
   socket?: Socket;
   playerId?: number;
   room?: Room;
+  objects?: GameObject[];
   players?: Player[];
   motions?: PartialRecord<number, Motion>;
   sideMenuView?: SideMenuView;

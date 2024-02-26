@@ -24,7 +24,7 @@ export class DialogueOptionService {
       return [];
     }
 
-    const npcCodes: NPCCode[] = this.store.room.objects
+    const npcCodes: NPCCode[] = (this.store.objects ?? [])
       .filter(isNPCObject)
       .map((npcObject) => npcObject.code);
     const context: DialogueOptionContext = {

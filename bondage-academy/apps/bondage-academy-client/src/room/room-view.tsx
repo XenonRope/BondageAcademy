@@ -65,7 +65,7 @@ export default function RoomView() {
   });
 
   const getSortedObjects = createMemo(() => {
-    return store.room?.objects.toSorted((firstObject, secondObject) => {
+    return store.objects?.toSorted((firstObject, secondObject) => {
       if (firstObject.position.y > secondObject.position.y) {
         return 1;
       } else if (firstObject.position.y < secondObject.position.y) {
