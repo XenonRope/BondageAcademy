@@ -43,23 +43,22 @@ export class MovementService {
       throw new Error(`Player ${playerId} is not in a room`);
     }
     await this.assertPositionIsInRoomBounds(targetPosition, roomId);
-    const playerObject = await this.roomStoreService.getPlayerObjectByPlayerId(
+    const playerObjectId = await this.roomStoreService.getObjectIdByPlayerId(
       roomId,
       playerId,
     );
-    if (!playerObject) {
+    if (!playerObjectId) {
       throw new Error(
         `Player ${playerId} does not have player object in room ${roomId}`,
       );
     }
-    const motion = this.motionStorage.getOrCreateMotionByObjectId(
-      playerObject.id,
-    );
+    const motion =
+      this.motionStorage.getOrCreateMotionByObjectId(playerObjectId);
     motion.targetPosition = targetPosition;
     if (motion.motionEndEvent == null) {
       await this.movePlayerTowardsTargetPosition(
         roomId,
-        playerObject.id,
+        playerObjectId,
         motion,
       );
     }
