@@ -1,4 +1,9 @@
-import { Item, Player } from "@bondage-academy/bondage-academy-model";
+import {
+  EquippedItem,
+  Item,
+  Player,
+  Slot,
+} from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
 import { Logger } from "../log/logger";
 import { Store } from "../store/store";
@@ -23,6 +28,14 @@ export class PlayerStoreService extends Store<number, Player> {
   async getPlayerRoomId(playerId: number): Promise<number | undefined> {
     const player = await this.get(playerId);
     return player.roomId;
+  }
+
+  async getEquippedItem(
+    playerId: number,
+    slot: Slot,
+  ): Promise<EquippedItem | undefined> {
+    const player = await this.get(playerId);
+    return player.character.wearables[slot];
   }
 
   async addItems(playerId: number, items: Item[]): Promise<void> {

@@ -1,4 +1,5 @@
 import {
+  Actor,
   ChangeWardrobeMinigameStake,
   ClickMinigameChallange,
   Item,
@@ -8,22 +9,26 @@ import {
   Slot,
 } from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
-import { ActorData } from "../actor/actor-data";
+import { ActorStoreService } from "../actor/actor-store-service";
 import { MinigameService } from "./minigame-service";
 
 @singleton()
 export class WardrobeMinigameService {
   constructor(
     @inject(MinigameService) private minigameService: MinigameService,
+    @inject(ActorStoreService) private actorStoreService: ActorStoreService,
   ) {}
 
   async startChangeWardrobeMinigame(params: {
-    actor: ActorData;
-    target: ActorData;
+    actor: Actor;
+    target: Actor;
     slot: Slot;
     item?: Item | PhantomItem;
   }): Promise<void> {
-    const currentItem = params.target.character.wearables[params.slot];
+    const currentItem = await this.actorStoreService.getEquippedItem(
+      params.target,
+      params.slot,
+    );
     const challange: ClickMinigameChallange = {
       type: MinigameChallangeType.Click,
     };
@@ -34,9 +39,9 @@ export class WardrobeMinigameService {
       currentItem: currentItem?.item,
     };
     await this.minigameService.startMinigame({
-      roomId: params.actor.roomId,
-      actor: params.actor.actor,
-      target: params.target.actor,
+      roomId: await this.actorStoreService.getRoomId(params.actor),
+      actor: params.actor,
+      target: params.target,
       challange,
       stake,
       durationInMs: 5000,

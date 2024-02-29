@@ -43,8 +43,8 @@ export class WardrobeChangeService {
       return;
     }
     await this.wardrobeMinigameService.startChangeWardrobeMinigame({
-      actor,
-      target,
+      actor: actor.actor,
+      target: target.actor,
       slot: params.slot,
       item,
     });
