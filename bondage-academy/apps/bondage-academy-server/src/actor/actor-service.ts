@@ -113,7 +113,7 @@ export class ActorService {
       );
       return;
     }
-    const sessions = await this.roomSessionService.getSessionsInRoom(
+    const sessions = await this.roomSessionService.getSessionsByRoomId(
       actor.roomId,
     );
     this.objectClientSynchronizationService.synchronizeObjects(

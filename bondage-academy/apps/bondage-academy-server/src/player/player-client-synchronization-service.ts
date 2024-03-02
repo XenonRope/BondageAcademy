@@ -35,7 +35,7 @@ export class PlayerClientSynchronizationService {
       }
       return;
     }
-    const sessions = await this.roomSessionService.getSessionsInRoom(roomId);
+    const sessions = await this.roomSessionService.getSessionsByRoomId(roomId);
     this.synchronizePlayers(sessions, event);
   }
 

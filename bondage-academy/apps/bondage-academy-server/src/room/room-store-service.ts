@@ -8,7 +8,6 @@ import {
   Room,
   RoomTransitArea,
   Slot,
-  arePositionsEqual,
   isNPCObject,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
@@ -72,17 +71,6 @@ export class RoomStoreService {
   async getPlayersIdsInRoom(roomId: number): Promise<number[]> {
     const room = await this.get(roomId);
     return room.objects.filter(isPlayerObject).map((object) => object.playerId);
-  }
-
-  async isFieldFree(roomId: number, position: Position): Promise<boolean> {
-    const room = await this.get(roomId);
-    for (const object of room.objects) {
-      if (arePositionsEqual(object.position, position)) {
-        return false;
-      }
-    }
-
-    return true;
   }
 
   async get(roomId: number): Promise<Room> {

@@ -57,7 +57,7 @@ export class ItemService {
       }
       return;
     }
-    const sessions = await this.roomSessionService.getSessionsInRoom(roomId);
+    const sessions = await this.roomSessionService.getSessionsByRoomId(roomId);
     this.playerClientSynchronizationService.synchronizePlayers(sessions, event);
   }
 }

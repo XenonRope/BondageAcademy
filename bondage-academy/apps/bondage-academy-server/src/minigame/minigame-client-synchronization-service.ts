@@ -43,7 +43,7 @@ export class MinigameClientSynchronizationService {
 
   private async getSessions(minigame: Minigame): Promise<Session[]> {
     if (minigame.roomId) {
-      return await this.roomSessionService.getSessionsInRoom(minigame.roomId);
+      return await this.roomSessionService.getSessionsByRoomId(minigame.roomId);
     }
     return [minigame.actor, minigame.target]
       .filter(isPlayerActor)

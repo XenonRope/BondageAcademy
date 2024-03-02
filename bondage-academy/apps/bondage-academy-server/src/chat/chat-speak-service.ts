@@ -37,6 +37,6 @@ export class ChatSpeakService {
       const session = this.sessionService.getSessionByPlayerId(playerId);
       return session ? [session] : [];
     }
-    return await this.roomSessionService.getSessionsInRoom(roomId);
+    return await this.roomSessionService.getSessionsByRoomId(roomId);
   }
 }

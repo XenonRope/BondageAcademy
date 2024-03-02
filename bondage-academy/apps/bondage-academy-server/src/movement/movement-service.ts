@@ -1,6 +1,9 @@
 import {
   EventFromServer,
+  PlayerObject,
   Position,
+  Room,
+  RoomUtils,
   arePositionsEqual,
 } from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
@@ -42,33 +45,20 @@ export class MovementService {
     if (!roomId) {
       throw new Error(`Player ${playerId} is not in a room`);
     }
-    await this.assertPositionIsInRoomBounds(targetPosition, roomId);
-    const playerObjectId = await this.roomStoreService.getObjectIdByPlayerId(
-      roomId,
-      playerId,
+    const room = await this.roomStoreService.get(roomId);
+    this.assertPositionIsInRoomBounds(targetPosition, room);
+    const playerObject = RoomUtils.getPlayerObjectByPlayerId(room, playerId);
+    const motion = this.motionStorage.getOrCreateMotionByObjectId(
+      playerObject.id,
     );
-    if (!playerObjectId) {
-      throw new Error(
-        `Player ${playerId} does not have player object in room ${roomId}`,
-      );
-    }
-    const motion =
-      this.motionStorage.getOrCreateMotionByObjectId(playerObjectId);
     motion.targetPosition = targetPosition;
     if (motion.motionEndEvent == null) {
-      await this.movePlayerTowardsTargetPosition(
-        roomId,
-        playerObjectId,
-        motion,
-      );
+      await this.movePlayerTowardsTargetPosition(room, playerObject, motion);
     }
   }
 
-  private async assertPositionIsInRoomBounds(
-    position: Position,
-    roomId: number,
-  ) {
-    const { width, height } = await this.roomStoreService.getRoomSize(roomId);
+  private assertPositionIsInRoomBounds(position: Position, room: Room): void {
+    const { width, height } = room;
     if (
       position.x < 0 ||
       position.y < 0 ||
@@ -79,81 +69,80 @@ export class MovementService {
     }
   }
 
-  private async movePlayerTowardsTargetPosition(
+  private async movePlayerTowardsTargetPositionLoop(
     roomId: number,
-    objectId: number,
+    playerId: number,
+    motion: Motion,
+  ): Promise<void> {
+    const room = await this.roomStoreService.get(roomId);
+    const playerObject = RoomUtils.getPlayerObjectByPlayerId(room, playerId);
+    await this.movePlayerTowardsTargetPosition(room, playerObject, motion);
+  }
+
+  private async movePlayerTowardsTargetPosition(
+    room: Room,
+    playerObject: PlayerObject,
     motion: Motion,
   ): Promise<void> {
     if (motion.targetPosition == null) {
-      this.motionStorage.stopMotion(objectId);
+      this.motionStorage.stopMotion(playerObject.id);
       return;
     }
-    if (
-      !(await this.movementConditionChecker.canObjectMove(roomId, objectId))
-    ) {
-      this.motionStorage.stopMotion(objectId);
+    if (!this.movementConditionChecker.canPlayerMove(playerObject?.playerId)) {
+      this.motionStorage.stopMotion(playerObject.id);
       return;
     }
-    const currentPosition = await this.roomStoreService.getPositionByObjectId(
-      roomId,
-      objectId,
-    );
-    if (!currentPosition) {
-      this.motionStorage.stopMotion(objectId);
-      return;
-    }
-    const newPosition = await this.moveTowards(
-      roomId,
+    const currentPosition = playerObject.position;
+    const newPosition = this.moveTowards(
+      room,
       currentPosition,
       motion.targetPosition,
     );
     if (arePositionsEqual(currentPosition, newPosition)) {
-      this.motionStorage.stopMotion(objectId);
+      this.motionStorage.stopMotion(playerObject.id);
       return;
     }
 
     await this.roomStoreService.updateObjectPostion(
-      roomId,
-      objectId,
+      room.id,
+      playerObject.id,
       newPosition,
     );
 
     motion.motionEndEvent = setTimeout(() => {
-      this.movePlayerTowardsTargetPosition(roomId, objectId, motion).catch(
-        this.logger.error.bind(this.logger),
-      );
+      this.movePlayerTowardsTargetPositionLoop(
+        room.id,
+        playerObject.playerId,
+        motion,
+      ).catch(this.logger.error.bind(this.logger));
     }, PLAYER_MOVE_DURATION);
 
-    const sessions = await this.roomSessionService.getSessionsInRoom(roomId);
+    const sessions = this.roomSessionService.getSessionsInRoom(room);
     for (const session of sessions) {
       session.socket.emit(EventFromServer.MovePlayer, {
-        objectId,
+        objectId: playerObject.id,
         position: newPosition,
         duration: PLAYER_MOVE_DURATION,
       });
     }
   }
 
-  private async moveTowards(
-    roomId: number,
-    start: Position,
-    end: Position,
-  ): Promise<Position> {
+  private moveTowards(room: Room, start: Position, end: Position): Position {
     let deltaX = Math.min(1, Math.max(-1, end.x - start.x));
     if (
-      !(await this.roomFieldService.isFieldFree(roomId, {
+      !this.roomFieldService.isFieldFree(room, {
         x: start.x + deltaX,
         y: start.y,
-      }))
+      })
     ) {
       deltaX = 0;
     }
     let deltaY = Math.min(1, Math.max(-1, end.y - start.y));
     if (
-      !(await this.roomFieldService.isFieldFree(roomId, {
+      !this.roomFieldService.isFieldFree(room, {
         x: start.x,
         y: start.y + deltaY,
-      }))
+      })
     ) {
       deltaY = 0;
     }
@@ -162,7 +151,7 @@ export class MovementService {
     if (
       deltaX !== 0 &&
       deltaY !== 0 &&
-      !(await this.roomFieldService.isFieldFree(roomId, newPosition))
+      !this.roomFieldService.isFieldFree(room, newPosition)
     ) {
       if (Math.abs(end.x - start.x) > Math.abs(end.y - start.y)) {
         return { x: start.x + deltaX, y: start.y };
