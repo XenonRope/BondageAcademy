@@ -33,9 +33,7 @@ export class RoomLeaveService {
       throw new BusinessError(`playerIsNotInTransitArea`);
     }
     await this.roomObjectRemovalService.removeObject(roomId, playerObjectId);
-    await this.playerStoreService.update(playerId, (player) => {
-      player.roomId = undefined;
-    });
+    await this.playerStoreService.updateRoomId(playerId, undefined);
   }
 
   private async isObjectInTransitArea(

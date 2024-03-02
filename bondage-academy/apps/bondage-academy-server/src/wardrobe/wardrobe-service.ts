@@ -76,27 +76,25 @@ export class WardrobeService {
     }
 
     if (isPlayerActor(actor.actor)) {
-      await this.playerStoreService.update(actor.actor.playerId, (player) => {
-        if (
-          oldItem &&
-          !oldItemShouldGoToTarget &&
-          !isPhantomItem(oldItem.item)
-        ) {
-          player.items.push(oldItem.item);
-        }
-        if (isItem(item)) {
-          player.items = player.items.filter(({ id }) => id !== item.id);
-        }
-      });
+      if (oldItem && !oldItemShouldGoToTarget && isItem(oldItem.item)) {
+        await this.playerStoreService.addItems(actor.actor.playerId, [
+          oldItem.item,
+        ]);
+      }
+      if (isItem(item)) {
+        await this.playerStoreService.removeItemById(
+          actor.actor.playerId,
+          item.id,
+        );
+      }
     }
-    await this.actorService.updateActor(
+    if (oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)) {
+      await this.actorService.addItems(target.actor, [oldItem.item]);
+    }
+    await this.actorService.updateEquippedItem(
       target.actor,
-      ({ character, items }) => {
-        if (oldItemShouldGoToTarget && !isPhantomItem(oldItem.item)) {
-          items.push(oldItem.item);
-        }
-        character.wearables[params.slot] = newEquippedItem;
-      },
+      params.slot,
+      newEquippedItem,
     );
     await this.actorService.synchronizeActorWithClient(actor.actor, {
       items: {

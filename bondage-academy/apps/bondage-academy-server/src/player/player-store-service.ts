@@ -1,4 +1,5 @@
 import {
+  CharacterPose,
   EquippedItem,
   Item,
   Player,
@@ -38,8 +39,36 @@ export class PlayerStoreService extends Store<number, Player> {
     return player.character.wearables[slot];
   }
 
+  async updateRoomId(playerId: number, roomId?: number): Promise<void> {
+    await this.update(playerId, (player) => {
+      player.roomId = roomId;
+    });
+  }
+
+  async updatePose(playerId: number, pose: CharacterPose): Promise<void> {
+    await this.update(playerId, (player) => {
+      player.character.pose = pose;
+    });
+  }
+
+  async updateEquippedItem(
+    playerId: number,
+    slot: Slot,
+    item?: EquippedItem,
+  ): Promise<void> {
+    await this.update(playerId, (player) => {
+      player.character.wearables[slot] = item;
+    });
+  }
+
   async addItems(playerId: number, items: Item[]): Promise<void> {
     await this.update(playerId, (player) => player.items.push(...items));
+  }
+
+  async removeItemById(playerId: number, itemId: number): Promise<void> {
+    await this.update(playerId, (player) => {
+      player.items = player.items.filter(({ id }) => id !== itemId);
+    });
   }
 
   protected override fetch(key: number): Promise<Player> {

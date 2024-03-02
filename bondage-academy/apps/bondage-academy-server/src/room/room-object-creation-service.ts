@@ -25,9 +25,7 @@ export class RoomObjectCreationService {
   ) {}
 
   async createObject(roomId: number, object: GameObject): Promise<void> {
-    await this.roomStoreService.update(roomId, (room) =>
-      room.objects.push(object),
-    );
+    await this.roomStoreService.addObject(roomId, object);
     const sessions = await this.roomSessionService.getSessionsInRoom(roomId);
     this.objectClientSynchronizationService.synchronizeObjects(
       { objects: [object] },

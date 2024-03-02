@@ -40,10 +40,7 @@ export class RoomJoinService {
     }
     const position = await this.findFreeFieldInTransitArea(roomId);
 
-    await this.playerStoreService.update(
-      playerId,
-      (player) => (player.roomId = roomId),
-    );
+    await this.playerStoreService.updateRoomId(playerId, roomId);
     const playerObject = await this.objectCreationService.createPlayerObject({
       position,
       playerId,

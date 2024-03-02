@@ -27,9 +27,11 @@ export class WardrobeCustomizationService {
   }): Promise<void> {
     const { equippedItem } = await this.assertCanCustomizeItem(params);
     equippedItem.customizations = params.customizations;
-    await this.actorService.updateActor(params.target, ({ character }) => {
-      character.wearables[params.slot] = equippedItem;
-    });
+    await this.actorService.updateEquippedItem(
+      params.target,
+      params.slot,
+      equippedItem,
+    );
     await this.actorService.synchronizeActorWithClient(params.target, {
       wearables: [
         {

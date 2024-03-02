@@ -1,10 +1,12 @@
 import {
   Actor,
   ActorType,
-  Character,
+  CharacterPose,
+  EquippedItem,
   Item,
   PlayerActor,
   RoomUtils,
+  Slot,
   UpdateActor,
   isPlayerActor,
 } from "@bondage-academy/bondage-academy-model";
@@ -55,20 +57,49 @@ export class ActorService {
     };
   }
 
-  async updateActor(
-    actor: Actor,
-    updateFn: (value: { character: Character; items: Item[] }) => void,
-  ): Promise<void> {
+  async updatePose(actor: Actor, pose: CharacterPose): Promise<void> {
     if (isPlayerActor(actor)) {
-      await this.playerStoreService.update(actor.playerId, (player) => {
-        updateFn({ character: player.character, items: player.items });
-      });
+      await this.playerStoreService.updatePose(actor.playerId, pose);
       return;
     }
-    await this.roomStoreService.update(actor.roomId, (room) => {
-      const npcObject = RoomUtils.getNPCObject(room, actor.objectId);
-      updateFn({ character: npcObject.character, items: npcObject.items });
-    });
+    await this.roomStoreService.updateNpcPose(
+      actor.roomId,
+      actor.objectId,
+      pose,
+    );
+  }
+
+  async updateEquippedItem(
+    actor: Actor,
+    slot: Slot,
+    item?: EquippedItem,
+  ): Promise<void> {
+    if (isPlayerActor(actor)) {
+      await this.playerStoreService.updateEquippedItem(
+        actor.playerId,
+        slot,
+        item,
+      );
+      return;
+    }
+    await this.roomStoreService.updateNpcEquippedItem(
+      actor.roomId,
+      actor.objectId,
+      slot,
+      item,
+    );
+  }
+
+  async addItems(actor: Actor, items: Item[]): Promise<void> {
+    if (isPlayerActor(actor)) {
+      await this.playerStoreService.addItems(actor.playerId, items);
+      return;
+    }
+    await this.roomStoreService.addItemsToNpc(
+      actor.roomId,
+      actor.objectId,
+      items,
+    );
   }
 
   async synchronizeActorWithClient(

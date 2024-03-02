@@ -1,8 +1,14 @@
 import {
+  CharacterPose,
+  EquippedItem,
+  GameObject,
+  Item,
   NPCCode,
   Position,
   Room,
   RoomTransitArea,
+  RoomUtils,
+  Slot,
   arePositionsEqual,
   isNPCObject,
   isPlayerObject,
@@ -96,6 +102,46 @@ export class RoomStoreService extends Store<number, Room> {
       if (object) {
         object.position = position;
       }
+    });
+  }
+
+  async updateNpcPose(
+    roomId: number,
+    objectId: number,
+    pose: CharacterPose,
+  ): Promise<void> {
+    await this.update(roomId, (room) => {
+      const npcObject = RoomUtils.getNPCObject(room, objectId);
+      npcObject.character.pose = pose;
+    });
+  }
+
+  async updateNpcEquippedItem(
+    roomId: number,
+    objectId: number,
+    slot: Slot,
+    item?: EquippedItem,
+  ): Promise<void> {
+    await this.update(roomId, (room) => {
+      const npcObject = RoomUtils.getNPCObject(room, objectId);
+      npcObject.character.wearables[slot] = item;
+    });
+  }
+
+  async addItemsToNpc(
+    roomId: number,
+    objectId: number,
+    items: Item[],
+  ): Promise<void> {
+    await this.update(roomId, (room) => {
+      const npcObject = RoomUtils.getNPCObject(room, objectId);
+      npcObject.items.push(...items);
+    });
+  }
+
+  async addObject(roomId: number, object: GameObject): Promise<void> {
+    await this.update(roomId, (room) => {
+      room.objects.push(object);
     });
   }
 

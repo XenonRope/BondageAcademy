@@ -33,8 +33,6 @@ export class CharacterPoseService {
   }
 
   async updatePose(actor: ActorData, pose: CharacterPose): Promise<void> {
-    await this.actorService.updateActor(actor.actor, ({ character }) => {
-      character.pose = pose;
-    });
+    await this.actorService.updatePose(actor.actor, pose);
   }
 }
