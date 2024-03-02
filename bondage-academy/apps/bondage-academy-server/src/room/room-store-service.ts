@@ -7,27 +7,20 @@ import {
   Position,
   Room,
   RoomTransitArea,
-  RoomUtils,
   Slot,
   arePositionsEqual,
   isNPCObject,
   isPlayerObject,
 } from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
-import { Logger } from "../log/logger";
-import { Store } from "../store/store";
 import { RoomService } from "./room-service";
 
 @singleton()
-export class RoomStoreService extends Store<number, Room> {
+export class RoomStoreService {
   constructor(
     @inject(RoomService)
     private roomService: RoomService,
-    @inject(Logger)
-    logger: Logger,
-  ) {
-    super(logger);
-  }
+  ) {}
 
   async getRoomSize(
     roomId: number,
@@ -92,17 +85,16 @@ export class RoomStoreService extends Store<number, Room> {
     return true;
   }
 
+  async get(roomId: number): Promise<Room> {
+    return await this.roomService.getRoomById(roomId);
+  }
+
   async updateObjectPostion(
     roomId: number,
     objectId: number,
     position: Position,
   ): Promise<void> {
-    await this.update(roomId, (room) => {
-      const object = room.objects.find((object) => object.id === objectId);
-      if (object) {
-        object.position = position;
-      }
-    });
+    await this.roomService.updateObjectPostion(roomId, objectId, position);
   }
 
   async updateNpcPose(
@@ -110,10 +102,7 @@ export class RoomStoreService extends Store<number, Room> {
     objectId: number,
     pose: CharacterPose,
   ): Promise<void> {
-    await this.update(roomId, (room) => {
-      const npcObject = RoomUtils.getNPCObject(room, objectId);
-      npcObject.character.pose = pose;
-    });
+    await this.roomService.updateNpcPose(roomId, objectId, pose);
   }
 
   async updateNpcEquippedItem(
@@ -122,10 +111,7 @@ export class RoomStoreService extends Store<number, Room> {
     slot: Slot,
     item?: EquippedItem,
   ): Promise<void> {
-    await this.update(roomId, (room) => {
-      const npcObject = RoomUtils.getNPCObject(room, objectId);
-      npcObject.character.wearables[slot] = item;
-    });
+    await this.roomService.updateNpcEquippedItem(roomId, objectId, slot, item);
   }
 
   async addItemsToNpc(
@@ -133,25 +119,14 @@ export class RoomStoreService extends Store<number, Room> {
     objectId: number,
     items: Item[],
   ): Promise<void> {
-    await this.update(roomId, (room) => {
-      const npcObject = RoomUtils.getNPCObject(room, objectId);
-      npcObject.items.push(...items);
-    });
+    await this.roomService.addItemsToNpc(roomId, objectId, items);
   }
 
   async addObject(roomId: number, object: GameObject): Promise<void> {
-    await this.update(roomId, (room) => {
-      room.objects.push(object);
-    });
+    await this.roomService.addObject(roomId, object);
   }
 
   async removeObjectById(roomId: number, objectId: number): Promise<void> {
-    await this.update(roomId, (room) => {
-      room.objects = room.objects.filter((object) => object.id !== objectId);
-    });
-  }
-
-  protected override fetch(roomId: number): Promise<Room> {
-    return this.roomService.getRoomById(roomId);
+    await this.roomService.removeObjectById(roomId, objectId);
   }
 }

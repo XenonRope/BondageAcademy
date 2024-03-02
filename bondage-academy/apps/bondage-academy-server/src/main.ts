@@ -1,4 +1,5 @@
 import "@abraham/reflection";
+import "@abraham/reflection";
 
 import {
   RequestFromClient,
@@ -27,12 +28,8 @@ import { RoomSearchApi } from "./room/room-search-api";
 import { ScriptService } from "./script/script-service";
 import { HeadmistressScript } from "./script/scripts/headmistress-script";
 import { SessionService } from "./session/session-service";
-import { DatabaseSynchronizationService } from "./synchronization/database-synchronization-service";
 import { WardrobeApi } from "./wardrobe/wardrobe-api";
 
-const databaseSynchronizationService = container.resolve(
-  DatabaseSynchronizationService,
-);
 const logoutService = container.resolve(LogoutService);
 const migrationService = container.resolve(MigrationService);
 const roomInitializationService = container.resolve(RoomInitializationService);
@@ -81,7 +78,6 @@ const handleRequest = (
 async function start(): Promise<void> {
   await migrationService.migrate();
   await roomInitializationService.initializeRooms();
-  databaseSynchronizationService.startSynchronizationLoop();
   scriptService.addScripts(scripts);
 
   io.on("connection", (socket) => {

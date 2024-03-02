@@ -7,16 +7,12 @@ import { Collection, Filter } from "mongodb";
 import { inject, singleton } from "tsyringe";
 import { Dao } from "../dao/dao";
 import { CollectionName } from "../dao/model/collection-name";
-import { RoomStoreService } from "./room-store-service";
 
 @singleton()
 export class RoomSearchService {
   private collection!: Collection<Room>;
 
-  constructor(
-    @inject(Dao) dao: Dao,
-    @inject(RoomStoreService) private roomStoreService: RoomStoreService,
-  ) {
+  constructor(@inject(Dao) dao: Dao) {
     this.collection = dao.getCollection(CollectionName.ROOMS);
   }
 
@@ -54,13 +50,12 @@ export class RoomSearchService {
   }
 
   private mapRoomToRoomSearchDetails(room: Room): RoomSearchDetails {
-    const roomToMap = this.roomStoreService.getIfExists(room.id) ?? room;
     return {
       id: room.id,
       name: room.name,
       customName: room.customName,
       description: room.description,
-      playersCount: roomToMap.objects.filter(isPlayerObject).length,
+      playersCount: room.objects.filter(isPlayerObject).length,
     };
   }
 

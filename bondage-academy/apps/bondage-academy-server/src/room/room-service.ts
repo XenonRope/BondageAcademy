@@ -1,4 +1,13 @@
-import { Room } from "@bondage-academy/bondage-academy-model";
+import {
+  CharacterPose,
+  EquippedItem,
+  GameObject,
+  Item,
+  ObjectType,
+  Position,
+  Room,
+  Slot,
+} from "@bondage-academy/bondage-academy-model";
 import { Collection } from "mongodb";
 import { inject, singleton } from "tsyringe";
 import { Dao } from "../dao/dao";
@@ -14,20 +23,6 @@ export class RoomService {
 
   async insertRoom(room: Room): Promise<void> {
     await this.collection.insertOne(room);
-  }
-
-  async updateRoomsInBulk(rooms: Room[]): Promise<void> {
-    await this.collection.bulkWrite(
-      rooms.map(
-        (room) => ({
-          replaceOne: {
-            filter: { id: room.id },
-            replacement: room,
-          },
-        }),
-        { ordered: false },
-      ),
-    );
   }
 
   async getRoomById(id: number): Promise<Room> {
@@ -52,5 +47,73 @@ export class RoomService {
       throw new Error(`Cannot find room with code ${code}`);
     }
     return room.id;
+  }
+
+  async updateObjectPostion(
+    roomId: number,
+    objectId: number,
+    position: Position,
+  ): Promise<void> {
+    await this.collection.updateOne(
+      { id: roomId, "objects.id": objectId },
+      { $set: { [`objects.$.position`]: position } },
+    );
+  }
+
+  async updateNpcPose(
+    roomId: number,
+    objectId: number,
+    pose: CharacterPose,
+  ): Promise<void> {
+    await this.collection.updateOne(
+      {
+        id: roomId,
+        objects: { $elemMatch: { id: objectId, type: ObjectType.NPC } },
+      },
+      { $set: { [`objects.$.character.pose`]: pose } },
+    );
+  }
+
+  async updateNpcEquippedItem(
+    roomId: number,
+    objectId: number,
+    slot: Slot,
+    item?: EquippedItem,
+  ): Promise<void> {
+    await this.collection.updateOne(
+      {
+        id: roomId,
+        objects: { $elemMatch: { id: objectId, type: ObjectType.NPC } },
+      },
+      { $set: { [`objects.$.character.wearables.${slot}`]: item } },
+    );
+  }
+
+  async addItemsToNpc(
+    roomId: number,
+    objectId: number,
+    items: Item[],
+  ): Promise<void> {
+    await this.collection.updateOne(
+      {
+        id: roomId,
+        objects: { $elemMatch: { id: objectId, type: ObjectType.NPC } },
+      },
+      { $push: { [`objects.$.items`]: { $each: items } } },
+    );
+  }
+
+  async addObject(roomId: number, object: GameObject): Promise<void> {
+    await this.collection.updateOne(
+      { id: roomId },
+      { $push: { objects: object } },
+    );
+  }
+
+  async removeObjectById(roomId: number, objectId: number): Promise<void> {
+    await this.collection.updateOne(
+      { id: roomId },
+      { $pull: { objects: { id: objectId } } },
+    );
   }
 }

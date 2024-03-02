@@ -2,12 +2,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      "type": "pwa-node",
       "request": "attach",
-      "name": "Node: Nodemon",
-      "processId": "${command:PickProcess}",
-      "restart": true,
-      "protocol": "inspector"
+      "name": "Debug",
+      "websocketAddress": "${input:websocketAddress}"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "websocketAddress",
+      "type": "promptString",
+      "description": "Enter the WebSocket address"
     }
   ]
 }

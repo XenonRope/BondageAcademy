@@ -1,7 +1,4 @@
-import {
-  Player,
-  RoomState
-} from "@bondage-academy/bondage-academy-model";
+import { Player, RoomState } from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
 import { MinigameService } from "../minigame/minigame-service";
 import { PlayerStoreService } from "../player/player-store-service";
@@ -28,6 +25,6 @@ export class RoomUtilsService {
 
   async getPlayersInRoom(roomId: number): Promise<Player[]> {
     const playersIds = await this.roomStoreService.getPlayersIdsInRoom(roomId);
-    return await this.playerStoreService.getAll(playersIds);
+    return await this.playerStoreService.getPlayersByIds(playersIds);
   }
 }
