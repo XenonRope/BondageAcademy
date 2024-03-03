@@ -1,3 +1,8 @@
+import {
+  GameObject,
+  Room,
+  RoomUtils,
+} from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
 import { BusinessError } from "../api/model/business-error";
 import { PlayerStoreService } from "../player/player-store-service";
@@ -20,37 +25,23 @@ export class RoomLeaveService {
     if (!roomId) {
       throw new Error(`Player ${playerId} is not in a room`);
     }
-    const playerObjectId = await this.roomStoreService.getObjectIdByPlayerId(
-      roomId,
-      playerId,
-    );
-    if (!playerObjectId) {
+    const room = await this.roomStoreService.get(roomId);
+    const playerObject = RoomUtils.getPlayerObjectByPlayerId(room, playerId);
+    if (!playerObject) {
       throw new Error(
-        `Player ${playerId} does not have player object in room ${roomId}`,
+        `Player ${playerId} does not have player object in room ${room.id}`,
       );
     }
-    if (!(await this.isObjectInTransitArea(playerObjectId, roomId))) {
+    if (!this.isObjectInTransitArea(playerObject, room)) {
       throw new BusinessError(`playerIsNotInTransitArea`);
     }
-    await this.roomObjectRemovalService.removeObject(roomId, playerObjectId);
+    await this.roomObjectRemovalService.removeObject(room, playerObject.id);
     await this.playerStoreService.updateRoomId(playerId, undefined);
   }
 
-  private async isObjectInTransitArea(
-    objectId: number,
-    roomId: number,
-  ): Promise<boolean> {
-    const transitAreas = await this.roomStoreService.getTransitAreas(roomId);
-    const position = await this.roomStoreService.getPositionByObjectId(
-      roomId,
-      objectId,
-    );
-    if (!position) {
-      throw new Error(
-        `Cannot find position for object ${objectId} in room ${roomId}`,
-      );
-    }
-    for (const transitArea of transitAreas) {
+  private isObjectInTransitArea(object: GameObject, room: Room): boolean {
+    const position = object.position;
+    for (const transitArea of room.transitAreas) {
       if (
         position.x >= transitArea.x &&
         position.x < transitArea.x + transitArea.width &&

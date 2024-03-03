@@ -1,8 +1,8 @@
 import { Action, Actor } from "@bondage-academy/bondage-academy-model";
 import { inject, instanceCachingFactory, registry, singleton } from "tsyringe";
+import { token } from "../app/token";
 import { ActionHandler } from "./handler/action-handler";
 import { SmileActionHandler } from "./handler/smile-action-handler";
-import { token } from "../app/token";
 
 const ACTION_HANDLERS = token<ActionHandler<Action>[]>("actionHandlers");
 

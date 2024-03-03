@@ -1,3 +1,4 @@
+import { Room } from "@bondage-academy/bondage-academy-model";
 import { inject, singleton } from "tsyringe";
 import { ObjectClientSynchronizationService } from "../object/object-client-synchronization-service";
 import { RoomSessionService } from "./room-session-service";
@@ -14,9 +15,9 @@ export class RoomObjectRemovalService {
     private roomSessionService: RoomSessionService,
   ) {}
 
-  async removeObject(roomId: number, objectId: number): Promise<void> {
-    await this.roomStoreService.removeObjectById(roomId, objectId);
-    const sessions = await this.roomSessionService.getSessionsByRoomId(roomId);
+  async removeObject(room: Room, objectId: number): Promise<void> {
+    await this.roomStoreService.removeObjectById(room.id, objectId);
+    const sessions = this.roomSessionService.getSessionsInRoom(room);
     this.objectClientSynchronizationService.synchronizeObjects(
       {
         toRemove: [objectId],

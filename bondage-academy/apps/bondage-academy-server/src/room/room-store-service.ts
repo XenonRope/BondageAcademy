@@ -21,13 +21,6 @@ export class RoomStoreService {
     private roomService: RoomService,
   ) {}
 
-  async getRoomSize(
-    roomId: number,
-  ): Promise<{ width: number; height: number }> {
-    const room = await this.get(roomId);
-    return { width: room.width, height: room.height };
-  }
-
   async getTransitAreas(roomId: number): Promise<RoomTransitArea[]> {
     const room = await this.get(roomId);
     return room.transitAreas;
