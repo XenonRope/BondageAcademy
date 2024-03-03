@@ -23,4 +23,11 @@ export class MotionStorage {
       this.motionByObjectId.delete(objectId);
     }
   }
+
+  stopAllMotions(): void {
+    for (const motion of this.motionByObjectId.values()) {
+      clearTimeout(motion.motionEndEvent);
+    }
+    this.motionByObjectId.clear();
+  }
 }

@@ -5,6 +5,7 @@ import { Mock, mock } from "ts-jest-mocker";
 import { container } from "tsyringe";
 import { PlayerService } from "../player/player-service";
 import { SessionService } from "../session/session-service";
+import { setupContainer } from "../test/setup-container";
 import { ItemIdProvider } from "./item-id-provider";
 import { ItemService } from "./item-service";
 
@@ -17,7 +18,7 @@ let itemIdProvider: Mock<ItemIdProvider>;
 let socket: Socket;
 
 beforeEach(() => {
-  container.clearInstances;
+  setupContainer();
 
   playerService = mock(PlayerService);
   sessionService = mock(SessionService);
@@ -49,8 +50,7 @@ describe("addItemsToPlayer", () => {
 
     await itemService.addItemsToPlayer(PLAYER_ID, itemsToAdd);
 
-    expect(player.items).toEqual([
-      { id: 1, code: ItemCode.BallGag },
+    expect(playerService.addItems).toHaveBeenCalledWith(PLAYER_ID, [
       { id: 2, code: ItemCode.BallGag },
       { id: 3, code: ItemCode.PetSuit },
     ]);

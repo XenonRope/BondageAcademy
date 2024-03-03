@@ -11,16 +11,16 @@ import {
   PartialRecord,
   Player,
   Slot,
-  StandardCharacterPose,
   UpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
 import { when } from "jest-when";
 import { Mock, mock } from "ts-jest-mocker";
+import { container } from "tsyringe";
 import { ActorData } from "../actor/actor-data";
 import { PlayerService } from "../player/player-service";
 import { PlayerStoreService } from "../player/player-store-service";
 import { CharacterPoseService } from "./character-pose-service";
-import { container } from "tsyringe";
+import { setupContainer } from "../test/setup-container";
 
 const PLAYER_ID = 1;
 
@@ -29,7 +29,7 @@ let playerService: Mock<PlayerService>;
 let playerStoreService: PlayerStoreService;
 
 beforeEach(() => {
-  container.clearInstances();
+  setupContainer();
 
   playerService = mock(PlayerService);
   container.registerInstance(PlayerService, playerService);
@@ -43,12 +43,12 @@ describe("changePose", () => {
       Shoes: equippedItem(ItemCode.CynthiaHighHeels),
     });
     const characterPose = poseWithLowerBody(LowerBodyPose.WideLegs);
-    jest.spyOn(playerStoreService, "update");
+    jest.spyOn(playerStoreService, "updatePose");
 
     const result = await characterPoseService.changePose(actor, characterPose);
 
     expect(result).toBe(false);
-    expect(playerStoreService.update).toHaveBeenCalledTimes(0);
+    expect(playerService.updatePose).toHaveBeenCalledTimes(0);
   });
 
   test("Return true and update player if new pose is valid", async () => {
@@ -60,16 +60,15 @@ describe("changePose", () => {
     when(playerService.getPlayer)
       .calledWith(PLAYER_ID)
       .mockReturnValue(Promise.resolve(playerWithWearables(wearables)));
-    jest.spyOn(playerStoreService, "update");
+    jest.spyOn(playerStoreService, "updatePose");
 
     const result = await characterPoseService.changePose(actor, characterPose);
 
     expect(result).toBe(true);
-    expect(playerStoreService.update).toHaveBeenCalledTimes(1);
-    const updatedPlayer = await playerStoreService.get(PLAYER_ID);
-    const updatedPlayerPose = updatedPlayer.character
-      .pose as StandardCharacterPose;
-    expect(updatedPlayerPose.lowerBody).toBe(LowerBodyPose.WideLegsHeels);
+    expect(playerService.updatePose).toHaveBeenCalledWith(
+      PLAYER_ID,
+      characterPose,
+    );
   });
 });
 

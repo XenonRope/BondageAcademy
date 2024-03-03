@@ -17,6 +17,7 @@ import { when } from "jest-when";
 import { mock } from "ts-jest-mocker";
 import { container } from "tsyringe";
 import { PlayerStoreService } from "../player/player-store-service";
+import { setupContainer } from "../test/setup-container";
 import { WardrobeConditionChecker } from "./wardrobe-condition-checker";
 
 const PLAYER_ID = 1;
@@ -26,7 +27,7 @@ let wardrobeConditionChecker: WardrobeConditionChecker;
 let playerStoreService: PlayerStoreService;
 
 beforeEach(() => {
-  container.clearInstances();
+  setupContainer();
 
   playerStoreService = mock(PlayerStoreService);
   container.registerInstance(PlayerStoreService, playerStoreService);

@@ -14,6 +14,7 @@ import { PlayerService } from "../player/player-service";
 import { RoomService } from "../room/room-service";
 import { SessionService } from "../session/session-service";
 import { ChatSpeakService } from "./chat-speak-service";
+import { setupContainer } from "../test/setup-container";
 
 const PLAYER_ID = 1;
 const PLAYER_NAME = "Alice";
@@ -26,7 +27,7 @@ let sessionService: SessionService;
 let socket: Socket;
 
 beforeEach(() => {
-  container.clearInstances();
+  setupContainer();
 
   playerService = mock(PlayerService);
   roomService = mock(RoomService);

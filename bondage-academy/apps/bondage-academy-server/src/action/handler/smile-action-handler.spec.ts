@@ -18,6 +18,7 @@ import { container } from "tsyringe";
 import { PlayerService } from "../../player/player-service";
 import { RoomService } from "../../room/room-service";
 import { SessionService } from "../../session/session-service";
+import { setupContainer } from "../../test/setup-container";
 import { SmileActionHandler } from "./smile-action-handler";
 
 const PLAYER_ID = 1;
@@ -31,7 +32,7 @@ let roomService: RoomService;
 let socket: Socket;
 
 beforeEach(() => {
-  container.clearInstances();
+  setupContainer();
 
   playerService = mock(PlayerService);
   roomService = mock(RoomService);

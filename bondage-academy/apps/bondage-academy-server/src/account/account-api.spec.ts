@@ -12,6 +12,7 @@ import { container } from "tsyringe";
 import { PlayerService } from "../player/player-service";
 import { RoomService } from "../room/room-service";
 import { Session } from "../session/model/session";
+import { setupContainer } from "../test/setup-container";
 import { AccountApi } from "./account-api";
 import { AccountService } from "./account-service";
 
@@ -28,7 +29,7 @@ let roomService: RoomService;
 let socket: Socket;
 
 beforeEach(() => {
-  container.clearInstances();
+  setupContainer();
 
   accountService = mock(AccountService);
   playerService = mock(PlayerService);

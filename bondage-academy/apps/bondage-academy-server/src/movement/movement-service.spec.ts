@@ -10,6 +10,7 @@ import { mock } from "ts-jest-mocker";
 import { container } from "tsyringe";
 import { PlayerService } from "../player/player-service";
 import { RoomService } from "../room/room-service";
+import { setupContainer } from "../test/setup-container";
 import { MotionStorage } from "./motion-storage";
 import { MovementService } from "./movement-service";
 
@@ -23,7 +24,7 @@ let playerService: PlayerService;
 let roomService: RoomService;
 
 beforeEach(() => {
-  container.clearInstances();
+  setupContainer();
 
   playerService = mock(PlayerService);
   roomService = mock(RoomService);
@@ -31,6 +32,10 @@ beforeEach(() => {
   container.registerInstance(RoomService, roomService);
   movementService = container.resolve(MovementService);
   motionStorage = container.resolve(MotionStorage);
+});
+
+afterEach(() => {
+  motionStorage.stopAllMotions();
 });
 
 describe("setPlayerTargetPosition", () => {
@@ -55,7 +60,7 @@ describe("setPlayerTargetPosition", () => {
 
     await expect(
       movementService.setPlayerTargetPosition(PLAYER_ID, { x: 2, y: 3 }),
-    ).rejects.toThrow("Player 1 does not have player object in room 10");
+    ).rejects.toThrow("Player 1 is not in room 10");
   });
 
   test("Set player target position", async () => {

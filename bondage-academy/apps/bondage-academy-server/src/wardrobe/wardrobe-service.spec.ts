@@ -10,7 +10,6 @@ import {
   Player,
   PlayerActor,
   Slot,
-  StandardCharacterPose,
   UpperBodyPose,
 } from "@bondage-academy/bondage-academy-model";
 import { when } from "jest-when";
@@ -18,6 +17,7 @@ import { mock } from "ts-jest-mocker";
 import { container } from "tsyringe";
 import { PlayerService } from "../player/player-service";
 import { WardrobeService } from "./wardrobe-service";
+import { setupContainer } from "../test/setup-container";
 
 const PLAYER_ID = 1;
 const ITEM_ID = 10;
@@ -26,7 +26,7 @@ let wardrobeService: WardrobeService;
 let playerService: PlayerService;
 
 beforeEach(() => {
-  container.clearInstances();
+  setupContainer();
 
   playerService = mock(PlayerService);
   container.registerInstance(PlayerService, playerService);
@@ -52,8 +52,9 @@ describe("wear", () => {
       item: { id: ITEM_ID },
     });
 
-    expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
-      LowerBodyPose.StandHeels,
+    expect(playerService.updatePose).toHaveBeenCalledWith(
+      PLAYER_ID,
+      poseWithLowerBody(LowerBodyPose.StandHeels),
     );
   });
 
@@ -75,8 +76,9 @@ describe("wear", () => {
       item: { id: ITEM_ID },
     });
 
-    expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
-      LowerBodyPose.WideLegsHeels,
+    expect(playerService.updatePose).toHaveBeenCalledWith(
+      PLAYER_ID,
+      poseWithLowerBody(LowerBodyPose.WideLegsHeels),
     );
   });
 
@@ -100,8 +102,9 @@ describe("wear", () => {
       item: undefined,
     });
 
-    expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
-      LowerBodyPose.Stand,
+    expect(playerService.updatePose).toHaveBeenCalledWith(
+      PLAYER_ID,
+      poseWithLowerBody(LowerBodyPose.Stand),
     );
   });
 
@@ -125,9 +128,7 @@ describe("wear", () => {
       item: undefined,
     });
 
-    expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
-      LowerBodyPose.StandHeels,
-    );
+    expect(playerService.updatePose).toHaveBeenCalledTimes(0);
   });
 
   test("Change pose from 'WideLegsHeels' to 'WideLegs' after removing heels", async () => {
@@ -152,8 +153,9 @@ describe("wear", () => {
       item: undefined,
     });
 
-    expect((player.character.pose as StandardCharacterPose).lowerBody).toBe(
-      LowerBodyPose.WideLegs,
+    expect(playerService.updatePose).toHaveBeenCalledWith(
+      PLAYER_ID,
+      poseWithLowerBody(LowerBodyPose.WideLegs),
     );
   });
 
@@ -175,7 +177,10 @@ describe("wear", () => {
       item: undefined,
     });
 
-    expect(player.character.pose.head).toBe(HeadPose.Normal);
+    expect(playerService.updatePose).toHaveBeenCalledWith(
+      PLAYER_ID,
+      poseWithHead(HeadPose.Normal),
+    );
   });
 });
 
